@@ -112,7 +112,7 @@ exports[`<Table /> should match snapshot 1`] = `
                   <th
                     class="MuiTableCell-root MuiTableCell-head MTableHeader-header-13 MuiTableCell-alignLeft"
                     scope="col"
-                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.5; letter-spacing: 0.00938em; box-sizing: border-box;"
+                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
                   >
                     <span
                       aria-disabled="false"
@@ -136,7 +136,7 @@ exports[`<Table /> should match snapshot 1`] = `
                   <th
                     class="MuiTableCell-root MuiTableCell-head MTableHeader-header-13 MuiTableCell-alignLeft"
                     scope="col"
-                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.5; letter-spacing: 0.00938em; box-sizing: border-box;"
+                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
                   >
                     <span
                       aria-disabled="false"
@@ -160,7 +160,7 @@ exports[`<Table /> should match snapshot 1`] = `
                   <th
                     class="MuiTableCell-root MuiTableCell-head MTableHeader-header-13 MuiTableCell-alignRight"
                     scope="col"
-                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.5; letter-spacing: 0.00938em; box-sizing: border-box;"
+                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
                   >
                     <span
                       aria-disabled="false"
@@ -184,7 +184,7 @@ exports[`<Table /> should match snapshot 1`] = `
                   <th
                     class="MuiTableCell-root MuiTableCell-head MTableHeader-header-13 MuiTableCell-alignLeft"
                     scope="col"
-                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.5; letter-spacing: 0.00938em; box-sizing: border-box;"
+                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
                   >
                     <span
                       aria-disabled="false"

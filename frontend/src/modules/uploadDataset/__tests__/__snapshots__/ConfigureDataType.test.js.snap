@@ -38,13 +38,13 @@ exports[`<ConfigureDatatype /> should match snapshot 1`] = `
     "search": false,
     "headerStyle": {
       "padding": "4px 8px 4px 8px",
+      "textAlign": "left",
+      "flexDirection": "row",
       "fontFamily": "\\"Rubik\\", sans-serif",
       "fontWeight": 400,
       "fontSize": "1rem",
       "lineHeight": 1.25,
       "letterSpacing": "0.00938em",
-      "textAlign": "left",
-      "flexDirection": "row",
       "borderBottom": "unset"
     }
   },

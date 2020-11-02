@@ -4,6 +4,7 @@ import { useTheme } from '@material-ui/core';
 import Table from '../../uiComponent/table/Table';
 import fileTypes from '../../constants/fileTypes';
 import { formatDate } from '../../utils/dateUtils';
+import tableStyles from '../../uiComponent/table/tableCSS';
 
 const BYTE_TO_MB_CONVERTOR_UNIT = 1024 * 1024;
 
@@ -13,7 +14,7 @@ function convertFileSizeToMB(fileSize) {
 
 function DashboardDataSetsTable({ dataSources }) {
   const theme = useTheme();
-
+  const styles = tableStyles(theme, dataSources);
   return (
     <div style={{ width: '100%' }}>
       <Table
@@ -40,19 +41,14 @@ function DashboardDataSetsTable({ dataSources }) {
           paging: false,
           sorting: false,
           headerStyle: {
+            ...styles.headerStyle,
             color: theme.palette.text.disabled,
-            padding: theme.spacing(2, 3),
-            textAlign: 'left',
-            flexDirection: 'row',
-            ...theme.typography.subtitle1,
-            lineHeight: 1.5,
             borderTop: 'none',
             borderBottom: `1px solid ${theme.colors.primaryColorScale['500']}3D`,
           },
         }}
         style={{
-          overflow: 'hidden',
-          boxShadow: 'none',
+          ...styles.styles,
           border: 'unset',
         }}
       />

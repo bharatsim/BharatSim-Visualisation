@@ -88,7 +88,7 @@ exports[`Configure datasets should match snapshot for given dashboard data and p
         >
           <div
             class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
-            style="position: relative; overflow: hidden; box-shadow: none;"
+            style="position: relative; box-shadow: none; border-color: #594ab73d; border-radius: 4px; overflow: hidden;"
           >
             <div
               class="Component-horizontalScrollContainer-22"
@@ -112,28 +112,28 @@ exports[`Configure datasets should match snapshot for given dashboard data and p
                           <th
                             class="MuiTableCell-root MuiTableCell-head MTableHeader-header-23 MuiTableCell-alignLeft"
                             scope="col"
-                            style="color: rgba(52, 58, 64, 0.38); padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.5; letter-spacing: 0.00938em; border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
+                            style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
                           >
                             Name
                           </th>
                           <th
                             class="MuiTableCell-root MuiTableCell-head MTableHeader-header-23 MuiTableCell-alignRight"
                             scope="col"
-                            style="color: rgba(52, 58, 64, 0.38); padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.5; letter-spacing: 0.00938em; border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
+                            style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
                           >
                             Size
                           </th>
                           <th
                             class="MuiTableCell-root MuiTableCell-head MTableHeader-header-23 MuiTableCell-alignLeft"
                             scope="col"
-                            style="color: rgba(52, 58, 64, 0.38); padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.5; letter-spacing: 0.00938em; border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
+                            style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
                           >
                             Type
                           </th>
                           <th
                             class="MuiTableCell-root MuiTableCell-head MTableHeader-header-23 MuiTableCell-alignLeft"
                             scope="col"
-                            style="color: rgba(52, 58, 64, 0.38); padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.5; letter-spacing: 0.00938em; border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
+                            style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
                           >
                             Date Added
                           </th>

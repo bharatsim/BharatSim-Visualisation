@@ -6,9 +6,11 @@ import Table from '../../uiComponent/table/Table';
 import DataPreviewTableToolBar from './DataPreviewTableToolBar';
 import DataPreviewTableHeader from './DataPreviewTableHeader';
 import { createColumnForMTable } from '../../utils/fileUploadUtils';
+import tableStyles from '../../uiComponent/table/tableCSS';
 
 function ConfigureDatatype({ selectedFile, previewData, schema }) {
   const theme = useTheme();
+  const styles = tableStyles(theme, previewData);
   return (
     <Box>
       <Table
@@ -20,19 +22,12 @@ function ConfigureDatatype({ selectedFile, previewData, schema }) {
           showTitle: false,
           search: false,
           headerStyle: {
+            ...styles.headerStyle,
             padding: theme.spacing(1, 2, 1, 2),
-            ...theme.typography.subtitle1,
-            textAlign: 'left',
-            flexDirection: 'row',
             borderBottom: 'unset',
-            lineHeight: 1.25,
           },
           cellStyle: () => ({
-            height: theme.spacing(8),
-            padding: theme.spacing(2, 3),
-            textAlign: 'left',
-            ...theme.typography.body2,
-            lineHeight: 1,
+            ...styles.cellStyle(),
             color: theme.palette.text.secondary,
           }),
         }}
