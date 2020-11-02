@@ -46,11 +46,14 @@ function DashboardDataSetsTable({ dataSources }) {
             flexDirection: 'row',
             ...theme.typography.subtitle1,
             lineHeight: 1.5,
+            borderTop: 'none',
+            borderBottom: `1px solid ${theme.colors.primaryColorScale['500']}3D`,
           },
         }}
         style={{
-          boxShadow: 'none',
           overflow: 'hidden',
+          boxShadow: 'none',
+          border: 'unset',
         }}
       />
     </div>

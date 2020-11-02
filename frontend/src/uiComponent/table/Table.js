@@ -4,6 +4,14 @@ import MaterialTable from 'material-table';
 import { useTheme } from '@material-ui/core';
 import tableIcons from './tableIcon';
 
+function isEven(index) {
+  return index % 2;
+}
+
+function isLastRow(index, dataLength) {
+  return index === dataLength - 1;
+}
+
 function Table({ columns, data, title, options, ...rest }) {
   const theme = useTheme();
   return (
@@ -15,7 +23,12 @@ function Table({ columns, data, title, options, ...rest }) {
       options={{
         rowStyle: (_, index) => ({
           height: theme.spacing(8),
-          backgroundColor: index % 2 ? theme.colors.primaryColorScale[50] : 'transparent',
+          backgroundColor: isEven(index) ? theme.colors.primaryColorScale[50] : 'transparent',
+          borderBottom: `${
+            isLastRow(index, data.length)
+              ? 'unset'
+              : `1px solid ${theme.colors.primaryColorScale['500']}3D`
+          }`,
         }),
         cellStyle: () => ({
           height: theme.spacing(8),
@@ -23,6 +36,7 @@ function Table({ columns, data, title, options, ...rest }) {
           textAlign: 'left',
           ...theme.typography.body2,
           lineHeight: 1,
+          border: 'unset',
         }),
         headerStyle: {
           padding: theme.spacing(2, 3),

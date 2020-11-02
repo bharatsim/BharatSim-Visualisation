@@ -40,9 +40,11 @@ const useConfigureDatasetStyles = makeStyles((theme) => {
       alignItems: 'center',
       boxSizing: 'border-box',
       boxShadow: 'inset 0px -1px 0px rgba(0, 0, 0, 0.12)',
-      border: '1px solid rgba(0, 0, 0, 0.2)',
+      border: `1px solid ${theme.colors.primaryColorScale['500']}3D`,
+      borderTop: 'unset',
       borderBottomRightRadius: theme.spacing(1),
       borderBottomLeftRadius: theme.spacing(1),
+      borderCollapse: 'collapse',
     },
     noDataSourcesMessage: {
       padding: theme.spacing(6),

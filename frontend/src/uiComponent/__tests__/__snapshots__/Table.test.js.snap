@@ -215,7 +215,7 @@ exports[`<Table /> should match snapshot 1`] = `
                   index="0"
                   level="0"
                   path="0"
-                  style="transition: all ease 300ms; height: 32px; background-color: transparent;"
+                  style="transition: all ease 300ms; height: 32px; background-color: transparent; border-bottom: 1px solid #594ab73D;"
                 >
                   <td
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
