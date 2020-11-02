@@ -7,6 +7,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useTableCellStyles = makeStyles((theme) => ({
   root: {
+    borderBottom: `1px solid ${theme.colors.borderColor}`,
+  },
+}));
+
+const useTableHeadStyles = makeStyles((theme) => ({
+  root: {
     padding: theme.spacing(2, 3),
     backgroundColor: theme.colors.primaryColorScale['50'],
   },
@@ -21,12 +27,13 @@ const useTypographyStyles = makeStyles(() => ({
 function DataPreviewTableHeader(props) {
   const tableCellClasses = useTableCellStyles();
   const typographyClasses = useTypographyStyles();
+  const tableHeadClasses = useTableHeadStyles();
   const { columns } = props;
   return (
     <>
       <MTableHeader {...props} />
       <thead>
-        <TableRow>
+        <TableRow classes={tableHeadClasses}>
           {columns.map((column) => (
             <TableCell classes={tableCellClasses} key={column.title}>
               <Typography variant="caption">Datatype</Typography>

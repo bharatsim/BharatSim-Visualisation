@@ -27,6 +27,14 @@ function ConfigureDatatype({ selectedFile, previewData, schema }) {
             borderBottom: 'unset',
             lineHeight: 1.25,
           },
+          cellStyle: () => ({
+            height: theme.spacing(8),
+            padding: theme.spacing(2, 3),
+            textAlign: 'left',
+            ...theme.typography.body2,
+            lineHeight: 1,
+            color: theme.palette.text.secondary,
+          }),
         }}
         components={{
           Toolbar: (props) => <DataPreviewTableToolBar {...props} file={selectedFile} />,
