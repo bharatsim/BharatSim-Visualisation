@@ -8,7 +8,7 @@
     "dev-backend": "docker-compose up -d db && cd backend && yarn start",
     "dev": "concurrently \"yarn dev-backend\" \"yarn dev-frontend\"",
     "install-deps": "concurrently \"cd backend && yarn install\" \"cd frontend && yarn install\" ",
-    "build": "cd frontend && yarn build && cp -a build/. ../backend/public/ ",
+    "build": "yarn install-deps && cd frontend && yarn build && cp -a build/. ../backend/public/ ",
     "start": "yarn build && cd backend && yarn start",
     "test": "concurrently \"cd backend && yarn test\" \"cd frontend && yarn test\" "
   },
