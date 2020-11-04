@@ -10,7 +10,9 @@
     "install-deps": "concurrently \"cd backend && yarn install\" \"cd frontend && yarn install\" ",
     "build": "yarn install-deps && cd frontend && yarn build && cp -a build/. ../backend/public/ ",
     "start": "yarn build && cd backend && yarn start",
-    "test": "concurrently \"cd backend && yarn test\" \"cd frontend && yarn test\" "
+    "test": "concurrently \"cd backend && yarn test\" \"cd frontend && yarn test\" ",
+    "clean": "./scripts/clean.sh",
+    "deep-clean": "./scripts/clean.sh --deep-clean"
   },
   "author": "",
   "license": "ISC",
