@@ -12,7 +12,6 @@ import ImportDataset from './ImportDataset';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
 import { api } from '../../utils/api';
 import useFetchExecutor from '../../hook/useFetchExecuter';
-import LoaderOrError from '../../component/loaderOrError/LoaderOrError';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -93,7 +92,7 @@ function UploadDataset() {
   const [file, setFile] = useState();
   const [schema, setSchema] = useState();
   const [previewData, setPreviewData] = useState();
-  const { executeFetch, loadingState } = useFetchExecutor();
+  const { executeFetch } = useFetchExecutor();
   const { enqueueSnackbar } = useSnackbar();
 
   function handleNext() {
@@ -147,19 +146,17 @@ function UploadDataset() {
           </Stepper>
         </Box>
         <Box>
-          <LoaderOrError loadingState={loadingState}>
-            {getStepContent(
-              activeStep,
-              setFile,
-              setSchema,
-              file,
-              schema,
-              handleNext,
-              setPreviewData,
-              setErrorStep,
-              previewData,
-            )}
-          </LoaderOrError>
+          {getStepContent(
+            activeStep,
+            setFile,
+            setSchema,
+            file,
+            schema,
+            handleNext,
+            setPreviewData,
+            setErrorStep,
+            previewData,
+          )}
         </Box>
       </Box>
     </Box>

@@ -2,11 +2,11 @@ import React from 'react';
 import Header from './header/Header';
 
 function withAppLayout(WrappedComponent) {
-  return function ComponentWithHeader() {
+  return function ComponentWithHeader(props) {
     return (
       <div>
         <Header />
-        <WrappedComponent />
+        <WrappedComponent {...props} />
       </div>
     );
   };

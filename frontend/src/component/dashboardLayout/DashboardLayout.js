@@ -99,39 +99,37 @@ function DashboardLayout({ classes }) {
   }
 
   return (
-    <LoaderOrError loadingState={dashboardLoadingState}>
-      <Box pl={10} pt={10} pr={10}>
-        <Box pb={2}>
-          <FileUpload />
-        </Box>
-        <Box pb={2} display="flex" justifyContent="space-between">
-          <ChartSelector onClick={onChartClick} />
-          <Box>
-            <Button onClick={onClickOfSaveDashboard} variant="contained" color="primary">
-              {labels.dashboardLayout.SAVE_DASHBOARD_BUTTON}
-            </Button>
-            <InlineLoader status={loadingState.state} message={loadingState.message} />
-          </Box>
-        </Box>
-        <GridLayout
-          layout={layout}
-          onLayoutChange={onLayoutChange}
-          className={classes.reactGridLayout}
-        >
-          {widgets.map((item) => {
-            return renderElement(item);
-          })}
-        </GridLayout>
-        {isOpen && (
-          <ChartConfigModal
-            onCancel={closeModal}
-            onOk={handleModalOk}
-            open={isOpen}
-            chartType={chartType}
-          />
-        )}
+    <Box pl={10} pt={10} pr={10}>
+      <Box pb={2}>
+        <FileUpload />
       </Box>
-    </LoaderOrError>
+      <Box pb={2} display="flex" justifyContent="space-between">
+        <ChartSelector onClick={onChartClick} />
+        <Box>
+          <Button onClick={onClickOfSaveDashboard} variant="contained" color="primary">
+            {labels.dashboardLayout.SAVE_DASHBOARD_BUTTON}
+          </Button>
+          <InlineLoader status={loadingState.state} message={loadingState.message} />
+        </Box>
+      </Box>
+      <GridLayout
+        layout={layout}
+        onLayoutChange={onLayoutChange}
+        className={classes.reactGridLayout}
+      >
+        {widgets.map((item) => {
+          return renderElement(item);
+        })}
+      </GridLayout>
+      {isOpen && (
+        <ChartConfigModal
+          onCancel={closeModal}
+          onOk={handleModalOk}
+          open={isOpen}
+          chartType={chartType}
+        />
+      )}
+    </Box>
   );
 }
 

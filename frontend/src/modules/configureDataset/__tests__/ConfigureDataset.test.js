@@ -46,7 +46,7 @@ const ComponentWithProvider = withThemeProvider(() => (
     <ProjectLayoutProvider
       value={{
         projectMetadata: { name: 'project1', id: '123' },
-        selectedDashboardMetadata: { name: 'dashboard1' },
+        selectedDashboardMetadata: { name: 'dashboard1', _id: 'selectedDashboardId' },
       }}
     >
       <ConfigureDataset />
@@ -57,9 +57,7 @@ const ComponentWithProvider = withThemeProvider(() => (
 describe('Configure datasets', () => {
   it('should match snapshot for given dashboard data and project name ', async () => {
     const { container, findByText } = render(<ComponentWithProvider />);
-
     await findByText('Configure Dashboard Data');
-
     expect(container).toMatchSnapshot();
   });
 

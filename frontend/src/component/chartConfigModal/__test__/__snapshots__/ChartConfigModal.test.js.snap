@@ -52,7 +52,7 @@ exports[`<ChartConfigModal /> should match a snapshot for <ChartConfigModal /> 1
       class="MuiBox-root MuiBox-root-7 makeStyles-configContent-1"
     >
       <div
-        class="MuiFormControl-root makeStyles-formControl-13"
+        class="MuiFormControl-root makeStyles-formControl-12"
       >
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
@@ -95,10 +95,10 @@ exports[`<ChartConfigModal /> should match a snapshot for <ChartConfigModal /> 1
           </svg>
           <fieldset
             aria-hidden="true"
-            class="PrivateNotchedOutline-root-15 MuiOutlinedInput-notchedOutline"
+            class="PrivateNotchedOutline-root-14 MuiOutlinedInput-notchedOutline"
           >
             <legend
-              class="PrivateNotchedOutline-legendLabelled-17"
+              class="PrivateNotchedOutline-legendLabelled-16"
             >
               <span>
                 select data source
@@ -110,10 +110,10 @@ exports[`<ChartConfigModal /> should match a snapshot for <ChartConfigModal /> 1
     </div>
   </div>
   <div
-    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-10 MuiDialogActions-spacing"
+    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-9 MuiDialogActions-spacing"
   >
     <div
-      class="MuiBox-root MuiBox-root-12 makeStyles-buttonGroup-11"
+      class="MuiBox-root MuiBox-root-11 makeStyles-buttonGroup-10"
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary Mui-disabled Mui-disabled"

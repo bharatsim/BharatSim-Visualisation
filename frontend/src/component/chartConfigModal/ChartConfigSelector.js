@@ -8,26 +8,24 @@ import chartConfigOptions from '../../config/chartConfigOptions';
 import LoaderOrError from '../loaderOrError/LoaderOrError';
 
 function ChartConfigSelector({ dataSourceId, chartType, updateConfigState, errors, values }) {
-  const { data: csvHeaders, loadingState } = useFetch(api.getCsvHeaders, [dataSourceId]);
+  const { data: csvHeaders } = useFetch(api.getCsvHeaders, [dataSourceId]);
 
   const { headers } = csvHeaders || {};
   const chartConfigProps = { headers, updateConfigState, errors, values };
   const configOptionsKeysForSelectedChart = chartConfigs[chartType].configOptions;
 
   return (
-    <LoaderOrError loadingState={loadingState}>
-      <div>
-        {headers && (
-          <div>
-            {configOptionsKeysForSelectedChart.map((chartConfigKey) => (
-              <div key={chartConfigKey}>
-                {chartConfigOptions[chartConfigKey].component(chartConfigProps)}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </LoaderOrError>
+    <div>
+      {headers && (
+        <div>
+          {configOptionsKeysForSelectedChart.map((chartConfigKey) => (
+            <div key={chartConfigKey}>
+              {chartConfigOptions[chartConfigKey].component(chartConfigProps)}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

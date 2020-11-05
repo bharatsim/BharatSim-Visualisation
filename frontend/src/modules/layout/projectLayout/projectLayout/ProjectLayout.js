@@ -26,11 +26,7 @@ function ProjectLayout({ children }) {
   const [dashboards, setDashboards] = useState([]);
   const [selectedDashboard] = useState(0);
 
-  const { data: fetchedProjectMetadata, loadingState: projectLoadingState } = useFetch(
-    api.getProject,
-    [projectId],
-    !!projectId,
-  );
+  const { data: fetchedProjectMetadata } = useFetch(api.getProject, [projectId], !!projectId);
 
   useEffect(() => {
     if (fetchedProjectMetadata) {
@@ -39,7 +35,7 @@ function ProjectLayout({ children }) {
     }
   }, useDeepCompareMemoize([fetchedProjectMetadata]));
 
-  const { data: fetchedDashboards, loadingState: dashboardLoadingState } = useFetch(
+  const { data: fetchedDashboards } = useFetch(
     api.getAllDashBoardByProjectId,
     [projectId],
     !!projectId,
@@ -68,19 +64,15 @@ function ProjectLayout({ children }) {
         />
       </Box>
       <Box className={classes.viewContainer}>
-        <LoaderOrError loadingState={projectLoadingState}>
-          <LoaderOrError loadingState={dashboardLoadingState}>
-            <ProjectLayoutProvider
-              value={{
-                projectMetadata,
-                selectedDashboardMetadata: dashboards[selectedDashboard] || {},
-                addDashboard,
-              }}
-            >
-              {children}
-            </ProjectLayoutProvider>
-          </LoaderOrError>
-        </LoaderOrError>
+        <ProjectLayoutProvider
+          value={{
+            projectMetadata,
+            selectedDashboardMetadata: dashboards[selectedDashboard] || {},
+            addDashboard,
+          }}
+        >
+          {children}
+        </ProjectLayoutProvider>
       </Box>
     </Box>
   );

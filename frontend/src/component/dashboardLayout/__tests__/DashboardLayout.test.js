@@ -89,22 +89,6 @@ describe('<DashboardLayout />', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should show loader while fetching data for <DashboardLayout />', async () => {
-    useFetch.mockReturnValue({ data: undefined, loadingState: 'LOADING' });
-
-    const { container } = render(<DashboardLayout />);
-
-    expect(container).toMatchSnapshot();
-  });
-
-  it('should show Error while fetching data for <DashboardLayout /> if error occurred', async () => {
-    useFetch.mockReturnValue({ data: undefined, loadingState: 'ERROR' });
-
-    const { container } = render(<DashboardLayout />);
-
-    expect(container).toMatchSnapshot();
-  });
-
   it('should open modal on click of add line chart button ', async () => {
     const { getByText } = render(<DashboardLayout />);
 

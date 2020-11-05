@@ -32,42 +32,4 @@ describe('<ChartConfigSelector />', () => {
 
     expect(container).toMatchSnapshot();
   });
-
-  it('should match snapshot for loading state', () => {
-    useFetch.mockReturnValue({
-      data: undefined,
-      loadingState: 'LOADING',
-    });
-
-    const { container } = render(
-      <ChartConfigSelector
-        chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        updateConfigState={jest.fn()}
-        values={{}}
-      />,
-    );
-
-    expect(container).toMatchSnapshot();
-  });
-
-  it('should match snapshot for Error state', () => {
-    useFetch.mockReturnValue({
-      data: undefined,
-      loadingState: 'ERROR',
-    });
-
-    const { container } = render(
-      <ChartConfigSelector
-        chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        updateConfigState={jest.fn()}
-        values={{}}
-      />,
-    );
-
-    expect(container).toMatchSnapshot();
-  });
 });

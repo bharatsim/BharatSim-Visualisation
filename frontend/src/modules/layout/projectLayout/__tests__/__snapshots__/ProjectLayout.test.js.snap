@@ -23,7 +23,7 @@ exports[`Project should render child without any api call if project id is undef
               role="tablist"
             />
             <span
-              class="PrivateTabIndicator-root-17 PrivateTabIndicator-colorSecondary-19 MuiTabs-indicator makeStyles-indicator-12 PrivateTabIndicator-vertical-20"
+              class="PrivateTabIndicator-root-15 PrivateTabIndicator-colorSecondary-17 MuiTabs-indicator makeStyles-indicator-12 PrivateTabIndicator-vertical-18"
               style="top: 0px; height: 0px;"
             />
           </div>

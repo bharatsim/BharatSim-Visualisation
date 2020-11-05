@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import AppRoute from './AppRoute';
 import withThemeProvider from './theme/withThemeProvider';
 import withAppLayout from './modules/layout/appLayout/withAppLayout';
 import withSnackBar from './hoc/withSnackBar';
+import withOverlayLoaderOrError from './hoc/withOverlayLoaderOrError';
+import { initLoader } from './utils/fetch';
+import { overlayLoaderContext } from './contexts/overlayLoaderContext';
 
 const useRootStyles = makeStyles(() => ({
   root: {
@@ -17,6 +20,8 @@ const useRootStyles = makeStyles(() => ({
 
 function App() {
   const classes = useRootStyles();
+  const { stopLoader, startLoader, showError } = useContext(overlayLoaderContext);
+  initLoader(startLoader, stopLoader, showError);
 
   return (
     <div className={classes.root}>
@@ -25,4 +30,4 @@ function App() {
   );
 }
 
-export default withThemeProvider(withSnackBar(withAppLayout(App)));
+export default withThemeProvider(withSnackBar(withOverlayLoaderOrError(withAppLayout(App))));

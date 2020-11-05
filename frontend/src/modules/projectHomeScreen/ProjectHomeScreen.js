@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import ClickableCard from '../../uiComponent/ClickableCard';
 import useModal from '../../hook/useModal';
 import CreateNewDashboardModal from './CreateNewDashboardModal';
-import LoaderOrError from '../../component/loaderOrError/LoaderOrError';
 import useFetchExecutor from '../../hook/useFetchExecuter';
 import { api } from '../../utils/api';
 import ProjectHeader from '../../uiComponent/ProjectHeader';
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme) => {
 function ProjectHomeScreen() {
   const classes = useStyles();
   const history = useHistory();
-  const { executeFetch, loadingState } = useFetchExecutor();
+  const { executeFetch } = useFetchExecutor();
   const { openModal, isOpen, closeModal } = useModal();
   const { projectMetadata, addDashboard } = useContext(projectLayoutContext);
   const { enqueueSnackbar } = useSnackbar();
@@ -77,27 +76,25 @@ function ProjectHomeScreen() {
   }
 
   return (
-    <LoaderOrError loadingState={loadingState} snackbar>
-      <Box>
-        <ProjectHeader>{projectMetadata.name}</ProjectHeader>
-        <Box py={14} px={32}>
-          <ClickableCard onClick={openModal}>
-            <Box className={classes.addProjectContainer}>
-              <Box pb={2}>
-                <Typography variant="h6"> You don’t have any dashboards Yet. </Typography>
-              </Box>
-              <Typography variant="body2"> Click here to create your first dashboard. </Typography>
+    <Box>
+      <ProjectHeader>{projectMetadata.name}</ProjectHeader>
+      <Box py={14} px={32}>
+        <ClickableCard onClick={openModal}>
+          <Box className={classes.addProjectContainer}>
+            <Box pb={2}>
+              <Typography variant="h6"> You don’t have any dashboards Yet. </Typography>
             </Box>
-          </ClickableCard>
-        </Box>
-        <CreateNewDashboardModal
-          isOpen={isOpen}
-          closeModal={closeModal}
-          onCreate={onCreate}
-          onlyDashboardField={!!projectMetadata.id}
-        />
+            <Typography variant="body2"> Click here to create your first dashboard. </Typography>
+          </Box>
+        </ClickableCard>
       </Box>
-    </LoaderOrError>
+      <CreateNewDashboardModal
+        isOpen={isOpen}
+        closeModal={closeModal}
+        onCreate={onCreate}
+        onlyDashboardField={!!projectMetadata.id}
+      />
+    </Box>
   );
 }
 
