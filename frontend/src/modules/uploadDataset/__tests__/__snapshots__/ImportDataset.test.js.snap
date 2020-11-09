@@ -11,7 +11,7 @@ exports[`Import Dataset should match snapshot for import dataset component 1`] =
       <p
         class="MuiTypography-root MuiTypography-body2 makeStyles-errorTitle-4 MuiTypography-colorError"
       >
-        Error:  
+        Error: 
       </p>
       <p
         class="MuiTypography-root MuiTypography-body2 makeStyles-errorMessage-5 MuiTypography-colorError"

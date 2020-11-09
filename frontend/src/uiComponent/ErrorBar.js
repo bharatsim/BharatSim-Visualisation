@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => {
     },
     errorBox: {
       display: 'flex',
-      height: theme.spacing(8),
+      minHeight: theme.spacing(8),
       border: '1px solid',
       borderRadius: theme.spacing(1),
       borderColor: '#FFC5B3',
@@ -30,12 +30,13 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
+
 function ErrorBar({ visible, message }) {
   const classes = useStyles();
   return (
     <Box className={visible ? classes.errorBox : classes.hidden}>
       <Typography variant="body2" color="error" classes={{ body2: classes.errorTitle }}>
-        Error: &nbsp;
+        Error:&nbsp;
       </Typography>
 
       <Typography variant="body2" color="error" classes={{ body2: classes.errorMessage }}>

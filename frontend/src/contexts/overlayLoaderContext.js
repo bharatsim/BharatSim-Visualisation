@@ -5,6 +5,7 @@ const overlayLoaderContext = React.createContext({
   startLoader: null,
   showError: null,
   isLoading: false,
+  actions: [{ name: '', onClick: '' }],
 });
 
 const OverlayLoaderContextProvider = overlayLoaderContext.Provider;

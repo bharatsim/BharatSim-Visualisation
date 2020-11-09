@@ -227,7 +227,7 @@ exports[`Upload Dataset should match snapshot for upload dataset component 1`] =
             <p
               class="MuiTypography-root MuiTypography-body2 makeStyles-errorTitle-21 MuiTypography-colorError"
             >
-              Error:  
+              Error: 
             </p>
             <p
               class="MuiTypography-root MuiTypography-body2 makeStyles-errorMessage-22 MuiTypography-colorError"

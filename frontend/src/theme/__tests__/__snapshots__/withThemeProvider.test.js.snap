@@ -111,7 +111,7 @@ exports[`withThemeProvider HOC should match snapshot 1`] = `
         "fontFamily": "\\"Roboto\\", sans-serif",
         "fontWeight": 500,
         "fontSize": "0.875rem",
-        "lineHeight": 1.43,
+        "lineHeight": 1,
         "letterSpacing": "0.01071em",
         "@media (min-width:600px)": {
           "minWidth": "unset"
@@ -374,7 +374,7 @@ exports[`withThemeProvider HOC should match snapshot 1`] = `
       "fontFamily": "\\"Roboto\\", sans-serif",
       "fontWeight": 400,
       "fontSize": "0.875rem",
-      "lineHeight": 1.43,
+      "lineHeight": 1,
       "letterSpacing": "0.01071em"
     },
     "button": {

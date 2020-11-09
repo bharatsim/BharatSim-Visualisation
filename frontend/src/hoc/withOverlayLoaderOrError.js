@@ -5,30 +5,51 @@ import OverlayError from '../uiComponent/OverlayError';
 
 function withOverlayLoaderOrError(WrappedComponent) {
   return (props) => {
-    const [isLoading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
+    const [loader, setLoader] = useState({ loadersCount: 0, message: '' });
+    const [error, setError] = useState({ isError: false, messages: {} });
 
-    function startLoader() {
-      setLoading(true);
+    function startLoader(message) {
+      setLoader((prevState) => ({
+        loadersCount: prevState.loadersCount + 1,
+        message,
+      }));
     }
 
     function stopLoader() {
-      setLoading(false);
+      setLoader((prevState) => {
+        if (prevState.loadersCount === 0) {
+          return { loadersCount: 0, message: prevState.message };
+        }
+        return { loadersCount: prevState.loadersCount - 1, message: prevState.message };
+      });
     }
 
-    function showError() {
-      setError(true);
+    function stopAllLoaders() {
+      setLoader({ loadersCount: 0, message: '' });
+    }
+
+    function showError(errorMessage) {
+      stopAllLoaders();
+      setError({ isError: true, messages: errorMessage });
     }
 
     function hideError() {
-      setError(false);
+      setError({ isError: false, messages: {} });
     }
 
     return (
       <OverlayLoaderContextProvider value={{ stopLoader, startLoader, showError }}>
         <WrappedComponent {...props} />
-        {isLoading && <OverlayLoader isLoading={isLoading} />}
-        {error && <OverlayError isError={error} onClose={hideError} />}
+        {loader.loadersCount >= 1 && (
+          <OverlayLoader isLoading={loader.loadersCount >= 1} loadingMessage={loader.message} />
+        )}
+        {error.isError && (
+          <OverlayError
+            isError={error.isError}
+            errorMessages={error.messages}
+            onClose={hideError}
+          />
+        )}
       </OverlayLoaderContextProvider>
     );
   };

@@ -1,5 +1,6 @@
 import { api } from '../api';
 import { fetchData, uploadData } from '../fetch';
+import loaderAndErrorMessages from '../../constants/loaderAndErrorMessages';
 
 jest.mock('../fetch', () => ({
   fetchData: jest.fn(),
@@ -19,6 +20,7 @@ describe('API', () => {
       }),
       headers: { 'content-type': 'application/json' },
       url: '/api/dashboard',
+      messages: loaderAndErrorMessages.saveDashboard('name'),
     };
 
     api.saveDashboard(data);
@@ -43,6 +45,7 @@ describe('API', () => {
         columns: ['name', '_id'],
         projectId: 'projectId',
       },
+      messages: loaderAndErrorMessages.loadDashboards(),
     };
 
     api.getAllDashBoardByProjectId('projectId');
@@ -65,6 +68,7 @@ describe('API', () => {
         'content-type': 'application/json',
       },
       url: '/api/dashboard/create-new',
+      messages: loaderAndErrorMessages.addDashboard('dashbaord1'),
     };
 
     api.addNewDashboard({ name: 'dashbaord1', projectId: 'projectId' });
@@ -73,12 +77,13 @@ describe('API', () => {
   });
 
   it('should call datasources api to upload provided file and schema', () => {
-    const data = { file: 'file', schema: 'schema' };
+    const data = { file: { name: 'fileName' }, schema: 'schema' };
 
     const expectedParameter = {
       data: expect.any(FormData),
       headers: { 'content-type': 'multipart/form-data' },
       url: '/api/dataSources',
+      messages: loaderAndErrorMessages.fileUpload('fileName'),
     };
 
     api.uploadFileAndSchema(data);
@@ -92,6 +97,7 @@ describe('API', () => {
       query: {
         dashboardId: 'dashboardId',
       },
+      messages: loaderAndErrorMessages.fetchDatasources(),
     };
 
     api.getDatasources('dashboardId');
@@ -124,6 +130,7 @@ describe('API', () => {
   it('should call projects api to get all the saved projects', () => {
     const expectedParameter = {
       url: '/api/projects',
+      messages: loaderAndErrorMessages.loadProjects(),
     };
 
     api.getProjects();
@@ -138,6 +145,7 @@ describe('API', () => {
       headers: { 'content-type': 'application/json' },
       url: '/api/projects',
       method: 'post',
+      messages: loaderAndErrorMessages.saveProject('untitled project'),
     };
 
     api.saveProject({ id: undefined, name: 'untitled project' });
@@ -154,6 +162,7 @@ describe('API', () => {
       headers: { 'content-type': 'application/json' },
       url: '/api/projects',
       method: 'put',
+      messages: loaderAndErrorMessages.saveProject('updated project'),
     };
 
     api.saveProject({ name: 'updated project', id: 'projectId' });
@@ -163,6 +172,7 @@ describe('API', () => {
   it('should call projects api with given project id', () => {
     const expectedParameter = {
       url: '/api/projects/1',
+      messages: loaderAndErrorMessages.loadProject(),
     };
 
     api.getProject('1');

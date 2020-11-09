@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { render, within, fireEvent } from '@testing-library/react';
 import Button from '@material-ui/core/Button';
-import { waitFor } from '@testing-library/dom';
 import withOverlayLoaderOrError from '../withOverlayLoaderOrError';
 import { overlayLoaderContext } from '../../contexts/overlayLoaderContext';
 
@@ -9,9 +8,19 @@ function DummyComponent() {
   const { showError, stopLoader, startLoader } = useContext(overlayLoaderContext);
   return (
     <div>
-      <Button onClick={startLoader}>startLoader</Button>
+      <Button onClick={() => startLoader('loading ')}>startLoader</Button>
       <Button onClick={stopLoader}>stopLoader</Button>
-      <Button onClick={showError}>showError</Button>
+      <Button
+        onClick={() =>
+          showError({
+            errorMessage: 'Error message',
+            errorTitle: 'Error Title',
+            helperText: 'helperText',
+          })
+        }
+      >
+        showError
+      </Button>
       Dummy Component
     </div>
   );
@@ -47,6 +56,21 @@ describe('withOverlayLoaderOrError', () => {
     // TODO: search by loading message when added
     expect(loaderComponentAfterStop).toBeNull();
   });
+  it('should stop loader if the last instance of loader', () => {
+    const { getByText } = render(<Component />);
+    const stopLoaderButton = getByText('stopLoader');
+    const startLoaderButton = getByText('startLoader');
+
+    fireEvent.click(startLoaderButton);
+    document.querySelector('svg');
+
+    fireEvent.click(stopLoaderButton);
+    fireEvent.click(stopLoaderButton);
+    const loaderComponentAfterStop = document.querySelector('svg');
+
+    // TODO: search by loading message when added
+    expect(loaderComponentAfterStop).toBeNull();
+  });
 
   it('should show error from the overlay loader error context', () => {
     const { getByText } = render(<Component />);
@@ -65,7 +89,7 @@ describe('withOverlayLoaderOrError', () => {
     fireEvent.click(showErrorButton);
     const { getByText: getByTextFromModal } = within(document.querySelector('.MuiPaper-root'));
 
-    const closeErrorButton = getByTextFromModal('Close');
+    const closeErrorButton = getByTextFromModal('Okay');
     fireEvent.click(closeErrorButton);
 
     expect(document.querySelector('.MuiDialog-container')).toBeNull();
