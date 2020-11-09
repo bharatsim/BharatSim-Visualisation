@@ -103,7 +103,7 @@ describe('upload datasource service', function () {
       };
 
       await expect(result).rejects.toThrow(
-        new InvalidInputException('Error while uploading csv file data'),
+        new InvalidInputException('Error while uploading csv file with invalid csv data', 1008),
       );
     });
 
@@ -150,7 +150,7 @@ describe('upload datasource service', function () {
         );
       };
 
-      await expect(result).rejects.toThrow(new InvalidInputException('File is too large'));
+      await expect(result).rejects.toThrow(new InvalidInputException('File is too large', 1009));
     });
 
     it('should throw exception is file is not csv', async function () {
@@ -172,7 +172,9 @@ describe('upload datasource service', function () {
         );
       };
 
-      await expect(result).rejects.toThrow(new InvalidInputException('File type does not match'));
+      await expect(result).rejects.toThrow(
+        new InvalidInputException('File type does not match', 1010),
+      );
     });
   });
 

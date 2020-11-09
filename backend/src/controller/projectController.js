@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const InvalidInputException = require('../exceptions/InvalidInputException');
-const technicalErrorException = require('../exceptions/TechnicalErrorException');
+const { sendClientError, sendServerError } = require('../exceptions/exceptionUtils');
 const {
   addNewProject,
   getAllProjects,
@@ -16,9 +16,9 @@ router.post('/', async function (req, res) {
     })
     .catch((err) => {
       if (err instanceof InvalidInputException) {
-        res.status(400).send({ errorMessage: err.message });
+        sendClientError(err, res);
       } else {
-        technicalErrorException(err, res);
+        sendServerError(err, res);
       }
     });
 });
@@ -30,9 +30,9 @@ router.put('/', async function (req, res) {
     })
     .catch((err) => {
       if (err instanceof InvalidInputException) {
-        res.status(400).send({ errorMessage: err.message });
+        sendClientError(err, res);
       } else {
-        technicalErrorException(err, res);
+        sendServerError(err, res);
       }
     });
 });
@@ -43,7 +43,7 @@ router.get('/', async function (req, res) {
       res.send(projects);
     })
     .catch((err) => {
-      technicalErrorException(err, res);
+      sendServerError(err, res);
     });
 });
 
@@ -54,7 +54,7 @@ router.get('/:id', async function (req, res) {
       res.send(project);
     })
     .catch((err) => {
-      technicalErrorException(err, res);
+      sendServerError(err, res);
     });
 });
 

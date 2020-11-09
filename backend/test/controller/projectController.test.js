@@ -37,7 +37,7 @@ describe('ProjectController', function () {
         .post('/projects')
         .send({ projectData: 'Data' })
         .expect(500)
-        .expect({ errorMessage: 'Technical error Message' });
+        .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
     });
   });
   describe('Put /', function () {
@@ -64,7 +64,7 @@ describe('ProjectController', function () {
         .put('/projects')
         .send({ projectData: 'Data' })
         .expect(500)
-        .expect({ errorMessage: 'Technical error Message' });
+        .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
     });
   });
 
@@ -82,7 +82,7 @@ describe('ProjectController', function () {
       await request(app)
         .get('/projects/')
         .expect(500)
-        .expect({ errorMessage: 'Technical error Message' });
+        .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
     });
     it('should  project with matching Id', async function () {
       projectService.getProject.mockResolvedValueOnce({ project: {} });
@@ -97,7 +97,7 @@ describe('ProjectController', function () {
       await request(app)
         .get('/projects/id')
         .expect(500)
-        .expect({ errorMessage: 'Technical error Message' });
+        .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
 
       expect(projectService.getProject).toHaveBeenCalledWith('id');
     });

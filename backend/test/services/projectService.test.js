@@ -23,7 +23,7 @@ describe('Project service', function () {
     };
 
     await expect(result).rejects.toThrow(
-      new InvalidInputException('Error while creating new project'),
+      new InvalidInputException('Error while creating new project with invalid data', 1006),
     );
   });
   it('should fetch all the saved projects', async function () {
@@ -50,6 +50,8 @@ describe('Project service', function () {
       await updateProject({ something: 'bad' });
     };
 
-    await expect(result).rejects.toThrow(new InvalidInputException('Error while updating project'));
+    await expect(result).rejects.toThrow(
+      new InvalidInputException('Error while updating project with invalid data', 1007),
+    );
   });
 });

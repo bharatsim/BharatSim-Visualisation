@@ -38,7 +38,7 @@ describe('Dashboard Service', function () {
       await saveDashboard(dashboardDataToUpdate);
     };
     await expect(result).rejects.toThrow(
-      new InvalidInputException('Error while updating dashboard'),
+      new InvalidInputException('Error while updating dashboard with invalid data', '1004'),
     );
   });
   it('should throw error for invalid inputs while inserting', async function () {
@@ -48,7 +48,7 @@ describe('Dashboard Service', function () {
       await saveDashboard(dashboardDataToAdd);
     };
     await expect(result).rejects.toThrow(
-      new InvalidInputException('Error while inserting dashboard'),
+      new InvalidInputException('Error while inserting dashboard with invalid data', 1005),
     );
   });
 

@@ -64,7 +64,7 @@ describe('dataSourceService', () => {
       await dataSourceService.getData(dataSourceId, ['hours', 'exposed']);
     };
 
-    await expect(result).rejects.toThrow(ColumnsNotFoundException);
+    await expect(result).rejects.toThrow(new ColumnsNotFoundException());
   });
 
   describe('mocked function testing', function () {

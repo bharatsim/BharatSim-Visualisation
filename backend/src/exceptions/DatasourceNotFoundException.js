@@ -1,7 +1,9 @@
-class DatasourceNotFoundException extends Error {
+const BaseException = require('./BaseException');
+const { dataSourceNotFound } = require('./errors');
+
+class DatasourceNotFoundException extends BaseException {
   constructor(dataSourceName) {
-    super(`datasource with id ${dataSourceName} not found`);
-    this.message = `datasource with id ${dataSourceName} not found`;
+    super(dataSourceNotFound.errorMessage(dataSourceName), dataSourceNotFound.errorCode);
     Object.setPrototypeOf(this, DatasourceNotFoundException.prototype);
   }
 }

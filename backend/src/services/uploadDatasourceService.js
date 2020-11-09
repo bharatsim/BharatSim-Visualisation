@@ -6,6 +6,7 @@ const { validateAndParseCSV } = require('../utils/csvParser');
 const modelCreator = require('../utils/modelCreator');
 const InvalidInputException = require('../exceptions/InvalidInputException');
 const { fileTypes, MAX_FILE_SIZE } = require('../constants/fileTypes');
+const { insertCSVDataInvalidData, fileTooLarge, wrongFileType } = require('../exceptions/errors');
 
 async function insertMetadata(fileName, schema, dashboardId, fileType, fileSize) {
   return dataSourceMetadataRepository.insert({
@@ -23,7 +24,10 @@ async function insertCSVData(metadataId, schema, data) {
     await dataSourceRepository.insert(DatasourceModel, data);
   } catch (error) {
     await dataSourceMetadataRepository.deleteDatasourceMetadata(metadataId);
-    throw new InvalidInputException('Error while uploading csv file data');
+    throw new InvalidInputException(
+      insertCSVDataInvalidData.errorMessage,
+      insertCSVDataInvalidData.errorCode,
+    );
   }
 }
 
@@ -35,10 +39,10 @@ function deleteUploadedFile(filePath) {
 
 function validateFileAndThrowException(fileType, fileSize) {
   if (fileType !== fileTypes.CSV) {
-    throw new InvalidInputException('File type does not match');
+    throw new InvalidInputException(wrongFileType.errorMessage, wrongFileType.errorCode);
   }
   if (!fileSize || fileSize > MAX_FILE_SIZE) {
-    throw new InvalidInputException('File is too large');
+    throw new InvalidInputException(fileTooLarge.errorMessage, fileTooLarge.errorCode);
   }
 }
 

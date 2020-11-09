@@ -1,7 +1,8 @@
 const router = require('express').Router();
 
 const InvalidInputException = require('../exceptions/InvalidInputException');
-const technicalErrorException = require('../exceptions/TechnicalErrorException');
+const { sendClientError, sendServerError } = require('../exceptions/exceptionUtils');
+
 const {
   saveDashboard,
   getAllDashboards,
@@ -18,9 +19,9 @@ router.post('/', async function (req, res) {
     })
     .catch((err) => {
       if (err instanceof InvalidInputException) {
-        res.status(400).send({ errorMessage: err.message });
+        sendClientError(err, res);
       } else {
-        technicalErrorException(err, res);
+        sendServerError(err, res);
       }
     });
 });
@@ -33,9 +34,9 @@ router.post('/create-new', async function (req, res) {
     })
     .catch((err) => {
       if (err instanceof InvalidInputException) {
-        res.status(400).send({ errorMessage: err.message });
+        sendClientError(err, res);
       } else {
-        technicalErrorException(err, res);
+        sendServerError(err, res);
       }
     });
 });
@@ -47,7 +48,7 @@ router.get('/', async function (req, res) {
       res.send(dashboards);
     })
     .catch((err) => {
-      technicalErrorException(err, res);
+      sendServerError(err, res);
     });
 });
 

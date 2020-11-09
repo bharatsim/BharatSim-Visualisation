@@ -34,13 +34,15 @@ describe('dashboardController', function () {
         .expect({ dashboardId: '_id' });
     });
     it('should throw invalid input exception while saving invalid data', async function () {
-      dashboardService.saveDashboard.mockRejectedValue(new InvalidInputException('Message'));
+      dashboardService.saveDashboard.mockRejectedValue(
+        new InvalidInputException('Message', '12123'),
+      );
 
       await request(app)
         .post('/dashboard/')
         .send({ dashboardData: 'Data' })
         .expect(400)
-        .expect({ errorMessage: 'Invalid Input - Message' });
+        .expect({ errorMessage: 'Invalid Input - Message', errorCode: '12123' });
     });
     it('should throw technical error for technical failure', async function () {
       dashboardService.saveDashboard.mockRejectedValue(new Error('Message'));
@@ -49,7 +51,7 @@ describe('dashboardController', function () {
         .post('/dashboard/')
         .send({ dashboardData: 'Data' })
         .expect(500)
-        .expect({ errorMessage: 'Technical error Message' });
+        .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
     });
   });
 
@@ -62,13 +64,15 @@ describe('dashboardController', function () {
     });
 
     it('should throw invalid input exception while inserting invalid data', async function () {
-      dashboardService.insertDashboard.mockRejectedValue(new InvalidInputException('Message'));
+      dashboardService.insertDashboard.mockRejectedValue(
+        new InvalidInputException('Message', '12123'),
+      );
 
       await request(app)
         .post('/dashboard/create-new')
         .send({ dashboardData: 'Data' })
         .expect(400)
-        .expect({ errorMessage: 'Invalid Input - Message' });
+        .expect({ errorMessage: 'Invalid Input - Message', errorCode: '12123' });
     });
     it('should throw technical error for technical failure', async function () {
       dashboardService.insertDashboard.mockRejectedValue(new Error('Message'));
@@ -77,7 +81,7 @@ describe('dashboardController', function () {
         .post('/dashboard/create-new')
         .send({ dashboardData: 'Data' })
         .expect(500)
-        .expect({ errorMessage: 'Technical error Message' });
+        .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
     });
   });
 
@@ -117,7 +121,7 @@ describe('dashboardController', function () {
       await request(app)
         .get('/dashboard/')
         .expect(500)
-        .expect({ errorMessage: 'Technical error Message' });
+        .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
     });
   });
 });

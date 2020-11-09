@@ -64,10 +64,10 @@ describe('Integration test', () => {
     });
 
     it('should throw error if datasource not found', async () => {
-      await request(app)
-        .get(`/datasources/123456789012/headers`)
-        .expect(404)
-        .expect({ errorMessage: 'datasource with id 123456789012 not found' });
+      await request(app).get(`/datasources/123456789012/headers`).expect(404).expect({
+        errorMessage: 'datasource with id 123456789012 not found',
+        errorCode: 1002,
+      });
     });
   });
 
@@ -85,7 +85,10 @@ describe('Integration test', () => {
         .get('/datasources/123456789012')
         .query({ columns: ['expose', 'hour'] })
         .expect(404)
-        .expect({ errorMessage: 'datasource with id 123456789012 not found' });
+        .expect({
+          errorMessage: 'datasource with id 123456789012 not found',
+          errorCode: 1002,
+        });
     });
 
     it('should send error message for columns not found exception', async () => {
@@ -148,7 +151,10 @@ describe('Integration test', () => {
         .field('name', 'datafile')
         .attach('datafile', 'test/data/test.png')
         .expect(400)
-        .expect({ errorMessage: 'Invalid Input - File type does not match' });
+        .expect({
+          errorMessage: 'Invalid Input - File type does not match',
+          errorCode: 1010,
+        });
     });
     it('should throw and error if column data and schema are not compatible', async function () {
       const testSchemaModal1 = {
@@ -169,7 +175,10 @@ describe('Integration test', () => {
         .field('name', 'datafile')
         .attach('datafile', 'test/data/simulation.csv')
         .expect(400)
-        .expect({ errorMessage: 'Invalid Input - Error while uploading csv file data' });
+        .expect({
+          errorMessage: 'Invalid Input - Error while uploading csv file with invalid csv data',
+          errorCode: 1008,
+        });
     });
   });
 });

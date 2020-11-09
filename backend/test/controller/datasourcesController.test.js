@@ -82,10 +82,10 @@ describe('api', () => {
     it('should throw error if datasource not found', async () => {
       const dataSourceNotFoundException = new DataSourceNotFoundException('model_1');
       dataSourceMetadataService.getHeaders.mockRejectedValueOnce(dataSourceNotFoundException);
-      await request(app)
-        .get('/datasources/model_1/headers')
-        .expect(404)
-        .expect({ errorMessage: 'datasource with id model_1 not found' });
+      await request(app).get('/datasources/model_1/headers').expect(404).expect({
+        errorMessage: 'datasource with id model_1 not found',
+        errorCode: 1002,
+      });
       expect(dataSourceMetadataService.getHeaders).toHaveBeenCalledWith('model_1');
     });
 
@@ -95,7 +95,7 @@ describe('api', () => {
       await request(app)
         .get('/datasources/datasourceName/headers')
         .expect(500)
-        .expect({ errorMessage: 'Technical error error' });
+        .expect({ errorMessage: 'Technical error error', errorCode: 1003 });
 
       expect(dataSourceMetadataService.getHeaders).toHaveBeenCalledWith('datasourceName');
     });
@@ -127,7 +127,10 @@ describe('api', () => {
         .get('/datasources/datasourceId')
         .query({ columns: ['expose', 'hour'] })
         .expect(404)
-        .expect({ errorMessage: 'datasource with id datasourceName not found' });
+        .expect({
+          errorMessage: 'datasource with id datasourceName not found',
+          errorCode: 1002,
+        });
 
       expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', ['expose', 'hour']);
     });
@@ -152,7 +155,7 @@ describe('api', () => {
         .get('/datasources/datasourceId')
         .query({ columns: ['expose', 'hour'] })
         .expect(500)
-        .expect({ errorMessage: 'Technical error error' });
+        .expect({ errorMessage: 'Technical error error', errorCode: 1003 });
 
       expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', ['expose', 'hour']);
     });
@@ -175,7 +178,7 @@ describe('api', () => {
       await request(app)
         .get('/datasources?dashboardId=123123')
         .expect(500)
-        .expect({ errorMessage: 'Technical error error' });
+        .expect({ errorMessage: 'Technical error error', errorCode: 1003 });
 
       expect(dataSourceMetadataService.getDataSourcesByDashboardId).toHaveBeenCalled();
     });
@@ -218,7 +221,7 @@ describe('api', () => {
         .field('name', 'datafile')
         .attach('datafile', 'test/data/test.png')
         .expect(500)
-        .expect({ errorMessage: 'Technical error ' });
+        .expect({ errorMessage: 'Technical error ', errorCode: 1003 });
 
       expect(uploadDatasourceService.deleteUploadedFile).toHaveBeenCalledWith('sample.path');
     });
@@ -252,7 +255,7 @@ describe('api', () => {
         .field('name', 'datafile')
         .attach('datafile', 'test/data/test.png')
         .expect(500)
-        .expect({ errorMessage: 'Technical error ' });
+        .expect({ errorMessage: 'Technical error ', errorCode: 1003 });
     });
   });
 });

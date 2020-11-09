@@ -1,13 +1,17 @@
 const InvalidInputException = require('../exceptions/InvalidInputException');
+const { insertProjectInvalidInput, updateProjectInvalidInput } = require('../exceptions/errors');
 
 const { getAll, insert, getOne, update } = require('../repository/projectRepository');
-
+// TODO: change name to insert
 async function addNewProject(projectData) {
   try {
     const { _id } = await insert(projectData);
     return { projectId: _id };
   } catch (e) {
-    throw new InvalidInputException('Error while creating new project');
+    throw new InvalidInputException(
+      insertProjectInvalidInput.errorMessage,
+      insertProjectInvalidInput.errorCode,
+    );
   }
 }
 
@@ -26,7 +30,10 @@ async function updateProject({ id, ...projectData }) {
     await update(id, projectData);
     return { projectId: id };
   } catch (e) {
-    throw new InvalidInputException('Error while updating project');
+    throw new InvalidInputException(
+      updateProjectInvalidInput.errorMessage,
+      updateProjectInvalidInput.errorCode,
+    );
   }
 }
 

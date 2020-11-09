@@ -1,7 +1,9 @@
-class ColumnsNotFoundException extends Error {
+const BaseException = require('./BaseException');
+const { columnNotFound } = require('./errors');
+
+class ColumnsNotFoundException extends BaseException {
   constructor() {
-    super(`One or more columns not found`);
-    this.message = `One or more columns not found`;
+    super(columnNotFound.errorMessage, columnNotFound.errorCode);
     Object.setPrototypeOf(this, ColumnsNotFoundException.prototype);
   }
 }

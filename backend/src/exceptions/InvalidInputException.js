@@ -1,7 +1,8 @@
-class InvalidInputException extends Error {
-  constructor(message) {
-    super(message);
-    this.message = `Invalid Input - ${message}`;
+const BaseException = require('./BaseException');
+
+class InvalidInputException extends BaseException {
+  constructor(errorMessage, errorCode) {
+    super(`Invalid Input - ${errorMessage}`, errorCode);
     Object.setPrototypeOf(this, InvalidInputException.prototype);
   }
 }
