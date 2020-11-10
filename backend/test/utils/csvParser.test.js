@@ -29,6 +29,6 @@ describe('CSV parser', function () {
 
     const result = () => validateAndParseCSV('/csv');
 
-    expect(result).toThrow(new InvalidInputException('Error while parsing csv'));
+    expect(result).toThrow(new InvalidInputException('Error while parsing csv', 1011));
   });
 });

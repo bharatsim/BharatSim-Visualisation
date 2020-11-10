@@ -10,17 +10,7 @@ function DummyComponent() {
     <div>
       <Button onClick={() => startLoader('loading ')}>startLoader</Button>
       <Button onClick={stopLoader}>stopLoader</Button>
-      <Button
-        onClick={() =>
-          showError({
-            errorMessage: 'Error message',
-            errorTitle: 'Error Title',
-            helperText: 'helperText',
-          })
-        }
-      >
-        showError
-      </Button>
+      <Button onClick={() => showError(1001)}>showError</Button>
       Dummy Component
     </div>
   );
@@ -79,7 +69,7 @@ describe('withOverlayLoaderOrError', () => {
     fireEvent.click(showErrorButton);
     const { getByText: getByTextFromModal } = within(document.querySelector('.MuiPaper-root'));
 
-    expect(getByTextFromModal('Error message')).toBeInTheDocument();
+    expect(getByTextFromModal('Error while loading the page')).toBeInTheDocument();
   });
 
   it('should hide error from the overlay loader error context', async () => {

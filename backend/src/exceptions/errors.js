@@ -35,6 +35,10 @@ const errors = {
     errorCode: 1010,
     errorMessage: 'File type does not match',
   },
+  csvParsingError: {
+    errorCode: 1011,
+    errorMessage: 'Error while parsing csv',
+  },
 };
 
 module.exports = errors;

@@ -29,6 +29,10 @@ app.use('/api/datasources', apiRoutes);
 app.use('/api/dashboard', dashBoardRoutes);
 app.use('/api/projects', projectRoutes);
 
+app.get('/api/*', (req, res) => {
+  res.status(404).end();
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(`${__dirname}/public/index.html`));
 });

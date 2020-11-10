@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { httpMethods } from '../constants/fetch';
+import { errorTypes } from '../constants/loaderAndErrorMessages';
 
 let startLoader;
 let stopLoader;
@@ -10,21 +11,30 @@ function initLoader(startLoaderFunction, stopLoaderFunction, showErrorFunction) 
   stopLoader = stopLoaderFunction;
   showError = showErrorFunction;
 }
-const defaultMessages = {
-  errorMessage: 'Failed to load page',
-  errorTitle: 'Error while loading the page',
-  loading: 'Loading...',
-  helperText: 'Try to reload the page',
-};
-function fetchData({
-  url,
-  method = httpMethods.GET,
-  headers,
-  data,
-  query,
-  messages = defaultMessages,
-}) {
-  startLoader(messages.loading);
+
+function handleError(err) {
+  if (!err.response) {
+    showError(errorTypes.NETWORK_ERROR);
+    return Promise.reject();
+  }
+  if (err.response.status === errorTypes.GATEWAY_TIMEOUT) {
+    showError(errorTypes.GATEWAY_TIMEOUT);
+    return Promise.reject();
+  }
+  if (err.response.status === errorTypes.ADDRESS_NOT_FOUND) {
+    showError(errorTypes.ADDRESS_NOT_FOUND);
+    return Promise.reject();
+  }
+  if (err.response.status === errorTypes.TECHNICAL_ERROR) {
+    showError(errorTypes.TECHNICAL_ERROR);
+    return Promise.reject();
+  }
+  const { errorCode } = err.response.data;
+  return Promise.reject({ errorCode, err });
+}
+
+function fetchData({ url, method = httpMethods.GET, headers, data, query }) {
+  startLoader();
   return axios({ url, method, headers, data, params: query })
     .then((res) => {
       stopLoader();
@@ -32,11 +42,7 @@ function fetchData({
     })
     .catch((err) => {
       stopLoader();
-      showError({
-        errorMessage: messages.errorTitle,
-        ...messages,
-      });
-      return Promise.reject(err);
+      return handleError(err);
     });
 }
 

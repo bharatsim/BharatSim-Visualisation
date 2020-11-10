@@ -17,14 +17,14 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
-function OverlayLoader({ isLoading, loadingMessage }) {
+function OverlayLoader({ isLoading }) {
   const classes = useStyles();
   return (
     <Dialog open={isLoading} transitionDuration={0}>
       <Box className={classes.loaderContainer}>
         <CircularProgress />
         <Box ml={3}>
-          <Typography variant="body2">{loadingMessage}</Typography>
+          <Typography variant="body2">Loading</Typography>
         </Box>
       </Box>
     </Dialog>
@@ -32,7 +32,6 @@ function OverlayLoader({ isLoading, loadingMessage }) {
 }
 OverlayLoader.propTypes = {
   isLoading: PropTypes.bool.isRequired,
-  loadingMessage: PropTypes.string.isRequired,
 };
 
 export default OverlayLoader;

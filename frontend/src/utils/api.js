@@ -1,7 +1,6 @@
 import { contentTypes, httpMethods } from '../constants/fetch';
 import { url as serviceURL } from './url';
 import { fetchData, uploadData } from './fetch';
-import loaderAndErrorMessages from '../constants/loaderAndErrorMessages';
 
 function headerBuilder({ contentType }) {
   return {
@@ -23,7 +22,6 @@ const api = {
       data: JSON.stringify({
         dashboardData: { widgets, layout, dashboardId, name, count },
       }),
-      messages: loaderAndErrorMessages.saveDashboard(name),
     });
   },
 
@@ -34,7 +32,6 @@ const api = {
       data: JSON.stringify({
         dashboardData: { widgets: [], layout: [], name, count: 0, projectId },
       }),
-      messages: loaderAndErrorMessages.addDashboard(name),
     });
   },
 
@@ -42,7 +39,6 @@ const api = {
     fetchData({
       url: serviceURL.DASHBOARD_URL,
       query: { projectId, columns: ['name', '_id'] },
-      messages: loaderAndErrorMessages.loadDashboards(),
     }),
 
   getAllDashBoard: async () => fetchData({ url: serviceURL.DASHBOARD_URL }),
@@ -56,7 +52,6 @@ const api = {
         { name: 'dashboardId', value: dashboardId },
       ]),
       headers: headerBuilder({ contentType: contentTypes.FILE }),
-      messages: loaderAndErrorMessages.fileUpload(file.name),
     }),
 
   getCsvHeaders: async (dataSourceId) => fetchData({ url: serviceURL.getHeaderUrl(dataSourceId) }),
@@ -65,18 +60,15 @@ const api = {
     fetchData({
       url: serviceURL.DATA_SOURCES,
       query: { dashboardId },
-      messages: loaderAndErrorMessages.fetchDatasources(),
     }),
 
   getData: async (datasource, columns) =>
     fetchData({ url: serviceURL.getDataUrl(datasource), query: { columns } }),
 
   saveProject: async ({ id, ...data }) => {
-    const messages = loaderAndErrorMessages.saveProject(data.name);
     const requestObject = {
       url: serviceURL.PROJECT_URL,
       headers: headerBuilder({ contentType: contentTypes.JSON }),
-      messages,
     };
     if (id) {
       return uploadData({
@@ -95,13 +87,11 @@ const api = {
   getProjects: async () => {
     return fetchData({
       url: serviceURL.PROJECT_URL,
-      messages: loaderAndErrorMessages.loadProjects(),
     });
   },
   getProject: async (id) => {
     return fetchData({
       url: serviceURL.getProjectUrl(id),
-      messages: loaderAndErrorMessages.loadProject(),
     });
   },
 };

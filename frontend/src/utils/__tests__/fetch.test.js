@@ -44,11 +44,62 @@ describe('Fetch util', () => {
       url: 'test/api',
     });
   });
-  it('should return error handler for api failure', async () => {
-    axios.mockImplementationOnce(() => Promise.reject(new Error()));
-
-    await expect(fetchData({ something: 'bad' })).rejects.toThrow(new Error());
+  it('should return rejected promise with error code and err if api return client side error', async () => {
+    axios.mockImplementationOnce(() =>
+      Promise.reject({ response: { status: 400, data: { errorCode: '1001' } } }),
+    );
+    try {
+      await fetchData({ something: 'bad' });
+    } catch (err) {
+      expect(err).toEqual({
+        err: { response: { data: { errorCode: '1001' }, status: 400 } },
+        errorCode: '1001',
+      });
+    }
   });
+
+  it('should call show error with 500 as error code if api return technical error', async () => {
+    axios.mockImplementationOnce(() =>
+      Promise.reject({ response: { status: 500, data: { errorCode: '1001' } } }),
+    );
+    try {
+      await fetchData({ something: 'bad' });
+    } catch (err) {
+      expect(showError).toHaveBeenCalledWith(500);
+    }
+  });
+
+  it('should call show error with 404 as error code if api return address not found error', async () => {
+    axios.mockImplementationOnce(() =>
+      Promise.reject({ response: { status: 404, data: { errorCode: '1001' } } }),
+    );
+    try {
+      await fetchData({ something: 'bad' });
+    } catch (err) {
+      expect(showError).toHaveBeenCalledWith(404);
+    }
+  });
+
+  it('should call show error with 504 as error code if api return gateway timeout error', async () => {
+    axios.mockImplementationOnce(() =>
+      Promise.reject({ response: { status: 504, data: { errorCode: '1001' } } }),
+    );
+    try {
+      await fetchData({ something: 'bad' });
+    } catch (err) {
+      expect(showError).toHaveBeenCalledWith(504);
+    }
+  });
+
+  it('should call show error with NETWORK_ERROR as error code if api return no internet error', async () => {
+    axios.mockImplementationOnce(() => Promise.reject({}));
+    try {
+      await fetchData({ something: 'bad' });
+    } catch (err) {
+      expect(showError).toHaveBeenCalledWith('networkError');
+    }
+  });
+
   it('should start loader while fetching the data', async () => {
     fetchData({ url: 'test/api', data: 'data', method: 'post', headers: 'header' });
 

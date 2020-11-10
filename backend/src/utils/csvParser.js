@@ -2,6 +2,7 @@ const fs = require('fs');
 const csvParser = require('papaparse');
 
 const InvalidInputException = require('../exceptions/InvalidInputException');
+const { csvParsingError } = require('../exceptions/errors');
 
 function validateAndParseCSV(path) {
   const csvString = fs.readFileSync(path, 'utf-8');
@@ -11,7 +12,7 @@ function validateAndParseCSV(path) {
     dynamicTyping: true,
   });
   if (errors.length > 0) {
-    throw new InvalidInputException('Error while parsing csv');
+    throw new InvalidInputException(csvParsingError.errorMessage, csvParsingError.errorCode);
   }
   return data;
 }
