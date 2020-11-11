@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, render, within } from '@testing-library/react';
 import { SnackbarProvider } from 'notistack';
+import { waitFor } from '@testing-library/dom';
 import ProjectHomeScreen from '../ProjectHomeScreen';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import { api } from '../../../utils/api';
@@ -198,53 +199,16 @@ describe('<ProjectHomeScreenComponent />', () => {
     });
   });
 
-  it('should display snackbar for error message for dashboard creation failed', async () => {
-    api.addNewDashboard.mockRejectedValue('error');
-    const renderComponent = render(<ProjectHomeScreenComponent />);
-
-    openFillAndSubmitNewProjectForm(renderComponent);
-
-    const component = await renderComponent.findByText(
-      'Error while saving Dashboard DashboardName',
-    );
-
-    expect(component).toBeInTheDocument();
-  });
   it('should navigate to create-dashboard url for dashboard creation failure', async () => {
     api.addNewDashboard.mockRejectedValue('error');
     const renderComponent = render(<ProjectHomeScreenComponent />);
 
     openFillAndSubmitNewProjectForm(renderComponent);
 
-    await renderComponent.findByText('Error while saving Dashboard DashboardName');
-
-    expect(mockHistoryReplace).toHaveBeenCalledWith({
-      pathname: '/projects/projectId/create-dashboard',
+    await waitFor(() => {
+      expect(mockHistoryReplace).toHaveBeenCalledWith({
+        pathname: '/projects/projectId/create-dashboard',
+      });
     });
-  });
-
-  it('should display snackbar for success message of only successful project creation', async () => {
-    api.addNewDashboard.mockRejectedValue('error');
-    const renderComponent = render(<ProjectHomeScreenComponent />);
-
-    openFillAndSubmitNewProjectForm(renderComponent);
-
-    const component = await renderComponent.findByText('Project ProjectName is saved');
-
-    expect(component).toBeInTheDocument();
-  });
-
-  it('should display errormessage of failure project creation and dashboard creation', async () => {
-    api.saveProject.mockRejectedValue('error');
-    api.addNewDashboard.mockRejectedValue('error');
-    const renderComponent = render(<ProjectHomeScreenComponent />);
-
-    openFillAndSubmitNewProjectForm(renderComponent);
-
-    const component = await renderComponent.findByText(
-      'Error while saving Project ProjectName and Dashboard DashboardName',
-    );
-
-    expect(component).toBeInTheDocument();
   });
 });

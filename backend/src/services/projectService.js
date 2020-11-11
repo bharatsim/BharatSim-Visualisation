@@ -1,5 +1,10 @@
 const InvalidInputException = require('../exceptions/InvalidInputException');
-const { insertProjectInvalidInput, updateProjectInvalidInput } = require('../exceptions/errors');
+const NotFoundException = require('../exceptions/NotFoundException');
+const {
+  insertProjectInvalidInput,
+  updateProjectInvalidInput,
+  projectNotFound,
+} = require('../exceptions/errors');
 
 const { getAll, insert, getOne, update } = require('../repository/projectRepository');
 // TODO: change name to insert
@@ -22,6 +27,9 @@ async function getAllProjects() {
 
 async function getProject(projectId) {
   const project = await getOne(projectId);
+  if (!project) {
+    throw new NotFoundException(projectNotFound.errorMessage, projectNotFound.errorCode);
+  }
   return { project };
 }
 

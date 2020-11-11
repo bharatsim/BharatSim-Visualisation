@@ -4,6 +4,7 @@ const request = require('supertest');
 const projectRoutes = require('../../src/controller/projectController');
 const projectService = require('../../src/services/projectService');
 const InvalidInputException = require('../../src/exceptions/InvalidInputException');
+const NotFoundException = require('../../src/exceptions/NotFoundException');
 
 jest.mock('../../src/services/projectService');
 
@@ -91,6 +92,7 @@ describe('ProjectController', function () {
 
       expect(projectService.getProject).toHaveBeenCalledWith('id');
     });
+
     it('should throw technical error for any failure', async function () {
       projectService.getProject.mockRejectedValue(new Error('Message'));
 
@@ -98,6 +100,17 @@ describe('ProjectController', function () {
         .get('/projects/id')
         .expect(500)
         .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
+
+      expect(projectService.getProject).toHaveBeenCalledWith('id');
+    });
+
+    it('should throw not found error for project id not found', async function () {
+      projectService.getProject.mockRejectedValue(new NotFoundException('message', 123));
+
+      await request(app)
+        .get('/projects/id')
+        .expect(404)
+        .expect({ errorMessage: 'Not found - message', errorCode: 123 });
 
       expect(projectService.getProject).toHaveBeenCalledWith('id');
     });

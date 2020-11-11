@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const InvalidInputException = require('../exceptions/InvalidInputException');
+const NotFoundException = require('../exceptions/NotFoundException');
 const { sendClientError, sendServerError } = require('../exceptions/exceptionUtils');
 const {
   addNewProject,
@@ -54,7 +55,11 @@ router.get('/:id', async function (req, res) {
       res.send(project);
     })
     .catch((err) => {
-      sendServerError(err, res);
+      if (err instanceof NotFoundException) {
+        sendClientError(err, res, 404);
+      } else {
+        sendServerError(err, res);
+      }
     });
 });
 

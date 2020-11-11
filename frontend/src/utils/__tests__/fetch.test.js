@@ -13,6 +13,11 @@ describe('Fetch util', () => {
   const stopLoader = jest.fn();
   const showError = jest.fn();
   initLoader(startLoader, stopLoader, showError);
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should return data from server for given url', () => {
     fetchData({ url: 'test/api' });
     expect(axios).toHaveBeenCalledWith({
@@ -65,7 +70,13 @@ describe('Fetch util', () => {
     try {
       await fetchData({ something: 'bad' });
     } catch (err) {
-      expect(showError).toHaveBeenCalledWith(500);
+      expect(showError).toHaveBeenCalledWith({
+        errorMessage: 'Failed to load page',
+        errorModalButtonText: 'Reload',
+        errorTitle: 'Error due to technical error at server',
+        helperText: 'Try to reload the page',
+        onErrorModalButtonClick: expect.anything(Function),
+      });
     }
   });
 
@@ -76,7 +87,13 @@ describe('Fetch util', () => {
     try {
       await fetchData({ something: 'bad' });
     } catch (err) {
-      expect(showError).toHaveBeenCalledWith(404);
+      expect(showError).toHaveBeenCalledWith({
+        errorMessage: 'Something is wrong in url',
+        errorModalButtonText: 'Go to Home',
+        errorTitle: 'Aw Snap! Address not found',
+        helperText: 'Check url is correct or not',
+        onErrorModalButtonClick: expect.anything(Function),
+      });
     }
   });
 
@@ -87,7 +104,13 @@ describe('Fetch util', () => {
     try {
       await fetchData({ something: 'bad' });
     } catch (err) {
-      expect(showError).toHaveBeenCalledWith(504);
+      expect(showError).toHaveBeenCalledWith({
+        errorMessage: 'Server is down',
+        errorModalButtonText: 'Reload',
+        errorTitle: 'Aw Snap! Server is down',
+        helperText: 'Try again after some time',
+        onErrorModalButtonClick: expect.anything(Function),
+      });
     }
   });
 
@@ -96,7 +119,13 @@ describe('Fetch util', () => {
     try {
       await fetchData({ something: 'bad' });
     } catch (err) {
-      expect(showError).toHaveBeenCalledWith('networkError');
+      expect(showError).toHaveBeenCalledWith({
+        errorMessage: 'No internet connection',
+        errorModalButtonText: 'Reload',
+        errorTitle: 'Aw Snap! Your Internet connection is lost',
+        helperText: 'Connect to internet',
+        onErrorModalButtonClick: expect.anything(),
+      });
     }
   });
 

@@ -39,6 +39,10 @@ const errors = {
     errorCode: 1011,
     errorMessage: 'Error while parsing csv',
   },
+  projectNotFound: {
+    errorCode: 1012,
+    errorMessage: 'Project with given id not found',
+  },
 };
 
 module.exports = errors;

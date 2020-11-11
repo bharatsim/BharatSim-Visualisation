@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { OverlayLoaderContextProvider } from '../contexts/overlayLoaderContext';
+import { OverlayLoaderOrErrorContextProvider } from '../contexts/overlayLoaderOrErrorContext';
 import OverlayLoader from '../uiComponent/OverlayLoader';
 import OverlayError from '../uiComponent/OverlayError';
-import { errorTypes } from '../constants/loaderAndErrorMessages';
 
 function withOverlayLoaderOrError(WrappedComponent) {
   return (props) => {
     const [loader, setLoader] = useState({ loadersCount: 0 });
     const [error, setError] = useState({
       isError: false,
-      errorCode: errorTypes.DEFAULT,
-      data: undefined,
-      query: undefined,
+      errorConfigs: null,
     });
 
     function startLoader() {
@@ -33,28 +30,28 @@ function withOverlayLoaderOrError(WrappedComponent) {
       setLoader({ loadersCount: 0, message: '' });
     }
 
-    function showError(errorCode) {
+    function showError(errorConfigs) {
       stopAllLoaders();
-      setError({ isError: true, errorCode });
+      setError({ isError: true, errorConfigs });
     }
 
     function hideError() {
-      setError({ isError: false, errorCode: errorTypes.DEFAULT });
+      setError({ isError: false, errorConfigs: null });
     }
 
     return (
-      <OverlayLoaderContextProvider value={{ stopLoader, startLoader, showError }}>
+      <OverlayLoaderOrErrorContextProvider value={{ stopLoader, startLoader, showError }}>
         <WrappedComponent {...props} />
         {loader.loadersCount >= 1 && <OverlayLoader isLoading={loader.loadersCount >= 1} />}
         {error.isError && (
           <OverlayError
             isError={error.isError}
-            errorCode={error.errorCode}
-            onClose={hideError}
+            errorConfig={error.errorConfigs}
+            hideError={hideError}
             data={error.data}
           />
         )}
-      </OverlayLoaderContextProvider>
+      </OverlayLoaderOrErrorContextProvider>
     );
   };
 }

@@ -6,6 +6,7 @@ const {
 } = require('../../src/services/projectService');
 const projectRepository = require('../../src/repository/projectRepository');
 const InvalidInputException = require('../../src/exceptions/InvalidInputException');
+const NotFoundException = require('../../src/exceptions/NotFoundException');
 
 jest.mock('../../src/repository/projectRepository');
 
@@ -43,7 +44,7 @@ describe('Project service', function () {
       name: 'new name',
     });
   });
-  it('should throw InvalidInputException for invalid input', async function () {
+  it('should throw InvalidInputException for invalid input while updating', async function () {
     projectRepository.update.mockRejectedValue(new Error());
 
     const result = async () => {
@@ -52,6 +53,18 @@ describe('Project service', function () {
 
     await expect(result).rejects.toThrow(
       new InvalidInputException('Error while updating project with invalid data', 1007),
+    );
+  });
+
+  it('should throw NotFound exception if repository return null', async function () {
+    projectRepository.getOne.mockReturnValueOnce(null);
+
+    const result = async () => {
+      await getProject('projectId');
+    };
+
+    await expect(result).rejects.toThrow(
+      new NotFoundException('Project with given id not found', 1012),
     );
   });
 });

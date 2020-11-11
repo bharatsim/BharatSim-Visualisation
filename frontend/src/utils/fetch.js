@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { httpMethods } from '../constants/fetch';
-import { errorTypes } from '../constants/loaderAndErrorMessages';
+import { errors, errorTypes } from '../constants/loaderAndErrorMessages';
 
 let startLoader;
 let stopLoader;
@@ -14,19 +14,19 @@ function initLoader(startLoaderFunction, stopLoaderFunction, showErrorFunction) 
 
 function handleError(err) {
   if (!err.response) {
-    showError(errorTypes.NETWORK_ERROR);
+    showError(errors[errorTypes.NETWORK_ERROR]());
     return Promise.reject();
   }
   if (err.response.status === errorTypes.GATEWAY_TIMEOUT) {
-    showError(errorTypes.GATEWAY_TIMEOUT);
+    showError(errors[errorTypes.GATEWAY_TIMEOUT]());
     return Promise.reject();
   }
   if (err.response.status === errorTypes.ADDRESS_NOT_FOUND) {
-    showError(errorTypes.ADDRESS_NOT_FOUND);
+    showError(errors[errorTypes.ADDRESS_NOT_FOUND]());
     return Promise.reject();
   }
   if (err.response.status === errorTypes.TECHNICAL_ERROR) {
-    showError(errorTypes.TECHNICAL_ERROR);
+    showError(errors[errorTypes.TECHNICAL_ERROR]());
     return Promise.reject();
   }
   const { errorCode } = err.response.data;

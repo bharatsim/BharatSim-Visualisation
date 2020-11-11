@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import ClickableCard from '../../uiComponent/ClickableCard';
 import useModal from '../../hook/useModal';
 import CreateNewDashboardModal from './CreateNewDashboardModal';
-import useFetchExecutor from '../../hook/useFetchExecuter';
 import { api } from '../../utils/api';
 import ProjectHeader from '../../uiComponent/ProjectHeader';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
@@ -28,14 +27,14 @@ const useStyles = makeStyles((theme) => {
 function ProjectHomeScreen() {
   const classes = useStyles();
   const history = useHistory();
-  const { executeFetch } = useFetchExecutor();
   const { openModal, isOpen, closeModal } = useModal();
   const { projectMetadata, addDashboard } = useContext(projectLayoutContext);
   const { enqueueSnackbar } = useSnackbar();
-  const { SUCCESS, ERROR } = snackbarVariant;
+  const { SUCCESS } = snackbarVariant;
 
   async function saveDashboard(savedProjectId, projectTitle, dashboardTitle) {
-    executeFetch(api.addNewDashboard, [{ name: dashboardTitle, projectId: savedProjectId }])
+    await api
+      .addNewDashboard({ name: dashboardTitle, projectId: savedProjectId })
       .then(({ dashboardId }) => {
         enqueueSnackbar(`Dashboard ${dashboardTitle} is saved`, {
           variant: SUCCESS,
@@ -45,24 +44,16 @@ function ProjectHomeScreen() {
       })
       .catch(() => {
         history.replace({ pathname: `/projects/${savedProjectId}/create-dashboard` });
-        enqueueSnackbar(`Error while saving Dashboard ${dashboardTitle}`, { variant: ERROR });
       });
   }
 
   async function saveProjectAndDashboard(projectTitle, dashboardTitle) {
-    executeFetch(api.saveProject, [{ name: projectTitle }])
-      .then(({ projectId: newProjectId }) => {
-        enqueueSnackbar(`Project ${projectTitle} is saved`, {
-          variant: SUCCESS,
-        });
-        return saveDashboard(newProjectId, projectTitle, dashboardTitle);
-      })
-      .catch(() => {
-        enqueueSnackbar(
-          `Error while saving Project ${projectTitle} and Dashboard ${dashboardTitle}`,
-          { variant: ERROR },
-        );
+    await api.saveProject({ name: projectTitle }).then(({ projectId: newProjectId }) => {
+      enqueueSnackbar(`Project ${projectTitle} is saved`, {
+        variant: SUCCESS,
       });
+      return saveDashboard(newProjectId, projectTitle, dashboardTitle);
+    });
   }
 
   async function onCreate(values) {

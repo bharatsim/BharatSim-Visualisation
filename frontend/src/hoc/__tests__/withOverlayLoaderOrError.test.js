@@ -2,15 +2,26 @@ import React, { useContext } from 'react';
 import { render, within, fireEvent } from '@testing-library/react';
 import Button from '@material-ui/core/Button';
 import withOverlayLoaderOrError from '../withOverlayLoaderOrError';
-import { overlayLoaderContext } from '../../contexts/overlayLoaderContext';
+import { overlayLoaderOrErrorContext } from '../../contexts/overlayLoaderOrErrorContext';
 
 function DummyComponent() {
-  const { showError, stopLoader, startLoader } = useContext(overlayLoaderContext);
+  const { showError, stopLoader, startLoader } = useContext(overlayLoaderOrErrorContext);
   return (
     <div>
       <Button onClick={() => startLoader('loading ')}>startLoader</Button>
       <Button onClick={stopLoader}>stopLoader</Button>
-      <Button onClick={() => showError(1001)}>showError</Button>
+      <Button
+        onClick={() =>
+          showError({
+            errorMessage: 'Error message',
+            errorModalButtonText: 'Okay',
+            errorTitle: 'Error title',
+            helperText: 'Connect to internet',
+            onErrorModalButtonClick: jest.fn(),
+          })}
+      >
+        showError
+      </Button>
       Dummy Component
     </div>
   );
@@ -69,7 +80,7 @@ describe('withOverlayLoaderOrError', () => {
     fireEvent.click(showErrorButton);
     const { getByText: getByTextFromModal } = within(document.querySelector('.MuiPaper-root'));
 
-    expect(getByTextFromModal('Error while loading the page')).toBeInTheDocument();
+    expect(getByTextFromModal('Error message')).toBeInTheDocument();
   });
 
   it('should hide error from the overlay loader error context', async () => {

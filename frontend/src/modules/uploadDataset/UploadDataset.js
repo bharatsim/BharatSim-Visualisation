@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
-import { Button, Typography, Box, makeStyles, Step, Stepper, StepLabel } from '@material-ui/core';
+import { Box, Button, makeStyles, Step, StepLabel, Stepper, Typography } from '@material-ui/core';
 
 import ProjectHeader from '../../uiComponent/ProjectHeader';
 import ButtonGroup from '../../uiComponent/ButtonGroup';
@@ -11,7 +11,8 @@ import ConfigureDatatype from './ConfigureDatatype';
 import ImportDataset from './ImportDataset';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
 import { api } from '../../utils/api';
-import useFetchExecutor from '../../hook/useFetchExecuter';
+import { errors } from '../../constants/loaderAndErrorMessages';
+import { overlayLoaderOrErrorContext } from '../../contexts/overlayLoaderOrErrorContext';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -81,34 +82,48 @@ function getStepContent(
 function UploadDataset() {
   const classes = useStyles();
   const history = useHistory();
+  const steps = ['Import Data', 'Configure Datatype', 'Upload to Dashboard'];
+
   const {
     projectMetadata,
     selectedDashboardMetadata: { _id: selectedDashboardId, name: selectedDashboardName },
   } = useContext(projectLayoutContext);
 
+  const { showError } = useContext(overlayLoaderOrErrorContext);
+  const [previewData, setPreviewData] = useState();
   const [activeStep, setActiveStep] = useState(0);
   const [errorStep, setErrorStep] = useState(undefined);
-  const steps = ['Import Data', 'Configure Datatype', 'Upload to Dashboard'];
   const [file, setFile] = useState();
   const [schema, setSchema] = useState();
-  const [previewData, setPreviewData] = useState();
-  const { executeFetch } = useFetchExecutor();
+
   const { enqueueSnackbar } = useSnackbar();
 
   function handleNext() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   }
 
+  function resetAllState() {
+    setPreviewData();
+    setActiveStep(0);
+    setErrorStep(undefined);
+    setFile();
+    setSchema();
+  }
+
   async function onClickUploadAndSave() {
     handleNext();
-    await executeFetch(api.uploadFileAndSchema, [
-      { file, schema, dashboardId: selectedDashboardId },
-    ]).then(() => {
-      history.push(`configure-dataset`);
-      enqueueSnackbar(`uploaded ${file.name} to dashboard ${selectedDashboardName}`, {
-        variant: 'success',
+    await api
+      .uploadFileAndSchema({ file, schema, dashboardId: selectedDashboardId })
+      .then(() => {
+        history.push(`configure-dataset`);
+        enqueueSnackbar(`uploaded ${file.name} to dashboard ${selectedDashboardName}`, {
+          variant: 'success',
+        });
+      })
+      .catch((error) => {
+        const errorConfigs = errors[error.errorCode](file.name, resetAllState);
+        showError(errorConfigs);
       });
-    });
   }
 
   function onCancel() {

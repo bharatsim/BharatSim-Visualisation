@@ -30,29 +30,4 @@ describe('Use fetch hook', () => {
     expect(result.current.data).toEqual('Hello NewUserHomeScreen');
     expect(api).toHaveBeenCalledWith('data', 'params', 'query');
   });
-
-  it('should return success for loading state if data fetch is successful', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useFetch(api));
-
-    await waitForNextUpdate();
-
-    expect(result.current.loadingState).toEqual('SUCCESS');
-  });
-
-  it('should return loading for loading state if data fetch is unsuccessful', async () => {
-    api = jest.fn().mockRejectedValue('error');
-    const { result, waitForNextUpdate } = renderHook(() => useFetch(api));
-
-    await waitForNextUpdate();
-
-    expect(result.current.loadingState).toEqual('ERROR');
-  });
-
-  it('should return error for loading state while fetching data', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useFetch(api));
-
-    expect(result.current.loadingState).toEqual('LOADING');
-
-    await waitForNextUpdate();
-  });
 });

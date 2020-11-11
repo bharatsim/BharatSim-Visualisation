@@ -1,7 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
-import LoaderOrError from '../../../component/loaderOrError/LoaderOrError';
 import { getYaxisNames, trasformDataForChart } from '../utils';
 import useFetch from '../../../hook/useFetch';
 import { api } from '../../../utils/api';
@@ -12,18 +11,11 @@ function BarChart({ config }) {
   const { xAxis: xColumn, yAxis, dataSource } = config;
   const yColumns = getYaxisNames(yAxis);
 
-  const { data: csvData, loadingState } = useFetch(api.getData, [
-    dataSource,
-    [xColumn, ...yColumns],
-  ]);
+  const { data: csvData } = useFetch(api.getData, [dataSource, [xColumn, ...yColumns]]);
 
   const transformedData = trasformDataForChart(csvData, xColumn, yColumns);
 
-  return (
-    <LoaderOrError loadingState={loadingState}>
-      <Bar data={transformedData} options={options} />
-    </LoaderOrError>
-  );
+  return <Bar data={transformedData} options={options} />;
 }
 
 BarChart.propTypes = {

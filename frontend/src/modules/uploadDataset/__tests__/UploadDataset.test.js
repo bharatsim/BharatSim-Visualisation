@@ -8,6 +8,7 @@ import { ProjectLayoutProvider } from '../../../contexts/projectLayoutContext';
 import UploadDataset from '../UploadDataset';
 import { api } from '../../../utils/api';
 import withSnackBar from '../../../hoc/withSnackBar';
+import withOverlayLoaderOrError from '../../../hoc/withOverlayLoaderOrError';
 
 jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, onComplete) => {
   const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
@@ -29,20 +30,27 @@ jest.mock('../../../utils/api', () => ({
   },
 }));
 
-const ComponentWithProvider = withThemeProvider(
-  withSnackBar(() => (
-    <ProjectLayoutProvider
-      value={{
-        projectMetadata: { name: 'project1', id: '123' },
-        selectedDashboardMetadata: { name: 'dashboard1', _id: 'dashboardId' },
-      }}
-    >
-      <UploadDataset />
-    </ProjectLayoutProvider>
-  )),
-);
-
 describe('Upload Dataset', () => {
+  let ComponentWithProvider;
+  beforeEach(() => {
+    ComponentWithProvider = withThemeProvider(
+      withOverlayLoaderOrError(
+        withSnackBar(() => (
+          <>
+            <ProjectLayoutProvider
+              value={{
+                projectMetadata: { name: 'project1', id: '123' },
+                selectedDashboardMetadata: { name: 'dashboard1', _id: 'dashboardId' },
+              }}
+            >
+              <UploadDataset />
+            </ProjectLayoutProvider>
+          </>
+        )),
+      ),
+    );
+  });
+
   it('should match snapshot for upload dataset component', () => {
     const { container } = render(<ComponentWithProvider />);
 
@@ -129,5 +137,48 @@ describe('Upload Dataset', () => {
     await findByText('uploaded testFile.csv to dashboard dashboard1');
 
     expect(getByText('uploaded testFile.csv to dashboard dashboard1')).toBeInTheDocument();
+  });
+
+  it('should call show error to show overlay error with error message', async () => {
+    api.uploadFileAndSchema.mockRejectedValueOnce({ errorCode: 1008 });
+    const { getByText, getByTestId, findByText } = render(<ComponentWithProvider />);
+    const inputComponent = getByTestId('file-input');
+    const errorMessage = 'File might contain invalid data';
+
+    fireEvent.change(inputComponent, {
+      target: { files: [new File([''], 'testFile.csv', { type: 'text/csv' })] },
+    });
+
+    await findByText('testFile.csv');
+
+    fireEvent.click(getByText('Upload'));
+
+    await findByText(errorMessage);
+
+    expect(getByText(errorMessage)).toBeInTheDocument();
+  });
+
+  it('should reset step to first step of upload file on click of "okay" on error modal', async () => {
+    api.uploadFileAndSchema.mockRejectedValueOnce({ errorCode: 1008 });
+    const { getByText, getByTestId, findByText } = render(<ComponentWithProvider />);
+    const inputComponent = getByTestId('file-input');
+    const errorMessage = 'File might contain invalid data';
+    const firstStepMessage = 'Drag your file here or';
+
+    fireEvent.change(inputComponent, {
+      target: { files: [new File([''], 'testFile.csv', { type: 'text/csv' })] },
+    });
+
+    await findByText('testFile.csv');
+
+    fireEvent.click(getByText('Upload'));
+
+    await findByText(errorMessage);
+
+    const errorModalOkayButton = getByText('Okay');
+
+    fireEvent.click(errorModalOkayButton);
+
+    expect(getByText(firstStepMessage)).toBeInTheDocument();
   });
 });

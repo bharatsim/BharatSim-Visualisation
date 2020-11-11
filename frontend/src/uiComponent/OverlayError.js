@@ -6,7 +6,6 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import ErrorBar from './ErrorBar';
-import { errors } from '../constants/loaderAndErrorMessages';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -31,9 +30,21 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function OverlayError({ isError, errorCode, onClose }) {
+function OverlayError({ isError, errorConfig, hideError }) {
   const classes = useStyles();
-  const { errorMessage, errorTitle, helperText } = errors[errorCode]();
+  const {
+    errorMessage,
+    errorTitle,
+    helperText,
+    errorModalButtonText,
+    onErrorModalButtonClick,
+  } = errorConfig;
+
+  function onErrorActionClick() {
+    hideError();
+    onErrorModalButtonClick();
+  }
+
   return (
     <Dialog open={isError}>
       <Box className={classes.errContainer}>
@@ -43,16 +54,15 @@ function OverlayError({ isError, errorCode, onClose }) {
 
         <ErrorBar message={errorMessage} visible />
         <Box mt={4}>
-          <Typography variant="body2"> 
-            {' '}
+          <Typography variant="body2">
             {helperText}
             {' '}
           </Typography>
         </Box>
 
         <Box className={classes.errorActions}>
-          <Button onClick={onClose} variant="outlined">
-            Okay
+          <Button onClick={onErrorActionClick} variant="outlined">
+            {errorModalButtonText}
           </Button>
         </Box>
       </Box>
@@ -62,8 +72,14 @@ function OverlayError({ isError, errorCode, onClose }) {
 
 OverlayError.propTypes = {
   isError: PropTypes.bool.isRequired,
-  errorCode: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  onClose: PropTypes.func.isRequired,
+  errorConfig: PropTypes.shape({
+    errorMessage: PropTypes.string.isRequired,
+    errorTitle: PropTypes.string.isRequired,
+    helperText: PropTypes.string.isRequired,
+    errorModalButtonText: PropTypes.string.isRequired,
+    onErrorModalButtonClick: PropTypes.func.isRequired,
+  }).isRequired,
+  hideError: PropTypes.func.isRequired,
 };
 
 export default OverlayError;
