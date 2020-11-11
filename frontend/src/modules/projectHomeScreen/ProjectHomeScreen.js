@@ -10,6 +10,8 @@ import { api } from '../../utils/api';
 import ProjectHeader from '../../uiComponent/ProjectHeader';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
 import snackbarVariant from '../../constants/snackbarVariant';
+import { overlayLoaderOrErrorContext } from '../../contexts/overlayLoaderOrErrorContext';
+import { errors, errorTypes } from '../../constants/loaderAndErrorMessages';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -29,6 +31,7 @@ function ProjectHomeScreen() {
   const history = useHistory();
   const { openModal, isOpen, closeModal } = useModal();
   const { projectMetadata, addDashboard } = useContext(projectLayoutContext);
+  const { showError } = useContext(overlayLoaderOrErrorContext);
   const { enqueueSnackbar } = useSnackbar();
   const { SUCCESS } = snackbarVariant;
 
@@ -44,16 +47,26 @@ function ProjectHomeScreen() {
       })
       .catch(() => {
         history.replace({ pathname: `/projects/${savedProjectId}/create-dashboard` });
+        showError(errors[errorTypes.DASHBOARD_CREATE_FAILED](dashboardTitle));
       });
   }
 
   async function saveProjectAndDashboard(projectTitle, dashboardTitle) {
-    await api.saveProject({ name: projectTitle }).then(({ projectId: newProjectId }) => {
-      enqueueSnackbar(`Project ${projectTitle} is saved`, {
-        variant: SUCCESS,
+    await api
+      .saveProject({ name: projectTitle })
+      .then(({ projectId: newProjectId }) => {
+        enqueueSnackbar(`Project ${projectTitle} is saved`, {
+          variant: SUCCESS,
+        });
+        return saveDashboard(newProjectId, projectTitle, dashboardTitle);
+      })
+      .catch(() => {
+        const errorConfigs = errors[errorTypes.PROJECT_AND_DASHBOARD_CREATE_FAILED](
+          projectTitle,
+          dashboardTitle,
+        );
+        showError(errorConfigs);
       });
-      return saveDashboard(newProjectId, projectTitle, dashboardTitle);
-    });
   }
 
   async function onCreate(values) {

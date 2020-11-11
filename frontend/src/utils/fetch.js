@@ -12,7 +12,7 @@ function initLoader(startLoaderFunction, stopLoaderFunction, showErrorFunction) 
   showError = showErrorFunction;
 }
 
-function handleError(err) {
+function commandErrorHandler(err) {
   if (!err.response) {
     showError(errors[errorTypes.NETWORK_ERROR]());
     return Promise.reject();
@@ -29,11 +29,19 @@ function handleError(err) {
     showError(errors[errorTypes.TECHNICAL_ERROR]());
     return Promise.reject();
   }
+  showError(errors[errorTypes.DEFAULT]());
   const { errorCode } = err.response.data;
   return Promise.reject({ errorCode, err });
 }
 
-function fetchData({ url, method = httpMethods.GET, headers, data, query }) {
+function fetchData({
+  url,
+  method = httpMethods.GET,
+  headers,
+  data,
+  query,
+  isCustomErrorHandler = false,
+}) {
   startLoader();
   return axios({ url, method, headers, data, params: query })
     .then((res) => {
@@ -42,18 +50,28 @@ function fetchData({ url, method = httpMethods.GET, headers, data, query }) {
     })
     .catch((err) => {
       stopLoader();
-      return handleError(err);
+      if (isCustomErrorHandler) {
+        return Promise.reject(err);
+      }
+      return commandErrorHandler(err);
     });
 }
 
-function uploadData({ url, method = httpMethods.POST, headers, data, query, messages }) {
+function uploadData({
+  url,
+  method = httpMethods.POST,
+  headers,
+  data,
+  query,
+  isCustomErrorHandler,
+}) {
   return fetchData({
     url,
     method,
     headers,
     data,
     params: query,
-    messages,
+    isCustomErrorHandler,
   });
 }
 

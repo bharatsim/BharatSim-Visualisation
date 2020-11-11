@@ -1,11 +1,11 @@
 import React from 'react';
 import { fireEvent, render, within } from '@testing-library/react';
 import { SnackbarProvider } from 'notistack';
-import { waitFor } from '@testing-library/dom';
 import ProjectHomeScreen from '../ProjectHomeScreen';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import { api } from '../../../utils/api';
 import { ProjectLayoutProvider } from '../../../contexts/projectLayoutContext';
+import withOverlayLoaderOrError from '../../../hoc/withOverlayLoaderOrError';
 
 jest.mock('../../../utils/api', () => ({
   api: {
@@ -45,23 +45,25 @@ function openFillAndSubmitNewProjectForm(renderedComponent) {
 describe('<ProjectHomeScreenComponent />', () => {
   let ProjectHomeScreenComponent;
   beforeEach(() => {
-    ProjectHomeScreenComponent = withThemeProvider(() => (
-      <SnackbarProvider>
-        <ProjectLayoutProvider
-          value={{
-            projectMetadata: {
-              name: '',
-            },
-            selectedDashboardMetadata: {
-              name: '',
-            },
-            addDashboard: mockAddDashboard,
-          }}
-        >
-          <ProjectHomeScreen />
-        </ProjectLayoutProvider>
-      </SnackbarProvider>
-    ));
+    ProjectHomeScreenComponent = withThemeProvider(
+      withOverlayLoaderOrError(() => (
+        <SnackbarProvider>
+          <ProjectLayoutProvider
+            value={{
+              projectMetadata: {
+                name: '',
+              },
+              selectedDashboardMetadata: {
+                name: '',
+              },
+              addDashboard: mockAddDashboard,
+            }}
+          >
+            <ProjectHomeScreen />
+          </ProjectLayoutProvider>
+        </SnackbarProvider>
+      )),
+    );
   });
 
   afterEach(() => {
@@ -205,10 +207,32 @@ describe('<ProjectHomeScreenComponent />', () => {
 
     openFillAndSubmitNewProjectForm(renderComponent);
 
-    await waitFor(() => {
-      expect(mockHistoryReplace).toHaveBeenCalledWith({
-        pathname: '/projects/projectId/create-dashboard',
-      });
+    await renderComponent.findByText('technical error at server');
+
+    expect(mockHistoryReplace).toHaveBeenCalledWith({
+      pathname: '/projects/projectId/create-dashboard',
     });
+  });
+
+  it('should show error if adding dashboard is failed', async () => {
+    api.addNewDashboard.mockRejectedValue('error');
+    const renderComponent = render(<ProjectHomeScreenComponent />);
+
+    openFillAndSubmitNewProjectForm(renderComponent);
+
+    await renderComponent.findByText('technical error at server');
+
+    expect(renderComponent.getByText('technical error at server')).toBeInTheDocument();
+  });
+
+  it('should show error if adding project is failed', async () => {
+    api.saveProject.mockRejectedValue('error');
+    const renderComponent = render(<ProjectHomeScreenComponent />);
+
+    openFillAndSubmitNewProjectForm(renderComponent);
+
+    await renderComponent.findByText('technical error at server');
+
+    expect(renderComponent.getByText('technical error at server')).toBeInTheDocument();
   });
 });

@@ -32,6 +32,7 @@ const api = {
       data: JSON.stringify({
         dashboardData: { widgets: [], layout: [], name, count: 0, projectId },
       }),
+      isCustomErrorHandler: true,
     });
   },
 
@@ -69,6 +70,7 @@ const api = {
     const requestObject = {
       url: serviceURL.PROJECT_URL,
       headers: headerBuilder({ contentType: contentTypes.JSON }),
+      isCustomErrorHandler: true,
     };
     if (id) {
       return uploadData({

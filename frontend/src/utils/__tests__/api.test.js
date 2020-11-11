@@ -65,6 +65,7 @@ describe('API', () => {
         'content-type': 'application/json',
       },
       url: '/api/dashboard/create-new',
+      isCustomErrorHandler: true,
     };
 
     api.addNewDashboard({ name: 'dashbaord1', projectId: 'projectId' });
@@ -138,6 +139,7 @@ describe('API', () => {
       headers: { 'content-type': 'application/json' },
       url: '/api/projects',
       method: 'post',
+      isCustomErrorHandler: true,
     };
 
     api.saveProject({ id: undefined, name: 'untitled project' });
@@ -154,6 +156,7 @@ describe('API', () => {
       headers: { 'content-type': 'application/json' },
       url: '/api/projects',
       method: 'put',
+      isCustomErrorHandler: true,
     };
 
     api.saveProject({ name: 'updated project', id: 'projectId' });

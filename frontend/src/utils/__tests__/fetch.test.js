@@ -129,6 +129,23 @@ describe('Fetch util', () => {
     }
   });
 
+  it('should call show error with Default error as error code if api return any other error', async () => {
+    axios.mockImplementationOnce(() =>
+      Promise.reject({ response: { status: 400, data: { errorCode: '1001' } } }),
+    );
+    try {
+      await fetchData({ something: 'bad' });
+    } catch (err) {
+      expect(showError).toHaveBeenCalledWith({
+        errorMessage: 'Something went wrong',
+        errorModalButtonText: 'Reload',
+        errorTitle: 'Error while loading the page',
+        helperText: 'Try to reload the page',
+        onErrorModalButtonClick: expect.anything(),
+      });
+    }
+  });
+
   it('should start loader while fetching the data', async () => {
     fetchData({ url: 'test/api', data: 'data', method: 'post', headers: 'header' });
 
@@ -148,6 +165,21 @@ describe('Fetch util', () => {
     } catch (er) {
       expect(stopLoader).toHaveBeenCalled();
       expect(showError).toHaveBeenCalled();
+    }
+  });
+
+  it('should return error after any error while fetching if custom error handler true', async () => {
+    axios.mockImplementationOnce(() => Promise.reject('error message'));
+    try {
+      await fetchData({
+        url: 'test/api',
+        data: 'data',
+        method: 'post',
+        headers: 'header',
+        isCustomErrorHandler: true,
+      });
+    } catch (error) {
+      expect(error).toEqual('error message');
     }
   });
 });

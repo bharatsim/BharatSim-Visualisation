@@ -8,6 +8,8 @@ const errorTypes = {
   ADDRESS_NOT_FOUND: 404,
   GATEWAY_TIMEOUT: 504,
   TECHNICAL_ERROR: 500,
+  DASHBOARD_CREATE_FAILED: 'dashboardCreateFailed',
+  PROJECT_AND_DASHBOARD_CREATE_FAILED: 'projectAndDashboardCreateFailed',
 };
 
 const errors = {
@@ -96,7 +98,7 @@ const errors = {
     onErrorModalButtonClick: reloadPage,
   }),
   [errorTypes.DEFAULT]: () => ({
-    errorMessage: 'Failed to load page',
+    errorMessage: 'Something went wrong',
     errorTitle: 'Error while loading the page',
     helperText: 'Try to reload the page',
     errorModalButtonText: 'Reload',
@@ -108,6 +110,20 @@ const errors = {
     helperText: 'Try to reload the page',
     errorModalButtonText: 'Reload',
     onErrorModalButtonClick: reloadPage,
+  }),
+  [errorTypes.DASHBOARD_CREATE_FAILED]: (dashboardTitle) => ({
+    errorTitle: `Aw Snap! Failed to create dashboard ${dashboardTitle}`,
+    errorMessage: 'technical error at server',
+    helperText: 'Try to create dashboard again',
+    errorModalButtonText: 'Okay',
+    onErrorModalButtonClick: () => {},
+  }),
+  [errorTypes.PROJECT_AND_DASHBOARD_CREATE_FAILED]: (projectTitle, dashboardTitle) => ({
+    errorTitle: `Aw Snap! Failed to create project ${projectTitle} and dashboard ${dashboardTitle}`,
+    errorMessage: 'technical error at server',
+    helperText: 'Try to create dashboard again',
+    errorModalButtonText: 'Okay',
+    onErrorModalButtonClick: () => {},
   }),
 };
 
