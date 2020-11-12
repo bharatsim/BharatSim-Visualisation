@@ -2,7 +2,16 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
-import { Box, Button, makeStyles, Step, StepLabel, Stepper, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  fade,
+  makeStyles,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+} from '@material-ui/core';
 
 import ProjectHeader from '../../uiComponent/ProjectHeader';
 import ButtonGroup from '../../uiComponent/ButtonGroup';
@@ -16,11 +25,12 @@ import { overlayLoaderOrErrorContext } from '../../contexts/overlayLoaderOrError
 
 const useStyles = makeStyles((theme) => {
   return {
-    configureProjectDataBar: {
+    uploadHeader: {
       width: '100%',
+      height: theme.spacing(12),
       display: 'flex',
       justifyContent: 'space-between',
-      backgroundColor: `${theme.colors.grayScale['100']}80`,
+      backgroundColor: fade(theme.colors.grayScale['100'], 0.5),
       alignItems: 'center',
       padding: theme.spacing(3, 8),
     },
@@ -85,7 +95,6 @@ function UploadDataset() {
   const steps = ['Import Data', 'Configure Datatype', 'Upload to Dashboard'];
 
   const {
-    projectMetadata,
     selectedDashboardMetadata: { _id: selectedDashboardId, name: selectedDashboardName },
   } = useContext(projectLayoutContext);
 
@@ -132,8 +141,8 @@ function UploadDataset() {
 
   return (
     <Box>
-      <ProjectHeader>{projectMetadata.name}</ProjectHeader>
-      <Box className={classes.configureProjectDataBar}>
+      <ProjectHeader />
+      <Box className={classes.uploadHeader}>
         <Typography variant="h6"> Configure Dashboard Data :: Upload Dataset</Typography>
         <ButtonGroup>
           <Button variant="text" onClick={onCancel} size="small">

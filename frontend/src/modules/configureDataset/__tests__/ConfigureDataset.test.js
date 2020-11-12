@@ -78,7 +78,15 @@ describe('Configure datasets', () => {
 
     expect(mockHistoryPush).toHaveBeenCalledWith('/');
   });
+  it('should navigate to dashboard page on click of go to dashboard button', async () => {
+    const { getByText, findByText } = render(<ComponentWithProvider />);
 
+    await findByText('Configure Dashboard Data');
+
+    fireEvent.click(getByText('Go to dashboard'));
+
+    expect(mockHistoryPush).toHaveBeenCalledWith('/projects/123/dashboard');
+  });
   it('should navigate to upload data screen on click of upload dataset button', async () => {
     const { getByText, findByText } = render(<ComponentWithProvider />);
 

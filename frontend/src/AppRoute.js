@@ -6,6 +6,7 @@ import ConfigureDataset from './modules/configureDataset/ConfigureDataset';
 import UploadDataset from './modules/uploadDataset/UploadDataset';
 import ProjectLayout from './modules/layout/projectLayout/projectLayout/ProjectLayout';
 import ProjectHomeScreen from './modules/projectHomeScreen/ProjectHomeScreen';
+import Dashboard from './modules/dashboard/Dashboard';
 
 function renderProjectRoute() {
   return (
@@ -16,6 +17,9 @@ function renderProjectRoute() {
         </Route>
         <Route exact path="/projects/:id/upload-dataset">
           <UploadDataset />
+        </Route>
+        <Route exact path="/projects/:id/dashboard">
+          <Dashboard />
         </Route>
         <Route exact path="/projects/:id/configure-dataset">
           <ConfigureDataset />

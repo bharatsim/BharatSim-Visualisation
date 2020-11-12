@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { fade } from '@material-ui/core';
 
 const useConfigureDatasetStyles = makeStyles((theme) => {
   return {
@@ -7,7 +8,7 @@ const useConfigureDatasetStyles = makeStyles((theme) => {
       width: '100%',
       display: 'flex',
       justifyContent: 'space-between',
-      backgroundColor: theme.colors.grayScale['100'],
+      backgroundColor: fade(theme.colors.grayScale['100'], 0.5),
       alignItems: 'center',
       padding: theme.spacing(0, 8),
     },

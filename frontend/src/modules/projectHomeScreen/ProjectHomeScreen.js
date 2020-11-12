@@ -81,7 +81,7 @@ function ProjectHomeScreen() {
 
   return (
     <Box>
-      <ProjectHeader>{projectMetadata.name}</ProjectHeader>
+      <ProjectHeader />
       <Box py={14} px={32}>
         <ClickableCard onClick={openModal}>
           <Box className={classes.addProjectContainer}>

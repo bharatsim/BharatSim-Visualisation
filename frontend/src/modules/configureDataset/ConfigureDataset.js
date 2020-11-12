@@ -42,12 +42,18 @@ function ConfigureDataset() {
   if (!dataSources) {
     return null;
   }
+  function openDashboard() {
+    history.push(`/projects/${projectMetadata.id}/dashboard`);
+  }
 
   return (
     <Box>
-      <ProjectHeader>{projectMetadata.name}</ProjectHeader>
+      <ProjectHeader />
       <Box className={classes.configureProjectDataBar}>
         <Typography variant="h6"> Configure Dashboard Data</Typography>
+        <Button variant="contained" color="primary" size="small" onClick={openDashboard}>
+          Go to dashboard
+        </Button>
       </Box>
       <Box className={classes.dashboardDataContainer}>
         <Box className={classes.dashboardDataContainerTitle}>

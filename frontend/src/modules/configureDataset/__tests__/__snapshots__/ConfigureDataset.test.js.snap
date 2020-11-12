@@ -36,6 +36,20 @@ exports[`Configure datasets should match snapshot for given dashboard data and p
       >
          Configure Dashboard Data
       </h6>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Go to dashboard
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
     </div>
     <div
       class="MuiBox-root MuiBox-root-12 makeStyles-dashboardDataContainer-3"

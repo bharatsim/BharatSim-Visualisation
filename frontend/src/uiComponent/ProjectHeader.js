@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import { ChildrenPropTypes } from '../commanPropTypes';
+import { projectLayoutContext } from '../contexts/projectLayoutContext';
 
 const useProjectLayoutStyle = makeStyles((theme) => {
   return {
@@ -22,9 +22,11 @@ const useProjectLayoutStyle = makeStyles((theme) => {
   };
 });
 
-function ProjectHeader({ children }) {
+function ProjectHeader() {
   const classes = useProjectLayoutStyle();
   const history = useHistory();
+  const { projectMetadata } = useContext(projectLayoutContext);
+  const { name } = projectMetadata;
 
   function openRecentProjects() {
     history.push('/');
@@ -32,7 +34,7 @@ function ProjectHeader({ children }) {
 
   return (
     <Box className={classes.projectNameBar}>
-      <Typography variant="h5">{children}</Typography>
+      <Typography variant="h5">{name}</Typography>
       <Button
         onClick={openRecentProjects}
         variant="text"
@@ -44,9 +46,5 @@ function ProjectHeader({ children }) {
     </Box>
   );
 }
-
-ProjectHeader.propTypes = {
-  children: ChildrenPropTypes.isRequired,
-};
 
 export default ProjectHeader;
