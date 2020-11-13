@@ -29,33 +29,37 @@ exports[`Configure datasets should match snapshot for given dashboard data and p
       </button>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-11 makeStyles-configureProjectDataBar-1"
-    >
-      <h6
-        class="MuiTypography-root MuiTypography-h6"
-      >
-         Configure Dashboard Data
-      </h6>
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiButton-label"
-        >
-          Go to dashboard
-        </span>
-        <span
-          class="MuiTouchRipple-root"
-        />
-      </button>
-    </div>
-    <div
-      class="MuiBox-root MuiBox-root-12 makeStyles-dashboardDataContainer-3"
+      class="MuiBox-root MuiBox-root-12 makeStyles-dashboardHeaderBar-11"
     >
       <div
-        class="MuiBox-root MuiBox-root-13 makeStyles-dashboardDataContainerTitle-4"
+        class="MuiBox-root MuiBox-root-13 makeStyles-configureProjectDataBar-1"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-h6"
+        >
+           Configure Dashboard Data
+        </h6>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            Go to dashboard
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-14 makeStyles-dashboardDataContainer-3"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-15 makeStyles-dashboardDataContainerTitle-4"
       >
         <h6
           class="MuiTypography-root MuiTypography-subtitle2"
@@ -86,7 +90,7 @@ exports[`Configure datasets should match snapshot for given dashboard data and p
         </button>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-14 makeStyles-dashboardDataHeader-2"
+        class="MuiBox-root MuiBox-root-16 makeStyles-dashboardDataHeader-2"
       >
         <h6
           class="MuiTypography-root MuiTypography-subtitle2"
@@ -95,7 +99,7 @@ exports[`Configure datasets should match snapshot for given dashboard data and p
         </h6>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-15 makeStyles-dashboardDataBody-5"
+        class="MuiBox-root MuiBox-root-17 makeStyles-dashboardDataBody-5"
       >
         <div
           style="width: 100%;"
@@ -105,7 +109,7 @@ exports[`Configure datasets should match snapshot for given dashboard data and p
             style="position: relative; box-shadow: none; border-color: #594ab73d; border-radius: 4px; overflow: hidden;"
           >
             <div
-              class="Component-horizontalScrollContainer-20"
+              class="Component-horizontalScrollContainer-22"
               style="overflow-x: auto; position: relative;"
             >
               <div>
@@ -124,28 +128,28 @@ exports[`Configure datasets should match snapshot for given dashboard data and p
                           class="MuiTableRow-root MuiTableRow-head"
                         >
                           <th
-                            class="MuiTableCell-root MuiTableCell-head MTableHeader-header-21 MuiTableCell-alignLeft"
+                            class="MuiTableCell-root MuiTableCell-head MTableHeader-header-23 MuiTableCell-alignLeft"
                             scope="col"
                             style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
                           >
                             Name
                           </th>
                           <th
-                            class="MuiTableCell-root MuiTableCell-head MTableHeader-header-21 MuiTableCell-alignRight"
+                            class="MuiTableCell-root MuiTableCell-head MTableHeader-header-23 MuiTableCell-alignRight"
                             scope="col"
                             style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
                           >
                             Size
                           </th>
                           <th
-                            class="MuiTableCell-root MuiTableCell-head MTableHeader-header-21 MuiTableCell-alignLeft"
+                            class="MuiTableCell-root MuiTableCell-head MTableHeader-header-23 MuiTableCell-alignLeft"
                             scope="col"
                             style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
                           >
                             Type
                           </th>
                           <th
-                            class="MuiTableCell-root MuiTableCell-head MTableHeader-header-21 MuiTableCell-alignLeft"
+                            class="MuiTableCell-root MuiTableCell-head MTableHeader-header-23 MuiTableCell-alignLeft"
                             scope="col"
                             style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
                           >

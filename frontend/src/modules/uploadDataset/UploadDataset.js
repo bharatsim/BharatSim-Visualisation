@@ -2,16 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
-import {
-  Box,
-  Button,
-  fade,
-  makeStyles,
-  Step,
-  StepLabel,
-  Stepper,
-  Typography,
-} from '@material-ui/core';
+import { Box, Button, makeStyles, Step, StepLabel, Stepper, Typography } from '@material-ui/core';
 
 import ProjectHeader from '../../uiComponent/ProjectHeader';
 import ButtonGroup from '../../uiComponent/ButtonGroup';
@@ -22,17 +13,16 @@ import { projectLayoutContext } from '../../contexts/projectLayoutContext';
 import { api } from '../../utils/api';
 import { errors } from '../../constants/loaderAndErrorMessages';
 import { overlayLoaderOrErrorContext } from '../../contexts/overlayLoaderOrErrorContext';
+import DashboardHeaderBar from '../../uiComponent/DashboardHeaderBar';
 
 const useStyles = makeStyles((theme) => {
   return {
     uploadHeader: {
-      width: '100%',
-      height: theme.spacing(12),
       display: 'flex',
       justifyContent: 'space-between',
-      backgroundColor: fade(theme.colors.grayScale['100'], 0.5),
       alignItems: 'center',
       padding: theme.spacing(3, 8),
+      width: '100%',
     },
     contentWrapper: {
       backgroundColor: '#FFFFFF',
@@ -142,23 +132,25 @@ function UploadDataset() {
   return (
     <Box>
       <ProjectHeader />
-      <Box className={classes.uploadHeader}>
-        <Typography variant="h6"> Configure Dashboard Data :: Upload Dataset</Typography>
-        <ButtonGroup>
-          <Button variant="text" onClick={onCancel} size="small">
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            disabled={activeStep !== 1}
-            onClick={onClickUploadAndSave}
-          >
-            Upload
-          </Button>
-        </ButtonGroup>
-      </Box>
+      <DashboardHeaderBar>
+        <Box className={classes.uploadHeader}>
+          <Typography variant="h6"> Configure Dashboard Data :: Upload Dataset</Typography>
+          <ButtonGroup>
+            <Button variant="text" onClick={onCancel} size="small">
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              disabled={activeStep !== 1}
+              onClick={onClickUploadAndSave}
+            >
+              Upload
+            </Button>
+          </ButtonGroup>
+        </Box>
+      </DashboardHeaderBar>
       <Box className={classes.contentWrapper}>
         <Box px={8} pb={4}>
           <Stepper activeStep={activeStep}>

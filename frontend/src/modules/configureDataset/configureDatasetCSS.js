@@ -1,14 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { fade } from '@material-ui/core';
 
 const useConfigureDatasetStyles = makeStyles((theme) => {
   return {
     configureProjectDataBar: {
-      height: theme.spacing(12),
       width: '100%',
       display: 'flex',
       justifyContent: 'space-between',
-      backgroundColor: fade(theme.colors.grayScale['100'], 0.5),
       alignItems: 'center',
       padding: theme.spacing(0, 8),
     },

@@ -11,6 +11,7 @@ import useFetch from '../../hook/useFetch';
 import { api } from '../../utils/api';
 import DashboardDataSetsTable from './DashboardDataSetsTable';
 import plusIcon from '../../assets/images/plus.svg';
+import DashboardHeaderBar from '../../uiComponent/DashboardHeaderBar';
 
 function ConfigureDataset() {
   const classes = useConfigureDatasetStyles();
@@ -49,12 +50,14 @@ function ConfigureDataset() {
   return (
     <Box>
       <ProjectHeader />
-      <Box className={classes.configureProjectDataBar}>
-        <Typography variant="h6"> Configure Dashboard Data</Typography>
-        <Button variant="contained" color="primary" size="small" onClick={openDashboard}>
-          Go to dashboard
-        </Button>
-      </Box>
+      <DashboardHeaderBar>
+        <Box className={classes.configureProjectDataBar}>
+          <Typography variant="h6"> Configure Dashboard Data</Typography>
+          <Button variant="contained" color="primary" size="small" onClick={openDashboard}>
+            Go to dashboard
+          </Button>
+        </Box>
+      </DashboardHeaderBar>
       <Box className={classes.dashboardDataContainer}>
         <Box className={classes.dashboardDataContainerTitle}>
           <Typography variant="subtitle2"> Manage Dashboard Dataset</Typography>
@@ -80,13 +83,16 @@ function ConfigureDataset() {
                 Before we can create any visualization, we ‘ll need some data.
               </Typography>
               <Typography variant="body2">
-                Use{' '}
+                Use
+                {' '}
                 <Link to={uploadFilePage} component={RouterLink}>
                   {' '}
-                  Upload dataset{' '}
+                  Upload dataset
+                  {' '}
                 </Link>
                 to add data files to your dashboard.
-              </Typography>{' '}
+              </Typography>
+              {' '}
             </Box>
           )}
         </Box>

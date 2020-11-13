@@ -184,6 +184,13 @@ exports[`withThemeProvider HOC should match snapshot 1`] = `
       "outlinedSecondary": {
         "border": "1px solid #493C97"
       }
+    },
+    "MuiIconButton": {
+      "root": {
+        "height": 32,
+        "width": 32,
+        "color": "#343A40"
+      }
     }
   },
   "palette": {

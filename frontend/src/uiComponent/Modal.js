@@ -18,6 +18,7 @@ const styles = (theme) => ({
     margin: 0,
     padding: theme.spacing(4, 5, 4, 6),
   },
+  // Todo: remove this stying added at global level
   closeButton: {
     height: theme.spacing(8),
     width: theme.spacing(8),
