@@ -145,7 +145,7 @@ describe('Import Dataset', () => {
     ).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
   });
-  it('should set validation error for given file if size exceed limit of 10mb', () => {
+  it('should set validation error for given file if size exceed limit of 300mb', () => {
     jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, onComplete) => {
       const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
       onComplete(data);
@@ -166,7 +166,7 @@ describe('Import Dataset', () => {
     });
 
     expect(
-      queryByText('Failed to Import file, size exceeds the limit of 10MB'),
+      queryByText('Failed to Import file, size exceeds the limit of 300MB'),
     ).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
   });

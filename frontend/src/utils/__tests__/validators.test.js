@@ -63,9 +63,9 @@ describe('Validators', () => {
       );
     });
 
-    it('should provide message if uploaded file size exceed limit of 10MB', () => {
-      expect(validateFile({ type: 'text/csv', size: 10485761 })).toEqual(
-        'Failed to Import file, size exceeds the limit of 10MB',
+    it('should provide message if uploaded file size exceed limit of 300MB', () => {
+      expect(validateFile({ type: 'text/csv', size: 314572805 })).toEqual(
+        'Failed to Import file, size exceeds the limit of 300MB',
       );
     });
 

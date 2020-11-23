@@ -1,5 +1,5 @@
 const VALID_FILE_TYPES = ['text/csv'];
-const MAX_FILE_SIZE = 10485760;
+const MAX_FILE_SIZE = 314572800;
 
 function isAbsent(value) {
   return value === null || value === undefined || value === '';
@@ -48,7 +48,7 @@ function validateFile(file) {
     return 'Failed to Import file, the format is not supported';
   }
   if (file.size > MAX_FILE_SIZE) {
-    return 'Failed to Import file, size exceeds the limit of 10MB';
+    return 'Failed to Import file, size exceeds the limit of 300MB';
   }
   return '';
 }

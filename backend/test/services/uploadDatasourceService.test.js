@@ -144,7 +144,7 @@ describe('upload datasource service', function () {
             path: '/uploads/1223',
             originalname: 'test.csv',
             mimetype: 'text/csv',
-            size: 10485761,
+            size: 314572805,
           },
           { schema: '{ "hour": "number", "susceptible": "number" }', dashboardId: 'dashboardId' },
         );
