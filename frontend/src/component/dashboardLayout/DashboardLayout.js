@@ -20,7 +20,6 @@ import { api } from '../../utils/api';
 import useLoader from '../../hook/useLoader';
 import ChartSelector from '../chartSelector/ChartSelector';
 import InlineLoader from '../loaderOrError/InlineLoader';
-import LoaderOrError from '../loaderOrError/LoaderOrError';
 
 const GridLayout = WidthProvider(ReactGridLayout);
 
@@ -32,14 +31,12 @@ function DashboardLayout({ classes }) {
     id: null,
     count: 0,
   });
-  const [widgets, setWidgets] = useState([]);
   const [layout, setLayout] = useState([]);
+  const [widgets, setWidgets] = useState([]);
   const [chartType, setChartType] = useState();
 
   const { isOpen, closeModal, openModal } = useModal();
-  const { data: allDashboards, loadingState: dashboardLoadingState } = useFetch(
-    api.getAllDashBoard,
-  );
+  const { data: allDashboards } = useFetch(api.getAllDashBoard);
   const { loadingState, startLoader, stopLoaderAfterError, stopLoaderAfterSuccess } = useLoader();
 
   useEffect(() => {

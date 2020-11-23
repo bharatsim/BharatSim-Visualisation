@@ -38,7 +38,6 @@ function withOverlayLoaderOrError(WrappedComponent) {
     function hideError() {
       setError({ isError: false, errorConfigs: null });
     }
-
     return (
       <OverlayLoaderOrErrorContextProvider value={{ stopLoader, startLoader, showError }}>
         <WrappedComponent {...props} />

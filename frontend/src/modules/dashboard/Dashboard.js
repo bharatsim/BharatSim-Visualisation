@@ -1,8 +1,9 @@
 import Box from '@material-ui/core/Box';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { fade, makeStyles, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
+import ReactGridLayout, { WidthProvider } from 'react-grid-layout';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
 import ProjectHeader from '../../uiComponent/ProjectHeader';
 import DashboardHeaderBar from '../../uiComponent/DashboardHeaderBar';
@@ -13,6 +14,11 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import useModal from '../../hook/useModal';
 import ChartConfigurationWizard from './chartConfigurationWizard/ChartConfigurationWizard';
+import { getNewWidgetLayout, renderElement } from '../../utils/dashboardLayoutUtils';
+
+const COLUMNS = 12;
+
+const GridLayout = WidthProvider(ReactGridLayout);
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -44,6 +50,29 @@ function Dashboard() {
   const { name: dashboardName } = selectedDashboardMetadata;
 
   const { isOpen, closeModal, openModal } = useModal();
+  const [layout, setLayout] = useState([]);
+  const [charts, setCharts] = useState([]);
+  const [chartsCount, setChartsCount] = useState(0);
+
+  function onApply(chartType, config) {
+    addChart(chartType, config);
+    setChartsCount((prevChartsCount) => prevChartsCount + 1);
+    closeModal();
+  }
+
+  function addChart(chartType, config) {
+    setCharts((prevCharts) => {
+      return prevCharts.concat({
+        config,
+        chartType,
+        layout: getNewWidgetLayout(prevCharts.length, COLUMNS, chartsCount),
+      });
+    });
+  }
+  function onLayoutChange(changedLayout) {
+    setLayout(changedLayout);
+  }
+
   return (
     <Box>
       <ProjectHeader />
@@ -60,7 +89,18 @@ function Dashboard() {
           </Button>
         </Box>
       </DashboardHeaderBar>
-      {isOpen && <ChartConfigurationWizard isOpen={isOpen} closeModal={closeModal} />}
+      <GridLayout
+        layout={layout}
+        onLayoutChange={onLayoutChange}
+        className={classes.reactGridLayout}
+      >
+        {charts.map((item) => {
+          return renderElement(item);
+        })}
+      </GridLayout>
+      {isOpen && (
+        <ChartConfigurationWizard isOpen={isOpen} closeModal={closeModal} onApply={onApply} />
+      )}
     </Box>
   );
 }

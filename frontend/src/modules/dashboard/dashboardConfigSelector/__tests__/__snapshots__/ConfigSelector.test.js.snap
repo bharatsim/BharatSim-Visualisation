@@ -1,12 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ChartConfigSelector /> should match snapshot 1`] = `
+exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`] = `
 <div>
   <div>
     <div>
-      <div>
+      <div
+        class="MuiBox-root MuiBox-root-1"
+      >
         <div
-          class="MuiFormControl-root makeStyles-formControl-1"
+          class="MuiFormControl-root makeStyles-formControl-2"
         >
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
@@ -50,9 +52,11 @@ exports[`<ChartConfigSelector /> should match snapshot 1`] = `
           </div>
         </div>
       </div>
-      <div>
+      <div
+        class="MuiBox-root MuiBox-root-4"
+      >
         <div
-          class="MuiFormControl-root makeStyles-formControl-1"
+          class="MuiFormControl-root makeStyles-formControl-2"
         >
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"

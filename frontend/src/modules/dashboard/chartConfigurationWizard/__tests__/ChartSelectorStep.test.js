@@ -23,7 +23,7 @@ describe('Chart configuration wizard', () => {
     fireEvent.click(lineChartOption);
     fireEvent.click(nextButton);
 
-    expect(onNext).toHaveBeenCalledWith('Line Chart');
+    expect(onNext).toHaveBeenCalledWith('lineChart');
   });
 
   it('should disable next button if not chart is selected', () => {

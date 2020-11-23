@@ -1,26 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<XAxisChartConfig /> should match snapshot 1`] = `
+exports[`<DatasourceSelector /> should match snapshot for datasource selector 1`] = `
 <div>
   <div
-    class="MuiFormControl-root makeStyles-formControl-1"
+    class="MuiBox-root MuiBox-root-1"
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2"
+    >
+       Data Source 
+    </h6>
+  </div>
+  <div
+    class="MuiFormControl-root makeStyles-formControl-2"
   >
     <label
       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
       data-shrink="false"
       id="dropdown-label"
     >
-      select x axis
+      select data source
     </label>
     <div
       class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
-      data-testid="dropdown-x"
+      data-testid="dropdown-dataSources"
     >
       <div
         aria-haspopup="listbox"
-        aria-labelledby="dropdown-label dropdown-x"
+        aria-labelledby="dropdown-label dropdown-dataSources"
         class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
-        id="dropdown-x"
+        id="dropdown-dataSources"
         role="button"
         tabindex="0"
       >

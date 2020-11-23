@@ -16,7 +16,7 @@ const useDrawerStyles = makeStyles((theme) => ({
   },
 }));
 
-function ChartConfigurationWizard({ isOpen, closeModal }) {
+function ChartConfigurationWizard({ isOpen, closeModal, onApply }) {
   const drawerClasses = useDrawerStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [selectedChart, setSelectedChart] = useState('');
@@ -24,10 +24,12 @@ function ChartConfigurationWizard({ isOpen, closeModal }) {
   function goToNextStep() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   }
-
   function onClickOfChartSelectorNext(chart) {
     setSelectedChart(chart);
     goToNextStep();
+  }
+  function onClickOfConfigSelectorNext(config) {
+    onApply(selectedChart, config);
   }
 
   return (
@@ -37,7 +39,12 @@ function ChartConfigurationWizard({ isOpen, closeModal }) {
         {activeStep === 0 && (
           <ChartSelectorStep onNext={onClickOfChartSelectorNext} chart={selectedChart} />
         )}
-        {activeStep === 1 && <ChartConfigSelectorStep />}
+        {activeStep === 1 && (
+          <ChartConfigSelectorStep
+            chartType={selectedChart}
+            onApply={onClickOfConfigSelectorNext}
+          />
+        )}
       </Box>
     </Drawer>
   );
@@ -46,6 +53,7 @@ function ChartConfigurationWizard({ isOpen, closeModal }) {
 ChartConfigurationWizard.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
+  onApply: PropTypes.func.isRequired,
 };
 
 export default ChartConfigurationWizard;

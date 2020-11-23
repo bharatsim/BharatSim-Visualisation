@@ -63,20 +63,20 @@ exports[`DataTypeConfigModal should match a snapshot 1`] = `
           class="MuiFormControl-root makeStyles-formControl-10"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-filled"
             data-shrink="true"
             id="dropdown-label"
           >
             Select datatype
           </label>
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
             data-testid="col1"
           >
             <div
               aria-haspopup="listbox"
               aria-labelledby="dropdown-label col1"
-              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
               id="col1"
               role="button"
               tabindex="0"
@@ -91,7 +91,7 @@ exports[`DataTypeConfigModal should match a snapshot 1`] = `
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -99,23 +99,11 @@ exports[`DataTypeConfigModal should match a snapshot 1`] = `
                 d="M7 10l5 5 5-5z"
               />
             </svg>
-            <fieldset
-              aria-hidden="true"
-              class="PrivateNotchedOutline-root-12 MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                class="PrivateNotchedOutline-legendLabelled-14 PrivateNotchedOutline-legendNotched-15"
-              >
-                <span>
-                  Select datatype
-                </span>
-              </legend>
-            </fieldset>
           </div>
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-16 makeStyles-configDropdown-2"
+        class="MuiBox-root MuiBox-root-12 makeStyles-configDropdown-2"
       >
         <p
           class="MuiTypography-root MuiTypography-body1"
@@ -126,20 +114,20 @@ exports[`DataTypeConfigModal should match a snapshot 1`] = `
           class="MuiFormControl-root makeStyles-formControl-10"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-filled"
             data-shrink="true"
             id="dropdown-label"
           >
             Select datatype
           </label>
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
             data-testid="col2"
           >
             <div
               aria-haspopup="listbox"
               aria-labelledby="dropdown-label col2"
-              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
               id="col2"
               role="button"
               tabindex="0"
@@ -154,7 +142,7 @@ exports[`DataTypeConfigModal should match a snapshot 1`] = `
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -162,23 +150,11 @@ exports[`DataTypeConfigModal should match a snapshot 1`] = `
                 d="M7 10l5 5 5-5z"
               />
             </svg>
-            <fieldset
-              aria-hidden="true"
-              class="PrivateNotchedOutline-root-12 MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                class="PrivateNotchedOutline-legendLabelled-14 PrivateNotchedOutline-legendNotched-15"
-              >
-                <span>
-                  Select datatype
-                </span>
-              </legend>
-            </fieldset>
           </div>
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-17 makeStyles-configDropdown-2"
+        class="MuiBox-root MuiBox-root-13 makeStyles-configDropdown-2"
       >
         <p
           class="MuiTypography-root MuiTypography-body1"
@@ -189,20 +165,20 @@ exports[`DataTypeConfigModal should match a snapshot 1`] = `
           class="MuiFormControl-root makeStyles-formControl-10"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-filled"
             data-shrink="true"
             id="dropdown-label"
           >
             Select datatype
           </label>
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
             data-testid="col3"
           >
             <div
               aria-haspopup="listbox"
               aria-labelledby="dropdown-label col3"
-              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
               id="col3"
               role="button"
               tabindex="0"
@@ -217,7 +193,7 @@ exports[`DataTypeConfigModal should match a snapshot 1`] = `
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -225,28 +201,16 @@ exports[`DataTypeConfigModal should match a snapshot 1`] = `
                 d="M7 10l5 5 5-5z"
               />
             </svg>
-            <fieldset
-              aria-hidden="true"
-              class="PrivateNotchedOutline-root-12 MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                class="PrivateNotchedOutline-legendLabelled-14 PrivateNotchedOutline-legendNotched-15"
-              >
-                <span>
-                  Select datatype
-                </span>
-              </legend>
-            </fieldset>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div
-    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-18 MuiDialogActions-spacing"
+    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-14 MuiDialogActions-spacing"
   >
     <div
-      class="MuiBox-root MuiBox-root-20 makeStyles-buttonGroup-19"
+      class="MuiBox-root MuiBox-root-16 makeStyles-buttonGroup-15"
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-outlined Mui-focusVisible Mui-focusVisible"

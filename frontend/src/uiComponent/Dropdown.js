@@ -12,7 +12,6 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    margin: theme.spacing(1),
     minWidth: 200,
   },
   selectEmpty: {
@@ -56,7 +55,7 @@ export default function Dropdown({
   }
 
   return (
-    <FormControl variant="outlined" className={classes.formControl} error={!!error}>
+    <FormControl variant="filled" className={classes.formControl} error={!!error}>
       <InputLabel id="dropdown-label">{label}</InputLabel>
       <Select
         labelId="dropdown-label"

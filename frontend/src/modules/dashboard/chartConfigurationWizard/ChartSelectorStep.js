@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import ImageOption from '../../../uiComponent/ImageOption';
 import theme from '../../../theme/theme';
+import { chartTypes } from '../../../constants/charts';
 
 const useStyles = makeStyles(() => ({
   chartSelectorContainer: {
@@ -40,10 +41,10 @@ function ChartSelectorStep({ onNext, chart }) {
           </Box>
           <Box>
             <ImageOption
-              value="Line Chart"
+              value={chartTypes.LINE_CHART}
               label="Line Chart"
               icon={<Dashboard />}
-              isSelected={selectedChart === 'Line Chart'}
+              isSelected={selectedChart === chartTypes.LINE_CHART}
               onCLick={onChartClick}
             />
           </Box>
