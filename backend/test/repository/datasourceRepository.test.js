@@ -73,4 +73,12 @@ describe('get Datasource name ', () => {
     );
     expect(data.length).toEqual(datasourceData.length);
   });
+
+  it('should insert data at bulk for given model', async () => {
+    const data = parseMongoDBResult(
+      await DataSourceRepository.bulkInsert('metadataId', datasourceData),
+    );
+
+    expect(data.result.n).toEqual(datasourceData.length);
+  });
 });

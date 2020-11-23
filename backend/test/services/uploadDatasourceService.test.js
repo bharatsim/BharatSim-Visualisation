@@ -76,7 +76,7 @@ describe('upload datasource service', function () {
         { schema: '{ "hour": "number", "susceptible": "number" }', dashboardId: 'dashboardId' },
       );
 
-      expect(dataSourceRepository.insert).toHaveBeenCalledWith('collectionId', [
+      expect(dataSourceRepository.bulkInsert).toHaveBeenCalledWith('collectionId', [
         { hour: 0, susceptible: 1 },
         { hour: 1, susceptible: 2 },
         { hour: 2, susceptible: 3 },
@@ -85,7 +85,7 @@ describe('upload datasource service', function () {
 
     it('should throw invalid input exception if we get exception while uploading', async function () {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
-      dataSourceRepository.insert.mockImplementationOnce(() => {
+      dataSourceRepository.bulkInsert.mockImplementationOnce(() => {
         throw new Error();
       });
       createModel.createModel.mockImplementation((id) => id);

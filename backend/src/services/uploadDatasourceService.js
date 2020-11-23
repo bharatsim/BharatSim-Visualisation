@@ -3,7 +3,6 @@ const fs = require('fs');
 const dataSourceMetadataRepository = require('../repository/datasourceMetadataRepository');
 const dataSourceRepository = require('../repository/datasourceRepository');
 const { validateAndParseCSV } = require('../utils/csvParser');
-const modelCreator = require('../utils/modelCreator');
 const InvalidInputException = require('../exceptions/InvalidInputException');
 const { fileTypes, MAX_FILE_SIZE } = require('../constants/fileTypes');
 const { insertCSVDataInvalidData, fileTooLarge, wrongFileType } = require('../exceptions/errors');
@@ -18,10 +17,9 @@ async function insertMetadata(fileName, schema, dashboardId, fileType, fileSize)
   });
 }
 
-async function insertCSVData(metadataId, schema, data) {
+async function insertCSVData(metadataId, data) {
   try {
-    const DatasourceModel = modelCreator.createModel(metadataId, schema);
-    await dataSourceRepository.insert(DatasourceModel, data);
+    await dataSourceRepository.bulkInsert(metadataId, data);
   } catch (error) {
     await dataSourceMetadataRepository.deleteDatasourceMetadata(metadataId);
     throw new InvalidInputException(
@@ -59,7 +57,7 @@ async function uploadCsv(csvFile, requestBody) {
     fileType,
     size,
   );
-  await insertCSVData(metadataId.toString(), schemaJson, data);
+  await insertCSVData(metadataId.toString(), data);
   return { collectionId: metadataId };
 }
 module.exports = { uploadCsv, deleteUploadedFile };
