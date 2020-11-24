@@ -76,6 +76,28 @@ describe('Chart configuration wizard', () => {
       yAxis: [{ name: 'column2', type: 'number' }],
     });
   });
+  it('should disable apply button if any config is not selected', async () => {
+    const onApplyMock = jest.fn();
+    const renderedComponent = render(
+      <ComponentWithProvider closeModal={jest.fn()} isOpen onApply={onApplyMock} />,
+    );
+    const { findByText, getByText } = renderedComponent;
+
+    const lineChartOption = getByText('Line Chart');
+    const nextButton = getByText('Next');
+
+    fireEvent.click(lineChartOption);
+    fireEvent.click(nextButton);
+    await findByText('Data Source');
+
+    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    await findByText('select x axis');
+    selectDropDownOption(renderedComponent, 'dropdown-x', 'column1');
+
+    const applyButton = getByText('Apply').closest('button');
+
+    expect(applyButton).toBeDisabled();
+  });
 
   it('should close modal on click of close icon', () => {
     const closeModal = jest.fn();

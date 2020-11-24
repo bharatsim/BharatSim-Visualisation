@@ -5,17 +5,14 @@ function isAbsent(value) {
   return value === null || value === undefined || value === '';
 }
 
-function isNotAxisTypeNumber(value) {
-  return !(value.type === 'Number' || value.type === 'number');
-}
-
-function areAllAxisTypesNumber(value) {
-  return value.some(isNotAxisTypeNumber);
-}
-
 function isEmptyArray(value) {
   return Array.isArray(value) && !value.length;
 }
+
+function areAllFieldsSelected(value) {
+  return value.some((ele) => ele === '');
+}
+
 function xAxisValidator(value = '') {
   if (isAbsent(value)) {
     return 'Please select value for x axis';
@@ -30,8 +27,8 @@ function yAxisValidator(value = []) {
   if (isEmptyArray(value)) {
     return 'Please select value for y axis';
   }
-  if (areAllAxisTypesNumber(value)) {
-    return 'Please select number type option';
+  if (areAllFieldsSelected(value)) {
+    return 'Please select value for y axis';
   }
   return '';
 }

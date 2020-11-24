@@ -32,13 +32,13 @@ const chartConfigOptions = {
   },
 };
 
-// function createConfigOptionValidationSchema(configOptions) {
-//   const configOptionValidationSchema = {};
-//   configOptions.forEach((configOption) => {
-//     configOptionValidationSchema[configOption] = chartConfigOptions[configOption].validator;
-//   });
-//
-//   return configOptionValidationSchema;
-// }
+function createConfigOptionValidationSchema(configOptions) {
+  const configOptionValidationSchema = {};
+  configOptions.forEach((configOption) => {
+    configOptionValidationSchema[configOption] = chartConfigOptions[configOption].validator;
+  });
 
+  return configOptionValidationSchema;
+}
+export { createConfigOptionValidationSchema };
 export default chartConfigOptions;

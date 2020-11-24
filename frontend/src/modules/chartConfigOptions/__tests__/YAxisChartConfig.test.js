@@ -62,7 +62,7 @@ describe('<YAxisChartConfig />', () => {
       { name: 'column1', type: 'number' },
       { name: 'column2', type: 'number' },
     ]);
-    expect(props.updateConfigState).toHaveBeenCalledTimes(2);
+    expect(props.updateConfigState).toHaveBeenCalledTimes(3);
   });
 
   it('should delete y axis field on click of delete button', () => {
@@ -94,6 +94,6 @@ describe('<YAxisChartConfig />', () => {
     expect(props.updateConfigState).toHaveBeenLastCalledWith('yAxis', [
       { name: 'column1', type: 'number' },
     ]);
-    expect(props.updateConfigState).toHaveBeenCalledTimes(3);
+    expect(props.updateConfigState).toHaveBeenCalledTimes(4);
   });
 });

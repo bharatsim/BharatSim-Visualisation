@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function YAxisChartConfig({ headers, updateConfigState, configKey, error }) {
+function YAxisChartConfig({ headers, updateConfigState, configKey }) {
   const [selectedValues, setSelectedValues] = useState({ 'dropdown-y-0': '' });
   const [axisCount, setAxisCount] = useState(1);
   const classes = useStyles();
@@ -44,7 +44,11 @@ function YAxisChartConfig({ headers, updateConfigState, configKey, error }) {
   }
 
   function addAxisField() {
-    setSelectedValues((prevState) => ({ ...prevState, [`dropdown-y-${axisCount}`]: '' }));
+    setSelectedValues((prevState) => {
+      const newState = { ...prevState, [`dropdown-y-${axisCount}`]: '' };
+      updateConfigState(configKey, Object.values(newState));
+      return newState;
+    });
     setAxisCount((prevCount) => prevCount + 1);
   }
   function deleteAxisField(fieldId) {
@@ -68,7 +72,6 @@ function YAxisChartConfig({ headers, updateConfigState, configKey, error }) {
             onChange={(selectedValue) => handleYChange(key, selectedValue)}
             id={key}
             label="select y axis"
-            error={error}
             value={selectedValues[key] || ''}
           />
           <IconButton onClick={() => deleteAxisField(key)} data-testid={`delete-button-${key}`}>
@@ -91,10 +94,6 @@ function YAxisChartConfig({ headers, updateConfigState, configKey, error }) {
   );
 }
 
-YAxisChartConfig.defaultProps = {
-  error: '',
-};
-
 YAxisChartConfig.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
@@ -104,7 +103,6 @@ YAxisChartConfig.propTypes = {
   ).isRequired,
   updateConfigState: PropTypes.func.isRequired,
   configKey: PropTypes.string.isRequired,
-  error: PropTypes.string,
 };
 
 export default YAxisChartConfig;

@@ -23,10 +23,9 @@ describe('Validators', () => {
     it('should provide message if y axis value undefined', () => {
       expect(yAxisValidator()).toEqual('Please select value for y axis');
     });
-
-    it('should provide message if selected y axis type is not number', () => {
-      expect(yAxisValidator([{ name: 'y-axis', type: 'string' }])).toEqual(
-        'Please select number type option',
+    it('should provide message if any of the field is empty', () => {
+      expect(yAxisValidator([{ name: 'y-axis', type: 'number' }, ''])).toEqual(
+        'Please select value for y axis',
       );
     });
 

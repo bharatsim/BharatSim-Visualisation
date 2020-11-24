@@ -6,11 +6,20 @@ import PropTypes from 'prop-types';
 import DatasourceSelector from '../dashboardConfigSelector/DatasourceSelector';
 import useForm from '../../../hook/useForm';
 import ConfigSelector from '../dashboardConfigSelector/ConfigSelector';
+import { datasourceValidator } from '../../../utils/validators';
+import chartConfigs from '../../../config/chartConfigs';
+import { createConfigOptionValidationSchema } from '../../../config/chartConfigOptions';
 
 const DATASOURCE_SELECTOR_KEY = 'dataSource';
 
 function ChartConfigSelectorStep({ chartType, onApply }) {
-  const { values, errors, handleInputChange } = useForm({});
+  const { values, errors, handleInputChange, shouldEnableSubmit } = useForm(
+    {},
+    {
+      [DATASOURCE_SELECTOR_KEY]: datasourceValidator,
+      ...createConfigOptionValidationSchema(chartConfigs[chartType].configOptions),
+    },
+  );
 
   function handleDataSourceChange(dataSourceId) {
     handleInputChange(DATASOURCE_SELECTOR_KEY, dataSourceId);
@@ -42,7 +51,13 @@ function ChartConfigSelectorStep({ chartType, onApply }) {
         )}
       </Box>
       <Box mt={3} display="flex" justifyContent="flex-end">
-        <Button variant="contained" color="primary" size="small" onClick={onApplyClick}>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={onApplyClick}
+          disabled={!shouldEnableSubmit()}
+        >
           Apply
         </Button>
       </Box>

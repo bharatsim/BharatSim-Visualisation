@@ -72,8 +72,9 @@ exports[`chart config selector should match snapshot 1`] = `
       class="MuiBox-root MuiBox-root-5"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
-        tabindex="0"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall Mui-disabled Mui-disabled"
+        disabled=""
+        tabindex="-1"
         type="button"
       >
         <span
@@ -81,9 +82,6 @@ exports[`chart config selector should match snapshot 1`] = `
         >
           Apply
         </span>
-        <span
-          class="MuiTouchRipple-root"
-        />
       </button>
     </div>
   </div>
