@@ -3,8 +3,10 @@ import { render } from '@testing-library/react';
 
 import XAxisChartConfig from '../XAxisChartConfig';
 import { selectDropDownOption } from '../../../testUtil';
+import withThemeProvider from '../../../theme/withThemeProvider';
 
 describe('<XAxisChartConfig />', () => {
+  const XAxisChartConfigWithTheme = withThemeProvider(XAxisChartConfig);
   const props = {
     headers: [
       { name: 'a', type: 'number' },
@@ -17,13 +19,13 @@ describe('<XAxisChartConfig />', () => {
     value: '',
   };
   it('should match snapshot', () => {
-    const { container } = render(<XAxisChartConfig {...props} />);
+    const { container } = render(<XAxisChartConfigWithTheme {...props} />);
 
     expect(container).toMatchSnapshot();
   });
 
   it('should call setConfig callback after value change', () => {
-    const renderedContainer = render(<XAxisChartConfig {...props} />);
+    const renderedContainer = render(<XAxisChartConfigWithTheme {...props} />);
 
     selectDropDownOption(renderedContainer, 'dropdown-x', 'a');
 

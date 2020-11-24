@@ -65,7 +65,7 @@ describe('Chart configuration wizard', () => {
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
     selectDropDownOption(renderedComponent, 'dropdown-x', 'column1');
-    selectDropDownOption(renderedComponent, 'dropdown-y', 'column2');
+    selectDropDownOption(renderedComponent, 'dropdown-y-0', 'column2');
 
     const applyButton = getByText('Apply');
     fireEvent.click(applyButton);

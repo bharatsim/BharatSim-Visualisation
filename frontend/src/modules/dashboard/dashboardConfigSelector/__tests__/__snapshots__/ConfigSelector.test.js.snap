@@ -8,97 +8,183 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
         class="MuiBox-root MuiBox-root-1"
       >
         <div
-          class="MuiFormControl-root makeStyles-formControl-2"
+          class="MuiBox-root MuiBox-root-2"
         >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
-            data-shrink="false"
-            id="dropdown-label"
-          >
-            select x axis
-          </label>
           <div
-            class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
-            data-testid="dropdown-x"
+            class="MuiBox-root MuiBox-root-4"
           >
             <div
-              aria-haspopup="listbox"
-              aria-labelledby="dropdown-label dropdown-x"
-              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
-              id="dropdown-x"
-              role="button"
-              tabindex="0"
+              class="MuiBox-root MuiBox-root-5"
             >
-              <span>
-                ​
-              </span>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2"
+              >
+                 X-axis
+              </h6>
             </div>
-            <input
-              aria-hidden="true"
-              class="MuiSelect-nativeInput"
-              tabindex="-1"
-              value=""
-            />
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <div
+              class="MuiBox-root MuiBox-root-6 makeStyles-fieldContainer-3"
             >
-              <path
-                d="M7 10l5 5 5-5z"
-              />
-            </svg>
+              <div
+                class="MuiFormControl-root makeStyles-formControl-7"
+              >
+                <label
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+                  data-shrink="false"
+                  id="dropdown-label"
+                >
+                  select x axis
+                </label>
+                <div
+                  class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                  data-testid="dropdown-x"
+                >
+                  <div
+                    aria-haspopup="listbox"
+                    aria-labelledby="dropdown-label dropdown-x"
+                    class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
+                    id="dropdown-x"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <span>
+                      ​
+                    </span>
+                  </div>
+                  <input
+                    aria-hidden="true"
+                    class="MuiSelect-nativeInput"
+                    tabindex="-1"
+                    value=""
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7 10l5 5 5-5z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        <hr
+          class="MuiDivider-root"
+        />
       </div>
       <div
-        class="MuiBox-root MuiBox-root-4"
+        class="MuiBox-root MuiBox-root-9"
       >
         <div
-          class="MuiFormControl-root makeStyles-formControl-2"
+          class="MuiBox-root MuiBox-root-10"
         >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
-            data-shrink="false"
-            id="dropdown-label"
-          >
-            select y axis
-          </label>
           <div
-            class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
-            data-testid="dropdown-y"
+            class="MuiBox-root MuiBox-root-13"
+          >
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2"
+            >
+               Y-axis
+            </h6>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-14 makeStyles-fieldContainer-11"
           >
             <div
-              aria-haspopup="listbox"
-              aria-labelledby="dropdown-label dropdown-y"
-              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
-              id="dropdown-y"
-              role="button"
-              tabindex="0"
+              class="MuiFormControl-root makeStyles-formControl-7"
             >
-              <span>
-                ​
-              </span>
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+                data-shrink="false"
+                id="dropdown-label"
+              >
+                select y axis
+              </label>
+              <div
+                class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                data-testid="dropdown-y-0"
+              >
+                <div
+                  aria-haspopup="listbox"
+                  aria-labelledby="dropdown-label dropdown-y-0"
+                  class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
+                  id="dropdown-y-0"
+                  role="button"
+                  tabindex="0"
+                >
+                  <span>
+                    ​
+                  </span>
+                </div>
+                <input
+                  aria-hidden="true"
+                  class="MuiSelect-nativeInput"
+                  tabindex="-1"
+                  value=""
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 10l5 5 5-5z"
+                  />
+                </svg>
+              </div>
             </div>
-            <input
-              aria-hidden="true"
-              class="MuiSelect-nativeInput"
-              tabindex="-1"
-              value=""
-            />
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <button
+              class="MuiButtonBase-root MuiIconButton-root"
+              data-testid="delete-button-dropdown-y-0"
+              tabindex="0"
+              type="button"
             >
-              <path
-                d="M7 10l5 5 5-5z"
+              <span
+                class="MuiIconButton-label"
+              >
+                <img
+                  alt="icon"
+                  src="delete.svg"
+                />
+              </span>
+              <span
+                class="MuiTouchRipple-root"
               />
-            </svg>
+            </button>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-15 makeStyles-addMetricButtonContainer-12"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                <span
+                  class="MuiButton-startIcon MuiButton-iconSizeSmall"
+                >
+                  <img
+                    alt="icon"
+                    src="plus.svg"
+                  />
+                </span>
+                Add Metric
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
           </div>
         </div>
+        
       </div>
     </div>
   </div>

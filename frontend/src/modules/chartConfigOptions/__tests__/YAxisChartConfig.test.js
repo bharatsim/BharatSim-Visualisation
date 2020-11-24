@@ -1,14 +1,17 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { selectDropDownOption, selectDropDownOptionForMultiselect } from '../../../testUtil';
+import { fireEvent } from '@testing-library/dom';
+import { selectDropDownOption } from '../../../testUtil';
 import YAxisChartConfig from '../YAxisChartConfig';
+import withThemeProvider from '../../../theme/withThemeProvider';
 
 describe('<YAxisChartConfig />', () => {
+  const YAxisChartConfigWithTheme = withThemeProvider(YAxisChartConfig);
   const props = {
     headers: [
-      { name: 'a', type: 'number' },
-      { name: 'b', type: 'number' },
-      { name: 'c', type: 'number' },
+      { name: 'column1', type: 'number' },
+      { name: 'column2', type: 'number' },
+      { name: 'column3', type: 'number' },
     ],
     updateConfigState: jest.fn(),
     configKey: 'yAxis',
@@ -18,25 +21,79 @@ describe('<YAxisChartConfig />', () => {
     jest.clearAllMocks();
   });
   it('should match snapshot', () => {
-    const { container } = render(<YAxisChartConfig {...props} />);
+    const { container } = render(<YAxisChartConfigWithTheme {...props} />);
 
     expect(container).toMatchSnapshot();
   });
 
-  it('should call setConfig callback after value change', () => {
-    const renderedContainer = render(<YAxisChartConfig {...props} />);
+  it('should call setConfig callback after value change for default y axis', () => {
+    const renderedContainer = render(<YAxisChartConfigWithTheme {...props} />);
 
-    selectDropDownOption(renderedContainer, 'dropdown-y', 'a');
+    selectDropDownOption(renderedContainer, 'dropdown-y-0', 'column1');
 
-    expect(props.updateConfigState).toHaveBeenCalledWith('yAxis', [{ name: 'a', type: 'number' }]);
+    expect(props.updateConfigState).toHaveBeenCalledWith('yAxis', [
+      { name: 'column1', type: 'number' },
+    ]);
   });
-  it('should call setConfig callback after value change for multiple axis', () => {
-    const renderedContainer = render(<YAxisChartConfig {...props} />);
 
-    selectDropDownOptionForMultiselect(renderedContainer, 'dropdown-y', ['a', 'b']);
+  it('should add y axis field on click of add metric button', () => {
+    const { getByText, queryByTestId } = render(<YAxisChartConfigWithTheme {...props} />);
+    const addFieldButton = getByText('Add Metric');
+    fireEvent.click(addFieldButton);
+    const newField = queryByTestId('dropdown-y-1');
 
-    expect(props.updateConfigState).toHaveBeenCalledWith('yAxis', [{ name: 'a', type: 'number' }]);
-    expect(props.updateConfigState).toHaveBeenCalledWith('yAxis', [{ name: 'b', type: 'number' }]);
+    expect(newField).toBeInTheDocument();
+  });
+
+  it('should updateConfigState for multiple y axis fields', () => {
+    const renderedComponent = render(<YAxisChartConfigWithTheme {...props} />);
+    const { getByText } = renderedComponent;
+
+    const addFieldButton = getByText('Add Metric');
+    selectDropDownOption(renderedComponent, 'dropdown-y-0', ['column1']);
+
+    fireEvent.click(addFieldButton);
+    selectDropDownOption(renderedComponent, 'dropdown-y-1', ['column2']);
+
+    expect(props.updateConfigState).toHaveBeenCalledWith('yAxis', [
+      { name: 'column1', type: 'number' },
+    ]);
+    expect(props.updateConfigState).toHaveBeenCalledWith('yAxis', [
+      { name: 'column1', type: 'number' },
+      { name: 'column2', type: 'number' },
+    ]);
     expect(props.updateConfigState).toHaveBeenCalledTimes(2);
+  });
+
+  it('should delete y axis field on click of delete button', () => {
+    const { getByText, queryByTestId, getByTestId } = render(
+      <YAxisChartConfigWithTheme {...props} />,
+    );
+    const addFieldButton = getByText('Add Metric');
+    fireEvent.click(addFieldButton);
+    const newField = queryByTestId('dropdown-y-1');
+
+    const deleteButton = getByTestId('delete-button-dropdown-y-1');
+    fireEvent.click(deleteButton);
+
+    expect(newField).not.toBeInTheDocument();
+  });
+  it('should remove the value of deleted y axis field from update config call', () => {
+    const renderedComponent = render(<YAxisChartConfigWithTheme {...props} />);
+    const { getByText, getByTestId } = renderedComponent;
+
+    const addFieldButton = getByText('Add Metric');
+    selectDropDownOption(renderedComponent, 'dropdown-y-0', ['column1']);
+
+    fireEvent.click(addFieldButton);
+    selectDropDownOption(renderedComponent, 'dropdown-y-1', ['column2']);
+
+    const deleteButton = getByTestId('delete-button-dropdown-y-1');
+    fireEvent.click(deleteButton);
+
+    expect(props.updateConfigState).toHaveBeenLastCalledWith('yAxis', [
+      { name: 'column1', type: 'number' },
+    ]);
+    expect(props.updateConfigState).toHaveBeenCalledTimes(3);
   });
 });

@@ -30,7 +30,7 @@ function ChartConfigSelectorStep({ chartType, onApply }) {
         />
       </Box>
       <Divider />
-      <Box px={2} pt={6}>
+      <Box pt={6}>
         {values[DATASOURCE_SELECTOR_KEY] && (
           <ConfigSelector
             dataSourceId={values[DATASOURCE_SELECTOR_KEY]}

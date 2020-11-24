@@ -5,7 +5,6 @@ import { createMemoryHistory } from 'history';
 
 import AppRoute from '../AppRoute';
 
-jest.mock('../component/dashboardLayout/DashboardLayout', () => () => <div>Dashboard Layout</div>);
 jest.mock('../modules/configureDataset/ConfigureDataset', () => () => (
   <div>Project configure dataset</div>
 ));
@@ -32,12 +31,6 @@ function renderWithRouter(
 }
 
 describe('<AppRoute />', () => {
-  it('should navigate to old dashboard layout "/" ', () => {
-    const { queryByText } = renderWithRouter(<AppRoute />, { route: '/old-dashboard' });
-
-    expect(queryByText('Dashboard Layout')).not.toBeNull();
-  });
-
   it('should navigate to project page /projects/id/configure-dataset', () => {
     const { queryByText } = renderWithRouter(<AppRoute />, {
       route: '/projects/id/configure-dataset',
