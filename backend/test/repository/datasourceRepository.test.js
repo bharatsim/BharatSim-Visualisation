@@ -75,6 +75,7 @@ describe('get Datasource name ', () => {
   });
 
   it('should insert data at bulk for given model', async () => {
+    await dbHandler.connectUsingMongo();
     const data = parseMongoDBResult(
       await DataSourceRepository.bulkInsert('metadataId', datasourceData),
     );

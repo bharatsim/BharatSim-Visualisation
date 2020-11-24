@@ -1,7 +1,7 @@
 const express = require('express');
 const request = require('supertest');
 const multer = require('multer');
-const mongoose = require('mongoose');
+const mongoService = require('../../src/services/mongoService');
 
 const dbHandler = require('../db-handler');
 const DataSourceMetaData = require('../../src/model/datasourceMetadata');
@@ -113,6 +113,8 @@ describe('Integration test', () => {
         city: 'String',
       };
 
+      await dbHandler.connectUsingMongo();
+
       const response = await request(app)
         .post('/datasources')
         .field('schema', JSON.stringify(testSchemaModal1))
@@ -125,11 +127,15 @@ describe('Integration test', () => {
       const { _id, dataSourceSchema } = parseDBObject(
         await DataSourceMetaData.findOne({ _id: uploadedFileCollectionId }),
       );
-      const collections = Object.keys(mongoose.connections[0].collections);
 
+      const connection = mongoService.getConnection();
+      const db = connection.db();
+      const numberOfDocuments = await db.collection(uploadedFileCollectionId).count();
+      await mongoService.close();
+
+      expect(numberOfDocuments).toEqual(19);
       expect(_id).toEqual(uploadedFileCollectionId);
       expect(dataSourceSchema).toEqual(testSchemaModal1);
-      // expect(collections.includes(uploadedFileCollectionId).toString()).toBe('true');
     });
 
     it('should provide a error when invalid file is uploaded', async function () {
@@ -144,6 +150,8 @@ describe('Integration test', () => {
         city: 'String',
       };
 
+      await dbHandler.connectUsingMongo();
+
       await request(app)
         .post('/datasources')
         .field('schema', JSON.stringify(testSchemaModal1))
@@ -155,6 +163,8 @@ describe('Integration test', () => {
           errorMessage: 'Invalid Input - File type does not match',
           errorCode: 1010,
         });
+
+      await mongoService.close();
     });
     // it('should throw and error if column data and schema are not compatible', async function () {
     //   const testSchemaModal1 = {
@@ -168,6 +178,8 @@ describe('Integration test', () => {
     //     city: 'Number',
     //   };
     //
+    //   await dbHandler.connectUsingMongo();
+    //
     //   await request(app)
     //     .post('/datasources')
     //     .field('schema', JSON.stringify(testSchemaModal1))
@@ -179,6 +191,8 @@ describe('Integration test', () => {
     //       errorMessage: 'Invalid Input - Error while uploading csv file with invalid csv data',
     //       errorCode: 1008,
     //     });
+    //
+    //   await mongoService.close();
     // });
   });
 });

@@ -1,6 +1,7 @@
 /* eslint-disable */
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
+const mongoService = require('../src/services/mongoService')
 
 mongoose.set('useCreateIndex', true);
 
@@ -40,8 +41,14 @@ const clearDatabase = async () => {
   }
 };
 
+const connectUsingMongo = async () => {
+  const uri = await mongod.getUri();
+  await mongoService.connect(uri);
+};
+
 module.exports = {
   connect,
   clearDatabase,
   closeDatabase,
+  connectUsingMongo
 };
