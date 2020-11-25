@@ -32,9 +32,10 @@ describe('File Upload utils', () => {
   });
 
   it('should parse the csv file and call the given function', () => {
+    const previewLimit = 100;
     const onApply = jest.fn();
 
-    parseCsv('MockFile', onApply);
+    parseCsv('MockFile', previewLimit, onApply);
 
     expect(onApply).toHaveBeenCalledWith('data');
   });

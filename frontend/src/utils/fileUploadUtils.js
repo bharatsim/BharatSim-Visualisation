@@ -17,9 +17,10 @@ function createSchema(row) {
   }, {});
 }
 
-function parseCsv(csvFile, onComplete, onError) {
+function parseCsv(csvFile, previewLimit, onComplete, onError) {
   csvParser.parse(csvFile, {
     ...csvParserConfig,
+    preview: previewLimit,
     complete: onComplete,
     error: onError,
   });

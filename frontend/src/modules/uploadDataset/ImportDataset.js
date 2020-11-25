@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => {
 function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setSchema }) {
   const classes = useStyles();
   const [error, setError] = useState();
+  const previewLimit = 100;
 
   function onParse(csvData) {
     const { data, errors } = csvData;
@@ -58,7 +59,7 @@ function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setS
       setErrorStep(0);
       return;
     }
-    parseCsv(selectedFile, onParse);
+    parseCsv(selectedFile, previewLimit, onParse);
     setFile(selectedFile);
   }
 

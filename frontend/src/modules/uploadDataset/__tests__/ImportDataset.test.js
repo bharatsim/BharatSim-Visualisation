@@ -5,7 +5,7 @@ import withThemeProvider from '../../../theme/withThemeProvider';
 import ImportDataset from '../ImportDataset';
 import * as fileUtils from '../../../utils/fileUploadUtils';
 
-jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, onComplete) => {
+jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
   const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
   onComplete(data);
 });
@@ -75,6 +75,7 @@ describe('Import Dataset', () => {
 
     expect(fileUtils.parseCsv).toHaveBeenCalledWith(
       { name: 'csv', size: '10', type: 'text/csv' },
+      100,
       expect.any(Function, () => {}),
     );
   });
@@ -119,7 +120,7 @@ describe('Import Dataset', () => {
     expect(setPreviewDataMock).toHaveBeenCalledWith([{ col1: 'row1', col2: 1 }]);
   });
   it('should set error for any parsing error in given file', () => {
-    jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, onComplete) => {
+    jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
       const data = { data: [{ col1: 'row1', col2: 1 }], errors: ['error'] };
       onComplete(data);
     });
@@ -146,7 +147,7 @@ describe('Import Dataset', () => {
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
   });
   it('should set validation error for given file if size exceed limit of 300mb', () => {
-    jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, onComplete) => {
+    jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
       const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
       onComplete(data);
     });
@@ -171,7 +172,7 @@ describe('Import Dataset', () => {
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
   });
   it('should set validation error for given file if type if not supported', () => {
-    jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, onComplete) => {
+    jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
       const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
       onComplete(data);
     });
