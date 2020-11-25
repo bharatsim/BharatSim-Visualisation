@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Box from '@material-ui/core/Box';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { Link as RouterLink, useHistory } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
+import { useHistory } from 'react-router-dom';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
 import useConfigureDatasetStyles from './configureDatasetCSS';
 import ProjectHeader from '../../uiComponent/ProjectHeader';
@@ -12,6 +11,7 @@ import { api } from '../../utils/api';
 import DashboardDataSetsTable from './DashboardDataSetsTable';
 import plusIcon from '../../assets/images/plus.svg';
 import DashboardHeaderBar from '../../uiComponent/DashboardHeaderBar';
+import NoDataSetPresentMessage from './NoDatatSetPresentMessage';
 
 function ConfigureDataset() {
   const classes = useConfigureDatasetStyles();
@@ -78,22 +78,7 @@ function ConfigureDataset() {
           {dataSources && dataSources.length > 0 ? (
             <DashboardDataSetsTable dataSources={dataSources} />
           ) : (
-            <Box className={classes.noDataSourcesMessage}>
-              <Typography variant="subtitle2" color="textPrimary">
-                Before we can create any visualization, we ‘ll need some data.
-              </Typography>
-              <Typography variant="body2">
-                Use
-                {' '}
-                <Link to={uploadFilePage} component={RouterLink}>
-                  {' '}
-                  Upload dataset
-                  {' '}
-                </Link>
-                to add data files to your dashboard.
-              </Typography>
-              {' '}
-            </Box>
+            <NoDataSetPresentMessage projectMetadataId={projectMetadata.id} />
           )}
         </Box>
       </Box>

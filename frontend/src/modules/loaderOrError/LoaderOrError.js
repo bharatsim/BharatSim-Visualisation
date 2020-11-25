@@ -5,7 +5,7 @@ import Loader from './Loader';
 import Error from './Error';
 import { ChildrenPropTypes } from '../../commanPropTypes';
 
-export default function LoaderOrError({ children, loadingState, snackbar }) {
+export default function LoaderOrError({ children, loadingState, snackbar, message, errorAction }) {
   if (snackbar && (loadingState === loaderStates.ERROR || loadingState === loaderStates.SUCCESS)) {
     return children;
   }
@@ -13,17 +13,21 @@ export default function LoaderOrError({ children, loadingState, snackbar }) {
     return children;
   }
   if (loadingState === loaderStates.ERROR) {
-    return <Error />;
+    return <Error errorAction={errorAction} message={message} />;
   }
   return <Loader />;
 }
 
 LoaderOrError.defaultProps = {
   snackbar: false,
+  message: '',
+  errorAction: null,
 };
 
 LoaderOrError.propTypes = {
   children: ChildrenPropTypes.isRequired,
   loadingState: PropTypes.oneOf(['', ...Object.values(loaderStates)]).isRequired,
   snackbar: PropTypes.bool,
+  message: PropTypes.string,
+  errorAction: PropTypes.shape({}),
 };

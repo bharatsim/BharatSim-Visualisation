@@ -55,12 +55,19 @@ const api = {
       headers: headerBuilder({ contentType: contentTypes.FILE }),
     }),
 
-  getCsvHeaders: async (dataSourceId) => fetchData({ url: serviceURL.getHeaderUrl(dataSourceId) }),
+  getCsvHeaders: async (dataSourceId) =>
+    fetchData({
+      url: serviceURL.getHeaderUrl(dataSourceId),
+      isCustomErrorHandler: true,
+      isCustomLoader: true,
+    }),
 
   getDatasources: async (dashboardId) =>
     fetchData({
       url: serviceURL.DATA_SOURCES,
       query: { dashboardId },
+      isCustomLoader: true,
+      isCustomErrorHandler: true,
     }),
 
   getData: async (datasource, columns) =>

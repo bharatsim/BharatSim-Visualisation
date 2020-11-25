@@ -9,6 +9,7 @@ import UploadDataset from '../UploadDataset';
 import { api } from '../../../utils/api';
 import withSnackBar from '../../../hoc/withSnackBar';
 import withOverlayLoaderOrError from '../../../hoc/withOverlayLoaderOrError';
+import { withRouter } from '../../../testUtil';
 
 jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, onComplete) => {
   const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
@@ -35,18 +36,20 @@ describe('Upload Dataset', () => {
   beforeEach(() => {
     ComponentWithProvider = withThemeProvider(
       withOverlayLoaderOrError(
-        withSnackBar(() => (
-          <>
-            <ProjectLayoutProvider
-              value={{
-                projectMetadata: { name: 'project1', id: '123' },
-                selectedDashboardMetadata: { name: 'dashboard1', _id: 'dashboardId' },
-              }}
-            >
-              <UploadDataset />
-            </ProjectLayoutProvider>
-          </>
-        )),
+        withRouter(
+          withSnackBar(() => (
+            <>
+              <ProjectLayoutProvider
+                value={{
+                  projectMetadata: { name: 'project1', id: '123' },
+                  selectedDashboardMetadata: { name: 'dashboard1', _id: 'dashboardId' },
+                }}
+              >
+                <UploadDataset />
+              </ProjectLayoutProvider>
+            </>
+          )),
+        ),
       ),
     );
   });

@@ -28,6 +28,19 @@ describe('Fetch util', () => {
     });
   });
 
+  it('should fetch data from server for given url without loader', () => {
+    fetchData({ url: 'test/api', isCustomLoader: true });
+
+    expect(axios).toHaveBeenCalledWith({
+      data: undefined,
+      headers: undefined,
+      method: 'get',
+      url: 'test/api',
+    });
+
+    expect(startLoader).not.toHaveBeenCalled();
+  });
+
   it('should return data from server for given url, data, method, header', () => {
     fetchData({ url: 'test/api', data: 'data', method: 'post', headers: 'header' });
 
@@ -49,6 +62,7 @@ describe('Fetch util', () => {
       url: 'test/api',
     });
   });
+
   it('should return rejected promise with error code and err if api return client side error', async () => {
     axios.mockImplementationOnce(() =>
       Promise.reject({ response: { status: 400, data: { errorCode: '1001' } } }),
@@ -164,6 +178,22 @@ describe('Fetch util', () => {
       await fetchData({ url: 'test/api', data: 'data', method: 'post', headers: 'header' });
     } catch (er) {
       expect(stopLoader).toHaveBeenCalled();
+      expect(showError).toHaveBeenCalled();
+    }
+  });
+
+  it('should show error after any error while fetching and not call stop loader', async () => {
+    axios.mockImplementationOnce(() => Promise.reject(new Error()));
+    try {
+      await fetchData({
+        url: 'test/api',
+        data: 'data',
+        method: 'post',
+        headers: 'header',
+        isCustomLoader: true,
+      });
+    } catch (er) {
+      expect(stopLoader).not.toHaveBeenCalled();
       expect(showError).toHaveBeenCalled();
     }
   });

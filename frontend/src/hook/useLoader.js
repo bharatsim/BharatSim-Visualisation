@@ -6,8 +6,8 @@ export const loaderStates = {
   ERROR: 'ERROR',
 };
 
-function useLoader(defultLoadingState = '') {
-  const [loadingState, setLoadingState] = useState({ state: defultLoadingState, message: '' });
+function useLoader(defaultLoadingState = '') {
+  const [loadingState, setLoadingState] = useState({ state: defaultLoadingState, message: '' });
 
   function startLoader(message) {
     setLoadingState({ state: loaderStates.LOADING, message });
@@ -22,10 +22,17 @@ function useLoader(defultLoadingState = '') {
   }
 
   function resetLoader() {
-    setLoadingState({ state: defultLoadingState, message: '' });
+    setLoadingState({ state: defaultLoadingState, message: '' });
   }
 
-  return { loadingState, startLoader, stopLoaderAfterSuccess, stopLoaderAfterError, resetLoader };
+  return {
+    loadingState: loadingState.state,
+    message: loadingState.message,
+    startLoader,
+    stopLoaderAfterSuccess,
+    stopLoaderAfterError,
+    resetLoader,
+  };
 }
 
 export default useLoader;

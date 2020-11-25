@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { Box } from '@material-ui/core';
-import LoaderOrError from '../../../../component/loaderOrError/LoaderOrError';
 import SideDashboardNavbar from '../sideDashboardNavbar/SideDashboardNavbar';
 
 import useProjectLayoutStyle from './projectLayoutCSS';

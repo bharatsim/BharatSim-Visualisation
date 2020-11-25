@@ -3,7 +3,7 @@
 exports[`<DatasourceSelector /> should match snapshot for datasource selector 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-1"
+    class="MuiBox-root MuiBox-root-3"
   >
     <h6
       class="MuiTypography-root MuiTypography-subtitle2"
@@ -12,7 +12,7 @@ exports[`<DatasourceSelector /> should match snapshot for datasource selector 1`
     </h6>
   </div>
   <div
-    class="MuiFormControl-root makeStyles-formControl-2"
+    class="MuiFormControl-root makeStyles-formControl-11"
   >
     <label
       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"

@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorBar should match snapshot 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-5 makeStyles-errorBox-4"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-6"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 makeStyles-errorTitle-1 MuiTypography-colorError"
+      >
+        Error: 
+      </p>
+      <p
+        class="MuiTypography-root MuiTypography-body2 makeStyles-errorMessage-2 MuiTypography-colorError"
+      >
+        error message
+      </p>
+    </div>
+  </div>
+</div>
+`;

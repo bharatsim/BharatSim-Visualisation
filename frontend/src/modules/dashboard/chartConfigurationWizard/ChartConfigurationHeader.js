@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { IconButton, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { Close } from '@material-ui/icons';
 import chartConfigs from '../../../config/chartConfigs';
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {

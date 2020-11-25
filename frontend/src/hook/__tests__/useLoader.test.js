@@ -4,7 +4,8 @@ import useLoader from '../useLoader';
 describe('hook useInlineLoader', () => {
   it('should return empty state and message as initial state of loaderOrError', () => {
     const { result } = renderHook(() => useLoader());
-    expect(result.current.loadingState).toEqual({ state: '', message: '' });
+    expect(result.current.loadingState).toEqual('');
+    expect(result.current.message).toEqual('');
   });
 
   it('should return loading state and message on startLoader', () => {
@@ -13,7 +14,8 @@ describe('hook useInlineLoader', () => {
       result.current.startLoader('loading');
     });
 
-    expect(result.current.loadingState).toEqual({ state: 'LOADING', message: 'loading' });
+    expect(result.current.loadingState).toEqual('LOADING');
+    expect(result.current.message).toEqual('loading');
   });
 
   it('should stopLoaderAfterSuccess', () => {
@@ -22,7 +24,8 @@ describe('hook useInlineLoader', () => {
       result.current.stopLoaderAfterSuccess('success');
     });
 
-    expect(result.current.loadingState).toEqual({ state: 'SUCCESS', message: 'success' });
+    expect(result.current.loadingState).toEqual('SUCCESS');
+    expect(result.current.message).toEqual('success');
   });
 
   it('should stopLoaderAfterError', () => {
@@ -31,7 +34,8 @@ describe('hook useInlineLoader', () => {
       result.current.stopLoaderAfterError('error');
     });
 
-    expect(result.current.loadingState).toEqual({ state: 'ERROR', message: 'error' });
+    expect(result.current.loadingState).toEqual('ERROR');
+    expect(result.current.message).toEqual('error');
   });
 
   it('should resetLoader', () => {
@@ -39,10 +43,13 @@ describe('hook useInlineLoader', () => {
     act(() => {
       result.current.stopLoaderAfterSuccess('success');
     });
-    expect(result.current.loadingState).toEqual({ state: 'SUCCESS', message: 'success' });
+    expect(result.current.loadingState).toEqual('SUCCESS');
+    expect(result.current.message).toEqual('success');
+
     act(() => {
       result.current.resetLoader();
     });
-    expect(result.current.loadingState).toEqual({ state: '', message: '' });
+    expect(result.current.loadingState).toEqual('');
+    expect(result.current.message).toEqual('');
   });
 });

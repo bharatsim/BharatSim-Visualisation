@@ -34,6 +34,13 @@ function commandErrorHandler(err) {
   return Promise.reject({ errorCode, err });
 }
 
+function handleError(err, isCustomErrorHandler) {
+  if (isCustomErrorHandler) {
+    return Promise.reject(err);
+  }
+  return commandErrorHandler(err);
+}
+
 function fetchData({
   url,
   method = httpMethods.GET,
@@ -41,7 +48,21 @@ function fetchData({
   data,
   query,
   isCustomErrorHandler = false,
+  isCustomLoader = false,
 }) {
+  if (!isCustomLoader) {
+    return fetchWithLoader({ url, method, headers, data, query, isCustomErrorHandler });
+  }
+  return axios({ url, method, headers, data, params: query })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return handleError(err, isCustomErrorHandler);
+    });
+}
+
+function fetchWithLoader({ url, method, headers, data, query, isCustomErrorHandler }) {
   startLoader();
   return axios({ url, method, headers, data, params: query })
     .then((res) => {
@@ -50,10 +71,7 @@ function fetchData({
     })
     .catch((err) => {
       stopLoader();
-      if (isCustomErrorHandler) {
-        return Promise.reject(err);
-      }
-      return commandErrorHandler(err);
+      return handleError(err, isCustomErrorHandler);
     });
 }
 

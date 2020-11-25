@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import { Button, Tabs } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import PropTypes from 'prop-types';
+import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/core/styles';
 
 import DatasourceSelector from '../dashboardConfigSelector/DatasourceSelector';
@@ -13,13 +14,12 @@ import chartConfigs from '../../../config/chartConfigs';
 import { createConfigOptionValidationSchema } from '../../../config/chartConfigOptions';
 import ButtonGroup from '../../../uiComponent/ButtonGroup';
 import { useFooterStyles } from './styles';
-import Tab from '@material-ui/core/Tab';
 
 const DATASOURCE_SELECTOR_KEY = 'dataSource';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    height: `calc(100vh - ${theme.spacing(55)}px)`,
+    height: `calc(100vh - ${theme.spacing(69)}px)`,
     overflowY: 'scroll',
   },
   tabContainer: {

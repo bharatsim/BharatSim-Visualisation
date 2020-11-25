@@ -93,6 +93,8 @@ describe('API', () => {
       query: {
         dashboardId: 'dashboardId',
       },
+      isCustomErrorHandler: true,
+      isCustomLoader: true,
     };
 
     api.getDatasources('dashboardId');
@@ -104,6 +106,8 @@ describe('API', () => {
     const dataId = 'id';
     const expectedParameter = {
       url: '/api/dataSources/id/headers',
+      isCustomErrorHandler: true,
+      isCustomLoader: true,
     };
 
     api.getCsvHeaders(dataId);

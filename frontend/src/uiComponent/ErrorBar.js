@@ -3,6 +3,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import ErrorButton from './ErrorButton';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -27,21 +28,30 @@ const useStyles = makeStyles((theme) => {
       borderColor: '#FFC5B3',
       backgroundColor: '#FFEEE8',
       padding: theme.spacing(2, 6),
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
     },
   };
 });
 
-function ErrorBar({ visible, message }) {
+function ErrorBar({ visible, message, errorAction }) {
   const classes = useStyles();
   return (
     <Box className={visible ? classes.errorBox : classes.hidden}>
-      <Typography variant="body2" color="error" classes={{ body2: classes.errorTitle }}>
-        Error:&nbsp;
-      </Typography>
-
-      <Typography variant="body2" color="error" classes={{ body2: classes.errorMessage }}>
-        {message}
-      </Typography>
+      <Box display="flex">
+        <Typography variant="body2" color="error" classes={{ body2: classes.errorTitle }}>
+          Error:&nbsp;
+        </Typography>
+        <Typography variant="body2" color="error" classes={{ body2: classes.errorMessage }}>
+          {message}
+        </Typography>
+      </Box>
+      {errorAction && (
+        <ErrorButton onClick={errorAction.onClick} size="small" variant="text">
+          {errorAction.name}
+        </ErrorButton>
+      )}
     </Box>
   );
 }
@@ -49,9 +59,14 @@ function ErrorBar({ visible, message }) {
 ErrorBar.propTypes = {
   visible: PropTypes.bool,
   message: PropTypes.string,
+  errorAction: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+  }),
 };
 ErrorBar.defaultProps = {
   visible: false,
   message: '',
+  errorAction: null,
 };
 export default ErrorBar;

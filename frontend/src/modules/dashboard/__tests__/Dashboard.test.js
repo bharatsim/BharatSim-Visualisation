@@ -4,11 +4,13 @@ import { fireEvent } from '@testing-library/dom';
 import Dashboard from '../Dashboard';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import { ProjectLayoutProvider } from '../../../contexts/projectLayoutContext';
-import { selectDropDownOption } from '../../../testUtil';
+import { selectDropDownOption, withRouter } from '../../../testUtil';
 
 jest.mock('../../charts/lineChart/LineChart', () => (props) => (
   <>
-    {JSON.stringify(props, null, 2)} <div>LINE CHART</div>
+    {JSON.stringify(props, null, 2)} 
+    {' '}
+    <div>LINE CHART</div>
   </>
 ));
 
@@ -30,18 +32,20 @@ jest.mock('../../../utils/api', () => ({
 }));
 
 describe('<Dashboard />', () => {
-  const DashboardWithProviders = withThemeProvider(() => (
-    <ProjectLayoutProvider
-      value={{
-        selectedDashboardMetadata: {
-          name: 'dashboardName',
-        },
-        projectMetadata: { name: 'project1' },
-      }}
-    >
-      <Dashboard />
-    </ProjectLayoutProvider>
-  ));
+  const DashboardWithProviders = withThemeProvider(
+    withRouter(() => (
+      <ProjectLayoutProvider
+        value={{
+          selectedDashboardMetadata: {
+            name: 'dashboardName',
+          },
+          projectMetadata: { name: 'project1' },
+        }}
+      >
+        <Dashboard />
+      </ProjectLayoutProvider>
+    )),
+  );
   it('should add dashboard name to dashboard component', () => {
     const { getByText } = render(<DashboardWithProviders />);
 
