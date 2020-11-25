@@ -23,14 +23,18 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
       class="MuiBox-root MuiBox-root-2"
     >
       <div
-        class="MuiBox-root MuiBox-root-3"
+        class="MuiBox-root MuiBox-root-5"
       >
-        <h6
-          class="MuiTypography-root MuiTypography-h6"
+        <div
+          class="MuiBox-root MuiBox-root-6"
         >
-          Chart Configuration Wizard
-        </h6>
-        
+          <h6
+            class="MuiTypography-root MuiTypography-h6"
+          >
+            Chart Configuration Wizard
+          </h6>
+          
+        </div>
         <button
           class="MuiButtonBase-root MuiIconButton-root"
           data-testid="close-wizard"
@@ -57,78 +61,120 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
         </button>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-5"
+        class="MuiBox-root MuiBox-root-7"
       >
-        <hr
-          class="MuiDivider-root"
-        />
         <div
-          class="MuiBox-root MuiBox-root-6"
+          class="MuiBox-root MuiBox-root-10"
         >
-          <h6
-            class="MuiTypography-root MuiTypography-subtitle1"
-          >
-            Choose a chart type to start configuring your chart
-          </h6>
+          <hr
+            class="MuiDivider-root"
+          />
           <div
-            class="MuiBox-root MuiBox-root-7 makeStyles-chartSelectorContainer-4"
+            class="MuiBox-root MuiBox-root-11"
           >
-            <div
-              class="MuiBox-root MuiBox-root-8"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle1"
             >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2"
-              >
-                LineChart
-              </h6>
-            </div>
+              Choose a chart type to start configuring your chart
+            </h6>
             <div
-              class="MuiBox-root MuiBox-root-9"
+              class="MuiBox-root MuiBox-root-12 makeStyles-chartSelectorContainer-8"
             >
               <div
-                class="MuiBox-root MuiBox-root-14 makeStyles-buttonContainer-10 makeStyles-buttonContainer-13"
+                class="MuiBox-root MuiBox-root-13"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-15 makeStyles-imageContainer-11 null"
+                  class="MuiBox-root MuiBox-root-14"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 24 24"
+                  <h6
+                    class="MuiTypography-root MuiTypography-subtitle2"
                   >
-                    <path
-                      d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"
-                    />
-                  </svg>
+                    Line Chart
+                  </h6>
                 </div>
-                <span
-                  class="MuiTypography-root MuiTypography-caption"
+                <div
+                  class="MuiBox-root MuiBox-root-15"
                 >
-                  Line Chart
-                </span>
+                  <div
+                    class="MuiBox-root MuiBox-root-20 makeStyles-buttonContainer-16 makeStyles-buttonContainer-19"
+                    data-testid="lineChart"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-21 makeStyles-imageContainer-17 null"
+                    >
+                      <img
+                        alt="lineChart"
+                        src="lineChart.svg"
+                      />
+                    </div>
+                    <span
+                      class="MuiTypography-root MuiTypography-caption"
+                    >
+                      Line Chart
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-22"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-23"
+                >
+                  <h6
+                    class="MuiTypography-root MuiTypography-subtitle2"
+                  >
+                    Bar Chart
+                  </h6>
+                </div>
+                <div
+                  class="MuiBox-root MuiBox-root-24"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-26 makeStyles-buttonContainer-16 makeStyles-buttonContainer-25"
+                    data-testid="barChart"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-27 makeStyles-imageContainer-17 null"
+                    >
+                      <img
+                        alt="barChart"
+                        src="barChart.svg"
+                      />
+                    </div>
+                    <span
+                      class="MuiTypography-root MuiTypography-caption"
+                    >
+                      Bar Chart
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <hr
-          class="MuiDivider-root"
-        />
-        <div
-          class="MuiBox-root MuiBox-root-16"
-        >
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall Mui-disabled Mui-disabled"
-            disabled=""
-            tabindex="-1"
-            type="button"
+          <div
+            class="MuiBox-root MuiBox-root-28 makeStyles-footer-9"
           >
-            <span
-              class="MuiButton-label"
+            <hr
+              class="MuiDivider-root"
+            />
+            <div
+              class="MuiBox-root MuiBox-root-29"
             >
-              Next
-            </span>
-          </button>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall Mui-disabled Mui-disabled"
+                disabled=""
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label"
+                >
+                  Next
+                </span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

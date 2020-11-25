@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Dashboard } from '@material-ui/icons';
 import { Box, Button, Divider, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import ImageOption from '../../../uiComponent/ImageOption';
 import theme from '../../../theme/theme';
-import { chartTypes } from '../../../constants/charts';
+import chartConfigs from '../../../config/chartConfigs';
+import { useFooterStyles } from './styles';
 
 const useStyles = makeStyles(() => ({
   chartSelectorContainer: {
-    height: '67vh',
     margin: theme.spacing(6, 0),
   },
 }));
 
 function ChartSelectorStep({ onNext, chart }) {
-  const [selectedChart, setSelectedChart] = useState(chart);
   const classes = useStyles();
+  const footerClasses = useFooterStyles();
+  const [selectedChart, setSelectedChart] = useState(chart);
   function onChartClick(selectedChartValue) {
     setSelectedChart(selectedChartValue);
   }
@@ -36,31 +36,40 @@ function ChartSelectorStep({ onNext, chart }) {
           Choose a chart type to start configuring your chart
         </Typography>
         <Box className={classes.chartSelectorContainer}>
-          <Box mb={2}>
-            <Typography variant="subtitle2">LineChart</Typography>
-          </Box>
-          <Box>
-            <ImageOption
-              value={chartTypes.LINE_CHART}
-              label="Line Chart"
-              icon={<Dashboard />}
-              isSelected={selectedChart === chartTypes.LINE_CHART}
-              onCLick={onChartClick}
-            />
-          </Box>
+          {Object.values(chartConfigs).map((chartConfig) => {
+            return (
+              <Box key={chartConfig.label}>
+                <Box mb={2}>
+                  <Typography variant="subtitle2">{chartConfig.label}</Typography>
+                </Box>
+                <Box>
+                  <ImageOption
+                    dataTestId={chartConfig.key}
+                    value={chartConfig.key}
+                    label={chartConfig.label}
+                    icon={<img src={chartConfig.icon} alt={chartConfig.key} />}
+                    isSelected={selectedChart === chartConfig.key}
+                    onCLick={onChartClick}
+                  />
+                </Box>
+              </Box>
+            );
+          })}
         </Box>
       </Box>
-      <Divider />
-      <Box mt={3} display="flex" justifyContent="flex-end">
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          onClick={onNextCLick}
-          disabled={isNextDisable}
-        >
-          Next
-        </Button>
+      <Box className={footerClasses.footer}>
+        <Divider />
+        <Box mt={3} display="flex" justifyContent="flex-end">
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={onNextCLick}
+            disabled={isNextDisable}
+          >
+            Next
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

@@ -8,9 +8,7 @@ import { selectDropDownOption } from '../../../testUtil';
 
 jest.mock('../../charts/lineChart/LineChart', () => (props) => (
   <>
-    {JSON.stringify(props, null, 2)} 
-    {' '}
-    <div>LINE CHART</div>
+    {JSON.stringify(props, null, 2)} <div>LINE CHART</div>
   </>
 ));
 
@@ -63,12 +61,12 @@ describe('<Dashboard />', () => {
   });
   it('should add chart', async () => {
     const renderedComponent = render(<DashboardWithProviders />);
-    const { getByText, findByText } = renderedComponent;
+    const { getByText, findByText, getByTestId } = renderedComponent;
     const addChartButton = getByText('Add Chart');
 
     fireEvent.click(addChartButton);
 
-    const lineChartOption = getByText('Line Chart');
+    const lineChartOption = getByTestId('lineChart');
     const nextButton = getByText('Next');
     fireEvent.click(lineChartOption);
     fireEvent.click(nextButton);

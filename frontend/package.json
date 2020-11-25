@@ -55,6 +55,7 @@
       "!src/constants/*.js",
       "!src/setupProxy.js",
       "!src/setupTests.js",
+      "!src/config/*",
       "!src/index.js",
       "!src/**/*.labels.js",
       "!src/**/colorPalette.js"

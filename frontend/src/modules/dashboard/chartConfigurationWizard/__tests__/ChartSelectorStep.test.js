@@ -15,9 +15,9 @@ describe('Chart configuration wizard', () => {
   });
   it('should select chart and pass selected chart to on next callback', () => {
     const onNext = jest.fn();
-    const { getByText } = render(<ComponentWithProvider onNext={onNext} chart="" />);
+    const { getByText, getByTestId } = render(<ComponentWithProvider onNext={onNext} chart="" />);
 
-    const lineChartOption = getByText('Line Chart');
+    const lineChartOption = getByTestId('lineChart');
     const nextButton = getByText('Next');
 
     fireEvent.click(lineChartOption);

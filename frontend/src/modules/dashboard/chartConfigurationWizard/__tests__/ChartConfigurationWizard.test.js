@@ -34,11 +34,11 @@ describe('Chart configuration wizard', () => {
     expect(sideBarWizard).toMatchSnapshot();
   });
   it('should select chart and go to next step of configure chart', async () => {
-    const { findByText, getByText } = render(
+    const { findByText, getByText, getByTestId } = render(
       <ComponentWithProvider closeModal={jest.fn()} isOpen onApply={jest.fn()} />,
     );
 
-    const lineChartOption = getByText('Line Chart');
+    const lineChartOption = getByTestId('lineChart');
     const nextButton = getByText('Next');
 
     fireEvent.click(lineChartOption);
@@ -53,9 +53,9 @@ describe('Chart configuration wizard', () => {
     const renderedComponent = render(
       <ComponentWithProvider closeModal={jest.fn()} isOpen onApply={onApplyMock} />,
     );
-    const { findByText, getByText } = renderedComponent;
+    const { findByText, getByText, getByTestId } = renderedComponent;
 
-    const lineChartOption = getByText('Line Chart');
+    const lineChartOption = getByTestId('lineChart');
     const nextButton = getByText('Next');
 
     fireEvent.click(lineChartOption);
@@ -81,9 +81,9 @@ describe('Chart configuration wizard', () => {
     const renderedComponent = render(
       <ComponentWithProvider closeModal={jest.fn()} isOpen onApply={onApplyMock} />,
     );
-    const { findByText, getByText } = renderedComponent;
+    const { findByText, getByText, getByTestId } = renderedComponent;
 
-    const lineChartOption = getByText('Line Chart');
+    const lineChartOption = getByTestId('lineChart');
     const nextButton = getByText('Next');
 
     fireEvent.click(lineChartOption);
@@ -97,6 +97,25 @@ describe('Chart configuration wizard', () => {
     const applyButton = getByText('Apply').closest('button');
 
     expect(applyButton).toBeDisabled();
+  });
+
+  it('should get back to chart selector step on click of back to chart type', async () => {
+    const renderedComponent = render(
+      <ComponentWithProvider closeModal={jest.fn()} isOpen onApply={jest.fn()} />,
+    );
+    const { findByText, getByText, getByTestId } = renderedComponent;
+
+    const lineChartOption = getByTestId('lineChart');
+    const nextButton = getByText('Next');
+
+    fireEvent.click(lineChartOption);
+    fireEvent.click(nextButton);
+    await findByText('Data Source');
+
+    const backToChartTypeButton = getByText('Back to chart type').closest('button');
+    fireEvent.click(backToChartTypeButton);
+
+    expect(getByText('Choose a chart type to start configuring your chart')).toBeInTheDocument();
   });
 
   it('should close modal on click of close icon', () => {

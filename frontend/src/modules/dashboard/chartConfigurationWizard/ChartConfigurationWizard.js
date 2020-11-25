@@ -11,8 +11,8 @@ const useDrawerStyles = makeStyles((theme) => ({
   paper: {
     width: '45vw',
     borderRadius: theme.spacing(1),
-    marginTop: '64px',
-    height: 'calc(100vh - 64px)',
+    marginTop: theme.spacing(16),
+    height: `calc(100vh - ${theme.spacing(16)}px)`,
   },
 }));
 
@@ -24,6 +24,11 @@ function ChartConfigurationWizard({ isOpen, closeModal, onApply }) {
   function goToNextStep() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   }
+
+  function goToChartSelectorStep() {
+    setActiveStep(0);
+  }
+
   function onClickOfChartSelectorNext(chart) {
     setSelectedChart(chart);
     goToNextStep();
@@ -35,16 +40,23 @@ function ChartConfigurationWizard({ isOpen, closeModal, onApply }) {
   return (
     <Drawer anchor="right" open={isOpen} onClose={closeModal} classes={drawerClasses}>
       <Box m={6}>
-        <ChartConfigurationHeader closeModal={closeModal} chart={selectedChart} />
-        {activeStep === 0 && (
-          <ChartSelectorStep onNext={onClickOfChartSelectorNext} chart={selectedChart} />
-        )}
-        {activeStep === 1 && (
-          <ChartConfigSelectorStep
-            chartType={selectedChart}
-            onApply={onClickOfConfigSelectorNext}
-          />
-        )}
+        <ChartConfigurationHeader
+          closeModal={closeModal}
+          chart={selectedChart}
+          activeStep={activeStep}
+        />
+        <Box>
+          {activeStep === 0 && (
+            <ChartSelectorStep onNext={onClickOfChartSelectorNext} chart={selectedChart} />
+          )}
+          {activeStep === 1 && (
+            <ChartConfigSelectorStep
+              chartType={selectedChart}
+              onApply={onClickOfConfigSelectorNext}
+              backToChartType={goToChartSelectorStep}
+            />
+          )}
+        </Box>
       </Box>
     </Drawer>
   );

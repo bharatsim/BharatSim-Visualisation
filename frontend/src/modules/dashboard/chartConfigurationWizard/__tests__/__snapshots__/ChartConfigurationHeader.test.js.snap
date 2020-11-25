@@ -3,14 +3,18 @@
 exports[`Chart configuration header should match snapshot without chart name 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-1"
+    class="MuiBox-root MuiBox-root-3"
   >
-    <h6
-      class="MuiTypography-root MuiTypography-h6"
+    <div
+      class="MuiBox-root MuiBox-root-4"
     >
-      Chart Configuration Wizard
-    </h6>
-    
+      <h6
+        class="MuiTypography-root MuiTypography-h6"
+      >
+        Chart Configuration Wizard
+      </h6>
+      
+    </div>
     <button
       class="MuiButtonBase-root MuiIconButton-root"
       data-testid="close-wizard"

@@ -1,6 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import ChartConfigSelectorStep from '../ChartConfigSelectorStep';
+import withThemeProvider from '../../../../theme/withThemeProvider';
 
 jest.mock('../../../../utils/api', () => ({
   api: {
@@ -19,11 +20,33 @@ jest.mock('../../../../utils/api', () => ({
   },
 }));
 describe('chart config selector', () => {
+  const ChartConfigSelectorStepWithTheme = withThemeProvider(ChartConfigSelectorStep);
   it('should match snapshot', async () => {
     const { container, findByText } = render(
-      <ChartConfigSelectorStep chartType="lineChart" onApply={jest.fn()} />,
+      <ChartConfigSelectorStepWithTheme
+        chartType="lineChart"
+        onApply={jest.fn()}
+        backToChartType={jest.fn()}
+      />,
     );
     await findByText('Data Source');
     expect(container).toMatchSnapshot();
+  });
+
+  it('should call back to chart type selector', async () => {
+    const backToChartType = jest.fn();
+    const { findByText, getByText } = render(
+      <ChartConfigSelectorStepWithTheme
+        chartType="lineChart"
+        onApply={jest.fn()}
+        backToChartType={backToChartType}
+      />,
+    );
+    await findByText('Data Source');
+
+    const backToChartTypeButton = getByText('Back to chart type').closest('button');
+    fireEvent.click(backToChartTypeButton);
+
+    expect(backToChartType).toHaveBeenCalled();
   });
 });

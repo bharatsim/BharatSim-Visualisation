@@ -31,13 +31,13 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function ImageOption({ icon, label, isSelected, value, onCLick }) {
+function ImageOption({ icon, label, isSelected, value, onCLick, dataTestId }) {
   const classes = useStyles(isSelected);
   function onImageOptionClick() {
     onCLick(value);
   }
   return (
-    <Box className={classes.buttonContainer} onClick={onImageOptionClick}>
+    <Box className={classes.buttonContainer} onClick={onImageOptionClick} data-testid={dataTestId}>
       <Box
         className={`${classes.imageContainer} ${
           isSelected ? classes.selectedImageContainer : null
@@ -50,12 +50,17 @@ function ImageOption({ icon, label, isSelected, value, onCLick }) {
   );
 }
 
+ImageOption.defaultProps = {
+  dataTestId: '',
+};
+
 ImageOption.propTypes = {
   icon: PropTypes.element.isRequired,
   label: PropTypes.string.isRequired,
   isSelected: PropTypes.bool.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   onCLick: PropTypes.func.isRequired,
+  dataTestId: PropTypes.string,
 };
 
 export default ImageOption;
