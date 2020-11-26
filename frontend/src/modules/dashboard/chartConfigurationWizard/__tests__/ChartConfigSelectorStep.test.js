@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import ChartConfigSelectorStep from '../ChartConfigSelectorStep';
 import withThemeProvider from '../../../../theme/withThemeProvider';
-import { withRouter } from '../../../../testUtil';
+import { withProjectLayout, withRouter } from '../../../../testUtil';
 
 jest.mock('../../../../utils/api', () => ({
   api: {
@@ -21,7 +21,9 @@ jest.mock('../../../../utils/api', () => ({
   },
 }));
 describe('chart config selector', () => {
-  const ChartConfigSelectorStepWithTheme = withThemeProvider(withRouter(ChartConfigSelectorStep));
+  const ChartConfigSelectorStepWithTheme = withThemeProvider(
+    withRouter(withProjectLayout(ChartConfigSelectorStep)),
+  );
   it('should match snapshot', async () => {
     const { container, findByText } = render(
       <ChartConfigSelectorStepWithTheme

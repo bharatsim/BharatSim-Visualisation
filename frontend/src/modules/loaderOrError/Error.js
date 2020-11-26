@@ -20,7 +20,7 @@ function Error({ errorAction, message }) {
   const classes = styles();
   return (
     <Box className={classes.root}>
-      <ErrorBar errorAction={errorAction} message={message} visible />
+      <ErrorBar errorAction={errorAction} message={message} visible fullWidth={false} />
     </Box>
   );
 }

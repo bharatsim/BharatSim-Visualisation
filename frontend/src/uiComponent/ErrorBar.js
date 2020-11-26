@@ -30,13 +30,14 @@ const useStyles = makeStyles((theme) => {
       padding: theme.spacing(2, 6),
       justifyContent: 'space-between',
       alignItems: 'center',
-      width: '100%',
+      width: ({ fullWidth }) => (fullWidth ? '100%' : 'unset'),
+      minWidth: theme.spacing(100),
     },
   };
 });
 
-function ErrorBar({ visible, message, errorAction }) {
-  const classes = useStyles();
+function ErrorBar({ visible, message, errorAction, fullWidth }) {
+  const classes = useStyles({ fullWidth });
   return (
     <Box className={visible ? classes.errorBox : classes.hidden}>
       <Box display="flex">
@@ -59,6 +60,7 @@ function ErrorBar({ visible, message, errorAction }) {
 ErrorBar.propTypes = {
   visible: PropTypes.bool,
   message: PropTypes.string,
+  fullWidth: PropTypes.bool,
   errorAction: PropTypes.shape({
     name: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
@@ -68,5 +70,6 @@ ErrorBar.defaultProps = {
   visible: false,
   message: '',
   errorAction: null,
+  fullWidth: true,
 };
 export default ErrorBar;

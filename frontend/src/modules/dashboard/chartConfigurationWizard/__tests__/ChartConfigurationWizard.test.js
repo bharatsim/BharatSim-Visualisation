@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import ChartConfigurationWizard from '../ChartConfigurationWizard';
 import withThemeProvider from '../../../../theme/withThemeProvider';
-import { selectDropDownOption, withRouter } from '../../../../testUtil';
+import { selectDropDownOption, withProjectLayout, withRouter } from '../../../../testUtil';
 
 jest.mock('../../../../utils/api', () => ({
   api: {
@@ -21,7 +21,9 @@ jest.mock('../../../../utils/api', () => ({
   },
 }));
 
-const ComponentWithProvider = withThemeProvider(withRouter(ChartConfigurationWizard));
+const ComponentWithProvider = withThemeProvider(
+  withRouter(withProjectLayout(ChartConfigurationWizard)),
+);
 
 describe('Chart configuration wizard', () => {
   it('should match snapshot', () => {

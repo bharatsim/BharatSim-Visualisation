@@ -4,6 +4,7 @@ import { fireEvent, within } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import React from 'react';
+import { ProjectLayoutProvider } from './contexts/projectLayoutContext';
 
 export function selectDropDownOption(container, dropDownId, optionId) {
   const dropDown = container.getByTestId(dropDownId);
@@ -20,5 +21,25 @@ export function withRouter(WrappedComponent) {
     <Router history={history}>
       <WrappedComponent {...props} />
     </Router>
+  );
+}
+
+export function withProjectLayout(WrappedComponent) {
+  return (props) => (
+    <ProjectLayoutProvider
+      value={{
+        projectMetadata: {
+          id: '1',
+          name: 'project1',
+        },
+        selectedDashboardMetadata: {
+          _id: '1',
+          name: 'dashboard1',
+        },
+        addDashboard: jest.fn(),
+      }}
+    >
+      <WrappedComponent {...props} />
+    </ProjectLayoutProvider>
   );
 }

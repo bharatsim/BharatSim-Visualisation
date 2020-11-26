@@ -1,20 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Line } from 'react-chartjs-2';
 import { lineChartOptions } from '../chartStyleConfig';
-import useFetch from '../../../hook/useFetch';
 import { api } from '../../../utils/api';
 import { getYaxisNames, trasformDataForChart } from '../utils';
+import useLoader from '../../../hook/useLoader';
+import LoaderOrError from '../../loaderOrError/LoaderOrError';
 
 function LineChart({ config }) {
   const { xAxis: xColumn, yAxis, dataSource } = config;
   const yColumns = getYaxisNames(yAxis);
+  const [fetchedData, setFetchedData] = useState();
+  const {
+    loadingState,
+    message,
+    startLoader,
+    stopLoaderAfterError,
+    stopLoaderAfterSuccess,
+  } = useLoader();
 
-  const { data: csvData } = useFetch(api.getData, [dataSource, [xColumn, ...yColumns]]);
+  async function fetchData() {
+    startLoader();
+    return api
+      .getData(dataSource, [xColumn, ...yColumns])
+      .then((data) => {
+        stopLoaderAfterSuccess();
+        setFetchedData(data);
+      })
+      .catch(() => {
+        stopLoaderAfterError('Unable to fetch data');
+      });
+  }
 
-  const transformedData = trasformDataForChart(csvData, xColumn, yColumns);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  return <Line data={transformedData} options={lineChartOptions} />;
+  const transformedData = trasformDataForChart(fetchedData, xColumn, yColumns);
+
+  const onErrorAction = {
+    name: 'Retry',
+    onClick: fetchData,
+  };
+
+  return (
+    <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
+      <Line data={transformedData} options={lineChartOptions} />
+    </LoaderOrError>
+  );
 }
 
 LineChart.propTypes = {

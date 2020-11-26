@@ -226,10 +226,10 @@ exports[`Upload Dataset should match snapshot for upload dataset component 1`] =
           class="MuiBox-root MuiBox-root-22"
         >
           <div
-            class="MuiBox-root MuiBox-root-27 makeStyles-hidden-25"
+            class="MuiBox-root MuiBox-root-28 makeStyles-hidden-25"
           >
             <div
-              class="MuiBox-root MuiBox-root-28"
+              class="MuiBox-root MuiBox-root-29"
             >
               <p
                 class="MuiTypography-root MuiTypography-body2 makeStyles-errorTitle-23 MuiTypography-colorError"
@@ -242,14 +242,14 @@ exports[`Upload Dataset should match snapshot for upload dataset component 1`] =
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-29 makeStyles-importDataContainer-20"
+            class="MuiBox-root MuiBox-root-30 makeStyles-importDataContainer-20"
           >
             <img
               alt="Import File"
               src="importFileIcon.svg"
             />
             <div
-              class="MuiBox-root MuiBox-root-30 makeStyles-textContainer-21"
+              class="MuiBox-root MuiBox-root-31 makeStyles-textContainer-21"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -257,7 +257,7 @@ exports[`Upload Dataset should match snapshot for upload dataset component 1`] =
                 Drag your file here or 
               </p>
               <div
-                class="MuiBox-root MuiBox-root-31"
+                class="MuiBox-root MuiBox-root-32"
               >
                 <label
                   aria-disabled="false"

@@ -119,6 +119,8 @@ describe('API', () => {
     const expectedParameter = {
       query: { columns: 'columns' },
       url: '/api/dataSources/id',
+      isCustomErrorHandler: true,
+      isCustomLoader: true,
     };
 
     api.getData('id', 'columns');

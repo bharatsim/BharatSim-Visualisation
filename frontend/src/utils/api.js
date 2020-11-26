@@ -71,7 +71,12 @@ const api = {
     }),
 
   getData: async (datasource, columns) =>
-    fetchData({ url: serviceURL.getDataUrl(datasource), query: { columns } }),
+    fetchData({
+      url: serviceURL.getDataUrl(datasource),
+      query: { columns },
+      isCustomLoader: true,
+      isCustomErrorHandler: true,
+    }),
 
   saveProject: async ({ id, ...data }) => {
     const requestObject = {

@@ -1,17 +1,17 @@
 import { chartStyleConfig, getColor } from './chartStyleConfig';
 
-function trasformDataForChart(csvData, xColumn, yColumns) {
+function trasformDataForChart(fetchedData, xColumn, yColumns) {
   return {
-    labels: csvData && csvData.data[xColumn],
+    labels: fetchedData && fetchedData.data[xColumn],
     datasets:
-      csvData &&
+      fetchedData &&
       yColumns.map((yColumn, index) => {
         return {
           ...chartStyleConfig,
           label: yColumn,
           borderColor: getColor(index),
           backgroundColor: getColor(index),
-          data: csvData && csvData.data[yColumn],
+          data: fetchedData && fetchedData.data[yColumn],
         };
       }),
   };

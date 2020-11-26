@@ -2,7 +2,7 @@ import { render, waitFor } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import React from 'react';
 import DatasourceSelector from '../DatasourceSelector';
-import { selectDropDownOption, withRouter } from '../../../../testUtil';
+import { selectDropDownOption, withProjectLayout, withRouter } from '../../../../testUtil';
 import { api } from '../../../../utils/api';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 
@@ -18,7 +18,9 @@ jest.mock('../../../../utils/api', () => ({
 }));
 
 describe('<DatasourceSelector />', () => {
-  const DatasourceSelectorWithProvider = withThemeProvider(withRouter(DatasourceSelector));
+  const DatasourceSelectorWithProvider = withThemeProvider(
+    withRouter(withProjectLayout(DatasourceSelector)),
+  );
   it('should match snapshot for datasource selector', async () => {
     const { container, getByText } = render(
       <DatasourceSelectorWithProvider handleDataSourceChange={jest.fn()} value="" error="" />,

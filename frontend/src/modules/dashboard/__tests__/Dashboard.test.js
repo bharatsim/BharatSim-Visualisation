@@ -3,8 +3,7 @@ import { render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import Dashboard from '../Dashboard';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import { ProjectLayoutProvider } from '../../../contexts/projectLayoutContext';
-import { selectDropDownOption, withRouter } from '../../../testUtil';
+import { selectDropDownOption, withProjectLayout, withRouter } from '../../../testUtil';
 
 jest.mock('../../charts/lineChart/LineChart', () => (props) => (
   <>
@@ -32,24 +31,11 @@ jest.mock('../../../utils/api', () => ({
 }));
 
 describe('<Dashboard />', () => {
-  const DashboardWithProviders = withThemeProvider(
-    withRouter(() => (
-      <ProjectLayoutProvider
-        value={{
-          selectedDashboardMetadata: {
-            name: 'dashboardName',
-          },
-          projectMetadata: { name: 'project1' },
-        }}
-      >
-        <Dashboard />
-      </ProjectLayoutProvider>
-    )),
-  );
+  const DashboardWithProviders = withThemeProvider(withProjectLayout(withRouter(Dashboard)));
   it('should add dashboard name to dashboard component', () => {
     const { getByText } = render(<DashboardWithProviders />);
 
-    const dashboardName = getByText('dashboardName');
+    const dashboardName = getByText('dashboard1');
 
     expect(dashboardName).toBeInTheDocument();
   });
