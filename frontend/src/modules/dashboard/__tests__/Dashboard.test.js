@@ -40,20 +40,31 @@ describe('<Dashboard />', () => {
     expect(dashboardName).toBeInTheDocument();
   });
 
-  it('should open side wizard on click of add chart', () => {
-    const { getByText } = render(<DashboardWithProviders />);
+  it('should open side wizard on click of add chart from header', () => {
+    const { getByText, getByTestId } = render(<DashboardWithProviders />);
 
-    const addChartButton = getByText('Add Chart');
+    const addChartButton = getByTestId('button-add-chart-header');
 
     fireEvent.click(addChartButton);
 
     expect(getByText('Chart Configuration Wizard')).toBeInTheDocument();
   });
+
+  it('should open side wizard on click of add chart from widget', () => {
+    const { getByText, getByTestId } = render(<DashboardWithProviders />);
+
+    const addChartButton = getByTestId('button-add-chart-widget');
+
+    fireEvent.click(addChartButton);
+
+    expect(getByText('Chart Configuration Wizard')).toBeInTheDocument();
+  });
+
   it('should add chart', async () => {
     const renderedComponent = render(<DashboardWithProviders />);
     const { getByText, findByText, getByTestId, getByLabelText } = renderedComponent;
-    const addChartButton = getByText('Add Chart');
 
+    const addChartButton = getByTestId('button-add-chart-header');
     fireEvent.click(addChartButton);
 
     const lineChartOption = getByTestId('lineChart');
@@ -78,9 +89,9 @@ describe('<Dashboard />', () => {
   });
 
   it('should close modal on click of close icon', () => {
-    const { getByText, queryByText, getByTestId } = render(<DashboardWithProviders />);
+    const { queryByText, getByTestId } = render(<DashboardWithProviders />);
 
-    const addChartButton = getByText('Add Chart');
+    const addChartButton = getByTestId('button-add-chart-header');
 
     fireEvent.click(addChartButton);
 

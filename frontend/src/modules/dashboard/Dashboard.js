@@ -15,6 +15,7 @@ import 'react-resizable/css/styles.css';
 import useModal from '../../hook/useModal';
 import ChartConfigurationWizard from './chartConfigurationWizard/ChartConfigurationWizard';
 import { getNewWidgetLayout, renderElement } from '../../utils/dashboardLayoutUtils';
+import CreateNewChartWidget from './CreateNewChartWidget';
 
 const COLUMNS = 12;
 
@@ -84,20 +85,30 @@ function Dashboard() {
             startIcon={<img src={addChartIcon} alt="add-chart" />}
             size="small"
             onClick={openModal}
+            data-testid="button-add-chart-header"
           >
             Add Chart
           </Button>
         </Box>
       </DashboardHeaderBar>
-      <GridLayout
-        layout={layout}
-        onLayoutChange={onLayoutChange}
-        className={classes.reactGridLayout}
-      >
-        {charts.map((item) => {
-          return renderElement(item);
-        })}
-      </GridLayout>
+      <Box pt={3}>
+        {charts.length === 0 ? (
+          <Box p={8} display="inline-flex">
+            <CreateNewChartWidget openChartConfig={openModal} />
+          </Box>
+        ) : (
+          <GridLayout
+            layout={layout}
+            onLayoutChange={onLayoutChange}
+            className={classes.reactGridLayout}
+            margin={[32, 32]}
+          >
+            {charts.map((item) => {
+              return renderElement(item);
+            })}
+          </GridLayout>
+        )}
+      </Box>
       {isOpen && (
         <ChartConfigurationWizard isOpen={isOpen} closeModal={closeModal} onApply={onApply} />
       )}
