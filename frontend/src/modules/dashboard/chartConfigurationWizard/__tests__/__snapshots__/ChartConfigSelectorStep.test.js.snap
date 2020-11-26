@@ -3,10 +3,10 @@
 exports[`chart config selector should match snapshot 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-5"
+    class="MuiBox-root MuiBox-root-6"
   >
     <div
-      class="MuiBox-root MuiBox-root-6 makeStyles-tabContainer-3"
+      class="MuiBox-root MuiBox-root-7 makeStyles-tabContainer-3"
     >
       <div
         class="MuiTabs-root"
@@ -38,20 +38,60 @@ exports[`chart config selector should match snapshot 1`] = `
             </button>
           </div>
           <span
-            class="PrivateTabIndicator-root-7 PrivateTabIndicator-colorPrimary-8 MuiTabs-indicator"
+            class="PrivateTabIndicator-root-8 PrivateTabIndicator-colorPrimary-9 MuiTabs-indicator"
             style="left: 0px; width: 0px;"
           />
         </div>
       </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-11 makeStyles-container-2"
+      class="MuiBox-root MuiBox-root-12 makeStyles-container-2"
     >
       <div
-        class="MuiBox-root MuiBox-root-12"
+        class="MuiBox-root MuiBox-root-13"
       >
         <div
-          class="MuiBox-root MuiBox-root-19"
+          class="MuiBox-root MuiBox-root-14"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2"
+          >
+            Chart Name
+          </h6>
+        </div>
+        <div
+          class="MuiFormControl-root MuiTextField-root makeStyles-textFieldRoot-5"
+          data-testid="chartName"
+        >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+            data-shrink="false"
+            for="chartName"
+            id="chartName-label"
+          >
+            Add chart name
+          </label>
+          <div
+            class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input MuiFilledInput-input"
+              id="chartName"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <hr
+        class="MuiDivider-root"
+      />
+      <div
+        class="MuiBox-root MuiBox-root-15"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-22"
         >
           <h6
             class="MuiTypography-root MuiTypography-subtitle2"
@@ -60,7 +100,7 @@ exports[`chart config selector should match snapshot 1`] = `
           </h6>
         </div>
         <div
-          class="MuiFormControl-root makeStyles-formControl-27"
+          class="MuiFormControl-root makeStyles-formControl-30"
         >
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
@@ -105,16 +145,16 @@ exports[`chart config selector should match snapshot 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-15 makeStyles-footer-1"
+        class="MuiBox-root MuiBox-root-18 makeStyles-footer-1"
       >
         <hr
           class="MuiDivider-root"
         />
         <div
-          class="MuiBox-root MuiBox-root-16"
+          class="MuiBox-root MuiBox-root-19"
         >
           <div
-            class="MuiBox-root MuiBox-root-18 makeStyles-buttonGroup-17"
+            class="MuiBox-root MuiBox-root-21 makeStyles-buttonGroup-20"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"

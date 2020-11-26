@@ -51,7 +51,7 @@ describe('<Dashboard />', () => {
   });
   it('should add chart', async () => {
     const renderedComponent = render(<DashboardWithProviders />);
-    const { getByText, findByText, getByTestId } = renderedComponent;
+    const { getByText, findByText, getByTestId, getByLabelText } = renderedComponent;
     const addChartButton = getByText('Add Chart');
 
     fireEvent.click(addChartButton);
@@ -62,6 +62,10 @@ describe('<Dashboard />', () => {
     fireEvent.click(nextButton);
 
     await findByText('Data Source');
+    const chartNameInput = getByLabelText('Add chart name');
+    fireEvent.change(chartNameInput, {
+      target: { value: 'chart name' },
+    });
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
     selectDropDownOption(renderedComponent, 'dropdown-x', 'column1');

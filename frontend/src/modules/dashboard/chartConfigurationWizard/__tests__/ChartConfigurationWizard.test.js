@@ -53,7 +53,7 @@ describe('Chart configuration wizard', () => {
     const renderedComponent = render(
       <ComponentWithProvider closeModal={jest.fn()} isOpen onApply={onApplyMock} />,
     );
-    const { findByText, getByText, getByTestId } = renderedComponent;
+    const { findByText, getByText, getByTestId, getByLabelText } = renderedComponent;
 
     const lineChartOption = getByTestId('lineChart');
     const nextButton = getByText('Next');
@@ -61,6 +61,11 @@ describe('Chart configuration wizard', () => {
     fireEvent.click(lineChartOption);
     fireEvent.click(nextButton);
     await findByText('Data Source');
+
+    const chartNameInput = getByLabelText('Add chart name');
+    fireEvent.change(chartNameInput, {
+      target: { value: 'chart name' },
+    });
 
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
@@ -71,6 +76,7 @@ describe('Chart configuration wizard', () => {
     fireEvent.click(applyButton);
 
     expect(onApplyMock).toHaveBeenCalledWith('lineChart', {
+      chartName: 'chart name',
       dataSource: 'id2',
       xAxis: 'column1',
       yAxis: [{ name: 'column2', type: 'number' }],

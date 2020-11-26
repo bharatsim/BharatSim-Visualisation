@@ -40,6 +40,13 @@ function datasourceValidator(value = '') {
   return '';
 }
 
+function chartNameValidator(value = '') {
+  if (isAbsent(value)) {
+    return 'Please select chart name';
+  }
+  return '';
+}
+
 function validateFile(file) {
   if (!file) {
     return 'Please upload valid csv file';
@@ -53,4 +60,4 @@ function validateFile(file) {
   return '';
 }
 
-export { datasourceValidator, xAxisValidator, yAxisValidator, validateFile };
+export { datasourceValidator, xAxisValidator, yAxisValidator, validateFile, chartNameValidator };

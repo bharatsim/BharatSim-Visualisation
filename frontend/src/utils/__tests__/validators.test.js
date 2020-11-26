@@ -1,4 +1,10 @@
-import { datasourceValidator, validateFile, xAxisValidator, yAxisValidator } from '../validators';
+import {
+  chartNameValidator,
+  datasourceValidator,
+  validateFile,
+  xAxisValidator,
+  yAxisValidator,
+} from '../validators';
 
 describe('Validators', () => {
   describe('X axis validator', () => {
@@ -49,6 +55,20 @@ describe('Validators', () => {
 
     it('should provide message if datasource value is undefined', () => {
       expect(datasourceValidator()).toEqual('Please select data source');
+    });
+  });
+
+  describe('chartName validator', () => {
+    it('should provide message if chart name value is not present', () => {
+      expect(chartNameValidator('')).toEqual('Please select chart name');
+    });
+
+    it('should provide empty message if chart name value is present', () => {
+      expect(chartNameValidator('test')).toEqual('');
+    });
+
+    it('should provide message if chart name value is undefined', () => {
+      expect(chartNameValidator()).toEqual('Please select chart name');
     });
   });
 
