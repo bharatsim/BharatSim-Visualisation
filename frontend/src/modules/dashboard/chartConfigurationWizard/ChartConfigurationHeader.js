@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.grey['100'],
     border: '1px solid',
     marginRight: theme.spacing(3),
+    borderRadius: theme.spacing(1),
   },
   image: {
     width: theme.spacing(6),
