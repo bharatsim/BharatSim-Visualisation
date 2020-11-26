@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Widget /> should match snapshot 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-5 makeStyles-widgetTitle-4"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body2 makeStyles-chartName-3"
+    >
+      Line Chart
+    </p>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-6 makeStyles-chartContainer-1"
+  >
+    Line Chart
+  </div>
+</div>
+`;

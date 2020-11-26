@@ -14,8 +14,9 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import useModal from '../../hook/useModal';
 import ChartConfigurationWizard from './chartConfigurationWizard/ChartConfigurationWizard';
-import { getNewWidgetLayout, renderElement } from '../../utils/dashboardLayoutUtils';
+import { getNewWidgetLayout } from '../../utils/dashboardLayoutUtils';
 import CreateNewChartWidget from './CreateNewChartWidget';
+import { renderWidget } from './renderWidget';
 
 const COLUMNS = 12;
 
@@ -104,7 +105,7 @@ function Dashboard() {
             margin={[32, 32]}
           >
             {charts.map((item) => {
-              return renderElement(item);
+              return renderWidget(item);
             })}
           </GridLayout>
         )}

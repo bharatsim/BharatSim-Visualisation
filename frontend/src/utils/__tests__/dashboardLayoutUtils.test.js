@@ -1,31 +1,6 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import { getNewWidgetLayout, renderElement } from '../dashboardLayoutUtils';
-
-jest.mock('../../modules/charts/renderChart', () => ({
-  __esModule: true,
-  default: (chartType, props) => (
-    <div>
-      Chart:
-      {chartType}
-      <span>
-        {/* eslint-disable-next-line no-undef */}
-        {mockPropsCapture(props)}
-      </span>
-    </div>
-  ),
-}));
+import { getNewWidgetLayout } from '../dashboardLayoutUtils';
 
 describe('Dashboard layout utils', () => {
-  describe('Create element', () => {
-    it('should provide element with data-grid', () => {
-      const element = renderElement({ layout: { i: 'id-1' }, chartType: 'Linechart', config: {} });
-      const { container } = render(<>{element}</>);
-
-      expect(container).toMatchSnapshot();
-    });
-  });
-
   describe('getNewWidgetLayout', () => {
     it('should provide layout for newly added widget', () => {
       const numberOfWidgetAdded = 2;
