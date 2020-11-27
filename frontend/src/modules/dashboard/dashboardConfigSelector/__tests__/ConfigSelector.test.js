@@ -28,12 +28,14 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         updateConfigState={updateConfigStateMock}
         values={{}}
+        resetValue={jest.fn()}
       />,
     );
     await findByText('select x axis');
 
     expect(container).toMatchSnapshot();
   });
+
   it('should update config on change of dropdown', async () => {
     const updateConfigStateMock = jest.fn();
     const renderedComponent = render(
@@ -43,6 +45,7 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         updateConfigState={updateConfigStateMock}
         values={{}}
+        resetValue={jest.fn()}
       />,
     );
     await renderedComponent.findByText('select x axis');
@@ -52,7 +55,7 @@ describe('<ConfigSelector />', () => {
     expect(updateConfigStateMock).toHaveBeenCalledWith('xAxis', 'column1');
   });
 
-  it('should show loader while fetching data', async () => {
+  it('should call getCsvHeaders with data source id on render', async () => {
     const updateConfigStateMock = jest.fn();
     const renderedComponent = render(
       <ConfigSelectorWithTheme
@@ -61,13 +64,74 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         updateConfigState={updateConfigStateMock}
         values={{}}
+        resetValue={jest.fn()}
       />,
     );
-    const loaderComponent = document.getElementsByTagName('svg');
-
-    expect(loaderComponent).not.toBeNull();
-
     await renderedComponent.findByText('select x axis');
+
+    expect(api.getCsvHeaders).toHaveBeenCalledWith('dataSourceId');
+  });
+
+  it('should call getCsvHeaders with data source id on rerender for data source id change', async () => {
+    const updateConfigStateMock = jest.fn();
+    const { findByText, rerender } = render(
+      <ConfigSelectorWithTheme
+        chartType="lineChart"
+        dataSourceId="dataSourceId"
+        errors={{}}
+        updateConfigState={updateConfigStateMock}
+        values={{}}
+        resetValue={jest.fn()}
+      />,
+    );
+
+    await findByText('select x axis');
+
+    rerender(
+      <ConfigSelectorWithTheme
+        chartType="lineChart"
+        dataSourceId="dataSourceId2"
+        errors={{}}
+        updateConfigState={updateConfigStateMock}
+        values={{}}
+        resetValue={jest.fn()}
+      />,
+    );
+
+    await findByText('select x axis');
+
+    expect(api.getCsvHeaders).toHaveBeenCalledWith('dataSourceId2');
+  });
+
+  it('should call resetValue for config of line chart', async () => {
+    const resetValue = jest.fn();
+    const { findByText, rerender } = render(
+      <ConfigSelectorWithTheme
+        chartType="lineChart"
+        dataSourceId="dataSourceId"
+        errors={{}}
+        updateConfigState={jest.fn()}
+        values={{}}
+        resetValue={resetValue}
+      />,
+    );
+
+    await findByText('select x axis');
+
+    rerender(
+      <ConfigSelectorWithTheme
+        chartType="lineChart"
+        dataSourceId="dataSourceId2"
+        errors={{}}
+        updateConfigState={jest.fn()}
+        values={{}}
+        resetValue={resetValue}
+      />,
+    );
+
+    await findByText('select x axis');
+
+    expect(api.getCsvHeaders).toHaveBeenCalledWith('dataSourceId2');
   });
 
   it('should show loader while fetching data', async () => {
@@ -79,6 +143,7 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         updateConfigState={updateConfigStateMock}
         values={{}}
+        resetValue={jest.fn()}
       />,
     );
     const loaderComponent = document.getElementsByTagName('svg');
@@ -97,12 +162,13 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         updateConfigState={jest.fn()}
         values={{}}
+        resetValue={jest.fn()}
       />,
     );
 
-    await findByText('Unable to fetch axis');
+    await findByText('Unable to data source headers');
 
-    expect(getByText('Unable to fetch axis')).toBeInTheDocument();
+    expect(getByText('Unable to data source headers')).toBeInTheDocument();
   });
 
   it('should refetch data on click on retry button present on error banner', async () => {
@@ -114,10 +180,11 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         updateConfigState={jest.fn()}
         values={{}}
+        resetValue={jest.fn()}
       />,
     );
 
-    await findByText('Unable to fetch axis');
+    await findByText('Unable to data source headers');
     const retryButton = getByText('Retry').closest('button');
     fireEvent.click(retryButton);
 

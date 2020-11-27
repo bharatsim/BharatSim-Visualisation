@@ -126,4 +126,13 @@ describe('Configure datasets', () => {
       getByText('Before we can create any visualization, we ‘ll need some data.'),
     ).toBeInTheDocument();
   });
+
+  it('should disable goToDashboard button if no datasource presents', async () => {
+    api.getDatasources.mockResolvedValue({ dataSources: [] });
+    const { getByText, findByText } = render(<ComponentWithProvider />);
+
+    await findByText('Configure Dashboard Data');
+
+    expect(getByText('Go to dashboard').closest('button')).toBeDisabled();
+  });
 });

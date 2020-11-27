@@ -82,6 +82,36 @@ describe('Chart configuration wizard', () => {
       yAxis: [{ name: 'column2', type: 'number' }],
     });
   });
+
+  it('should call on apply function on click of on apply button of config step with default chart name', async () => {
+    const onApplyMock = jest.fn();
+    const renderedComponent = render(
+      <ComponentWithProvider closeModal={jest.fn()} isOpen onApply={onApplyMock} />,
+    );
+    const { findByText, getByText, getByTestId } = renderedComponent;
+
+    const lineChartOption = getByTestId('lineChart');
+    const nextButton = getByText('Next');
+
+    fireEvent.click(lineChartOption);
+    fireEvent.click(nextButton);
+    await findByText('Data Source');
+
+    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    await findByText('select x axis');
+    selectDropDownOption(renderedComponent, 'dropdown-x', 'column1');
+    selectDropDownOption(renderedComponent, 'dropdown-y-0', 'column2');
+
+    const applyButton = getByText('Apply');
+    fireEvent.click(applyButton);
+
+    expect(onApplyMock).toHaveBeenCalledWith('lineChart', {
+      chartName: 'Untitled Chart',
+      dataSource: 'id2',
+      xAxis: 'column1',
+      yAxis: [{ name: 'column2', type: 'number' }],
+    });
+  });
   it('should disable apply button if any config is not selected', async () => {
     const onApplyMock = jest.fn();
     const renderedComponent = render(

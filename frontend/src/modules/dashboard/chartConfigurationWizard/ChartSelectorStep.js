@@ -7,10 +7,21 @@ import ImageOption from '../../../uiComponent/ImageOption';
 import theme from '../../../theme/theme';
 import chartConfigs from '../../../config/chartConfigs';
 import { useFooterStyles } from './styles';
+import { chartGroups } from '../../../constants/charts';
 
 const useStyles = makeStyles(() => ({
   chartSelectorContainer: {
     margin: theme.spacing(6, 0),
+  },
+  chartTypeContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    '& > *': {
+      marginLeft: theme.spacing(6),
+    },
+    '& > :first-child': {
+      marginLeft: theme.spacing(0),
+    },
   },
 }));
 
@@ -36,21 +47,27 @@ function ChartSelectorStep({ onNext, chart }) {
           Choose a chart type to start configuring your chart
         </Typography>
         <Box className={classes.chartSelectorContainer}>
-          {Object.values(chartConfigs).map((chartConfig) => {
+          {Object.keys(chartGroups).map((chartGroupName) => {
             return (
-              <Box key={chartConfig.label}>
+              <Box mb={6} key={chartGroupName}>
                 <Box mb={2}>
-                  <Typography variant="subtitle2">{chartConfig.label}</Typography>
+                  <Typography variant="subtitle2">{chartGroupName}</Typography>
                 </Box>
-                <Box>
-                  <ImageOption
-                    dataTestId={chartConfig.key}
-                    value={chartConfig.key}
-                    label={chartConfig.label}
-                    icon={<img src={chartConfig.icon} alt={chartConfig.key} />}
-                    isSelected={selectedChart === chartConfig.key}
-                    onCLick={onChartClick}
-                  />
+                <Box className={classes.chartTypeContainer}>
+                  {chartGroups[chartGroupName].map((chartType) => {
+                    const chartConfig = chartConfigs[chartType];
+                    return (
+                      <ImageOption
+                        key={chartConfig.key}
+                        dataTestId={chartConfig.key}
+                        value={chartConfig.key}
+                        label={chartConfig.label}
+                        icon={<img src={chartConfig.icon} alt={chartConfig.key} />}
+                        isSelected={selectedChart === chartConfig.key}
+                        onCLick={onChartClick}
+                      />
+                    );
+                  })}
                 </Box>
               </Box>
             );

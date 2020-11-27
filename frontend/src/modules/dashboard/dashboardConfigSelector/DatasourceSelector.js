@@ -49,7 +49,12 @@ function DatasourceSelector({ handleDataSourceChange, value, error }) {
   };
 
   return (
-    <LoaderOrError loadingState={loadingState} message={message} errorAction={onErrorAction}>
+    <LoaderOrError
+      loadingState={loadingState}
+      message={message}
+      errorAction={onErrorAction}
+      fullWidth
+    >
       {isDataSourcePresent ? (
         <>
           <Box mb={2}>

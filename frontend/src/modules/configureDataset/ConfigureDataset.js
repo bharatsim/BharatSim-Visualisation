@@ -47,13 +47,21 @@ function ConfigureDataset() {
     history.push(`/projects/${projectMetadata.id}/dashboard`);
   }
 
+  const isEmptyDashboards = dataSources && dataSources.length === 0;
+
   return (
     <Box>
       <ProjectHeader />
       <DashboardHeaderBar>
         <Box className={classes.configureProjectDataBar}>
           <Typography variant="h6"> Configure Dashboard Data</Typography>
-          <Button variant="contained" color="primary" size="small" onClick={openDashboard}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={openDashboard}
+            disabled={isEmptyDashboards}
+          >
             Go to dashboard
           </Button>
         </Box>
@@ -75,10 +83,10 @@ function ConfigureDataset() {
           <Typography variant="subtitle2">{`${projectMetadata.name} :: ${selectedDashboardName}`}</Typography>
         </Box>
         <Box className={classes.dashboardDataBody}>
-          {dataSources && dataSources.length > 0 ? (
-            <DashboardDataSetsTable dataSources={dataSources} />
-          ) : (
+          {isEmptyDashboards ? (
             <NoDataSetPresentMessage projectMetadataId={projectMetadata.id} />
+          ) : (
+            <DashboardDataSetsTable dataSources={dataSources} />
           )}
         </Box>
       </Box>

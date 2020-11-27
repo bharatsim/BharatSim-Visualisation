@@ -71,6 +71,7 @@ function Dashboard() {
       });
     });
   }
+
   function onLayoutChange(changedLayout) {
     setLayout(changedLayout);
   }

@@ -8,7 +8,14 @@ import chartConfigOptions from '../../../config/chartConfigOptions';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 
-function ConfigSelector({ dataSourceId, chartType, updateConfigState, errors, values }) {
+function ConfigSelector({
+  dataSourceId,
+  chartType,
+  updateConfigState,
+  errors,
+  values,
+  resetValue,
+}) {
   const [fetchedCsvHeaders, setFetchedCsvHeaders] = useState();
 
   const {
@@ -20,8 +27,9 @@ function ConfigSelector({ dataSourceId, chartType, updateConfigState, errors, va
   } = useLoader();
 
   useEffect(() => {
+    configOptionsKeysForSelectedChart.map((chartConfigKey) => resetValue(chartConfigKey));
     fetchCsvHeaders();
-  }, []);
+  }, [dataSourceId]);
 
   async function fetchCsvHeaders() {
     startLoader();
@@ -32,7 +40,7 @@ function ConfigSelector({ dataSourceId, chartType, updateConfigState, errors, va
         setFetchedCsvHeaders(resData);
       })
       .catch(() => {
-        stopLoaderAfterError('Unable to fetch axis');
+        stopLoaderAfterError('Unable to data source headers');
       });
   }
 
@@ -49,7 +57,12 @@ function ConfigSelector({ dataSourceId, chartType, updateConfigState, errors, va
   };
 
   return (
-    <LoaderOrError loadingState={loadingState} message={message} errorAction={onErrorAction}>
+    <LoaderOrError
+      loadingState={loadingState}
+      message={message}
+      errorAction={onErrorAction}
+      fullWidth
+    >
       <>
         {headers && (
           <div>
@@ -70,6 +83,7 @@ ConfigSelector.propTypes = {
   dataSourceId: PropTypes.string.isRequired,
   chartType: PropTypes.string.isRequired,
   updateConfigState: PropTypes.func.isRequired,
+  resetValue: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
   values: PropTypes.shape({}).isRequired,
 };

@@ -64,8 +64,8 @@ exports[`chart config selector should match snapshot 1`] = `
           data-testid="chartName"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
-            data-shrink="false"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-filled"
+            data-shrink="true"
             for="chartName"
             id="chartName-label"
           >
@@ -79,7 +79,7 @@ exports[`chart config selector should match snapshot 1`] = `
               class="MuiInputBase-input MuiFilledInput-input"
               id="chartName"
               type="text"
-              value=""
+              value="Untitled Chart"
             />
           </div>
         </div>

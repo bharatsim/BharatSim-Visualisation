@@ -16,11 +16,11 @@ const styles = makeStyles(() => ({
   },
 }));
 
-function Error({ errorAction, message }) {
+function Error({ errorAction, message, fullWidth }) {
   const classes = styles();
   return (
     <Box className={classes.root}>
-      <ErrorBar errorAction={errorAction} message={message} visible fullWidth={false} />
+      <ErrorBar errorAction={errorAction} message={message} visible fullWidth={fullWidth} />
     </Box>
   );
 }
@@ -28,10 +28,12 @@ function Error({ errorAction, message }) {
 Error.defaultProps = {
   message: 'Unable to fetch',
   errorAction: null,
+  fullWidth: false,
 };
 
 Error.propTypes = {
   message: PropTypes.string,
+  fullWidth: PropTypes.bool,
   errorAction: PropTypes.shape({
     name: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
