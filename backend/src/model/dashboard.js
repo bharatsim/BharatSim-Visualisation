@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-const widgetSchema = new Schema(
+const chartSchema = new Schema(
   {
     layout: { h: Number, i: String, w: Number, x: Number, y: Number },
     dataSource: String,
     config: Object,
     chartType: String,
+    chartName: String,
   },
   { _id: false },
 );
@@ -17,7 +18,7 @@ const dashboard = new Schema(
       type: String,
       required: true,
     },
-    widgets: [widgetSchema],
+    charts: [chartSchema],
     layout: [Object],
     count: { type: Number, required: true },
     // TODO: Add Required in project id

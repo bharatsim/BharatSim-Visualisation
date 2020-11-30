@@ -15,12 +15,12 @@ function formDataBuilder(data) {
 }
 
 const api = {
-  saveDashboard: async ({ widgets, layout, dashboardId, name, count }) => {
+  saveDashboard: async ({ charts, layout, dashboardId, name, count }) => {
     return uploadData({
       url: serviceURL.DASHBOARD_URL,
       headers: headerBuilder({ contentType: contentTypes.JSON }),
       data: JSON.stringify({
-        dashboardData: { widgets, layout, dashboardId, name, count },
+        dashboardData: { charts, layout, dashboardId, name, count },
       }),
     });
   },
@@ -40,6 +40,11 @@ const api = {
     fetchData({
       url: serviceURL.DASHBOARD_URL,
       query: { projectId, columns: ['name', '_id'] },
+    }),
+
+  getDashboard: async (dashboardId) =>
+    fetchData({
+      url: serviceURL.getDashboardUrl(dashboardId),
     }),
 
   getAllDashBoard: async () => fetchData({ url: serviceURL.DASHBOARD_URL }),

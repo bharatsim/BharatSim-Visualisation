@@ -7,6 +7,7 @@ const {
   saveDashboard,
   getAllDashboards,
   insertDashboard,
+  getDashboard,
 } = require('../services/dashboardService');
 
 // TODO: Refactor APIS for new dashboard
@@ -44,6 +45,17 @@ router.post('/create-new', async function (req, res) {
 router.get('/', async function (req, res) {
   const { columns, ...filters } = req.query;
   getAllDashboards(filters, columns)
+    .then((dashboards) => {
+      res.send(dashboards);
+    })
+    .catch((err) => {
+      sendServerError(err, res);
+    });
+});
+
+router.get('/:id', async function (req, res) {
+  const { id: dashboardId } = req.params;
+  getDashboard(dashboardId)
     .then((dashboards) => {
       res.send(dashboards);
     })

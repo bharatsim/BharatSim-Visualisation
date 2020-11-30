@@ -6,6 +6,7 @@ Object {
   "DATA_SOURCES": "/api/dataSources",
   "INSERT_DASHBOARD": "/api/dashboard/create-new",
   "PROJECT_URL": "/api/projects",
+  "getDashboardUrl": [Function],
   "getDataUrl": [Function],
   "getHeaderUrl": [Function],
   "getProjectUrl": [Function],

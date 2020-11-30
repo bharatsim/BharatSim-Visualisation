@@ -11,11 +11,11 @@ describe('API', () => {
     jest.clearAllMocks();
   });
   it('should call save dashboard api with provided data', () => {
-    const data = { widgets: [], layout: [], dashboardId: 'id', name: 'name', count: 0 };
+    const data = { charts: [], layout: [], dashboardId: 'id', name: 'name', count: 0 };
 
     const expectedParameter = {
       data: JSON.stringify({
-        dashboardData: { widgets: [], layout: [], dashboardId: 'id', name: 'name', count: 0 },
+        dashboardData: { charts: [], layout: [], dashboardId: 'id', name: 'name', count: 0 },
       }),
       headers: { 'content-type': 'application/json' },
       url: '/api/dashboard',
@@ -175,6 +175,15 @@ describe('API', () => {
     };
 
     api.getProject('1');
+
+    expect(fetchData).toHaveBeenCalledWith(expectedParameter);
+  });
+  it('should call dashboard api with given dashboard id', () => {
+    const expectedParameter = {
+      url: '/api/dashboard/dashboard1',
+    };
+
+    api.getDashboard('dashboard1');
 
     expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });

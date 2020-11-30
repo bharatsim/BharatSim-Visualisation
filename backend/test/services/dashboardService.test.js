@@ -1,4 +1,8 @@
-const { saveDashboard, getAllDashboards } = require('../../src/services/dashboardService');
+const {
+  saveDashboard,
+  getAllDashboards,
+  getDashboard,
+} = require('../../src/services/dashboardService');
 const dashboardRepository = require('../../src/repository/dashboardRepository');
 const InvalidInputException = require('../../src/exceptions/InvalidInputException');
 
@@ -71,6 +75,14 @@ describe('Dashboard Service', function () {
 
     expect(fetchedDashboard).toEqual({ dashboards: [{ _id: '123' }, { _id: '123' }] });
   });
+  it('should called get dashboard by dashboard id', async function () {
+    dashboardRepository.getOne.mockResolvedValue({ _id: 'dashboardId' });
+    const fetchedDashboard = await getDashboard('dashboardId');
+
+    expect(fetchedDashboard).toEqual({
+      dashboard: { _id: 'dashboardId' },
+    });
+  });
 
   it('should called getAll dashboards by projectId', async function () {
     await getAllDashboards({ projectId: 'projectId' }, ['name', '_id']);
@@ -79,5 +91,10 @@ describe('Dashboard Service', function () {
       { projectId: 'projectId' },
       { _id: 1, name: 1 },
     );
+  });
+  it('should called getOne dashboard by dashboard id', async function () {
+    await getDashboard('dashboardId');
+
+    expect(dashboardRepository.getOne).toHaveBeenCalledWith('dashboardId');
   });
 });

@@ -10,7 +10,7 @@ const { parseDBObject } = require('../../src/utils/dbUtils');
 
 const TEST_FILE_UPLOAD_PATH = './uploads/';
 
-const widget = {
+const chart = {
   layout: { h: 1, i: 'test', w: 2, x: 1, y: 3 },
   dataSource: 'datasource',
   config: { xAxis: 'xCol', yAxis: 'ycol' },
@@ -19,7 +19,7 @@ const widget = {
 
 const dashboardData = {
   name: 'dashboard1',
-  widgets: [widget],
+  charts: [chart],
   layout: [],
   count: 0,
   projectId: '313233343536373839303132',

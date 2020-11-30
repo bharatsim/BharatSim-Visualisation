@@ -115,6 +115,19 @@ describe('dashboardController', function () {
         ['name', '_id'],
       );
     });
+    it('should get dashboard data with dashboard data', async function () {
+      dashboardService.getDashboard.mockResolvedValueOnce({ dashboard: 'dashboardData' });
+      await request(app).get('/dashboard/dashboardId').expect(200);
+
+      expect(dashboardService.getDashboard).toHaveBeenCalledWith('dashboardId');
+    });
+    it('should throw and technical error for any failure for get dashboard with Id', async function () {
+      dashboardService.getDashboard.mockRejectedValueOnce(new Error('Message'));
+      await request(app)
+        .get('/dashboard/dashboardId')
+        .expect(500)
+        .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
+    });
 
     it('should throw and technical error for any failure', async function () {
       dashboardService.getAllDashboards.mockRejectedValueOnce(new Error('Message'));

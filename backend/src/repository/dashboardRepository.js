@@ -13,8 +13,13 @@ async function getAll(filter, projectedColumns) {
   return DashboardModel.find(filter, projectedColumns);
 }
 
+async function getOne(dashboardId) {
+  return DashboardModel.findOne({ _id: dashboardId }, { __v: 0 });
+}
+
 module.exports = {
   insert,
   update,
   getAll,
+  getOne,
 };
