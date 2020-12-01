@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 import ErrorBar from './ErrorBar';
 
 const useStyles = makeStyles((theme) => {
@@ -48,8 +50,22 @@ function OverlayError({ isError, errorConfig, hideError }) {
   return (
     <Dialog open={isError}>
       <Box className={classes.errContainer}>
-        <Box className={classes.errorTitle} mb={3}>
+        <Box
+          className={classes.errorTitle}
+          mb={3}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography variant="subtitle2">{errorTitle}</Typography>
+          <IconButton
+            aria-label="close"
+            data-testid="button-icon-close"
+            className={classes.closeButton}
+            onClick={hideError}
+          >
+            <CloseIcon />
+          </IconButton>
         </Box>
 
         <ErrorBar message={errorMessage} visible />

@@ -21,6 +21,8 @@ import { renderWidget } from './renderWidget';
 import { api } from '../../utils/api';
 import useFetch from '../../hook/useFetch';
 import snackbarVariant from '../../constants/snackbarVariant';
+import { errors, errorTypes } from '../../constants/loaderAndErrorMessages';
+import { overlayLoaderOrErrorContext } from '../../contexts/overlayLoaderOrErrorContext';
 
 const COLUMNS = 12;
 
@@ -59,6 +61,7 @@ function Dashboard() {
   const { enqueueSnackbar } = useSnackbar();
   const { SUCCESS } = snackbarVariant;
   const { isOpen, closeModal, openModal } = useModal();
+  const { showError } = useContext(overlayLoaderOrErrorContext);
 
   const { selectedDashboardMetadata } = useContext(projectLayoutContext);
   const { name: dashboardName, _id: dashboardId } = selectedDashboardMetadata;
@@ -91,7 +94,11 @@ function Dashboard() {
         enqueueSnackbar(`Saved Successfully`, {
           variant: SUCCESS,
         }),
-      );
+      )
+      .catch(() => {
+        const errorConfigs = errors[errorTypes.FAILED_TO_SAVE_DASHBOARD](dashboardName);
+        showError(errorConfigs);
+      });
   }
   function onApply(chartType, config) {
     addChart(chartType, config);
@@ -131,7 +138,12 @@ function Dashboard() {
             >
               Add Chart
             </Button>
-            <Button variant="outlined" onClick={saveDashboard} size="small">
+            <Button
+              variant="outlined"
+              onClick={saveDashboard}
+              size="small"
+              disabled={charts.length === 0}
+            >
               Save
             </Button>
           </Box>

@@ -5,8 +5,8 @@ import withThemeProvider from '../../../theme/withThemeProvider';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../testUtil';
 import withSnackBar from '../../../hoc/withSnackBar';
 import { api } from '../../../utils/api';
+import withOverlayLoaderOrError from '../../../hoc/withOverlayLoaderOrError';
 
-// TODO -- Fix Warning from tests
 jest.mock('../../charts/lineChart/LineChart', () => (props) => (
   <>
     {JSON.stringify(props, null, 2)}
@@ -40,7 +40,7 @@ jest.mock('../../../utils/api', () => ({
 
 describe('<Dashboard />', () => {
   const DashboardWithProviders = withSnackBar(
-    withThemeProvider(withProjectLayout(withRouter(Dashboard))),
+    withOverlayLoaderOrError(withThemeProvider(withProjectLayout(withRouter(Dashboard)))),
   );
   it('should add dashboard name to dashboard component', async () => {
     const { getByText, findByTestId } = render(<DashboardWithProviders />);
@@ -49,6 +49,13 @@ describe('<Dashboard />', () => {
     const dashboardName = getByText('dashboard1');
 
     expect(dashboardName).toBeInTheDocument();
+  });
+  it('should disable save button if there are no charts', async () => {
+    const { getByText, findByTestId } = render(<DashboardWithProviders />);
+    await findByTestId('button-add-chart-widget');
+    const saveButton = getByText('Save').closest('button');
+
+    expect(saveButton).toBeDisabled();
   });
 
   it('should return empty component when failed to fetch dashboard', async () => {
@@ -138,6 +145,39 @@ describe('<Dashboard />', () => {
 
     await findByText('Saved Successfully');
     expect(getByText('Saved Successfully')).toBeInTheDocument();
+  });
+  it('should show error if any while saving the dashboard', async () => {
+    const renderedComponent = render(<DashboardWithProviders />);
+    api.saveDashboard.mockRejectedValueOnce('Error');
+    const { getByText, findByText, getByTestId, getByLabelText } = renderedComponent;
+    await findByText('dashboard1');
+
+    const addChartButton = getByTestId('button-add-chart-header');
+    fireEvent.click(addChartButton);
+
+    const lineChartOption = getByTestId('lineChart');
+    const nextButton = getByText('Next');
+    fireEvent.click(lineChartOption);
+    fireEvent.click(nextButton);
+
+    await findByText('Data Source');
+    const chartNameInput = getByLabelText('Add chart name');
+    fireEvent.change(chartNameInput, {
+      target: { value: 'chart name' },
+    });
+    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    await findByText('select x axis');
+    selectDropDownOption(renderedComponent, 'dropdown-x', 'column1');
+    selectDropDownOption(renderedComponent, 'dropdown-y-0', 'column2');
+
+    const applyButton = getByText('Apply');
+    fireEvent.click(applyButton);
+
+    const saveButton = getByText('Save');
+    fireEvent.click(saveButton);
+
+    await findByText('Aw Snap! Failed to save dashboard dashboard1');
+    expect(getByText('Aw Snap! Failed to save dashboard dashboard1')).toBeInTheDocument();
   });
 
   it('should close modal on click of close icon', async () => {

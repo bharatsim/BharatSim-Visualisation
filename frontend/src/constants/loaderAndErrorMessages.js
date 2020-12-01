@@ -10,6 +10,7 @@ const errorTypes = {
   TECHNICAL_ERROR: 500,
   DASHBOARD_CREATE_FAILED: 'dashboardCreateFailed',
   PROJECT_AND_DASHBOARD_CREATE_FAILED: 'projectAndDashboardCreateFailed',
+  FAILED_TO_SAVE_DASHBOARD: 'failedToSaveDashboard',
 };
 
 const errors = {
@@ -122,6 +123,13 @@ const errors = {
     errorTitle: `Aw Snap! Failed to create project ${projectTitle} and dashboard ${dashboardTitle}`,
     errorMessage: 'technical error at server',
     helperText: 'Try to create dashboard again',
+    errorModalButtonText: 'Okay',
+    onErrorModalButtonClick: () => {},
+  }),
+  [errorTypes.FAILED_TO_SAVE_DASHBOARD]: (dashboardTitle) => ({
+    errorTitle: `Aw Snap! Failed to save dashboard ${dashboardTitle}`,
+    errorMessage: 'technical error at server',
+    helperText: 'Try to save dashboard again',
     errorModalButtonText: 'Okay',
     onErrorModalButtonClick: () => {},
   }),
