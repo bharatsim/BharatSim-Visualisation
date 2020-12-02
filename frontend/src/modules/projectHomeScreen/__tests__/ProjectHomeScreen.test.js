@@ -213,26 +213,38 @@ describe('<ProjectHomeScreenComponent />', () => {
       pathname: '/projects/projectId/create-dashboard',
     });
   });
-
-  it('should show error if adding dashboard is failed', async () => {
+  it('should not navigate to create-dashboard url for dashboard creation failure project is already present', async () => {
     api.addNewDashboard.mockRejectedValue('error');
-    const renderComponent = render(<ProjectHomeScreenComponent />);
+    const Component = withThemeProvider(
+      withOverlayLoaderOrError(() => (
+        <SnackbarProvider>
+          <ProjectLayoutProvider
+            value={{
+              projectMetadata: {
+                name: 'Project 2',
+                id: '1231241243123',
+              },
+              selectedDashboardMetadata: {
+                name: '',
+              },
+              addDashboard: jest.fn(),
+            }}
+          >
+            <ProjectHomeScreen />
+          </ProjectLayoutProvider>
+        </SnackbarProvider>
+      )),
+    );
 
-    openFillAndSubmitNewProjectForm(renderComponent);
+    const renderComponent = render(<Component />);
+    fireEvent.click(renderComponent.getByText('Click here to create your first dashboard.'));
+
+    fireEvent.click(renderComponent.getByText('create'));
 
     await renderComponent.findByText('technical error at server');
 
-    expect(renderComponent.getByText('technical error at server')).toBeInTheDocument();
-  });
-
-  it('should show error if adding project is failed', async () => {
-    api.saveProject.mockRejectedValue('error');
-    const renderComponent = render(<ProjectHomeScreenComponent />);
-
-    openFillAndSubmitNewProjectForm(renderComponent);
-
-    await renderComponent.findByText('technical error at server');
-
-    expect(renderComponent.getByText('technical error at server')).toBeInTheDocument();
+    expect(mockHistoryReplace).not.toHaveBeenCalledWith({
+      pathname: '/projects/projectId/create-dashboard',
+    });
   });
 });

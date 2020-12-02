@@ -6,6 +6,7 @@ import { api } from '../../../../utils/api';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import ProjectLayout from '../projectLayout/ProjectLayout';
 import { projectLayoutContext } from '../../../../contexts/projectLayoutContext';
+import withSnackBar from '../../../../hoc/withSnackBar';
 
 const mockHistoryPush = jest.fn();
 const mockHistoryReplace = jest.fn();
@@ -48,11 +49,13 @@ describe('Project', () => {
     jest.clearAllMocks();
   });
 
-  const Component = withThemeProvider(() => (
-    <ProjectLayout>
-      <DummyComponent />
-    </ProjectLayout>
-  ));
+  const Component = withSnackBar(
+    withThemeProvider(() => (
+      <ProjectLayout>
+        <DummyComponent />
+      </ProjectLayout>
+    )),
+  );
 
   it('should render child without any api call if project id is undefined', async () => {
     router.useParams.mockReturnValue({ id: undefined });

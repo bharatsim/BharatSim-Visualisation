@@ -1,17 +1,11 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ClickableCard from '../../uiComponent/ClickableCard';
 import useModal from '../../hook/useModal';
 import CreateNewDashboardModal from './CreateNewDashboardModal';
-import { api } from '../../utils/api';
 import ProjectHeader from '../../uiComponent/ProjectHeader';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
-import snackbarVariant from '../../constants/snackbarVariant';
-import { overlayLoaderOrErrorContext } from '../../contexts/overlayLoaderOrErrorContext';
-import { errors, errorTypes } from '../../constants/loaderAndErrorMessages';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -28,56 +22,8 @@ const useStyles = makeStyles((theme) => {
 
 function ProjectHomeScreen() {
   const classes = useStyles();
-  const history = useHistory();
   const { openModal, isOpen, closeModal } = useModal();
-  const { projectMetadata, addDashboard } = useContext(projectLayoutContext);
-  const { showError } = useContext(overlayLoaderOrErrorContext);
-  const { enqueueSnackbar } = useSnackbar();
-  const { SUCCESS } = snackbarVariant;
-
-  async function saveDashboard(savedProjectId, projectTitle, dashboardTitle) {
-    await api
-      .addNewDashboard({ name: dashboardTitle, projectId: savedProjectId })
-      .then(({ dashboardId }) => {
-        enqueueSnackbar(`Dashboard ${dashboardTitle} is saved`, {
-          variant: SUCCESS,
-        });
-        addDashboard({ _id: dashboardId, name: dashboardTitle });
-        history.replace({ pathname: `/projects/${savedProjectId}/configure-dataset` });
-      })
-      .catch(() => {
-        history.replace({ pathname: `/projects/${savedProjectId}/create-dashboard` });
-        showError(errors[errorTypes.DASHBOARD_CREATE_FAILED](dashboardTitle));
-      });
-  }
-
-  async function saveProjectAndDashboard(projectTitle, dashboardTitle) {
-    await api
-      .saveProject({ name: projectTitle })
-      .then(({ projectId: newProjectId }) => {
-        enqueueSnackbar(`Project ${projectTitle} is saved`, {
-          variant: SUCCESS,
-        });
-        return saveDashboard(newProjectId, projectTitle, dashboardTitle);
-      })
-      .catch(() => {
-        const errorConfigs = errors[errorTypes.PROJECT_AND_DASHBOARD_CREATE_FAILED](
-          projectTitle,
-          dashboardTitle,
-        );
-        showError(errorConfigs);
-      });
-  }
-
-  async function onCreate(values) {
-    const { 'project-title': projectTitle, 'dashboard-title': dashboardTitle } = values;
-    closeModal();
-    if (projectMetadata.id) {
-      await saveDashboard(projectMetadata.id, projectTitle, dashboardTitle);
-      return;
-    }
-    await saveProjectAndDashboard(projectTitle, dashboardTitle);
-  }
+  const { projectMetadata } = useContext(projectLayoutContext);
 
   return (
     <Box>
@@ -95,7 +41,6 @@ function ProjectHomeScreen() {
       <CreateNewDashboardModal
         isOpen={isOpen}
         closeModal={closeModal}
-        onCreate={onCreate}
         onlyDashboardField={!!projectMetadata.id}
       />
     </Box>

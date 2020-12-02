@@ -3,14 +3,40 @@
 exports[`Project should render child without any api call if project id is undefined 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-5 makeStyles-layoutContainer-2"
+    class="MuiBox-root MuiBox-root-10 makeStyles-layoutContainer-7"
   >
     <div
-      class="MuiBox-root MuiBox-root-6 makeStyles-sideBarLayout-3"
+      class="MuiBox-root MuiBox-root-11 makeStyles-sideBarLayout-8"
     >
       <div
-        class="MuiBox-root MuiBox-root-13"
+        class="MuiBox-root MuiBox-root-18"
       >
+        <div
+          class="MuiBox-root MuiBox-root-19"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2"
+          >
+            Dashboards 
+          </h6>
+          <button
+            class="MuiButtonBase-root MuiIconButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label"
+            >
+              <img
+                alt="icon"
+                src="addDashboard.svg"
+              />
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+        </div>
         <div
           class="MuiTabs-root MuiTabs-vertical"
         >
@@ -23,7 +49,7 @@ exports[`Project should render child without any api call if project id is undef
               role="tablist"
             />
             <span
-              class="PrivateTabIndicator-root-15 PrivateTabIndicator-colorSecondary-17 MuiTabs-indicator makeStyles-indicator-12 PrivateTabIndicator-vertical-18"
+              class="PrivateTabIndicator-root-22 PrivateTabIndicator-colorSecondary-24 MuiTabs-indicator makeStyles-indicator-17 PrivateTabIndicator-vertical-25"
               style="top: 0px; height: 0px;"
             />
           </div>
@@ -31,7 +57,7 @@ exports[`Project should render child without any api call if project id is undef
       </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-14 makeStyles-viewContainer-4"
+      class="MuiBox-root MuiBox-root-21 makeStyles-viewContainer-9"
     >
       <div>
         <div>

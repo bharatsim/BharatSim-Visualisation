@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '../../uiComponent/Modal';
 import useForm from '../../hook/useForm';
 import InputTextField from '../../uiComponent/InputTextField';
+import useCreateDashboard from '../../hook/useCreateDashboard';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -29,8 +30,10 @@ const inputFields = {
   },
 };
 
-function CreateNewDashboardModal({ isOpen, closeModal, onCreate, onlyDashboardField }) {
+function CreateNewDashboardModal({ isOpen, closeModal, onlyDashboardField }) {
   const classes = useStyles();
+  const { createDashboard } = useCreateDashboard();
+
   const { values, errors, handleInputChange } = useForm(
     {
       [inputFields.dashboard.id]: inputFields.dashboard.defaultValue,
@@ -43,16 +46,23 @@ function CreateNewDashboardModal({ isOpen, closeModal, onCreate, onlyDashboardFi
     const { id, value } = event.target;
     handleInputChange(id, value);
   }
-  function onFormSubmit() {
-    onCreate(values);
+  async function createDashboardAndCloseModel() {
+    closeModal();
+    await createDashboard(values);
   }
+
   return (
     <Modal
       open={isOpen}
       title="New Dashboard"
       handleClose={closeModal}
       actions={[
-        { name: 'create', handleClick: onFormSubmit, variant: 'contained', color: 'primary' },
+        {
+          name: 'create',
+          handleClick: createDashboardAndCloseModel,
+          variant: 'contained',
+          color: 'primary',
+        },
       ]}
     >
       <Box className={classes.addProjectModal}>
@@ -88,7 +98,6 @@ CreateNewDashboardModal.defaultProps = {
 CreateNewDashboardModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired,
   onlyDashboardField: PropTypes.bool,
 };
 

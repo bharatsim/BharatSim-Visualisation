@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { Box } from '@material-ui/core';
-import SideDashboardNavbar from '../sideDashboardNavbar/SideDashboardNavbar';
+import DashboardNavbar from '../sideDashboardNavbar/DashboardNavbar';
 
 import useProjectLayoutStyle from './projectLayoutCSS';
 import useFetch from '../../../../hook/useFetch';
@@ -23,7 +23,7 @@ function ProjectLayout({ children }) {
   });
 
   const [dashboards, setDashboards] = useState([]);
-  const [selectedDashboard] = useState(0);
+  const [selectedDashboard, setSelectedDashboard] = useState(0);
 
   const { data: fetchedProjectMetadata } = useFetch(api.getProject, [projectId], !!projectId);
 
@@ -39,6 +39,11 @@ function ProjectLayout({ children }) {
     [projectId],
     !!projectId,
   );
+  useEffect(() => {
+    if (projectId) {
+      history.push(`/projects/${projectId}/configure-dataset`);
+    }
+  }, [selectedDashboard]);
 
   useEffect(() => {
     if (fetchedDashboards) setDashboards(fetchedDashboards.dashboards);
@@ -56,23 +61,22 @@ function ProjectLayout({ children }) {
 
   return (
     <Box className={classes.layoutContainer}>
-      <Box className={classes.sideBarLayout}>
-        <SideDashboardNavbar
-          navItems={dashboards.map((dashboard) => dashboard.name)}
-          value={selectedDashboard}
-        />
-      </Box>
-      <Box className={classes.viewContainer}>
-        <ProjectLayoutProvider
-          value={{
-            projectMetadata,
-            selectedDashboardMetadata: dashboards[selectedDashboard] || {},
-            addDashboard,
-          }}
-        >
-          {children}
-        </ProjectLayoutProvider>
-      </Box>
+      <ProjectLayoutProvider
+        value={{
+          projectMetadata,
+          selectedDashboardMetadata: dashboards[selectedDashboard] || {},
+          addDashboard,
+        }}
+      >
+        <Box className={classes.sideBarLayout}>
+          <DashboardNavbar
+            navItems={dashboards.map((dashboard) => dashboard)}
+            value={selectedDashboard}
+            setNavTab={setSelectedDashboard}
+          />
+        </Box>
+        <Box className={classes.viewContainer}>{children}</Box>
+      </ProjectLayoutProvider>
     </Box>
   );
 }

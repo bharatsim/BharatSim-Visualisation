@@ -23,7 +23,7 @@ const useProjectLayoutStyle = makeStyles((theme) => {
       background: theme.colors.primaryColorScale['600'],
       width: theme.spacing(64),
       color: theme.colors.textLight.primary,
-      paddingTop: theme.spacing(18),
+      paddingTop: theme.spacing(11),
     },
     viewContainer: {
       display: 'flex',
