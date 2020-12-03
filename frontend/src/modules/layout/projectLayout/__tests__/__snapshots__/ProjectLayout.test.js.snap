@@ -21,6 +21,7 @@ exports[`Project should render child without any api call if project id is undef
           </h6>
           <button
             class="MuiButtonBase-root MuiIconButton-root"
+            data-testid="add-dashboard-button"
             tabindex="0"
             type="button"
           >
@@ -49,7 +50,7 @@ exports[`Project should render child without any api call if project id is undef
               role="tablist"
             />
             <span
-              class="PrivateTabIndicator-root-22 PrivateTabIndicator-colorSecondary-24 MuiTabs-indicator makeStyles-indicator-17 PrivateTabIndicator-vertical-25"
+              class="PrivateTabIndicator-root-21 PrivateTabIndicator-colorSecondary-23 MuiTabs-indicator makeStyles-indicator-17 PrivateTabIndicator-vertical-24"
               style="top: 0px; height: 0px;"
             />
           </div>
@@ -57,7 +58,7 @@ exports[`Project should render child without any api call if project id is undef
       </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-21 makeStyles-viewContainer-9"
+      class="MuiBox-root MuiBox-root-20 makeStyles-viewContainer-9"
     >
       <div>
         <div>

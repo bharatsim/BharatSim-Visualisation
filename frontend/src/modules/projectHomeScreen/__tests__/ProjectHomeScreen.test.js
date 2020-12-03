@@ -201,8 +201,38 @@ describe('<ProjectHomeScreenComponent />', () => {
     });
   });
 
+  it('should show error if adding project is failed', async () => {
+    api.saveProject.mockRejectedValueOnce('error');
+    const renderComponent = render(<ProjectHomeScreenComponent />);
+
+    openFillAndSubmitNewProjectForm(renderComponent);
+
+    await renderComponent.findByText(
+      'Aw Snap! Failed to create project ProjectName and dashboard DashboardName',
+    );
+
+    expect(
+      renderComponent.getByText(
+        'Aw Snap! Failed to create project ProjectName and dashboard DashboardName',
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it('should show error if adding dashboard is failed', async () => {
+    api.addNewDashboard.mockRejectedValueOnce('error');
+    const renderComponent = render(<ProjectHomeScreenComponent />);
+
+    openFillAndSubmitNewProjectForm(renderComponent);
+
+    await renderComponent.findByText('Aw Snap! Failed to create dashboard DashboardName');
+
+    expect(
+      renderComponent.getByText('Aw Snap! Failed to create dashboard DashboardName'),
+    ).toBeInTheDocument();
+  });
+
   it('should navigate to create-dashboard url for dashboard creation failure', async () => {
-    api.addNewDashboard.mockRejectedValue('error');
+    api.addNewDashboard.mockRejectedValueOnce('error');
     const renderComponent = render(<ProjectHomeScreenComponent />);
 
     openFillAndSubmitNewProjectForm(renderComponent);
@@ -213,8 +243,9 @@ describe('<ProjectHomeScreenComponent />', () => {
       pathname: '/projects/projectId/create-dashboard',
     });
   });
+
   it('should not navigate to create-dashboard url for dashboard creation failure project is already present', async () => {
-    api.addNewDashboard.mockRejectedValue('error');
+    api.addNewDashboard.mockRejectedValueOnce('error');
     const Component = withThemeProvider(
       withOverlayLoaderOrError(() => (
         <SnackbarProvider>

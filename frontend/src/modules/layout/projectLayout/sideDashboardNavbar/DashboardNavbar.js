@@ -26,7 +26,7 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
     <Box px={2}>
       <Box display="flex" justifyContent="space-between" alignItems="center" pl={7}>
         <Typography variant="subtitle2">Dashboards </Typography>
-        <IconButton onClick={openModal}>
+        <IconButton onClick={openModal} data-testid="add-dashboard-button">
           <img src={plusIcon} alt="icon" />
         </IconButton>
       </Box>
@@ -52,11 +52,13 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
           />
         ))}
       </Tabs>
-      <CreateNewDashboardModal
-        isOpen={isOpen}
-        closeModal={closeModal}
-        onlyDashboardField={!!projectMetadata.id}
-      />
+      {isOpen && (
+        <CreateNewDashboardModal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          onlyDashboardField={!!projectMetadata.id}
+        />
+      )}
     </Box>
   );
 }

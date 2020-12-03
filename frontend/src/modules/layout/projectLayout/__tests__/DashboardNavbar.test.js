@@ -19,7 +19,7 @@ describe('Dashboard Navbar', () => {
 
     expect(container).toMatchSnapshot();
   });
-  it('should change the selcted dashboard on click of another dashboard from navbar', () => {
+  it('should change the selected dashboard on click of another dashboard from navbar', () => {
     const setNavTabMock = jest.fn();
     const { getByTestId } = render(
       <DashboardNavbarWithTheme
@@ -36,5 +36,26 @@ describe('Dashboard Navbar', () => {
     fireEvent.click(secondDashboard);
 
     expect(setNavTabMock).toHaveBeenLastCalledWith(1);
+  });
+  it('should open create dashboard modal on click of + button on dashboard navbar', () => {
+    const setNavTabMock = jest.fn();
+    const { getByTestId, getByText } = render(
+      <DashboardNavbarWithTheme
+        value={0}
+        handleChange={() => {}}
+        navItems={[
+          { name: 'dashboard1', _id: '0' },
+          { name: 'dashboard2', _id: '1' },
+        ]}
+        setNavTab={setNavTabMock}
+      />,
+    );
+    const addIcon = getByTestId('add-dashboard-button');
+
+    fireEvent.click(addIcon);
+
+    const modalComponent = getByText('Specify the name of the project');
+
+    expect(modalComponent).toBeInTheDocument();
   });
 });

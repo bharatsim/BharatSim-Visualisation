@@ -50,22 +50,6 @@ describe('<CreateNewDashboardModal />', () => {
     await renderedComponent.findByText('Project New Project Name is saved');
     expect(renderedComponent.getByText('Project New Project Name is saved')).toBeInTheDocument();
   });
-  it('should show snackbar on successful creation of dashboard', async () => {
-    const renderedComponent = render(
-      <CreateNewDashboardModalComponent isOpen closeModal={jest.fn()} />,
-    );
-
-    const { getByLabelText, getByText } = within(document.querySelector('.MuiPaper-root'));
-    const event = { target: { value: 'New Dashboard Name', id: 'dashboard-title' } };
-
-    fireEvent.change(getByLabelText('Dashboard Title'), event);
-    fireEvent.click(getByText('create'));
-
-    await renderedComponent.findByText('Dashboard New Dashboard Name is saved');
-    expect(
-      renderedComponent.getByText('Dashboard New Dashboard Name is saved'),
-    ).toBeInTheDocument();
-  });
   it('should show error if any while creating project', async () => {
     api.saveProject.mockRejectedValueOnce();
     const renderedComponent = render(
