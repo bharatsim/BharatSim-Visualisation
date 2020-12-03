@@ -5,6 +5,7 @@ const {
 } = require('../../src/services/dashboardService');
 const dashboardRepository = require('../../src/repository/dashboardRepository');
 const InvalidInputException = require('../../src/exceptions/InvalidInputException');
+const { deleteDashboard } = require('../../src/services/dashboardService');
 
 jest.mock('../../src/repository/dashboardRepository');
 
@@ -92,9 +93,14 @@ describe('Dashboard Service', function () {
       { _id: 1, name: 1 },
     );
   });
-  it('should called getOne dashboard by dashboard id', async function () {
+  it('should call getOne dashboard by dashboard id', async function () {
     await getDashboard('dashboardId');
 
     expect(dashboardRepository.getOne).toHaveBeenCalledWith('dashboardId');
+  });
+  it('should call deleteOne dashboard by dashboard id', async function () {
+    await deleteDashboard('dashboardId');
+
+    expect(dashboardRepository.deleteOne).toHaveBeenCalledWith('dashboardId');
   });
 });

@@ -17,9 +17,14 @@ async function getOne(dashboardId) {
   return DashboardModel.findOne({ _id: dashboardId }, { __v: 0 });
 }
 
+async function deleteOne(dashboardId) {
+  return DashboardModel.deleteOne({ _id: dashboardId }, { __v: 0 });
+}
+
 module.exports = {
   insert,
   update,
   getAll,
   getOne,
+  deleteOne,
 };

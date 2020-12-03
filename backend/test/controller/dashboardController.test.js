@@ -137,4 +137,21 @@ describe('dashboardController', function () {
         .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
     });
   });
+  describe('delete /dashboard', () => {
+    it('should delete dashboard with given dashboard id', async () => {
+      dashboardService.deleteDashboard.mockResolvedValueOnce({ deleteCount: 1 });
+      await request(app).delete('/dashboard/dashboardId').expect(200);
+
+      expect(dashboardService.deleteDashboard).toHaveBeenCalledWith('dashboardId');
+    });
+    it('should throw error if any while deleting the dashboard', async () => {
+      dashboardService.deleteDashboard.mockRejectedValueOnce(new Error('Message'));
+      await request(app)
+        .delete('/dashboard/dashboardId')
+        .expect(500)
+        .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
+
+      expect(dashboardService.deleteDashboard).toHaveBeenCalledWith('dashboardId');
+    });
+  });
 });

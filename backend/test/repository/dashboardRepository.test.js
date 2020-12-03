@@ -128,4 +128,21 @@ describe('DashboardRepository', function () {
       projectId: '313233343536373839303133',
     });
   });
+  it('should delete dashboard with given dashboard id', async () => {
+    const { _id: dash1 } = await DashboardRepository.insert(dashboard);
+    await DashboardRepository.insert(dashboard);
+    await DashboardRepository.insert(dashboard);
+    await DashboardRepository.insert({
+      ...dashboard,
+      projectId: '313233343536373839303137',
+    });
+
+    const data = parseMongoDBResult(await DashboardRepository.deleteOne(dash1));
+
+    expect(parseMongoDBResult(data)).toEqual({
+      deletedCount: 1,
+      n: 1,
+      ok: 1,
+    });
+  });
 });

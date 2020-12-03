@@ -8,6 +8,7 @@ const {
   getAllDashboards,
   insertDashboard,
   getDashboard,
+  deleteDashboard,
 } = require('../services/dashboardService');
 
 // TODO: Refactor APIS for new dashboard
@@ -58,6 +59,17 @@ router.get('/:id', async function (req, res) {
   getDashboard(dashboardId)
     .then((dashboards) => {
       res.send(dashboards);
+    })
+    .catch((err) => {
+      sendServerError(err, res);
+    });
+});
+
+router.delete('/:id', async function (req, res) {
+  const { id: dashboardId } = req.params;
+  deleteDashboard(dashboardId)
+    .then((deleteMetadata) => {
+      res.send(deleteMetadata);
     })
     .catch((err) => {
       sendServerError(err, res);

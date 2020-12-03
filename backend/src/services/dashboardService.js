@@ -1,6 +1,6 @@
 const { getProjectedColumns } = require('../utils/dbUtils');
 const InvalidInputException = require('../exceptions/InvalidInputException');
-const { insert, update, getAll, getOne } = require('../repository/dashboardRepository');
+const { insert, update, getAll, getOne, deleteOne } = require('../repository/dashboardRepository');
 const {
   updateDashboardInvalidInput,
   insertDashboardInvalidInput,
@@ -47,5 +47,15 @@ async function getDashboard(dashboardId) {
   const dashboard = await getOne(dashboardId);
   return { dashboard };
 }
+async function deleteDashboard(dashboardId) {
+  const deleteMetadata = await deleteOne(dashboardId);
+  return { deleteMetadata };
+}
 
-module.exports = { saveDashboard, insertDashboard, getAllDashboards, getDashboard };
+module.exports = {
+  saveDashboard,
+  insertDashboard,
+  getAllDashboards,
+  getDashboard,
+  deleteDashboard,
+};
