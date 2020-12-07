@@ -42,6 +42,9 @@ describe('<Dashboard />', () => {
   const DashboardWithProviders = withSnackBar(
     withOverlayLoaderOrError(withThemeProvider(withProjectLayout(withRouter(Dashboard)))),
   );
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it('should add dashboard name to dashboard component', async () => {
     const { getByText, findByTestId } = render(<DashboardWithProviders />);
 
@@ -144,6 +147,7 @@ describe('<Dashboard />', () => {
     fireEvent.click(saveButton);
 
     await findByText('Saved Successfully');
+
     expect(getByText('Saved Successfully')).toBeInTheDocument();
   });
   it('should show error if any while saving the dashboard', async () => {
@@ -177,6 +181,7 @@ describe('<Dashboard />', () => {
     fireEvent.click(saveButton);
 
     await findByText('Aw Snap! Failed to save dashboard dashboard1');
+
     expect(getByText('Aw Snap! Failed to save dashboard dashboard1')).toBeInTheDocument();
   });
 

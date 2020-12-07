@@ -47,6 +47,12 @@ const api = {
       url: serviceURL.getDashboardUrl(dashboardId),
     }),
 
+  deleteDashboard: async (dashboardId) =>
+    fetchData({
+      url: serviceURL.getDashboardUrl(dashboardId),
+      method: httpMethods.DELETE,
+    }),
+
   getAllDashBoard: async () => fetchData({ url: serviceURL.DASHBOARD_URL }),
 
   uploadFileAndSchema: async ({ file, schema, dashboardId }) =>

@@ -41,7 +41,7 @@ function handleError(err, isCustomErrorHandler) {
   return commandErrorHandler(err);
 }
 
-function fetchData({
+async function fetchData({
   url,
   method = httpMethods.GET,
   headers,
@@ -62,7 +62,7 @@ function fetchData({
     });
 }
 
-function fetchWithLoader({ url, method, headers, data, query, isCustomErrorHandler }) {
+async function fetchWithLoader({ url, method, headers, data, query, isCustomErrorHandler }) {
   startLoader();
   return axios({ url, method, headers, data, params: query })
     .then((res) => {
@@ -75,7 +75,7 @@ function fetchWithLoader({ url, method, headers, data, query, isCustomErrorHandl
     });
 }
 
-function uploadData({
+async function uploadData({
   url,
   method = httpMethods.POST,
   headers,

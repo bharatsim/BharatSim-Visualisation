@@ -22,7 +22,7 @@ function ProjectLayout({ children }) {
     name: 'untitled project',
   });
 
-  const [dashboards, setDashboards] = useState([]);
+  const [dashboards, setDashboards] = useState(undefined);
   const [selectedDashboard, setSelectedDashboard] = useState(0);
 
   const { data: fetchedProjectMetadata } = useFetch(api.getProject, [projectId], !!projectId);
@@ -39,6 +39,7 @@ function ProjectLayout({ children }) {
     [projectId],
     !!projectId,
   );
+
   useEffect(() => {
     if (projectId) {
       history.push(`/projects/${projectId}/configure-dataset`);
@@ -50,13 +51,26 @@ function ProjectLayout({ children }) {
   }, useDeepCompareMemoize([fetchedDashboards]));
 
   useEffect(() => {
-    if (fetchedDashboards && fetchedDashboards.dashboards.length === 0) {
+    if (dashboards && dashboards.length === 0) {
       history.replace({ pathname: `/projects/${projectId}/create-dashboard` });
     }
-  }, useDeepCompareMemoize([fetchedDashboards, projectId]));
+  }, useDeepCompareMemoize([dashboards, projectId]));
 
   function addDashboard(dashboard) {
     setDashboards([...dashboards, dashboard]);
+    const nextDashboardIndex = dashboards.length;
+    setSelectedDashboard(nextDashboardIndex);
+  }
+
+  function deleteDashboard(selectedDashboardId) {
+    const updatedDashboards = dashboards.filter(
+      ({ _id: dashboardId }) => dashboardId !== selectedDashboardId,
+    );
+    setDashboards(updatedDashboards);
+  }
+
+  if (!dashboards || !projectMetadata.id) {
+    return null;
   }
 
   return (
@@ -66,6 +80,7 @@ function ProjectLayout({ children }) {
           projectMetadata,
           selectedDashboardMetadata: dashboards[selectedDashboard] || {},
           addDashboard,
+          deleteDashboard,
         }}
       >
         <Box className={classes.sideBarLayout}>

@@ -66,7 +66,7 @@ export const typography = {
     fontFamily: '"Roboto", sans-serif',
     fontWeight: 400,
     fontSize: '0.875rem',
-    lineHeight: 1,
+    lineHeight: 1.2,
     letterSpacing: '0.01071em',
   },
   button: {

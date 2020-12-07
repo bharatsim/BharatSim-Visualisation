@@ -20,10 +20,25 @@ const useErrorButtonStyle = makeStyles((theme) => ({
       color: theme.palette.text.disabled,
     },
   },
+  contained: {
+    boxShadow: 'unset',
+    color: theme.colors.button.color,
+    backgroundColor: theme.palette.error.dark,
+    '&:focus': {
+      backgroundColor: fade(theme.palette.error.dark, 0.8),
+    },
+    '&:hover': {
+      backgroundColor: fade(theme.palette.error.dark, 0.8),
+    },
+    '&$disabled': {
+      color: theme.palette.text.disabled,
+      backgroundColor: theme.colors.grayScale['100'],
+    },
+  },
   disabled: {},
 }));
 
-function ErrorButton({ variant, size, onClick, classes, children }) {
+function ErrorButton({ variant, size, onClick, classes, children, ...rest }) {
   const buttonClasses = useErrorButtonStyle();
   return (
     <Button
@@ -31,6 +46,7 @@ function ErrorButton({ variant, size, onClick, classes, children }) {
       size={size}
       onClick={onClick}
       classes={{ ...buttonClasses, ...classes }}
+      {...rest}
     >
       {children}
     </Button>

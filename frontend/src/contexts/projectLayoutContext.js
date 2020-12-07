@@ -10,6 +10,7 @@ const projectLayoutContext = React.createContext({
     _id: undefined,
   },
   addDashboard: null,
+  deleteDashboard: null,
 });
 
 const ProjectLayoutProvider = projectLayoutContext.Provider;

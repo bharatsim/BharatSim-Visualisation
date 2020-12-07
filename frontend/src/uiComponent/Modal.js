@@ -115,3 +115,4 @@ Modal.propTypes = {
 };
 
 export default Modal;
+export { DialogActions, DialogContent, DialogTitle };

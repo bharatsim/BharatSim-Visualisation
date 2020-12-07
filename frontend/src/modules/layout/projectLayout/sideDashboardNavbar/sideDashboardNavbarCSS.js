@@ -2,28 +2,31 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useTabStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(3, 7),
+    display: 'flex',
+    padding: theme.spacing(3, 0, 3, 7),
     height: theme.spacing(10),
     borderRadius: theme.spacing(1),
     minHeight: 'unset',
     minWidth: 'unset',
     boxSizing: 'border-box',
+    cursor: 'pointer',
     ...theme.typography.subtitle2,
-    [theme.breakpoints.up('sm')]: {
-      minWidth: 'unset',
-    },
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  wrapper: {
+  iconLabelWrapper: {
     display: 'flex',
     flexDirection: 'row',
-    '& > *:first-child': {
-      marginBottom: '0 !important',
-    },
-    justifyContent: 'left',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
-  labelIcon: {
-    minHeight: '40px',
-    height: '40px',
+  optionIcon: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  icon: {
+    display: 'flex',
+    alignItems: 'center',
   },
   selected: {
     background: theme.colors.primaryColorScale['500'],

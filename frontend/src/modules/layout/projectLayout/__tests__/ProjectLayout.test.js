@@ -29,9 +29,13 @@ function DummyComponent() {
 jest.mock('../../../../utils/api', () => ({
   api: {
     getProject: jest.fn().mockResolvedValue({ project: { name: 'name', _id: 'id' } }),
-    getAllDashBoardByProjectId: jest
-      .fn()
-      .mockResolvedValue({ dashboards: [{ name: 'd_name', _id: 'd_id' }] }),
+    deleteDashboard: jest.fn().mockResolvedValue({}),
+    getAllDashBoardByProjectId: jest.fn().mockResolvedValue({
+      dashboards: [
+        { name: 'dashboardName1', _id: 'dashboardId1' },
+        { name: 'dashboardName2', _id: 'dashboardId2' },
+      ],
+    }),
   },
 }));
 
@@ -84,12 +88,12 @@ describe('Project', () => {
     const { findByText } = render(<Component />);
     await findByText('ProjectLayout Child');
 
-    expect(await findByText('d_name')).not.toBeNull();
+    expect(await findByText('dashboardName1')).not.toBeNull();
   });
 
   it('should navigate to create dashboard page if dashboards are empty', async () => {
     router.useParams.mockReturnValue({ id: 1 });
-    api.getAllDashBoardByProjectId.mockResolvedValue({ dashboards: [] });
+    api.getAllDashBoardByProjectId.mockResolvedValueOnce({ dashboards: [] });
 
     const { findByText } = render(<Component />);
 
@@ -108,5 +112,28 @@ describe('Project', () => {
     fireEvent.click(getByText('add dashboard'));
 
     expect(getByText('dashboard-name')).not.toBeNull();
+  });
+
+  it('should delete tab on click of delete button of selected tab', async () => {
+    router.useParams.mockReturnValue({ id: 1 });
+
+    const { getByText, findByText, getByAltText, getByTestId } = render(<Component />);
+
+    await findByText('ProjectLayout Child');
+
+    fireEvent.click(getByText('dashboardName2'));
+
+    const optionsIcon = getByAltText('options-logo');
+    fireEvent.click(optionsIcon);
+
+    const deleteOption = getByTestId('delete-option-dashboardId2');
+    fireEvent.click(deleteOption);
+
+    const deleteButton = getByTestId('delete-dashboard-button');
+    fireEvent.click(deleteButton);
+
+    await findByText('Dashboard dashboardName2 Deleted successfully');
+
+    expect(getByText('Dashboard dashboardName2 Deleted successfully')).toBeInTheDocument();
   });
 });

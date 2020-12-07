@@ -187,4 +187,15 @@ describe('API', () => {
 
     expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });
+
+  it('should call delete dashboard api with given dashboard id', () => {
+    const expectedParameter = {
+      url: '/api/dashboard/dashboard1',
+      method: 'delete',
+    };
+
+    api.deleteDashboard('dashboard1');
+
+    expect(fetchData).toHaveBeenCalledWith(expectedParameter);
+  });
 });
