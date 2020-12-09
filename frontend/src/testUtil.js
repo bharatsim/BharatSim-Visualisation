@@ -37,6 +37,7 @@ export function withProjectLayout(WrappedComponent) {
           name: 'dashboard1',
         },
         addDashboard: jest.fn(),
+        deleteDashboard: jest.fn(),
       }}
     >
       <WrappedComponent {...props} />

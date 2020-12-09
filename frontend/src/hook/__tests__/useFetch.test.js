@@ -30,4 +30,10 @@ describe('Use fetch hook', () => {
     expect(result.current.data).toEqual('Hello NewUserHomeScreen');
     expect(api).toHaveBeenCalledWith('data', 'params', 'query');
   });
+
+  it('should not fetch if shouldfetch condition is false ', async () => {
+    renderHook(() => useFetch(api, ['data', 'params', 'query'], false));
+
+    expect(api).not.toHaveBeenCalledWith('data', 'params', 'query');
+  });
 });

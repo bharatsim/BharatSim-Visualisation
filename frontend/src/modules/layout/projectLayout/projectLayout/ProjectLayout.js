@@ -5,12 +5,10 @@ import { Box } from '@material-ui/core';
 import DashboardNavbar from '../sideDashboardNavbar/DashboardNavbar';
 
 import useProjectLayoutStyle from './projectLayoutCSS';
-import useFetch from '../../../../hook/useFetch';
 
 import { api } from '../../../../utils/api';
 import { ProjectLayoutProvider } from '../../../../contexts/projectLayoutContext';
 import { ChildrenPropTypes } from '../../../../commanPropTypes';
-import useDeepCompareMemoize from '../../../../hook/useDeepCompareMemoize';
 
 function ProjectLayout({ children }) {
   const classes = useProjectLayoutStyle();
@@ -25,40 +23,43 @@ function ProjectLayout({ children }) {
   const [dashboards, setDashboards] = useState(undefined);
   const [selectedDashboard, setSelectedDashboard] = useState(0);
 
-  const { data: fetchedProjectMetadata } = useFetch(api.getProject, [projectId], !!projectId);
+  useEffect(() => {
+    async function fetchData() {
+      if (projectId) {
+        const fetchedProject = await api.getProject(projectId);
+        const { _id, name } = fetchedProject.project;
+        setProjectMetadata({ id: _id, name });
+      }
+    }
+    fetchData();
+  }, [projectId]);
 
   useEffect(() => {
-    if (fetchedProjectMetadata) {
-      const { _id, name } = fetchedProjectMetadata.project;
-      setProjectMetadata({ id: _id, name });
+    async function fetchData() {
+      if (projectId) {
+        const fetchedDashboards = await api.getAllDashBoardByProjectId(projectId);
+        setDashboards(fetchedDashboards.dashboards);
+      }
     }
-  }, useDeepCompareMemoize([fetchedProjectMetadata]));
-
-  const { data: fetchedDashboards } = useFetch(
-    api.getAllDashBoardByProjectId,
-    [projectId],
-    !!projectId,
-  );
+    fetchData();
+  }, [projectId]);
 
   useEffect(() => {
     if (projectId) {
       history.push(`/projects/${projectId}/configure-dataset`);
     }
-  }, [selectedDashboard]);
-
-  useEffect(() => {
-    if (fetchedDashboards) setDashboards(fetchedDashboards.dashboards);
-  }, useDeepCompareMemoize([fetchedDashboards]));
+  }, [projectId, selectedDashboard]);
 
   useEffect(() => {
     if (dashboards && dashboards.length === 0) {
       history.replace({ pathname: `/projects/${projectId}/create-dashboard` });
     }
-  }, useDeepCompareMemoize([dashboards, projectId]));
+  }, [dashboards, projectId]);
 
   function addDashboard(dashboard) {
-    setDashboards([...dashboards, dashboard]);
-    const nextDashboardIndex = dashboards.length;
+    const prevDashboards = dashboards || [];
+    setDashboards([...prevDashboards, dashboard]);
+    const nextDashboardIndex = prevDashboards.length;
     setSelectedDashboard(nextDashboardIndex);
   }
 
@@ -69,7 +70,7 @@ function ProjectLayout({ children }) {
     setDashboards(updatedDashboards);
   }
 
-  if (!dashboards || !projectMetadata.id) {
+  if (projectId && (!dashboards || !projectMetadata.id)) {
     return null;
   }
 
@@ -78,14 +79,14 @@ function ProjectLayout({ children }) {
       <ProjectLayoutProvider
         value={{
           projectMetadata,
-          selectedDashboardMetadata: dashboards[selectedDashboard] || {},
+          selectedDashboardMetadata: (dashboards && dashboards[selectedDashboard]) || {},
           addDashboard,
           deleteDashboard,
         }}
       >
         <Box className={classes.sideBarLayout}>
           <DashboardNavbar
-            navItems={dashboards.map((dashboard) => dashboard)}
+            navItems={dashboards ? dashboards.map((dashboard) => dashboard) : []}
             value={selectedDashboard}
             setNavTab={setSelectedDashboard}
           />
