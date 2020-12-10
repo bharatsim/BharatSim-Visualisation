@@ -30,6 +30,7 @@ const parseMongoDBResult = (result) => JSON.parse(JSON.stringify(result));
 describe('get Datasource name ', () => {
   beforeAll(async () => {
     await dbHandler.connect();
+    await dbHandler.connectUsingMongo();
   });
   afterEach(async () => {
     await dbHandler.clearDatabase();
@@ -75,11 +76,29 @@ describe('get Datasource name ', () => {
   });
 
   it('should insert data at bulk for given model', async () => {
-    await dbHandler.connectUsingMongo();
     const data = parseMongoDBResult(
       await DataSourceRepository.bulkInsert('metadataId', datasourceData),
     );
 
     expect(data.result.n).toEqual(datasourceData.length);
+  });
+
+  it('should delete at bulk for given ids', async () => {
+    const connection = await dbHandler.connectUsingMongo();
+
+    await DataSourceRepository.bulkInsert('metadataId1', datasourceData);
+    await DataSourceRepository.bulkInsert('metadataId2', datasourceData);
+    await DataSourceRepository.bulkInsert('metadataId3', datasourceData);
+
+
+    const result = await DataSourceRepository.bulkDelete(['metadataId1', 'metadataId3']);
+    expect(result.toString()).toBe("true,true");
+
+    const collectionList = await connection.db()
+      .listCollections()
+      .toArray()
+      .then(collections=> collections.map(collection => collection.name));
+
+    expect(collectionList).toEqual(['metadataId2']);
   });
 });

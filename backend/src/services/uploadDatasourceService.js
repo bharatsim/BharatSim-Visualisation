@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 const dataSourceMetadataRepository = require('../repository/datasourceMetadataRepository');
+const dashboardDatasourceMapRepository = require('../repository/dashboardDatasourceMapRepository');
 const dataSourceRepository = require('../repository/datasourceRepository');
 const { validateAndParseCSV } = require('../utils/csvParser');
 const InvalidInputException = require('../exceptions/InvalidInputException');
@@ -58,6 +59,8 @@ async function uploadCsv(csvFile, requestBody) {
     size,
   );
   await insertCSVData(metadataId.toString(), data);
+  await dashboardDatasourceMapRepository.insertDatasourceDashboardMap(metadataId.toString(), dashboardId);
   return { collectionId: metadataId };
 }
+
 module.exports = { uploadCsv, deleteUploadedFile };

@@ -198,4 +198,18 @@ describe('API', () => {
 
     expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });
+
+  it('should call delete datasources for dashboard api with given dashboard id', () => {
+    const expectedParameter = {
+      url: '/api/dataSources',
+      query: {
+        dashboardId: 'dashboard1',
+      },
+      method: 'delete',
+    };
+
+    api.deleteDatasourceForDashboard('dashboard1');
+
+    expect(fetchData).toHaveBeenCalledWith(expectedParameter);
+  });
 });

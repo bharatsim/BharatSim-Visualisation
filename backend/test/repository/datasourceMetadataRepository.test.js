@@ -12,7 +12,6 @@ const dataSourceMetadata = [
       hour: 'number',
       susceptible: 'number',
     },
-    dashboardId: '313233343536373839303137',
     fileSize: 123,
     fileType: 'csv',
   },
@@ -24,13 +23,12 @@ const dataSourceMetadata = [
     },
     fileSize: 123,
     fileType: 'csv',
-    dashboardId: '313233343536373839303137',
   },
 ];
 
 const parseMongoDBResult = (result) => JSON.parse(JSON.stringify(result));
 
-describe('get Datasource name ', () => {
+describe( "Datasource metadata repository", () => {
   beforeAll(async () => {
     await dbHandler.connect();
   });
@@ -41,7 +39,7 @@ describe('get Datasource name ', () => {
     await dbHandler.closeDatabase();
   });
 
-  describe('getDataSourceNames', function () {
+  describe('getDataSourceNames', function() {
     it('should return names of all present data sources', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
       const expectedResult = insertedMetadata.map((metadata) => ({
@@ -55,30 +53,30 @@ describe('get Datasource name ', () => {
     });
   });
 
-  describe('get DataSource metadata by dashboard id', function () {
-    it('should return DataSource metadata for data sources filter by dashboard id', async () => {
+  describe('get DataSource metadata by dashboard id', function() {
+    it('should return DataSource metadata for given datasource id', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
+
       const expectedResult = insertedMetadata.map((metadata) => ({
         _id: metadata.id,
         name: metadata.name,
         fileSize: metadata.fileSize,
         fileType: metadata.fileType,
-        dashboardId: metadata.dashboardId.toString(),
         createdAt: metadata.createdAt.toISOString(),
         updatedAt: metadata.updatedAt.toISOString(),
       }));
 
+      const insertedIds = insertedMetadata.map(metadata => metadata.id.toString());
+
       const dataSources = parseMongoDBResult(
-        await DataSourceMetaDataRepository.getDataSourcesMetadataByDashboardId(
-          '313233343536373839303137',
-        ),
+          await DataSourceMetaDataRepository.getManyDataSourcesMetadataByIds(insertedIds),
       );
 
       expect(dataSources).toEqual(expectedResult);
     });
   });
 
-  describe('getDataSourceSchemaById', function () {
+  describe('get DataSource Schema By Id', function() {
     it('should return datasource schema for given datasource name', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
       const { _id: dataSourceId } = insertedMetadata[0];
@@ -116,7 +114,6 @@ describe('get Datasource name ', () => {
       },
       fileSize: 123,
       fileType: 'csv',
-      dashboardId: '313233343536373839303137',
     });
 
     const result = parseMongoDBResult(
@@ -131,7 +128,6 @@ describe('get Datasource name ', () => {
       },
       fileSize: 123,
       fileType: 'csv',
-      dashboardId: '313233343536373839303137',
       createdAt: expect.anything(),
       updatedAt: expect.anything(),
     });
@@ -141,7 +137,6 @@ describe('get Datasource name ', () => {
     const { _id: collectionId } = await DataSourceMetaDataRepository.insert({
       name: dataSourceMetadata[0].name,
       dataSourceSchema: dataSourceMetadata[0].dataSourceSchema,
-      dashboardId: '313233343536373839303137',
       fileSize: 123,
       fileType: 'csv',
     });
@@ -149,9 +144,31 @@ describe('get Datasource name ', () => {
     await DataSourceMetaDataRepository.deleteDatasourceMetadata(collectionId);
 
     const result = parseMongoDBResult(
-      await DataSourceMetaData.findOne({ name: 'model_1' }, { _id: 0, __v: 0 }),
+      await DataSourceMetaData.find({ name: 'model_1' }, { _id: 0, __v: 0 }),
     );
 
-    expect(result).toEqual(null);
+    expect(result).toEqual([]);
+  });
+  it('should bulk delete a datasource metadata for given datasource ids', async () => {
+    const { _id: collectionId1 } = await DataSourceMetaDataRepository.insert({
+      name: 'model1',
+      dataSourceSchema: dataSourceMetadata[0].dataSourceSchema,
+      fileSize: 123,
+      fileType: 'csv',
+    });
+    const { _id: collectionId2 } = await DataSourceMetaDataRepository.insert({
+      name: 'model2',
+      dataSourceSchema: dataSourceMetadata[0].dataSourceSchema,
+      fileSize: 123,
+      fileType: 'csv',
+    });
+
+    await DataSourceMetaDataRepository.bulkDeleteDatasourceMetadata([collectionId1, collectionId2]);
+
+    const result = parseMongoDBResult(
+      await DataSourceMetaData.find({ name: { $in: ['model_1', 'model_2' ] }}, { _id: 0, __v: 0 }),
+    );
+
+    expect(result).toEqual([]);
   });
 });

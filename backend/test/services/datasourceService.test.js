@@ -1,11 +1,13 @@
 const dataSourceService = require('../../src/services/datasourceService');
 const dataSourceRepository = require('../../src/repository/datasourceRepository');
 const dataSourceMetadataRepository = require('../../src/repository/datasourceMetadataRepository');
+const dashboardDatasourceMapRepository = require('../../src/repository/dashboardDatasourceMapRepository');
 const modelCreator = require('../../src/utils/modelCreator');
 const ColumnsNotFoundException = require('../../src/exceptions/ColumnsNotFoundException');
 
 jest.mock('../../src/repository/dataSourceRepository');
 jest.mock('../../src/repository/dataSourceMetadataRepository');
+jest.mock('../../src/repository/dashboardDatasourceMapRepository');
 jest.mock('../../src/utils/modelCreator');
 
 describe('dataSourceService', () => {
@@ -65,6 +67,34 @@ describe('dataSourceService', () => {
     };
 
     await expect(result).rejects.toThrow(new ColumnsNotFoundException());
+  });
+
+  it('should delete all mapped datasource for given dashboard id', async () => {
+    dataSourceMetadataRepository.bulkDeleteDatasourceMetadata.mockResolvedValue({
+      deleted: 1,
+    });
+    dashboardDatasourceMapRepository.deleteDatasourceMapping.mockResolvedValue({ deleted: 1 });
+    dashboardDatasourceMapRepository.getDatasourceIdsForDashboard.mockResolvedValue([
+      'datasource1',
+      'datasource2',
+    ]);
+    dataSourceRepository.bulkDelete.mockResolvedValue([true]);
+
+    const data = await dataSourceService.deleteDatasourceForDashboard('dashboardId');
+
+    expect(dashboardDatasourceMapRepository.getDatasourceIdsForDashboard).toHaveBeenCalledWith(
+      'dashboardId',
+    );
+    expect(dashboardDatasourceMapRepository.deleteDatasourceMapping).toHaveBeenCalledWith(
+      'dashboardId',
+    );
+    expect(dataSourceRepository.bulkDelete).toHaveBeenCalledWith(['datasource1', 'datasource2']);
+    expect(dataSourceMetadataRepository.bulkDeleteDatasourceMetadata).toHaveBeenCalledWith([
+      'datasource1',
+      'datasource2',
+    ]);
+
+    expect(data).toEqual([true]);
   });
 
   describe('mocked function testing', function () {

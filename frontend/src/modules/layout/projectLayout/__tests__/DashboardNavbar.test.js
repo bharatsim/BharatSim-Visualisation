@@ -11,6 +11,7 @@ import { ProjectLayoutProvider } from '../../../../contexts/projectLayoutContext
 jest.mock('../../../../utils/api', () => ({
   api: {
     deleteDashboard: jest.fn().mockResolvedValue({ deleted: 1 }),
+    deleteDatasourceForDashboard: jest.fn().mockResolvedValue({ deleted: 1 }),
   },
 }));
 
@@ -103,6 +104,23 @@ describe('Dashboard Navbar', () => {
 
       expect(api.deleteDashboard).toHaveBeenCalledWith('dashboardId0');
     });
+
+    it('should call delete datasource for dashboard with selected dashboard id', async () => {
+      const { getByAltText, getByTestId, findByText } = render(<Component />);
+      const optionsIcon = getByAltText('options-logo');
+      fireEvent.click(optionsIcon);
+
+      const deleteOption = getByTestId('delete-option-dashboardId0');
+      fireEvent.click(deleteOption);
+
+      const deleteButton = getByTestId('delete-dashboard-button');
+      fireEvent.click(deleteButton);
+
+      await findByText('Dashboard dashboard1 Deleted successfully');
+
+      expect(api.deleteDatasourceForDashboard).toHaveBeenCalledWith('dashboardId0');
+    });
+
     it('should delete dashboard from context', async () => {
       const { getByAltText, getByTestId, findByText } = render(<Component />);
       const optionsIcon = getByAltText('options-logo');
@@ -119,7 +137,7 @@ describe('Dashboard Navbar', () => {
       expect(deleteDashboardMock).toHaveBeenCalledWith('dashboardId0');
     });
 
-    it('should show snack bar for successful deletion of dashboard', async () => {
+    it('should show snack bar for successful deletion of dashboard and file', async () => {
       const { getByAltText, getByTestId, findByText, getByText } = render(<Component />);
       const optionsIcon = getByAltText('options-logo');
       fireEvent.click(optionsIcon);
@@ -133,6 +151,12 @@ describe('Dashboard Navbar', () => {
       await findByText('Dashboard dashboard1 Deleted successfully');
 
       expect(getByText('Dashboard dashboard1 Deleted successfully')).toBeInTheDocument();
+
+      await findByText('Datasource files for Dashboard dashboard1 Deleted successfully');
+
+      expect(
+        getByText('Datasource files for Dashboard dashboard1 Deleted successfully'),
+      ).toBeInTheDocument();
     });
   });
 });

@@ -11,11 +11,6 @@ const datasourceMetadata = new Schema(
       type: Object,
       required: true,
     },
-    dashboardId: {
-      type: Schema.Types.ObjectId,
-      ref: 'dashboard',
-      required: true,
-    },
     fileType: {
       type: String,
       required: true,

@@ -43,6 +43,8 @@ describe('api', () => {
 
   beforeEach(() => {
     datasourceService.getData.mockResolvedValue({ data: { exposed: [2, 3], hour: [1, 2] } });
+    datasourceService.deleteDatasourceForDashboard.mockResolvedValue([true]);
+
     dataSourceMetadataService.getHeaders.mockResolvedValue({
       headers: [
         { name: 'hour', type: 'number' },
@@ -52,6 +54,7 @@ describe('api', () => {
     dataSourceMetadataService.getDataSourcesByDashboardId.mockResolvedValue({
       dataSources: [{ name: 'model_1' }, { name: 'model_2' }],
     });
+
     uploadDatasourceService.uploadCsv.mockResolvedValue({ collectionId: 'id' });
   });
 
@@ -254,6 +257,24 @@ describe('api', () => {
         .post('/datasources')
         .field('name', 'datafile')
         .attach('datafile', 'test/data/test.png')
+        .expect(500)
+        .expect({ errorMessage: 'Technical error ', errorCode: 1003 });
+    });
+  });
+  describe('delete / ', () => {
+    it('should delete datasource for given dashboardId', async () => {
+      await request(app)
+        .delete('/datasources?dashboardId=dashboardId')
+        .expect(200)
+        .expect([true]);
+
+      expect(datasourceService.deleteDatasourceForDashboard).toHaveBeenCalledWith('dashboardId');
+    });
+
+    it('should throw an technical exception if error while deleting', async () => {
+      datasourceService.deleteDatasourceForDashboard.mockRejectedValueOnce(new Error());
+      await request(app)
+        .delete('/datasources')
         .expect(500)
         .expect({ errorMessage: 'Technical error ', errorCode: 1003 });
     });

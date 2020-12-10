@@ -2,10 +2,18 @@ const express = require('express');
 const request = require('supertest');
 const multer = require('multer');
 const mongoService = require('../../src/services/mongoService');
+const mongoose = require('mongoose');
 
 const dbHandler = require('../db-handler');
 const DataSourceMetaData = require('../../src/model/datasourceMetadata');
-const { dataSourceMetadata, model1, model1Model } = require('./data');
+const DatasourceDashboardMap = require('../../src/model/datasourceDashboardMap');
+const {
+  dataSourceMetadata,
+  model1Data,
+  createModel,
+  createDatasourceDashboardMapping,
+} = require('./data');
+
 const datasourcesRoutes = require('../../src/controller/datasourcesController');
 const { parseDBObject } = require('../../src/utils/dbUtils');
 
@@ -25,7 +33,8 @@ describe('Integration test', () => {
     insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
     const { _id } = insertedMetadata[0];
     dataSourceId = _id;
-    await model1Model(dataSourceId.toString()).insertMany(model1);
+    await DatasourceDashboardMap.insertMany(createDatasourceDashboardMapping(dataSourceId));
+    await createModel(dataSourceId.toString()).insertMany(model1Data);
   });
   afterAll(async () => {
     await dbHandler.clearDatabase();
@@ -39,14 +48,13 @@ describe('Integration test', () => {
         name: metadata.name,
         fileSize: metadata.fileSize,
         fileType: metadata.fileType,
-        dashboardId: metadata.dashboardId.toString(),
         createdAt: metadata.createdAt.toISOString(),
         updatedAt: metadata.updatedAt.toISOString(),
       }));
       await request(app)
         .get('/datasources?dashboardId=313233343536373839303137')
         .expect(200)
-        .expect({ dataSources: expectedDataSource });
+        .expect({ dataSources: [expectedDataSource[0]] });
     });
   });
 
@@ -127,13 +135,19 @@ describe('Integration test', () => {
       const { _id, dataSourceSchema } = parseDBObject(
         await DataSourceMetaData.findOne({ _id: uploadedFileCollectionId }),
       );
+      const datasourceDashboardMappingCount = await DatasourceDashboardMap.find(
+        {},
+        { _id: 0, __v: 0 },
+      ).countDocuments();
 
       const connection = mongoService.getConnection();
       const db = connection.db();
-      const numberOfDocuments = await db.collection(uploadedFileCollectionId).count();
+      const numberOfDocuments = await db.collection(uploadedFileCollectionId).countDocuments();
+
       await mongoService.close();
 
       expect(numberOfDocuments).toEqual(19);
+      expect(datasourceDashboardMappingCount).toEqual(3);
       expect(_id).toEqual(uploadedFileCollectionId);
       expect(dataSourceSchema).toEqual(testSchemaModal1);
     });
@@ -194,5 +208,59 @@ describe('Integration test', () => {
     //
     //   await mongoService.close();
     // });
+  });
+
+  describe('delete /datasources', () => {
+    it('should delete all file mapped with dashboard id', async function () {
+      await dbHandler.connectUsingMongo();
+      const connection = mongoService.getConnection();
+      insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
+      const { _id: dataSourceId1 } = insertedMetadata[0];
+      const { _id: dataSourceId2 } = insertedMetadata[1];
+      await DatasourceDashboardMap.insertMany([
+        {
+          dashboardId: '313233343536373839303131',
+          datasourceId: dataSourceId1,
+        },
+        {
+          dashboardId: '313233343536373839303131',
+          datasourceId: dataSourceId2,
+        },
+      ]);
+      const db = connection.db();
+      await db.collection(dataSourceId1.toString()).insertMany(model1Data);
+      await db.collection(dataSourceId2.toString()).insertMany(model1Data);
+
+      await request(app)
+        .delete('/datasources?dashboardId=313233343536373839303131')
+        .expect(200)
+        .expect([true, true]);
+
+      const foundMapping = parseDBObject(
+        await DatasourceDashboardMap.find({
+          dashboardId: '313233343536373839303131',
+        }),
+      );
+
+      const foundMetadata = parseDBObject(
+        await DataSourceMetaData.find({
+          _id: { $in: [dataSourceId1, dataSourceId2] },
+        }),
+      );
+
+      expect(foundMapping).toEqual([]);
+      expect(foundMetadata).toEqual([]);
+      const isMappedDatasourcePresent = await db
+        .listCollections()
+        .toArray()
+        .then((collections) =>
+          collections.some(
+            (collection) =>
+              [dataSourceId1.toString(), dataSourceId2.toString()].includes(collection.name),
+          ),
+        );
+
+      expect(isMappedDatasourcePresent).toEqual(false);
+    });
   });
 });

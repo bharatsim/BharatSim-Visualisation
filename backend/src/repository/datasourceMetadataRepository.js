@@ -30,13 +30,15 @@ async function insert({ name, dataSourceSchema, dashboardId, fileType, fileSize 
 }
 
 async function deleteDatasourceMetadata(dataSourceId) {
-  DataSourceMetadata.deleteOne({ _id: dataSourceId }).exec();
+  await DataSourceMetadata.deleteOne({ _id: dataSourceId });
 }
 
-async function getDataSourcesMetadataByDashboardId(dashboardId) {
-  return DataSourceMetadata.find({ dashboardId }, { __v: 0, dataSourceSchema: 0 }).then(
-    (data) => data,
-  );
+async function bulkDeleteDatasourceMetadata(datasourceIds) {
+  await DataSourceMetadata.deleteMany({ _id: { $in: datasourceIds } })
+}
+
+async function getManyDataSourcesMetadataByIds(datasourceIds) {
+  return DataSourceMetadata.find({ _id: { $in: datasourceIds } }, { __v: 0, dataSourceSchema: 0 });
 }
 
 module.exports = {
@@ -44,5 +46,6 @@ module.exports = {
   getDataSourceSchemaById,
   insert,
   deleteDatasourceMetadata,
-  getDataSourcesMetadataByDashboardId,
+  getManyDataSourcesMetadataByIds,
+  bulkDeleteDatasourceMetadata,
 };

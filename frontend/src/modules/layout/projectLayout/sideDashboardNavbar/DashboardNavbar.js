@@ -33,6 +33,11 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
       enqueueSnackbar(`Dashboard ${dashboardName} Deleted successfully`, {
         variant: snackbarVariant.SUCCESS,
       });
+      api.deleteDatasourceForDashboard(dashboardId).then(() => {
+        enqueueSnackbar(`Datasource files for Dashboard ${dashboardName} Deleted successfully`, {
+          variant: snackbarVariant.SUCCESS,
+        });
+      });
     });
   }
 

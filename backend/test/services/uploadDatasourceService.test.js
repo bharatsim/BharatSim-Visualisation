@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 
 const dataSourceMetadataRepository = require('../../src/repository/datasourceMetadataRepository');
+const dashboardDatasourceMapRepository = require('../../src/repository/dashboardDatasourceMapRepository');
 const dataSourceRepository = require('../../src/repository/datasourceRepository');
 const uploadDatasourceService = require('../../src/services/uploadDatasourceService');
 const createModel = require('../../src/utils/modelCreator');
@@ -10,6 +11,7 @@ const InvalidInputException = require('../../src/exceptions/InvalidInputExceptio
 
 jest.mock('fs');
 jest.mock('../../src/repository/datasourceMetadataRepository');
+jest.mock('../../src/repository/dashboardDatasourceMapRepository');
 jest.mock('../../src/repository/datasourceRepository');
 jest.mock('../../src/utils/modelCreator');
 jest.mock('../../src/utils/csvParser', () => ({
@@ -20,8 +22,8 @@ jest.mock('../../src/utils/csvParser', () => ({
   ]),
 }));
 
-describe('upload datasource service', function () {
-  describe('Upload datasource metadata', function () {
+describe('upload datasource service', () => {
+  describe('Upload datasource metadata', () => {
     it('should return id for uploaded dataSource metadata for uploaded csv', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collection' });
 
@@ -62,7 +64,27 @@ describe('upload datasource service', function () {
       });
     });
 
-    it('should insert data in data source collection', async function () {
+    it('should insert data in data source collection', async () => {
+      dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
+      createModel.createModel.mockImplementation((id) => id);
+
+      await uploadDatasourceService.uploadCsv(
+        {
+          path: '/uploads/1223',
+          originalname: 'test.csv',
+          mimetype: 'text/csv',
+          size: 12132,
+        },
+        { schema: '{ "hour": "number", "susceptible": "number" }', dashboardId: 'dashboardId' },
+      );
+
+      expect(dashboardDatasourceMapRepository.insertDatasourceDashboardMap).toHaveBeenCalledWith(
+        'collectionId',
+        'dashboardId',
+      );
+    });
+
+    it('should insert dashboard and datashource mapping in datasourceDashboardMap', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
       createModel.createModel.mockImplementation((id) => id);
 
@@ -83,7 +105,7 @@ describe('upload datasource service', function () {
       ]);
     });
 
-    it('should throw invalid input exception if we get exception while uploading', async function () {
+    it('should throw invalid input exception if we get exception while uploading', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
       dataSourceRepository.bulkInsert.mockImplementationOnce(() => {
         throw new Error();
@@ -107,7 +129,7 @@ describe('upload datasource service', function () {
       );
     });
 
-    it('should delete metadata added in database if csv data insertion failed', async function () {
+    it('should delete metadata added in database if csv data insertion failed', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
       dataSourceRepository.insert.mockImplementationOnce(() => {
         throw new Error();
@@ -131,7 +153,7 @@ describe('upload datasource service', function () {
       }
     });
 
-    it('should throw exception is file is too large', async function () {
+    it('should throw exception is file is too large', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
       dataSourceRepository.insert.mockImplementationOnce(() => {
         throw new Error();
@@ -153,7 +175,7 @@ describe('upload datasource service', function () {
       await expect(result).rejects.toThrow(new InvalidInputException('File is too large', 1009));
     });
 
-    it('should throw exception is file is not csv', async function () {
+    it('should throw exception is file is not csv', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
       dataSourceRepository.insert.mockImplementationOnce(() => {
         throw new Error();
@@ -178,11 +200,11 @@ describe('upload datasource service', function () {
     });
   });
 
-  describe('deleteUploadedFile', function () {
+  describe('deleteUploadedFile', () => {
     afterEach(() => {
       jest.clearAllMocks();
     });
-    it('should delete file for given path', function () {
+    it('should delete file for given path', () => {
       fs.existsSync.mockReturnValue(true);
 
       uploadDatasourceService.deleteUploadedFile('path');
@@ -190,7 +212,7 @@ describe('upload datasource service', function () {
       expect(fs.rmdirSync).toHaveBeenCalledWith('path', { recursive: true });
     });
 
-    it('should not delete file if given path not exist', function () {
+    it('should not delete file if given path not exist', () => {
       fs.existsSync.mockReturnValue(false);
 
       uploadDatasourceService.deleteUploadedFile('path');

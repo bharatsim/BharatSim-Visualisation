@@ -9,7 +9,6 @@ const dataSourceMetadata = [
     },
     fileSize: 123,
     fileType: 'csv',
-    dashboardId: '313233343536373839303137',
   },
   {
     name: 'model_2',
@@ -19,11 +18,22 @@ const dataSourceMetadata = [
     },
     fileSize: 123,
     fileType: 'csv',
-    dashboardId: '313233343536373839303137',
   },
 ];
+function createDatasourceDashboardMapping(datasourceId) {
+  return [
+    {
+      dashboardId: '313233343536373839303137',
+      datasourceId,
+    },
+    {
+      dashboardId: '313233343536373839303138',
+      datasourceId,
+    },
+  ];
+}
 
-const model1Model = (modelName) => {
+const createModel = (modelName) => {
   try {
     return mongoose.model(modelName);
   } catch (e) {
@@ -35,7 +45,7 @@ const model1Model = (modelName) => {
   }
 };
 
-const model1 = [
+const model1Data = [
   { hour: 0, susceptible: 1, city: 'pune' },
   { hour: 1, susceptible: 2, city: 'pune' },
   { hour: 2, susceptible: 3, city: 'pune' },
@@ -45,6 +55,7 @@ const model1 = [
 
 module.exports = {
   dataSourceMetadata,
-  model1,
-  model1Model,
+  model1Data,
+  createModel,
+  createDatasourceDashboardMapping
 };
