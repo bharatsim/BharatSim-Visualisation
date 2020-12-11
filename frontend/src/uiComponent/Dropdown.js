@@ -33,6 +33,7 @@ const useMenuListItemStyles = makeStyles((theme) => ({
   },
   selected: {
     backgroundColor: `${theme.colors.primaryColorScale['400']} !important`,
+    color: `${theme.colors.textLight.primary} !important`,
     '&:hover': {
       backgroundColor: `${theme.colors.primaryColorScale['400']} !important`,
     },
