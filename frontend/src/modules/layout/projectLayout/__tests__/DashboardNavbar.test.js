@@ -11,7 +11,7 @@ import { ProjectLayoutProvider } from '../../../../contexts/projectLayoutContext
 jest.mock('../../../../utils/api', () => ({
   api: {
     deleteDashboard: jest.fn().mockResolvedValue({ deleted: 1 }),
-    deleteDatasourceForDashboard: jest.fn().mockResolvedValue({ deleted: 1 }),
+    deleteDatasourceForDashboard: jest.fn().mockResolvedValue([true, true]),
   },
 }));
 
@@ -156,6 +156,61 @@ describe('Dashboard Navbar', () => {
 
       expect(
         getByText('Datasource files for Dashboard dashboard1 Deleted successfully'),
+      ).toBeInTheDocument();
+    });
+
+    it('should not show snack bar for successful deletion of dashboard and file if files are not present', async () => {
+      api.deleteDatasourceForDashboard.mockResolvedValueOnce([]);
+      const { getByAltText, getByTestId, findByText, queryByText } = render(<Component />);
+      const optionsIcon = getByAltText('options-logo');
+      fireEvent.click(optionsIcon);
+
+      const deleteOption = getByTestId('delete-option-dashboardId0');
+      fireEvent.click(deleteOption);
+
+      const deleteButton = getByTestId('delete-dashboard-button');
+      fireEvent.click(deleteButton);
+
+      await findByText('Dashboard dashboard1 Deleted successfully');
+
+      expect(
+        queryByText('Datasource files for Dashboard dashboard1 Deleted successfully'),
+      ).not.toBeInTheDocument();
+    });
+
+    it('should show error if dashboard deletion fail', async () => {
+      api.deleteDashboard.mockRejectedValueOnce();
+      const { getByAltText, getByTestId, findByText, getByText } = render(<Component />);
+      const optionsIcon = getByAltText('options-logo');
+      fireEvent.click(optionsIcon);
+
+      const deleteOption = getByTestId('delete-option-dashboardId0');
+      fireEvent.click(deleteOption);
+
+      const deleteButton = getByTestId('delete-dashboard-button');
+      fireEvent.click(deleteButton);
+
+      await findByText('Aw Snap! Failed to delete dashboard dashboard1');
+
+      expect(getByText('Aw Snap! Failed to delete dashboard dashboard1')).toBeInTheDocument();
+    });
+
+    it('should show error if datasource file for dashboard deletion fail', async () => {
+      api.deleteDatasourceForDashboard.mockRejectedValueOnce();
+      const { getByAltText, getByTestId, findByText, getByText } = render(<Component />);
+      const optionsIcon = getByAltText('options-logo');
+      fireEvent.click(optionsIcon);
+
+      const deleteOption = getByTestId('delete-option-dashboardId0');
+      fireEvent.click(deleteOption);
+
+      const deleteButton = getByTestId('delete-dashboard-button');
+      fireEvent.click(deleteButton);
+
+      await findByText('Aw Snap! Failed to delete datasource file for dashboard dashboard1');
+
+      expect(
+        getByText('Aw Snap! Failed to delete datasource file for dashboard dashboard1'),
       ).toBeInTheDocument();
     });
   });

@@ -78,7 +78,7 @@ exports[`<YAxisChartConfig /> should match snapshot 1`] = `
     </button>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-7 makeStyles-addMetricButtonContainer-2"
+    class="MuiBox-root MuiBox-root-10 makeStyles-addMetricButtonContainer-2"
   >
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"

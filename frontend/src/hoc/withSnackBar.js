@@ -1,5 +1,6 @@
 import React from 'react';
 import { SnackbarProvider } from 'notistack';
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import failureIcon from '../assets/images/error-icon.svg';
 import successIcon from '../assets/images/success-icon.svg';
@@ -47,15 +48,21 @@ function withSnackBar(WrappedComponent) {
   return (props) => {
     const snackBarClasses = useSnackBarStyles();
     const iconClasses = useIconStyles();
+    const snackBarRef = React.createRef();
+    const onClickDismiss = (key) => () => {
+      snackBarRef.current.closeSnackbar(key);
+    };
     return (
       <SnackbarProvider
         maxSnack={3}
+        ref={snackBarRef}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         classes={snackBarClasses}
         iconVariant={{
           error: <img src={failureIcon} alt="error" className={iconClasses.iconRoot} />,
           success: <img src={successIcon} alt="success" className={iconClasses.iconRoot} />,
         }}
+        action={(key) => <Button onClick={onClickDismiss(key)}>Dismiss</Button>}
       >
         <WrappedComponent {...props} />
       </SnackbarProvider>

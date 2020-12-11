@@ -14,6 +14,16 @@ jest.mock('../../charts/lineChart/LineChart', () => (props) => (
   </>
 ));
 
+const mockHistoryPush = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: jest.fn(),
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}));
+
 jest.mock('../../../utils/api', () => ({
   api: {
     saveDashboard: jest.fn().mockResolvedValue({
@@ -40,7 +50,9 @@ jest.mock('../../../utils/api', () => ({
 
 describe('<Dashboard />', () => {
   const DashboardWithProviders = withSnackBar(
-    withOverlayLoaderOrError(withThemeProvider(withProjectLayout(withRouter(Dashboard)))),
+    withRouter(
+      withOverlayLoaderOrError(withThemeProvider(withProjectLayout(withRouter(Dashboard)))),
+    ),
   );
   afterEach(() => {
     jest.clearAllMocks();
@@ -198,5 +210,16 @@ describe('<Dashboard />', () => {
     fireEvent.click(closeIconButton);
 
     expect(queryByText('Chart Configuration Wizard')).not.toBeInTheDocument();
+  });
+
+  it('should navigate to configure data on click on manage data', async () => {
+    const { getByText, findByText } = render(<DashboardWithProviders />);
+    await findByText('dashboard1');
+
+    const manageDataButton = getByText('Manage Data').closest('button');
+
+    fireEvent.click(manageDataButton);
+
+    expect(mockHistoryPush).toHaveBeenCalledWith('/projects/1/configure-dataset');
   });
 });

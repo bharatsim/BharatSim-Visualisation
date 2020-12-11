@@ -2,6 +2,7 @@ import React from 'react';
 import { fireEvent, render, within } from '@testing-library/react';
 
 import Dropdown from '../Dropdown';
+import withThemeProvider from '../../theme/withThemeProvider';
 
 describe('<Dropdown />', () => {
   const props = {
@@ -17,14 +18,16 @@ describe('<Dropdown />', () => {
     error: '',
   };
 
+  const DropdownWithTheme = withThemeProvider(Dropdown);
+
   it('Should match a snapshot', () => {
-    const { container } = render(<Dropdown {...props} />);
+    const { container } = render(<DropdownWithTheme {...props} />);
 
     expect(container).toMatchSnapshot();
   });
 
   it('Should create a dropdown with provided options', () => {
-    const { getByRole } = render(<Dropdown {...props} />);
+    const { getByRole } = render(<DropdownWithTheme {...props} />);
 
     const button = getByRole('button');
     fireEvent.mouseDown(button);
@@ -33,7 +36,7 @@ describe('<Dropdown />', () => {
   });
 
   it('Should show selected option after getting value', () => {
-    const { getByRole } = render(<Dropdown {...props} value="two" />);
+    const { getByRole } = render(<DropdownWithTheme {...props} value="two" />);
 
     const button = getByRole('button');
 
@@ -41,7 +44,7 @@ describe('<Dropdown />', () => {
   });
 
   it('Should call onChange callback with selected option', () => {
-    const { getByRole } = render(<Dropdown {...props} />);
+    const { getByRole } = render(<DropdownWithTheme {...props} />);
 
     const button = getByRole('button');
     fireEvent.mouseDown(button);
@@ -54,7 +57,7 @@ describe('<Dropdown />', () => {
   });
 
   it('Should show error if error message is present', () => {
-    const { getByRole, getByText } = render(<Dropdown {...props} error="error" />);
+    const { getByRole, getByText } = render(<DropdownWithTheme {...props} error="error" />);
 
     const button = getByRole('button');
     fireEvent.mouseDown(button);
@@ -67,7 +70,7 @@ describe('<Dropdown />', () => {
   });
 
   it('Should not show error if error message is not present', () => {
-    const { getByRole, queryByText } = render(<Dropdown {...props} error="" />);
+    const { getByRole, queryByText } = render(<DropdownWithTheme {...props} error="" />);
 
     const button = getByRole('button');
     fireEvent.mouseDown(button);

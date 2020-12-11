@@ -1,9 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
-import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => {
@@ -14,19 +12,18 @@ const useStyles = makeStyles((theme) => {
       padding: theme.spacing(9),
       minWidth: theme.spacing(70),
       justifyContent: 'center',
+      backgroundColor: 'transparent',
+    },
+    root: {
+      backgroundColor: 'transparent',
     },
   };
 });
 function OverlayLoader({ isLoading }) {
   const classes = useStyles();
   return (
-    <Dialog open={isLoading} transitionDuration={0}>
-      <Box className={classes.loaderContainer}>
-        <CircularProgress />
-        <Box ml={3}>
-          <Typography variant="body2">Loading</Typography>
-        </Box>
-      </Box>
+    <Dialog open={isLoading} transitionDuration={0} classes={{ root: classes.root }}>
+      <CircularProgress />
     </Dialog>
   );
 }

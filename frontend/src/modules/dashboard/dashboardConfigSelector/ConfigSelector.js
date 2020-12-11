@@ -40,7 +40,7 @@ function ConfigSelector({
         setFetchedCsvHeaders(resData);
       })
       .catch(() => {
-        stopLoaderAfterError('Unable to data source headers');
+        stopLoaderAfterError('Unable to fetch data source headers');
       });
   }
 

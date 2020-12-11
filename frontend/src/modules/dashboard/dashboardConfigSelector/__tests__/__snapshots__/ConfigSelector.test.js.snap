@@ -76,13 +76,13 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
       />
     </div>
     <div
-      class="MuiBox-root MuiBox-root-11"
+      class="MuiBox-root MuiBox-root-14"
     >
       <div
-        class="MuiBox-root MuiBox-root-12"
+        class="MuiBox-root MuiBox-root-15"
       >
         <div
-          class="MuiBox-root MuiBox-root-15"
+          class="MuiBox-root MuiBox-root-18"
         >
           <h6
             class="MuiTypography-root MuiTypography-subtitle2"
@@ -91,7 +91,7 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
           </h6>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-16 makeStyles-fieldContainer-13"
+          class="MuiBox-root MuiBox-root-19 makeStyles-fieldContainer-16"
         >
           <div
             class="MuiFormControl-root makeStyles-formControl-9"
@@ -157,7 +157,7 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
           </button>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-17 makeStyles-addMetricButtonContainer-14"
+          class="MuiBox-root MuiBox-root-20 makeStyles-addMetricButtonContainer-17"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"

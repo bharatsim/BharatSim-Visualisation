@@ -19,7 +19,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function renderMenuItems(id, options) {
+const useMenuListStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2, 0),
+  },
+}));
+
+const useMenuListItemStyles = makeStyles((theme) => ({
+  root: {
+    '&:hover': {
+      backgroundColor: `${theme.colors.primaryColorScale['50']} !important`,
+    },
+  },
+  selected: {
+    backgroundColor: `${theme.colors.primaryColorScale['400']} !important`,
+    '&:hover': {
+      backgroundColor: `${theme.colors.primaryColorScale['400']} !important`,
+    },
+  },
+}));
+
+function renderMenuItems(id, options, classes) {
   return (
     options &&
     options.map(({ value, displayName }, index) => {
@@ -30,6 +50,7 @@ function renderMenuItems(id, options) {
           key={key}
           id={`${id}-${displayName}`}
           data-testid={`${id}-${displayName}`}
+          classes={classes}
         >
           {displayName}
         </MenuItem>
@@ -49,6 +70,8 @@ export default function Dropdown({
   ...rest
 }) {
   const classes = useStyles();
+  const menuListClasses = useMenuListStyles();
+  const menuListItemClasses = useMenuListItemStyles();
 
   function handleChange(event) {
     onChange(event.target.value);
@@ -65,10 +88,10 @@ export default function Dropdown({
         multiple={multiple}
         label={label}
         data-testid={id}
-        MenuProps={{ id: `menu-${id}` }}
+        MenuProps={{ id: `menu-${id}`, MenuListProps: { classes: menuListClasses } }}
         {...rest}
       >
-        {renderMenuItems(id, options)}
+        {renderMenuItems(id, options, menuListItemClasses)}
       </Select>
       {!!error && <FormHelperText error>{error}</FormHelperText>}
     </FormControl>

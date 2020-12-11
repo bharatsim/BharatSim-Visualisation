@@ -14,6 +14,8 @@ import plusIcon from '../../../../assets/images/addDashboard.svg';
 import { api } from '../../../../utils/api';
 import NavBarTab from './NavBarTab';
 import snackbarVariant from '../../../../constants/snackbarVariant';
+import { overlayLoaderOrErrorContext } from '../../../../contexts/overlayLoaderOrErrorContext';
+import { errors, errorTypes } from '../../../../constants/loaderAndErrorMessages';
 
 function DashboardNavbar({ navItems, value, setNavTab }) {
   const { enqueueSnackbar } = useSnackbar();
@@ -25,20 +27,38 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
     setNavTab(selectedTabId);
   }
 
+  const { showError } = useContext(overlayLoaderOrErrorContext);
+
+  async function deleteDataSourceForDashboard(dashboardId, dashboardName) {
+    await api
+      .deleteDatasourceForDashboard(dashboardId)
+      .then((data) => {
+        if (data.length > 0) {
+          enqueueSnackbar(`Datasource files for Dashboard ${dashboardName} Deleted successfully`, {
+            variant: snackbarVariant.SUCCESS,
+          });
+        }
+      })
+      .catch(() => {
+        showError(errors[errorTypes.DASHBOARD_DATASOURCE_DELETE_FAILED](dashboardName));
+      });
+  }
+
   async function handleDeleteDashboard(dashboard) {
     const { dashboardName, dashboardId } = dashboard;
-    api.deleteDashboard(dashboardId).then(() => {
-      setNavTab(0);
-      deleteDashboard(dashboardId);
-      enqueueSnackbar(`Dashboard ${dashboardName} Deleted successfully`, {
-        variant: snackbarVariant.SUCCESS,
-      });
-      api.deleteDatasourceForDashboard(dashboardId).then(() => {
-        enqueueSnackbar(`Datasource files for Dashboard ${dashboardName} Deleted successfully`, {
+    api
+      .deleteDashboard(dashboardId)
+      .then(async () => {
+        setNavTab(0);
+        deleteDashboard(dashboardId);
+        enqueueSnackbar(`Dashboard ${dashboardName} Deleted successfully`, {
           variant: snackbarVariant.SUCCESS,
         });
+        await deleteDataSourceForDashboard(dashboardId, dashboardName);
+      })
+      .catch(() => {
+        showError(errors[errorTypes.DASHBOARD_DELETE_FAILED](dashboardName));
       });
-    });
   }
 
   return (

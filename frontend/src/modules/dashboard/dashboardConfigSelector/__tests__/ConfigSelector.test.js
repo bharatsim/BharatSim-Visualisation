@@ -166,9 +166,9 @@ describe('<ConfigSelector />', () => {
       />,
     );
 
-    await findByText('Unable to data source headers');
+    await findByText('Unable to fetch data source headers');
 
-    expect(getByText('Unable to data source headers')).toBeInTheDocument();
+    expect(getByText('Unable to fetch data source headers')).toBeInTheDocument();
   });
 
   it('should refetch data on click on retry button present on error banner', async () => {
@@ -184,7 +184,7 @@ describe('<ConfigSelector />', () => {
       />,
     );
 
-    await findByText('Unable to data source headers');
+    await findByText('Unable to fetch data source headers');
     const retryButton = getByText('Retry').closest('button');
     fireEvent.click(retryButton);
 
