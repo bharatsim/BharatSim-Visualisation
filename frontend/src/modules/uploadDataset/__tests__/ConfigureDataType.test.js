@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import ConfigureDatatype from '../ConfigureDatatype';
 import withThemeProvider from '../../../theme/withThemeProvider';
+import {renderWithRedux as render} from '../../../testUtil';
 
 jest.mock('../../../uiComponent/table/Table');
 

@@ -1,10 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import {renderWithRedux as render} from '../../../../testUtil';
 import { fireEvent } from '@testing-library/dom';
 import DashboardNavbar from '../sideDashboardNavbar/DashboardNavbar';
 import withThemeProvider from '../../../../theme/withThemeProvider';
-import withSnackBar from '../../../../hoc/withSnackBar';
-import withOverlayLoaderOrError from '../../../../hoc/withOverlayLoaderOrError';
+import withSnackBar from '../../../../hoc/snackbar/withSnackBar';
+import withOverlayLoaderOrError from '../../../../hoc/loaderWithError/withOverlayLoaderOrError';
 import { api } from '../../../../utils/api';
 import { ProjectLayoutProvider } from '../../../../contexts/projectLayoutContext';
 

@@ -1,9 +1,12 @@
 /* eslint-disable */
-
+import React from 'react'
+import { render as rtlRender } from '@testing-library/react'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import reducer from './hoc/redux/reducer'
 import { fireEvent, within } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
-import React from 'react';
 import { ProjectLayoutProvider } from './contexts/projectLayoutContext';
 
 export function selectDropDownOption(container, dropDownId, optionId) {
@@ -43,4 +46,20 @@ export function withProjectLayout(WrappedComponent) {
       <WrappedComponent {...props} />
     </ProjectLayoutProvider>
   );
+}
+
+
+
+export function renderWithRedux(
+    ui,
+    {
+        initialState={},
+        store = createStore(reducer, initialState),
+        ...renderOptions
+    } = {}
+) {
+    function Wrapper({ children }) {
+        return <Provider store={store}>{children}</Provider>
+    }
+    return rtlRender(ui, { wrapper: Wrapper, ...renderOptions })
 }

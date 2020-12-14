@@ -1,11 +1,13 @@
 import React from 'react';
-import { fireEvent, render, within } from '@testing-library/react';
+import { fireEvent, within } from '@testing-library/react';
+import {renderWithRedux as render} from '../../../testUtil';
+
 import { SnackbarProvider } from 'notistack';
 import ProjectHomeScreen from '../ProjectHomeScreen';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import { api } from '../../../utils/api';
 import { ProjectLayoutProvider } from '../../../contexts/projectLayoutContext';
-import withOverlayLoaderOrError from '../../../hoc/withOverlayLoaderOrError';
+import withOverlayLoaderOrError from '../../../hoc/loaderWithError/withOverlayLoaderOrError';
 
 jest.mock('../../../utils/api', () => ({
   api: {

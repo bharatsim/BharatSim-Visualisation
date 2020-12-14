@@ -1,9 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import {renderWithRedux as render} from '../../../testUtil';
 import CreateNewDashboardModal from '../CreateNewDashboardModal';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import withSnackBar from '../../../hoc/withSnackBar';
-import withOverlayLoaderOrError from '../../../hoc/withOverlayLoaderOrError';
+import withSnackBar from '../../../hoc/snackbar/withSnackBar';
+import withOverlayLoaderOrError from '../../../hoc/loaderWithError/withOverlayLoaderOrError';
 import { withProjectLayout } from '../../../testUtil';
 
 jest.mock('../../../utils/api', () => ({

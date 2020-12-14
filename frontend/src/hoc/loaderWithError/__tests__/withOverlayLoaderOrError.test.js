@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
-import { render, within, fireEvent } from '@testing-library/react';
+import { within, fireEvent } from '@testing-library/react';
 import Button from '@material-ui/core/Button';
 import withOverlayLoaderOrError from '../withOverlayLoaderOrError';
-import { overlayLoaderOrErrorContext } from '../../contexts/overlayLoaderOrErrorContext';
+import {renderWithRedux as render} from '../../../testUtil';
+
+import { overlayLoaderOrErrorContext } from '../../../contexts/overlayLoaderOrErrorContext';
 
 function DummyComponent() {
   const { showError, stopLoader, startLoader } = useContext(overlayLoaderOrErrorContext);

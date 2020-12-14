@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { render } from '@testing-library/react';
+import {renderWithRedux as render} from '../../../../testUtil';
 import * as router from 'react-router-dom';
 import { fireEvent } from '@testing-library/dom';
 import { api } from '../../../../utils/api';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import ProjectLayout from '../projectLayout/ProjectLayout';
 import { projectLayoutContext } from '../../../../contexts/projectLayoutContext';
-import withSnackBar from '../../../../hoc/withSnackBar';
+import withSnackBar from '../../../../hoc/snackbar/withSnackBar';
 
 const mockHistoryPush = jest.fn();
 const mockHistoryReplace = jest.fn();

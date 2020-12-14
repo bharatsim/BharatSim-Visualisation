@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import Dashboard from '../Dashboard';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import { selectDropDownOption, withProjectLayout, withRouter } from '../../../testUtil';
-import withSnackBar from '../../../hoc/withSnackBar';
+import { renderWithRedux as render,selectDropDownOption, withProjectLayout, withRouter } from '../../../testUtil';
+import withSnackBar from '../../../hoc/snackbar/withSnackBar';
 import { api } from '../../../utils/api';
-import withOverlayLoaderOrError from '../../../hoc/withOverlayLoaderOrError';
+import withOverlayLoaderOrError from '../../../hoc/loaderWithError/withOverlayLoaderOrError';
 
 jest.mock('../../charts/lineChart/LineChart', () => (props) => (
   <>

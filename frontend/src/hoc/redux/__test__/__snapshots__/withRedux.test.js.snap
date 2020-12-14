@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withRedux should be able to access redux state 1`] = `
+<div>
+  <div
+    id="testId"
+  >
+    Dummy Component 
+    0
+  </div>
+</div>
+`;

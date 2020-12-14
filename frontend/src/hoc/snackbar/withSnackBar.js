@@ -2,9 +2,9 @@ import React from 'react';
 import { SnackbarProvider } from 'notistack';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import failureIcon from '../assets/images/error-icon.svg';
-import successIcon from '../assets/images/success-icon.svg';
-
+import failureIcon from '../../assets/images/error-icon.svg';
+import successIcon from '../../assets/images/success-icon.svg';
+import Notifier from "./Notifier";
 const useSnackBarStyles = makeStyles((theme) => ({
   contentRoot: {
     padding: theme.spacing(1, 4),
@@ -64,6 +64,7 @@ function withSnackBar(WrappedComponent) {
         }}
         action={(key) => <Button onClick={onClickDismiss(key)}>Dismiss</Button>}
       >
+        <Notifier/>
         <WrappedComponent {...props} />
       </SnackbarProvider>
     );

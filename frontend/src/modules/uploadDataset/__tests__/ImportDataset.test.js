@@ -1,9 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import ImportDataset from '../ImportDataset';
 import * as fileUtils from '../../../utils/fileUploadUtils';
+import {renderWithRedux as render} from '../../../testUtil';
 
 jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
   const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
