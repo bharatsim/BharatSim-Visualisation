@@ -27,7 +27,7 @@ describe('upload datasource service', () => {
     it('should return id for uploaded dataSource metadata for uploaded csv', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collection' });
 
-      const collectionId = await uploadDatasourceService.uploadCsv(
+      const collectionId = await uploadDatasourceService.uploadFile(
         {
           path: '/uploads/1223',
           originalname: 'test.csv',
@@ -45,12 +45,13 @@ describe('upload datasource service', () => {
         _id: new mongoose.Types.ObjectId(123123),
       });
 
-      await uploadDatasourceService.uploadCsv(
+      await uploadDatasourceService.uploadFile(
         {
           path: '/uploads/1223',
           originalname: 'test.csv',
           mimetype: 'text/csv',
           size: 12132,
+          filename: 'fileId',
         },
         { schema: '{ "hour": "number", "susceptible": "number" }', dashboardId: 'dashboardId' },
       );
@@ -60,20 +61,22 @@ describe('upload datasource service', () => {
         name: 'test.csv',
         dashboardId: 'dashboardId',
         fileSize: 12132,
-        fileType: 'text/csv',
+        fileType: 'csv',
+        fileId: '',
       });
     });
 
-    it('should insert data in data source collection', async () => {
+    it('should insert csv data in data source collection', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
       createModel.createModel.mockImplementation((id) => id);
 
-      await uploadDatasourceService.uploadCsv(
+      await uploadDatasourceService.uploadFile(
         {
           path: '/uploads/1223',
           originalname: 'test.csv',
           mimetype: 'text/csv',
           size: 12132,
+          filename: 'fileId',
         },
         { schema: '{ "hour": "number", "susceptible": "number" }', dashboardId: 'dashboardId' },
       );
@@ -83,17 +86,31 @@ describe('upload datasource service', () => {
         'dashboardId',
       );
     });
-
+    it('should upload json data in upload folder', async () => {
+      dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
+      const result = await uploadDatasourceService.uploadFile(
+        {
+          path: '/uploads/1223',
+          originalname: 'test.json',
+          mimetype: 'text/csv',
+          size: 12132,
+          filename: 'fileId',
+        },
+        { schema: '{ "hour": "number", "susceptible": "number" }', dashboardId: 'dashboardId' },
+      );
+      expect(result).toEqual({ collectionId: 'collectionId' });
+    });
     it('should insert dashboard and datashource mapping in datasourceDashboardMap', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
       createModel.createModel.mockImplementation((id) => id);
 
-      await uploadDatasourceService.uploadCsv(
+      await uploadDatasourceService.uploadFile(
         {
           path: '/uploads/1223',
           originalname: 'test.csv',
           mimetype: 'text/csv',
           size: 12132,
+          filename: 'fileId',
         },
         { schema: '{ "hour": "number", "susceptible": "number" }', dashboardId: 'dashboardId' },
       );
@@ -113,7 +130,7 @@ describe('upload datasource service', () => {
       createModel.createModel.mockImplementation((id) => id);
 
       const result = async () => {
-        await uploadDatasourceService.uploadCsv(
+        await uploadDatasourceService.uploadFile(
           {
             path: '/uploads/1223',
             originalname: 'test.csv',
@@ -137,7 +154,7 @@ describe('upload datasource service', () => {
       createModel.createModel.mockImplementation((id) => id);
 
       try {
-        await uploadDatasourceService.uploadCsv(
+        await uploadDatasourceService.uploadFile(
           {
             path: '/uploads/1223',
             originalname: 'test.csv',
@@ -161,7 +178,7 @@ describe('upload datasource service', () => {
       createModel.createModel.mockImplementation((id) => id);
 
       const result = async () => {
-        await uploadDatasourceService.uploadCsv(
+        await uploadDatasourceService.uploadFile(
           {
             path: '/uploads/1223',
             originalname: 'test.csv',
@@ -183,7 +200,7 @@ describe('upload datasource service', () => {
       createModel.createModel.mockImplementation((id) => id);
 
       const result = async () => {
-        await uploadDatasourceService.uploadCsv(
+        await uploadDatasourceService.uploadFile(
           {
             path: '/uploads/1223',
             originalname: 'test.png',

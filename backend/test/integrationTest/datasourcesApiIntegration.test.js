@@ -2,11 +2,11 @@ const express = require('express');
 const request = require('supertest');
 const multer = require('multer');
 const mongoService = require('../../src/services/mongoService');
-const mongoose = require('mongoose');
 
 const dbHandler = require('../db-handler');
 const DataSourceMetaData = require('../../src/model/datasourceMetadata');
 const DatasourceDashboardMap = require('../../src/model/datasourceDashboardMap');
+
 const {
   dataSourceMetadata,
   model1Data,
@@ -50,6 +50,7 @@ describe('Integration test', () => {
         fileType: metadata.fileType,
         createdAt: metadata.createdAt.toISOString(),
         updatedAt: metadata.updatedAt.toISOString(),
+        fileId: 'fileIdByMulter',
       }));
       await request(app)
         .get('/datasources?dashboardId=313233343536373839303137')
@@ -234,7 +235,7 @@ describe('Integration test', () => {
       await request(app)
         .delete('/datasources?dashboardId=313233343536373839303131')
         .expect(200)
-        .expect([true, true]);
+        .expect({ deleted: true });
 
       const foundMapping = parseDBObject(
         await DatasourceDashboardMap.find({
@@ -254,9 +255,8 @@ describe('Integration test', () => {
         .listCollections()
         .toArray()
         .then((collections) =>
-          collections.some(
-            (collection) =>
-              [dataSourceId1.toString(), dataSourceId2.toString()].includes(collection.name),
+          collections.some((collection) =>
+            [dataSourceId1.toString(), dataSourceId2.toString()].includes(collection.name),
           ),
         );
 

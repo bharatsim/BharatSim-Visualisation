@@ -19,6 +19,9 @@ const datasourceMetadata = new Schema(
       type: Number,
       required: true,
     },
+    fileId: {
+      type: String,
+    },
   },
   { collection: 'datasourceMetadata', timestamps: true },
 );

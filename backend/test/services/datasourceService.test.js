@@ -1,18 +1,30 @@
+const fs = require('fs');
 const dataSourceService = require('../../src/services/datasourceService');
 const dataSourceRepository = require('../../src/repository/datasourceRepository');
 const dataSourceMetadataRepository = require('../../src/repository/datasourceMetadataRepository');
 const dashboardDatasourceMapRepository = require('../../src/repository/dashboardDatasourceMapRepository');
 const modelCreator = require('../../src/utils/modelCreator');
 const ColumnsNotFoundException = require('../../src/exceptions/ColumnsNotFoundException');
+const DatasourceNotFoundException = require('../../src/exceptions/DatasourceNotFoundException');
 
 jest.mock('../../src/repository/dataSourceRepository');
 jest.mock('../../src/repository/dataSourceMetadataRepository');
 jest.mock('../../src/repository/dashboardDatasourceMapRepository');
 jest.mock('../../src/utils/modelCreator');
 
+jest.spyOn(fs, 'readFileSync');
+jest.spyOn(fs, 'existsSync');
+jest.spyOn(fs, 'rmdirSync');
+
 describe('dataSourceService', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it('should fetch data from database for give datasource name', async () => {
-    dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue('DataSourceSchema');
+    dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValueOnce('DataSourceSchema');
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+      fileType: 'csv',
+    });
     modelCreator.createModel.mockReturnValue('DataSourceModel');
     dataSourceRepository.getData.mockResolvedValue([
       { hour: 1, susceptible: 99 },
@@ -36,6 +48,9 @@ describe('dataSourceService', () => {
     dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
       dataSourceSchema: 'DataSourceSchema',
     });
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+      fileType: 'csv',
+    });
     dataSourceRepository.getData.mockResolvedValue([{ hour: 1 }, { hour: 2 }, { hour: 3 }]);
     modelCreator.createModel.mockReturnValue('DataSourceModel');
     const dataSourceID = 'model';
@@ -49,10 +64,52 @@ describe('dataSourceService', () => {
       data: { hour: [1, 2, 3] },
     });
   });
+  it('should fetch data from file server for given json or extended json file', async () => {
+    fs.existsSync.mockReturnValueOnce(true);
+    fs.readFileSync.mockReturnValueOnce(JSON.stringify([{ hour: 1 }, { hour: 2 }, { hour: 3 }]));
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+      fileType: 'json',
+      fileId: 'multerFileId',
+    });
+    const dataSourceID = 'model';
+    const data = await dataSourceService.getData(dataSourceID);
+    expect(data).toEqual([{ hour: 1 }, { hour: 2 }, { hour: 3 }]);
+  });
+  it('should throw exception for datasource not found if file is present', async () => {
+    fs.existsSync.mockReturnValueOnce(false);
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+      fileType: 'json',
+      fileId: 'multerFileId',
+    });
+    const result = async () => {
+      await dataSourceService.getData('dataSourceID');
+    };
+    await expect(result).rejects.toThrow(new DatasourceNotFoundException('multerFileId'));
+  });
+  it('should throw exception for datasource not found file is not supported format', async () => {
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+      fileId: 'multerFileId',
+    });
+    const result = async () => {
+      await dataSourceService.getData('dataSourceID');
+    };
+    await expect(result).rejects.toThrow(new DatasourceNotFoundException('multerFileId'));
+  });
+
+  it('should throw exception for datasource not found if metadata is not present', async () => {
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce(null);
+    const result = async () => {
+      await dataSourceService.getData('dataSourceID');
+    };
+    await expect(result).rejects.toThrow(new DatasourceNotFoundException('dataSourceID'));
+  });
 
   it('should throw an exception for column mismatch', async () => {
     dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
       dataSourceSchema: 'DataSourceSchema',
+    });
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+      fileType: 'csv',
     });
     modelCreator.createModel.mockReturnValue('DataSourceModel');
     dataSourceRepository.getData.mockResolvedValue([
@@ -69,43 +126,52 @@ describe('dataSourceService', () => {
     await expect(result).rejects.toThrow(new ColumnsNotFoundException());
   });
 
-  it('should delete all mapped datasource for given dashboard id', async () => {
+  it('should delete all mapped csv datasource for given dashboard id', async () => {
     dataSourceMetadataRepository.bulkDeleteDatasourceMetadata.mockResolvedValue({
       deleted: 1,
     });
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+      fileType: 'csv',
+    });
     dashboardDatasourceMapRepository.deleteDatasourceMapping.mockResolvedValue({ deleted: 1 });
-    dashboardDatasourceMapRepository.getDatasourceIdsForDashboard.mockResolvedValue([
+    dashboardDatasourceMapRepository.getDatasourceIdsForDashboard.mockResolvedValueOnce([
       'datasource1',
       'datasource2',
     ]);
-    dataSourceRepository.bulkDelete.mockResolvedValue([true]);
+    dataSourceRepository.bulkDeleteCsv.mockResolvedValue([true]);
+    dataSourceMetadataRepository.filterDatasourceIds.mockResolvedValue([
+      { _id: 'datasource1' },
+      { _id: 'datasource2' },
+    ]);
 
     const data = await dataSourceService.deleteDatasourceForDashboard('dashboardId');
-
     expect(dashboardDatasourceMapRepository.getDatasourceIdsForDashboard).toHaveBeenCalledWith(
       'dashboardId',
     );
     expect(dashboardDatasourceMapRepository.deleteDatasourceMapping).toHaveBeenCalledWith(
       'dashboardId',
     );
-    expect(dataSourceRepository.bulkDelete).toHaveBeenCalledWith(['datasource1', 'datasource2']);
+    expect(dataSourceRepository.bulkDeleteCsv).toHaveBeenCalledWith(['datasource1', 'datasource2']);
     expect(dataSourceMetadataRepository.bulkDeleteDatasourceMetadata).toHaveBeenCalledWith([
       'datasource1',
       'datasource2',
     ]);
 
-    expect(data).toEqual([true]);
+    expect(data).toEqual({ deleted: true });
   });
-
   describe('mocked function testing', function () {
-    beforeEach(() => {
+    beforeEach(async () => {
+      jest.clearAllMocks();
       dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
         dataSourceSchema: 'DataSourceSchema',
+      });
+      dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+        fileType: 'csv',
       });
       dataSourceRepository.getData.mockResolvedValue([{ hour: 1 }, { hour: 2 }, { hour: 3 }]);
       modelCreator.createModel.mockReturnValue('DataSourceModel');
       const dataSourceId = 'model';
-      dataSourceService.getData(dataSourceId, ['hour']);
+      await dataSourceService.getData(dataSourceId, ['hour']);
     });
 
     it('should getDataSourceSchema to have been called with dataSource name', function () {
@@ -118,6 +184,57 @@ describe('dataSourceService', () => {
 
     it('should createModel to have been called with dataSource name and schema', function () {
       expect(modelCreator.createModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
+    });
+  });
+
+  describe('should delete all json and extended datasources for given dashboard id', () => {
+    let result;
+    beforeEach(async () => {
+      fs.existsSync.mockReturnValue(true);
+      fs.rmdirSync.mockReturnValueOnce(true);
+      dataSourceMetadataRepository.bulkDeleteDatasourceMetadata.mockResolvedValue({
+        deleted: 1,
+      });
+      dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+        fileType: 'json',
+        fileId: 'multerFileId',
+      });
+      dashboardDatasourceMapRepository.deleteDatasourceMapping.mockResolvedValue({ deleted: 1 });
+      dashboardDatasourceMapRepository.getDatasourceIdsForDashboard.mockResolvedValueOnce([
+        'datasource1',
+        'datasource2',
+      ]);
+      dataSourceRepository.bulkDeleteCsv.mockResolvedValue([true]);
+      dataSourceMetadataRepository.filterDatasourceIds.mockResolvedValue([
+        {
+          _id: 'datasource1',
+          fileId: 'multerId',
+          type: 'json',
+        },
+        { _id: 'datasource2', fileId: 'multerId2', type: 'json' },
+      ]);
+      result = await dataSourceService.deleteDatasourceForDashboard('dashboardId');
+    });
+
+    it('should call getDatasourceIdsForDashboard with dashboard id', async () => {
+      expect(dashboardDatasourceMapRepository.getDatasourceIdsForDashboard).toHaveBeenCalledWith(
+        'dashboardId',
+      );
+      expect(dashboardDatasourceMapRepository.deleteDatasourceMapping).toHaveBeenCalledWith(
+        'dashboardId',
+      );
+    });
+    it('should delete all the json files present in server', () => {
+      expect(fs.rmdirSync).toHaveBeenCalledTimes(2);
+      expect(fs.rmdirSync).toHaveBeenCalledWith('./uploads/multerId', { recursive: true });
+      expect(dataSourceMetadataRepository.bulkDeleteDatasourceMetadata).toHaveBeenCalledWith([
+        'datasource1',
+        'datasource2',
+      ]);
+    });
+
+    it('should should return deleted true', async () => {
+      expect(result).toEqual({ deleted: true });
     });
   });
 });

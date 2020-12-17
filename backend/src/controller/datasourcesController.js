@@ -7,18 +7,23 @@ const DataSourceNotFoundException = require('../exceptions/DatasourceNotFoundExc
 const ColumnsNotFoundException = require('../exceptions/ColumnsNotFoundException');
 const { sendServerError, sendClientError } = require('../exceptions/exceptionUtils');
 const InvalidInputException = require('../exceptions/InvalidInputException');
+const { EXTENDED_JSON_TYPES } = require('../constants/fileTypes');
+const { getFileExtension } = require('../utils/uploadFile');
+const { fileTypes } = require('../constants/fileTypes');
 
-router.get('/', async function(req, res) {
+router.get('/', async function (req, res) {
   const { dashboardId } = req.query;
   dataSourceMetadataService
     .getDataSourcesByDashboardId(dashboardId)
     .then((data) => res.json(data))
-    .catch((err) => sendServerError(err, res));
+    .catch((err) => {
+      sendServerError(err, res);
+    });
 });
 
-router.post('/', async function(req, res) {
+router.post('/', async function (req, res) {
   uploadDatasourceService
-    .uploadCsv(req.file, req.body)
+    .uploadFile(req.file, req.body)
     .then((data) => res.json(data))
     .catch((err) => {
       if (err instanceof InvalidInputException) {
@@ -28,11 +33,14 @@ router.post('/', async function(req, res) {
       }
     })
     .finally(() => {
-      uploadDatasourceService.deleteUploadedFile(req.file.path);
+      const fileTypesToBePreserved = [fileTypes.JSON, ...EXTENDED_JSON_TYPES];
+      if (!fileTypesToBePreserved.includes(getFileExtension(req.file.originalname))) {
+        uploadDatasourceService.deleteUploadedFile(req.file.path);
+      }
     });
 });
 
-router.get('/:id', async function(req, res) {
+router.get('/:id', async function (req, res) {
   const { columns } = req.query;
   const { id: datasourceId } = req.params;
   dataSourceService
@@ -49,7 +57,7 @@ router.get('/:id', async function(req, res) {
     });
 });
 
-router.get('/:id/headers', function(req, res) {
+router.get('/:id/headers', function (req, res) {
   const { id: datasourceId } = req.params;
   dataSourceMetadataService
     .getHeaders(datasourceId)
@@ -63,14 +71,14 @@ router.get('/:id/headers', function(req, res) {
     });
 });
 
-router.delete('/', async function(req, res) {
+router.delete('/', async function (req, res) {
   const { dashboardId } = req.query;
-  dataSourceService.deleteDatasourceForDashboard(dashboardId)
+  dataSourceService
+    .deleteDatasourceForDashboard(dashboardId)
     .then((deleteMetadata) => {
       res.send(deleteMetadata);
     })
     .catch((err) => {
-
       sendServerError(err, res);
     });
 });

@@ -18,13 +18,14 @@ jest.mock('../../src/services/dataSourceMetadataService');
 jest.mock('../../src/services/dataSourceService');
 jest.mock('../../src/services/uploadDatasourceService');
 
+let mockUploadFileName = 'sample.csv';
 multer.mockImplementation(() => ({
   single() {
     return (req, res, next) => {
       req.body.schema = testSchema;
       req.body.dashboardId = 'dashboardId';
       req.file = {
-        originalname: 'sample.name',
+        originalname: mockUploadFileName,
         mimetype: 'sample.type',
         path: 'sample.path',
         size: 12312,
@@ -55,7 +56,7 @@ describe('api', () => {
       dataSources: [{ name: 'model_1' }, { name: 'model_2' }],
     });
 
-    uploadDatasourceService.uploadCsv.mockResolvedValue({ collectionId: 'id' });
+    uploadDatasourceService.uploadFile.mockResolvedValue({ collectionId: 'id' });
   });
 
   afterEach(() => {
@@ -188,7 +189,7 @@ describe('api', () => {
   });
 
   describe('Post /datasources', function () {
-    it('should upload file successfully', async () => {
+    it('should upload file csv successfully', async () => {
       await request(app)
         .post('/datasources')
         .field('schema', JSON.stringify(testSchema))
@@ -196,10 +197,10 @@ describe('api', () => {
         .attach('datafile', 'test/data/simulation.csv')
         .expect(200)
         .expect({ collectionId: 'id' });
-      expect(uploadDatasourceService.uploadCsv).toHaveBeenCalledWith(
+      expect(uploadDatasourceService.uploadFile).toHaveBeenCalledWith(
         {
           mimetype: 'sample.type',
-          originalname: 'sample.name',
+          originalname: 'sample.csv',
           path: 'sample.path',
           size: 12312,
         },
@@ -216,9 +217,20 @@ describe('api', () => {
         .expect({ collectionId: 'id' });
       expect(uploadDatasourceService.deleteUploadedFile).toHaveBeenCalledWith('sample.path');
     });
+    it('should not delete file after successful upload if file is json or extended forms of json', async () => {
+      mockUploadFileName = 'sample.json';
+      await request(app)
+        .post('/datasources')
+        .field('name', 'datafile')
+        .attach('datafile', 'test/data/simulation.json')
+        .expect(200)
+        .expect({ collectionId: 'id' });
+      expect(uploadDatasourceService.deleteUploadedFile).not.toHaveBeenCalledWith('sample.path');
+      mockUploadFileName = 'sample.csv';
+    });
 
     it('should delete file after unsuccessful upload', async () => {
-      uploadDatasourceService.uploadCsv.mockRejectedValueOnce(new Error());
+      uploadDatasourceService.uploadFile.mockRejectedValueOnce(new Error());
       await request(app)
         .post('/datasources')
         .field('name', 'datafile')
@@ -231,7 +243,7 @@ describe('api', () => {
 
     it('should throw an invalid input exception for file type not match', async () => {
       const invalidInputError = new InvalidInputException('error message');
-      uploadDatasourceService.uploadCsv.mockRejectedValueOnce(invalidInputError);
+      uploadDatasourceService.uploadFile.mockRejectedValueOnce(invalidInputError);
       await request(app)
         .post('/datasources')
         .field('schema', JSON.stringify(testSchema))
@@ -240,10 +252,10 @@ describe('api', () => {
         .expect(400)
         .expect({ errorMessage: 'Invalid Input - error message' });
 
-      expect(uploadDatasourceService.uploadCsv).toHaveBeenCalledWith(
+      expect(uploadDatasourceService.uploadFile).toHaveBeenCalledWith(
         {
           mimetype: 'sample.type',
-          originalname: 'sample.name',
+          originalname: 'sample.csv',
           path: 'sample.path',
           size: 12312,
         },
@@ -252,7 +264,7 @@ describe('api', () => {
     });
 
     it('should throw an technical exception for file type not match', async () => {
-      uploadDatasourceService.uploadCsv.mockRejectedValueOnce(new Error());
+      uploadDatasourceService.uploadFile.mockRejectedValueOnce(new Error());
       await request(app)
         .post('/datasources')
         .field('name', 'datafile')
@@ -263,10 +275,7 @@ describe('api', () => {
   });
   describe('delete / ', () => {
     it('should delete datasource for given dashboardId', async () => {
-      await request(app)
-        .delete('/datasources?dashboardId=dashboardId')
-        .expect(200)
-        .expect([true]);
+      await request(app).delete('/datasources?dashboardId=dashboardId').expect(200).expect([true]);
 
       expect(datasourceService.deleteDatasourceForDashboard).toHaveBeenCalledWith('dashboardId');
     });

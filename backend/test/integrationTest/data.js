@@ -9,6 +9,7 @@ const dataSourceMetadata = [
     },
     fileSize: 123,
     fileType: 'csv',
+    fileId: 'fileIdByMulter',
   },
   {
     name: 'model_2',
@@ -18,8 +19,10 @@ const dataSourceMetadata = [
     },
     fileSize: 123,
     fileType: 'csv',
+    fileId: 'fileIdByMulter',
   },
 ];
+
 function createDatasourceDashboardMapping(datasourceId) {
   return [
     {
@@ -57,5 +60,5 @@ module.exports = {
   dataSourceMetadata,
   model1Data,
   createModel,
-  createDatasourceDashboardMapping
+  createDatasourceDashboardMapping,
 };

@@ -18,19 +18,20 @@ async function bulkDeleteDataSources(datasourceIds) {
   const connection = mongoService.getConnection();
   const db = await connection.db();
 
-  return Promise.all(datasourceIds.map(async (datasourceId) => {
-    return db.dropCollection(datasourceId);
-  }));
+  return Promise.all(
+    datasourceIds.map(async (datsourceId) => {
+      return db.dropCollection(datsourceId);
+    }),
+  );
 }
 
-async function bulkDelete(datasourceIds) {
+async function bulkDeleteCsv(datasourceIds) {
   return bulkDeleteDataSources(datasourceIds);
 }
-
 
 module.exports = {
   getData,
   insert,
   bulkInsert,
-  bulkDelete,
+  bulkDeleteCsv,
 };

@@ -43,6 +43,10 @@ const errors = {
     errorCode: 1012,
     errorMessage: 'Project with given id not found',
   },
+  metadataNotFound: {
+    errorCode: 1012,
+    errorMessage: 'Datasource Metadata for given id not found',
+  },
 };
 
 module.exports = errors;

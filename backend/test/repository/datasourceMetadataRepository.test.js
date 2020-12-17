@@ -14,6 +14,7 @@ const dataSourceMetadata = [
     },
     fileSize: 123,
     fileType: 'csv',
+    fileId: 'fileidByMulter',
   },
   {
     name: 'model_2',
@@ -23,12 +24,13 @@ const dataSourceMetadata = [
     },
     fileSize: 123,
     fileType: 'csv',
+    fileId: 'fileidByMulter',
   },
 ];
 
 const parseMongoDBResult = (result) => JSON.parse(JSON.stringify(result));
 
-describe( "Datasource metadata repository", () => {
+describe('Datasource metadata repository', () => {
   beforeAll(async () => {
     await dbHandler.connect();
   });
@@ -39,7 +41,7 @@ describe( "Datasource metadata repository", () => {
     await dbHandler.closeDatabase();
   });
 
-  describe('getDataSourceNames', function() {
+  describe('getDataSourceNames', function () {
     it('should return names of all present data sources', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
       const expectedResult = insertedMetadata.map((metadata) => ({
@@ -53,7 +55,7 @@ describe( "Datasource metadata repository", () => {
     });
   });
 
-  describe('get DataSource metadata by dashboard id', function() {
+  describe('get DataSource metadata by dashboard id', function () {
     it('should return DataSource metadata for given datasource id', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
 
@@ -64,19 +66,20 @@ describe( "Datasource metadata repository", () => {
         fileType: metadata.fileType,
         createdAt: metadata.createdAt.toISOString(),
         updatedAt: metadata.updatedAt.toISOString(),
+        fileId: 'fileidByMulter',
       }));
 
-      const insertedIds = insertedMetadata.map(metadata => metadata.id.toString());
+      const insertedIds = insertedMetadata.map((metadata) => metadata.id.toString());
 
       const dataSources = parseMongoDBResult(
-          await DataSourceMetaDataRepository.getManyDataSourcesMetadataByIds(insertedIds),
+        await DataSourceMetaDataRepository.getManyDataSourcesMetadataByIds(insertedIds),
       );
 
       expect(dataSources).toEqual(expectedResult);
     });
   });
 
-  describe('get DataSource Schema By Id', function() {
+  describe('get DataSource Schema By Id', function () {
     it('should return datasource schema for given datasource name', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
       const { _id: dataSourceId } = insertedMetadata[0];
@@ -114,6 +117,7 @@ describe( "Datasource metadata repository", () => {
       },
       fileSize: 123,
       fileType: 'csv',
+      fileId: 'fileIdByMulter',
     });
 
     const result = parseMongoDBResult(
@@ -130,6 +134,7 @@ describe( "Datasource metadata repository", () => {
       fileType: 'csv',
       createdAt: expect.anything(),
       updatedAt: expect.anything(),
+      fileId: 'fileIdByMulter',
     });
   });
 
@@ -139,6 +144,7 @@ describe( "Datasource metadata repository", () => {
       dataSourceSchema: dataSourceMetadata[0].dataSourceSchema,
       fileSize: 123,
       fileType: 'csv',
+      fileId: 'fileIdByMulter',
     });
 
     await DataSourceMetaDataRepository.deleteDatasourceMetadata(collectionId);
@@ -155,18 +161,20 @@ describe( "Datasource metadata repository", () => {
       dataSourceSchema: dataSourceMetadata[0].dataSourceSchema,
       fileSize: 123,
       fileType: 'csv',
+      fileId: 'fileIdByMulter',
     });
     const { _id: collectionId2 } = await DataSourceMetaDataRepository.insert({
       name: 'model2',
       dataSourceSchema: dataSourceMetadata[0].dataSourceSchema,
       fileSize: 123,
       fileType: 'csv',
+      fileId: 'fileIdByMulter',
     });
 
     await DataSourceMetaDataRepository.bulkDeleteDatasourceMetadata([collectionId1, collectionId2]);
 
     const result = parseMongoDBResult(
-      await DataSourceMetaData.find({ name: { $in: ['model_1', 'model_2' ] }}, { _id: 0, __v: 0 }),
+      await DataSourceMetaData.find({ name: { $in: ['model_1', 'model_2'] } }, { _id: 0, __v: 0 }),
     );
 
     expect(result).toEqual([]);
