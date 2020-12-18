@@ -25,7 +25,8 @@ function ConfigureDatatype({ selectedFile, previewData, schema }) {
 
 ConfigureDatatype.propTypes = {
   selectedFile: PropTypes.objectOf(File).isRequired,
-  previewData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  previewData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape({})), PropTypes.shape({})])
+    .isRequired,
   schema: PropTypes.shape({}).isRequired,
 };
 

@@ -41,5 +41,6 @@ export default function JsonPreview({ selectedFile, previewData }) {
 
 JsonPreview.propTypes = {
   selectedFile: PropTypes.objectOf(File).isRequired,
-  previewData: [PropTypes.arrayOf(PropTypes.shape({})), PropTypes.shape({})].isRequired,
+  previewData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape({})), PropTypes.shape({})])
+    .isRequired,
 };

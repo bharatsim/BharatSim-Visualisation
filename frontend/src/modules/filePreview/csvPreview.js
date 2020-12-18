@@ -1,6 +1,7 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core';
+import { Typography, useTheme } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
 import { createColumnForMTable } from '../../utils/fileUploadUtils';
 import DataPreviewTableToolBar from '../uploadDataset/DataPreviewTableToolBar';
 import DataPreviewTableHeader from '../uploadDataset/DataPreviewTableHeader';
@@ -11,29 +12,34 @@ export default function CsvPreview({ schema, previewData, selectedFile }) {
   const theme = useTheme();
   const styles = tableStyles(theme, previewData);
   return (
-    <Table
-      title="DataFile"
-      columns={createColumnForMTable(schema)}
-      data={previewData}
-      options={{
-        paging: true,
-        showTitle: false,
-        search: false,
-        headerStyle: {
-          ...styles.headerStyle,
-          padding: theme.spacing(1, 2, 1, 2),
-          borderBottom: 'unset',
-        },
-        cellStyle: () => ({
-          ...styles.cellStyle(),
-          color: theme.palette.text.secondary,
-        }),
-      }}
-      components={{
-        Toolbar: (props) => <DataPreviewTableToolBar {...props} file={selectedFile} />,
-        Header: (props) => <DataPreviewTableHeader {...props} />,
-      }}
-    />
+    <Box>
+      <Table
+        title="DataFile"
+        columns={createColumnForMTable(schema)}
+        data={previewData}
+        options={{
+          paging: true,
+          showTitle: false,
+          search: false,
+          headerStyle: {
+            ...styles.headerStyle,
+            padding: theme.spacing(1, 2, 1, 2),
+            borderBottom: 'unset',
+          },
+          cellStyle: () => ({
+            ...styles.cellStyle(),
+            color: theme.palette.text.secondary,
+          }),
+        }}
+        components={{
+          Toolbar: (props) => <DataPreviewTableToolBar {...props} file={selectedFile} />,
+          Header: (props) => <DataPreviewTableHeader {...props} />,
+        }}
+      />
+      <Typography variant="subtitle2" color="textSecondary">
+        * File preview for first 100 rows
+      </Typography>
+    </Box>
   );
 }
 

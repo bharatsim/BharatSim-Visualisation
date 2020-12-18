@@ -5,10 +5,13 @@ exports[`<ConfigureDatatype /> should match snapshot for csv file preview 1`] = 
   <div
     class="MuiBox-root MuiBox-root-1"
   >
-    <div>
-      Table
+    <div
+      class="MuiBox-root MuiBox-root-2"
+    >
       <div>
-        {
+        Table
+        <div>
+          {
   "title": "DataFile",
   "columns": [
     {
@@ -50,7 +53,13 @@ exports[`<ConfigureDatatype /> should match snapshot for csv file preview 1`] = 
   },
   "components": {}
 }
+        </div>
       </div>
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+      >
+        * File preview for first 100 rows
+      </h6>
     </div>
   </div>
 </div>
@@ -59,7 +68,7 @@ exports[`<ConfigureDatatype /> should match snapshot for csv file preview 1`] = 
 exports[`<ConfigureDatatype /> should match snapshot for invalid file preview 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-9"
+    class="MuiBox-root MuiBox-root-10"
   >
     Cannot Preview Data  for filename.error
   </div>
@@ -69,13 +78,13 @@ exports[`<ConfigureDatatype /> should match snapshot for invalid file preview 1`
 exports[`<ConfigureDatatype /> should match snapshot for json file preview 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-2"
+    class="MuiBox-root MuiBox-root-3"
   >
     <div
-      class="MuiBox-root MuiBox-root-5 makeStyles-jsonViewer-4"
+      class="MuiBox-root MuiBox-root-6 makeStyles-jsonViewer-5"
     >
       <div
-        class="MuiBox-root MuiBox-root-6"
+        class="MuiBox-root MuiBox-root-7"
       >
         <p
           class="MuiTypography-root MuiTypography-body2"
@@ -83,7 +92,7 @@ exports[`<ConfigureDatatype /> should match snapshot for json file preview 1`] =
           DataFile:
         </p>
         <div
-          class="MuiBox-root MuiBox-root-7"
+          class="MuiBox-root MuiBox-root-8"
         >
           <div
             class="MuiChip-root MuiChip-colorSecondary MuiChip-outlined MuiChip-outlinedSecondary MuiChip-sizeSmall"
@@ -97,7 +106,7 @@ exports[`<ConfigureDatatype /> should match snapshot for json file preview 1`] =
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-8 makeStyles-jsonContainer-3"
+        class="MuiBox-root MuiBox-root-9 makeStyles-jsonContainer-4"
       >
         <div
           class="react-json-view"
