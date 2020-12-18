@@ -44,7 +44,7 @@ describe('api', () => {
 
   beforeEach(() => {
     datasourceService.getData.mockResolvedValue({ data: { exposed: [2, 3], hour: [1, 2] } });
-    datasourceService.deleteDatasourceForDashboard.mockResolvedValue([true]);
+    datasourceService.deleteDatasourceForDashboard.mockResolvedValue({ deleted: 1 });
 
     dataSourceMetadataService.getHeaders.mockResolvedValue({
       headers: [
@@ -275,7 +275,10 @@ describe('api', () => {
   });
   describe('delete / ', () => {
     it('should delete datasource for given dashboardId', async () => {
-      await request(app).delete('/datasources?dashboardId=dashboardId').expect(200).expect([true]);
+      await request(app)
+        .delete('/datasources?dashboardId=dashboardId')
+        .expect(200)
+        .expect({ deleted: 1 });
 
       expect(datasourceService.deleteDatasourceForDashboard).toHaveBeenCalledWith('dashboardId');
     });

@@ -1,5 +1,7 @@
 const fileTypes = {
-  'text/csv': 'CSV',
+  csv: 'CSV',
+  json: 'JSON',
+  geojson: 'GEOJSON',
 };
 
 export default fileTypes;

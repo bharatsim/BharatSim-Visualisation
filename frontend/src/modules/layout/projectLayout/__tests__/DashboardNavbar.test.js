@@ -11,7 +11,7 @@ import { ProjectLayoutProvider } from '../../../../contexts/projectLayoutContext
 jest.mock('../../../../utils/api', () => ({
   api: {
     deleteDashboard: jest.fn().mockResolvedValue({ deleted: 1 }),
-    deleteDatasourceForDashboard: jest.fn().mockResolvedValue([true, true]),
+    deleteDatasourceForDashboard: jest.fn().mockResolvedValue({ deleted: 2 }),
   },
 }));
 
@@ -160,7 +160,7 @@ describe('Dashboard Navbar', () => {
     });
 
     it('should not show snack bar for successful deletion of dashboard and file if files are not present', async () => {
-      api.deleteDatasourceForDashboard.mockResolvedValueOnce([]);
+      api.deleteDatasourceForDashboard.mockResolvedValueOnce({ delete: 0 });
       const { getByAltText, getByTestId, findByText, queryByText } = render(<Component />);
       const optionsIcon = getByAltText('options-logo');
       fireEvent.click(optionsIcon);

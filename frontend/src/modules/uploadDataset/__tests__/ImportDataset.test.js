@@ -10,6 +10,11 @@ jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onC
   onComplete(data);
 });
 
+jest.spyOn(fileUtils, 'parseJson').mockImplementation((jsonFile, onComplete) => {
+  const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
+  onComplete(data);
+});
+
 describe('Import Dataset', () => {
   const Component = withThemeProvider(ImportDataset);
   let setFileMock;
@@ -52,10 +57,10 @@ describe('Import Dataset', () => {
     const inputComponent = getByTestId('file-input');
 
     fireEvent.change(inputComponent, {
-      target: { files: [{ name: 'csv', size: '10', type: 'text/csv' }] },
+      target: { files: [{ name: 'test.csv', size: '10' }] },
     });
 
-    expect(setFileMock).toHaveBeenCalledWith({ name: 'csv', size: '10', type: 'text/csv' });
+    expect(setFileMock).toHaveBeenCalledWith({ name: 'test.csv', size: '10' });
   });
   it('should import and parse csv file ', () => {
     const { getByTestId } = render(
@@ -70,17 +75,16 @@ describe('Import Dataset', () => {
     const inputComponent = getByTestId('file-input');
 
     fireEvent.change(inputComponent, {
-      target: { files: [{ name: 'csv', size: '10', type: 'text/csv' }] },
+      target: { files: [{ name: 'test.csv', size: '10' }] },
     });
 
     expect(fileUtils.parseCsv).toHaveBeenCalledWith(
-      { name: 'csv', size: '10', type: 'text/csv' },
+      { name: 'test.csv', size: '10' },
       100,
       expect.any(Function, () => {}),
     );
   });
-
-  it('should create and set schema', () => {
+  it('should import and parse json file', () => {
     const { getByTestId } = render(
       <Component
         setFile={setFileMock}
@@ -93,7 +97,29 @@ describe('Import Dataset', () => {
     const inputComponent = getByTestId('file-input');
 
     fireEvent.change(inputComponent, {
-      target: { files: [{ name: 'csv', size: '10', type: 'text/csv' }] },
+      target: { files: [{ name: 'test.json', size: '10' }] },
+    });
+
+    expect(fileUtils.parseJson).toHaveBeenCalledWith(
+      { name: 'test.json', size: '10' },
+      expect.any(Function, () => {}),
+    );
+  });
+
+  it('should create and set schema for csv files', () => {
+    const { getByTestId } = render(
+      <Component
+        setFile={setFileMock}
+        handleNext={handleNextMock}
+        setPreviewData={setPreviewDataMock}
+        setErrorStep={setErrorStepMock}
+        setSchema={setSchemaMock}
+      />,
+    );
+    const inputComponent = getByTestId('file-input');
+
+    fireEvent.change(inputComponent, {
+      target: { files: [{ name: 'test.csv', size: '10' }] },
     });
 
     expect(setSchemaMock).toHaveBeenCalledWith({
@@ -101,7 +127,7 @@ describe('Import Dataset', () => {
       col2: 'Number',
     });
   });
-  it('should set preview data for given file', () => {
+  it('should set preview data for csv file', () => {
     const { getByTestId } = render(
       <Component
         setFile={setFileMock}
@@ -114,12 +140,30 @@ describe('Import Dataset', () => {
     const inputComponent = getByTestId('file-input');
 
     fireEvent.change(inputComponent, {
-      target: { files: [{ name: 'csv', size: '10', type: 'text/csv' }] },
+      target: { files: [{ name: 'test.csv', size: '10' }] },
     });
 
     expect(setPreviewDataMock).toHaveBeenCalledWith([{ col1: 'row1', col2: 1 }]);
   });
-  it('should set error for any parsing error in given file', () => {
+  it('should set preview data for json file', () => {
+    const { getByTestId } = render(
+      <Component
+        setFile={setFileMock}
+        handleNext={handleNextMock}
+        setPreviewData={setPreviewDataMock}
+        setErrorStep={setErrorStepMock}
+        setSchema={setSchemaMock}
+      />,
+    );
+    const inputComponent = getByTestId('file-input');
+
+    fireEvent.change(inputComponent, {
+      target: { files: [{ name: 'test.json', size: '10' }] },
+    });
+
+    expect(setPreviewDataMock).toHaveBeenCalledWith([{ col1: 'row1', col2: 1 }]);
+  });
+  it('should set error for any parsing error in given csv file', () => {
     jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
       const data = { data: [{ col1: 'row1', col2: 1 }], errors: ['error'] };
       onComplete(data);
@@ -136,12 +180,39 @@ describe('Import Dataset', () => {
     const inputComponent = getByTestId('file-input');
 
     fireEvent.change(inputComponent, {
-      target: { files: [{ name: 'csv', size: '10', type: 'text/csv' }] },
+      target: { files: [{ name: 'test.csv', size: '10' }] },
     });
 
     expect(
       queryByText(
         'Failed to Import file due to parsing error. Please review the file and ensure that its a valid CSV file.',
+      ),
+    ).toBeInTheDocument();
+    expect(setErrorStepMock).toHaveBeenCalledWith(0);
+  });
+  it('should set error for any parsing error in given json file', () => {
+    jest.spyOn(fileUtils, 'parseJson').mockImplementation((csvFile, onComplete) => {
+      const data = { data: [{ col1: 'row1', col2: 1 }], errors: ['error'] };
+      onComplete(data);
+    });
+    const { getByTestId, queryByText } = render(
+      <Component
+        setFile={setFileMock}
+        handleNext={handleNextMock}
+        setPreviewData={setPreviewDataMock}
+        setErrorStep={setErrorStepMock}
+        setSchema={setSchemaMock}
+      />,
+    );
+    const inputComponent = getByTestId('file-input');
+
+    fireEvent.change(inputComponent, {
+      target: { files: [{ name: 'test.json', size: '10' }] },
+    });
+
+    expect(
+      queryByText(
+        'Failed to Import file due to parsing error. Please review the file and ensure that its a valid JSON Data.',
       ),
     ).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
@@ -163,7 +234,7 @@ describe('Import Dataset', () => {
     const inputComponent = getByTestId('file-input');
 
     fireEvent.change(inputComponent, {
-      target: { files: [{ name: 'csv', size: '120843092842123', type: 'text/csv' }] },
+      target: { files: [{ name: 'test.csv', size: '120843092842123' }] },
     });
 
     expect(

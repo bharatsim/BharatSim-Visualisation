@@ -157,7 +157,7 @@ describe('dataSourceService', () => {
       'datasource2',
     ]);
 
-    expect(data).toEqual({ deleted: true });
+    expect(data).toEqual({ deleted: 2 });
   });
   describe('mocked function testing', function () {
     beforeEach(async () => {
@@ -234,7 +234,7 @@ describe('dataSourceService', () => {
     });
 
     it('should should return deleted true', async () => {
-      expect(result).toEqual({ deleted: true });
+      expect(result).toEqual({ deleted: 2 });
     });
   });
 });

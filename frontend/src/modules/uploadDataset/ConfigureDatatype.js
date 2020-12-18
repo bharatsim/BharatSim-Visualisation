@@ -1,43 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, useTheme } from '@material-ui/core';
-
-import Table from '../../uiComponent/table/Table';
-import DataPreviewTableToolBar from './DataPreviewTableToolBar';
-import DataPreviewTableHeader from './DataPreviewTableHeader';
-import { createColumnForMTable } from '../../utils/fileUploadUtils';
-import tableStyles from '../../uiComponent/table/tableCSS';
+import { Box } from '@material-ui/core';
+import { getFileExtension } from '../../utils/fileUploadUtils';
+import CsvPreview from '../filePreview/csvPreview';
+import JsonPreview from '../filePreview/jsonPreview';
+import { EXTENDED_JSON_TYPES } from '../../constants/fileUpload';
 
 function ConfigureDatatype({ selectedFile, previewData, schema }) {
-  const theme = useTheme();
-  const styles = tableStyles(theme, previewData);
-  return (
-    <Box>
-      <Table
-        title="DataFile"
-        columns={createColumnForMTable(schema)}
-        data={previewData}
-        options={{
-          paging: true,
-          showTitle: false,
-          search: false,
-          headerStyle: {
-            ...styles.headerStyle,
-            padding: theme.spacing(1, 2, 1, 2),
-            borderBottom: 'unset',
-          },
-          cellStyle: () => ({
-            ...styles.cellStyle(),
-            color: theme.palette.text.secondary,
-          }),
-        }}
-        components={{
-          Toolbar: (props) => <DataPreviewTableToolBar {...props} file={selectedFile} />,
-          Header: (props) => <DataPreviewTableHeader {...props} />,
-        }}
-      />
-    </Box>
-  );
+  function getViewerComponent() {
+    if (
+      getFileExtension(selectedFile) === 'json' ||
+      EXTENDED_JSON_TYPES.includes(getFileExtension(selectedFile))
+    ) {
+      return <JsonPreview selectedFile={selectedFile} previewData={previewData} />;
+    }
+    if (getFileExtension(selectedFile) === 'csv') {
+      return <CsvPreview schema={schema} previewData={previewData} selectedFile={selectedFile} />;
+    }
+    return `Cannot Preview Data  for ${selectedFile.name}`;
+  }
+
+  return <Box>{getViewerComponent()}</Box>;
 }
 
 ConfigureDatatype.propTypes = {

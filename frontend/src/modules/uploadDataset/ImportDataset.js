@@ -6,9 +6,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import fileImportIcon from '../../assets/images/importFileIcon.svg';
-import { createSchema, parseCsv } from '../../utils/fileUploadUtils';
+import { createSchema, getFileExtension, parseCsv, parseJson } from '../../utils/fileUploadUtils';
 import ErrorBar from '../../uiComponent/ErrorBar';
 import { validateFile } from '../../utils/validators';
+import { VALID_FILE_EXTENSIONS } from '../../constants/fileUpload';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -34,8 +35,23 @@ function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setS
   const classes = useStyles();
   const [error, setError] = useState();
   const previewLimit = 100;
+  const fileParsers = { csv: readCsv, json: readJson, geojson: readJson, topojson: readJson };
 
-  function onParse(csvData) {
+  function onJsonParse(jsonData) {
+    const { data, errors } = jsonData;
+    if (errors.length > 0) {
+      setError(
+        'Failed to Import file due to parsing error. Please review the file and ensure that its a valid JSON Data.',
+      );
+      setErrorStep(0);
+      return;
+    }
+    setPreviewData(data);
+    setSchema({});
+    handleNext();
+  }
+
+  function onCsvParse(csvData) {
     const { data, errors } = csvData;
     if (errors.length > 0) {
       setError(
@@ -50,6 +66,18 @@ function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setS
     handleNext();
   }
 
+  function readCsv(file) {
+    parseCsv(file, previewLimit, onCsvParse);
+  }
+
+  function readJson(file) {
+    parseJson(file, onJsonParse);
+  }
+
+  function parsefile(file) {
+    fileParsers[getFileExtension(file)](file);
+  }
+
   function handleFileImport(event) {
     setErrorStep(null);
     const selectedFile = event.target.files[0];
@@ -59,7 +87,7 @@ function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setS
       setErrorStep(0);
       return;
     }
-    parseCsv(selectedFile, previewLimit, onParse);
+    parsefile(selectedFile);
     setFile(selectedFile);
   }
 
@@ -76,7 +104,7 @@ function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setS
               <input
                 data-testid="file-input"
                 type="file"
-                accept=".csv"
+                accept={`.${VALID_FILE_EXTENSIONS.join(',.')}`}
                 style={{ display: 'none' }}
                 onChange={handleFileImport}
               />

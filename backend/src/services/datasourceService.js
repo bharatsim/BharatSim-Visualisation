@@ -90,7 +90,7 @@ async function deleteDatasourceForDashboard(dashboardId) {
   await Promise.all([deleteCsvFiles(datasourceIds), deleteJsonFiles(datasourceIds)]);
   await dataSourceMetadataRepository.bulkDeleteDatasourceMetadata(datasourceIds);
   await dashboardDatasourceMapRepository.deleteDatasourceMapping(dashboardId);
-  return { deleted: true };
+  return { deleted: datasourceIds.length };
 }
 
 module.exports = {

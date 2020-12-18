@@ -74,23 +74,23 @@ describe('Validators', () => {
 
   describe('file validator', () => {
     it('should provide message if file is not present', () => {
-      expect(validateFile()).toEqual('Please upload valid csv file');
+      expect(validateFile()).toEqual('Please upload valid file');
     });
 
     it('should provide message if uploaded file is not type of csv', () => {
-      expect(validateFile({ type: 'image/png', size: 10000 })).toEqual(
+      expect(validateFile({ size: 10000, name: 'file.png' })).toEqual(
         'Failed to Import file, the format is not supported',
       );
     });
 
     it('should provide message if uploaded file size exceed limit of 300MB', () => {
-      expect(validateFile({ type: 'text/csv', size: 314572805 })).toEqual(
+      expect(validateFile({ size: 314572805, name: 'test.csv' })).toEqual(
         'Failed to Import file, size exceeds the limit of 300MB',
       );
     });
 
     it('should provide empty message for valid file', () => {
-      expect(validateFile({ type: 'text/csv', size: 1000 })).toEqual('');
+      expect(validateFile({ size: 1000, name: 'test.csv' })).toEqual('');
     });
   });
 });

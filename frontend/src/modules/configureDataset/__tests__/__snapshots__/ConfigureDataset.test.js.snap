@@ -184,7 +184,7 @@ exports[`Configure datasets should match snapshot for given dashboard data and p
                           <td
                             class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
                             style="box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
-                            value="text/csv"
+                            value="csv"
                           >
                             CSV
                           </td>

@@ -1,10 +1,19 @@
-import { getMessage, parseCsv, resetFileInput } from '../fileUploadUtils';
+import { getMessage, parseCsv, parseJson, resetFileInput } from '../fileUploadUtils';
 
 jest.mock('papaparse', () => ({
   parse: (csvFile, config) => {
     config.complete('data');
   },
 }));
+
+const readAsTextMock = jest.fn();
+let jsonString = '{}';
+jest.spyOn(global, 'FileReader').mockImplementation(function () {
+  const self = this;
+  this.readAsText = readAsTextMock.mockImplementation(() => {
+    self.onload({ target: { result: jsonString } });
+  });
+});
 
 describe('File Upload utils', () => {
   it('should provide status and message for file uploading', () => {
@@ -39,7 +48,26 @@ describe('File Upload utils', () => {
 
     expect(onApply).toHaveBeenCalledWith('data');
   });
-
+  // TODO: update test to check if on apply has been called
+  it('should parse the json file and call the given function', () => {
+    const onApply = jest.fn();
+    parseJson('MockFile', onApply);
+    expect(readAsTextMock).toHaveBeenCalledWith('MockFile');
+    expect(onApply).toHaveBeenCalledWith({
+      data: {},
+      errors: [],
+    });
+  });
+  it('should parse the json file and call the given function and send error if any', () => {
+    jsonString = '{';
+    const onApply = jest.fn();
+    parseJson('MockFile', onApply);
+    expect(readAsTextMock).toHaveBeenCalledWith('MockFile');
+    expect(onApply).toHaveBeenCalledWith({
+      data: {},
+      errors: ['SyntaxError: Unexpected end of JSON input'],
+    });
+  });
   it('should reset file input', () => {
     const fileInput = {
       value: 'file',

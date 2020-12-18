@@ -33,7 +33,7 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
     await api
       .deleteDatasourceForDashboard(dashboardId)
       .then((data) => {
-        if (data.length > 0) {
+        if (data.deleted > 0) {
           enqueueSnackbar(`Datasource files for Dashboard ${dashboardName} Deleted successfully`, {
             variant: snackbarVariant.SUCCESS,
           });

@@ -1,5 +1,5 @@
-const VALID_FILE_TYPES = ['text/csv'];
-const MAX_FILE_SIZE = 314572800;
+import { getFileExtension } from './fileUploadUtils';
+import { MAX_FILE_SIZE, VALID_FILE_EXTENSIONS } from '../constants/fileUpload';
 
 function isAbsent(value) {
   return value === null || value === undefined || value === '';
@@ -49,9 +49,9 @@ function chartNameValidator(value = '') {
 
 function validateFile(file) {
   if (!file) {
-    return 'Please upload valid csv file';
+    return 'Please upload valid file';
   }
-  if (!VALID_FILE_TYPES.includes(file.type)) {
+  if (!VALID_FILE_EXTENSIONS.includes(getFileExtension(file))) {
     return 'Failed to Import file, the format is not supported';
   }
   if (file.size > MAX_FILE_SIZE) {

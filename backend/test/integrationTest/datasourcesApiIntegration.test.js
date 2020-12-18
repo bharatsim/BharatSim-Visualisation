@@ -235,7 +235,7 @@ describe('Integration test', () => {
       await request(app)
         .delete('/datasources?dashboardId=313233343536373839303131')
         .expect(200)
-        .expect({ deleted: true });
+        .expect({ deleted: 2 });
 
       const foundMapping = parseDBObject(
         await DatasourceDashboardMap.find({

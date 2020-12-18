@@ -29,7 +29,7 @@ jest.mock('../../../utils/api', () => ({
           createdAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           dashboardId: '5f9952ede93dbd234a39d82f',
           fileSize: 125005,
-          fileType: 'text/csv',
+          fileType: 'csv',
           name: 'csv-file-name',
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           _id: '5f9a88952629222105e180df',
