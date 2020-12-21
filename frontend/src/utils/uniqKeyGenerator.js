@@ -1,1 +1,1 @@
-export default () => ""+ new Date().getTime()+ Math.random()
+export default () => `${ Date.now() }${Math.random()}`

@@ -1,9 +1,9 @@
 import React from "react"
 import { render  } from '@testing-library/react'
 
-import Notifier from "../Notifier";
 import {useSelector, useDispatch} from "react-redux";
 import {useSnackbar} from "notistack";
+import Notifier from "../Notifier";
 import { removeSnackbar } from '../snackBarActions';
 
 jest.mock('react-redux',()=>{
@@ -22,7 +22,7 @@ jest.mock('notistack',()=>{
 })
 
 describe('notifier',()=>{
-    let notification = {message: "success", key: "1"};
+    const notification = {message: "success", key: "1"};
     afterEach(()=>{
         useSnackbar().enqueueSnackbar.mock.calls[0][1].onExited({}, notification.key)
         jest.clearAllMocks()
@@ -30,7 +30,7 @@ describe('notifier',()=>{
     })
 
     it("should enqueue all the messages from store",()=>{
-       const  enqueueSnackbar  =  useSnackbar().enqueueSnackbar
+       const  {enqueueSnackbar} = useSnackbar()
         useSelector.mockReturnValue([notification])
 
         render(<Notifier />)
@@ -38,7 +38,7 @@ describe('notifier',()=>{
     })
 
     it("should not show duplicate message ",()=>{
-        const  enqueueSnackbar  =  useSnackbar().enqueueSnackbar
+        const  {enqueueSnackbar} = useSnackbar()
         useSelector.mockReturnValue([notification, notification])
 
         render(<Notifier />)
@@ -47,34 +47,37 @@ describe('notifier',()=>{
 
     it("should remove message on exit",()=>{
         const dispatch = useDispatch()
-        const  enqueueSnackbar  =  useSnackbar().enqueueSnackbar
+        const  {enqueueSnackbar} = useSnackbar()
         useSelector.mockReturnValue([notification])
 
-        let onExited;
+        let onExited
+        let onClose;
         enqueueSnackbar.mockImplementation((msg, options)=>{
             onExited =  options.onExited;
+            onClose =  options.onClose;
         })
-        render(<Notifier/>)
+        render(<Notifier />)
+        onClose({}, notification.key)
         onExited({}, notification.key)
 
         expect(dispatch).toHaveBeenCalledWith(removeSnackbar(notification.key))
     })
-    it("should call onClose on message close ",()=>{
-        const  enqueueSnackbar  =  useSnackbar().enqueueSnackbar
+    
+    it("should call onClose on message close when present ",()=>{
+        const  {enqueueSnackbar} = useSnackbar()
 
         const onCloseMock = jest.fn()
-        let notification = {message: "success", key: "1", options: {onClose: onCloseMock}};
+        const notification = {message: "success", key: "1", options: { onClose: onCloseMock}};
         useSelector.mockReturnValue([notification])
         let onCloseHandler;
 
         enqueueSnackbar.mockImplementation((msg, options)=>{
             onCloseHandler =  options.onClose;
         })
-        render(<Notifier/>)
+        render(<Notifier />)
 
         onCloseHandler({}, {},notification.key)
         expect(onCloseMock).toHaveBeenCalled()
     })
-
 
 })

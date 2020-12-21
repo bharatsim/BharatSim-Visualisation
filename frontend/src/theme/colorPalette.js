@@ -52,9 +52,10 @@ const muiColorPalette = {
     light: '#FF8B66',
   },
   warning: {
-    light: '#F37C22',
-    main: '#FD9827',
-    dark: '#FFC46A',
+    light: '#FFB74D',
+    main: '#FF9800',
+    dark: '#F57C00',
+    contrastText: 'rgba(0, 0, 0, 0.87)',
   },
   info: {
     light: '#0F74D5',

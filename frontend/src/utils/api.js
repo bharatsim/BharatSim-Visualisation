@@ -22,6 +22,8 @@ const api = {
       data: JSON.stringify({
         dashboardData: { charts, layout, dashboardId, name, count },
       }),
+      isCustomErrorHandler: true,
+      isCustomLoader: true,
     });
   },
 

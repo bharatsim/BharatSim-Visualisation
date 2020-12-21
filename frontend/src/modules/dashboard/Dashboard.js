@@ -1,11 +1,11 @@
 import Box from '@material-ui/core/Box';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {fade, makeStyles} from '@material-ui/core';
 
 import ReactGridLayout, {WidthProvider} from 'react-grid-layout';
+import {useDispatch, useSelector} from 'react-redux';
 import {projectLayoutContext} from '../../contexts/projectLayoutContext';
 import ProjectHeader from '../../uiComponent/ProjectHeader';
-import {useDispatch} from "react-redux";
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import useModal from '../../hook/useModal';
@@ -13,13 +13,8 @@ import ChartConfigurationWizard from './chartConfigurationWizard/ChartConfigurat
 import {getNewWidgetLayout} from '../../utils/dashboardLayoutUtils';
 import CreateNewChartWidget from './CreateNewChartWidget';
 import {renderWidget} from './renderWidget';
-import {api} from '../../utils/api';
-import useFetch from '../../hook/useFetch';
-import snackbarVariant from '../../constants/snackbarVariant';
-import {errors, errorTypes} from '../../constants/loaderAndErrorMessages';
-import {overlayLoaderOrErrorContext} from '../../contexts/overlayLoaderOrErrorContext';
 import DashboardHeader from './DashboardHeader';
-import {enqueueSnackbar as enqueueSnackbarAction,} from '../../hoc/snackbar/snackBarActions'
+import {fetchDashboard, updateDashboard as updateDashboardAction} from './actions';
 
 const COLUMNS = 12;
 
@@ -47,104 +42,98 @@ const useStyles = makeStyles((theme) => {
 function Dashboard() {
     const classes = useStyles();
     const {isOpen, closeModal, openModal} = useModal();
-    const {showError} = useContext(overlayLoaderOrErrorContext);
-
     const {selectedDashboardMetadata} = useContext(projectLayoutContext);
     const {name: dashboardName, _id: dashboardId} = selectedDashboardMetadata;
-    const {data: fetchedDashboard} = useFetch(api.getDashboard, [dashboardId], !!dashboardId);
-    const dispatch = useDispatch()
-    const [layout, setLayout] = useState([]);
-    const [charts, setCharts] = useState([]);
-    const [chartsCount, setChartsCount] = useState(0);
+    const dashboard = useSelector((state) => state.dashboards.dashboards[dashboardId]);
+    const autoSaveStatus = useSelector((state) => state.dashboards.autoSaveStatus[dashboardId]);
+    const {layout = [], charts = [], count: chartsCount = 0} = dashboard || {};
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (fetchedDashboard) {
-            const {dashboard} = fetchedDashboard;
-            const {count, charts: fetchedCharts, layout: fetchedLayout} = dashboard;
-            setCharts(fetchedCharts || []);
-            setLayout(fetchedLayout || []);
-            setChartsCount(count || 0);
+        if (!dashboard) {
+            dispatch(fetchDashboard(dashboardId));
         }
-    }, [fetchedDashboard]);
+    },[]);
 
-    function saveDashboard() {
-        api
-            .saveDashboard({
-                charts,
-                layout,
-                dashboardId,
-                name: dashboardName,
-                count: chartsCount,
-            })
-            .then(() =>
-                dispatch(enqueueSnackbarAction({
-                        message: 'Saved Successfully',
-                        options: {
-                            variant: snackbarVariant.SUCCESS
-                        },
-                    }),
-                ))
-            .catch(() => {
-                const errorConfigs = errors[errorTypes.FAILED_TO_SAVE_DASHBOARD](dashboardName);
-                showError(errorConfigs);
-            });
+    function updateDashboard(newDashboard) {
+        dispatch(updateDashboardAction(newDashboard));
     }
 
     function onApply(chartType, config) {
-        addChart(chartType, config);
-        setChartsCount((prevChartsCount) => prevChartsCount + 1);
+        const newCharts = addChart(chartType, config);
+        updateDashboard({
+            charts: newCharts,
+            layout,
+            dashboardId,
+            name: dashboardName,
+            count: chartsCount + 1,
+        });
         closeModal();
     }
 
     function addChart(chartType, config) {
-        setCharts((prevCharts) => {
-            return prevCharts.concat({
-                config,
-                chartType,
-                layout: getNewWidgetLayout(prevCharts.length, COLUMNS, chartsCount),
-            });
+        return charts.concat({
+            config,
+            chartType,
+            layout: getNewWidgetLayout(charts.length, COLUMNS, chartsCount),
         });
     }
 
     function onLayoutChange(changedLayout) {
-        setLayout(changedLayout);
+        updateDashboard({
+            charts,
+            layout: changedLayout,
+            dashboardId,
+            name: dashboardName,
+            count: chartsCount,
+        });
     }
 
-    if (!fetchedDashboard) {
+    function retrySave() {
+        updateDashboard({
+            charts,
+            layout,
+            dashboardId,
+            name: dashboardName,
+            count: chartsCount,
+        });
+    }
+
+    if (!dashboard) {
         return null;
     }
 
     return (
-        <Box>
-            <ProjectHeader/>
-            <DashboardHeader
-                onAddChartClick={openModal}
-                dashboardName={dashboardName}
-                onSaveClick={saveDashboard}
-                isSaveDisable={charts.length === 0}
-            />
-            <Box pt={3} className={classes.gridContainer}>
-                {charts.length === 0 ? (
-                    <Box p={8} display="inline-flex">
-                        <CreateNewChartWidget openChartConfig={openModal}/>
-                    </Box>
+      <Box>
+        <ProjectHeader />
+        <DashboardHeader
+          onAddChartClick={openModal}
+          dashboardName={dashboardName}
+          autoSaveConfig={{...autoSaveStatus, onRetry: retrySave}}
+          isSaveDisable={charts.length === 0}
+        />
+        <Box pt={3} className={classes.gridContainer}>
+          {charts.length === 0 ? (
+            <Box p={8} display="inline-flex">
+              <CreateNewChartWidget openChartConfig={openModal} />
+            </Box>
                 ) : (
-                    <GridLayout
-                        layout={layout}
-                        onLayoutChange={onLayoutChange}
-                        className={classes.reactGridLayout}
-                        margin={[32, 32]}
-                    >
-                        {charts.map((item) => {
+                  <GridLayout
+                    layout={layout}
+                    onLayoutChange={onLayoutChange}
+                    className={classes.reactGridLayout}
+                    margin={[32, 32]}
+                  >
+                    {charts.map((item) => {
                             return renderWidget(item);
                         })}
-                    </GridLayout>
+                  </GridLayout>
                 )}
-            </Box>
-            {isOpen && (
-                <ChartConfigurationWizard isOpen={isOpen} closeModal={closeModal} onApply={onApply}/>
-            )}
         </Box>
+        {isOpen && (
+        <ChartConfigurationWizard isOpen={isOpen} closeModal={closeModal} onApply={onApply} />
+            )}
+      </Box>
     );
 }
 

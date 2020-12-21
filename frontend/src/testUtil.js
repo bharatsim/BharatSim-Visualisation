@@ -3,7 +3,7 @@ import React from 'react'
 import { render as rtlRender } from '@testing-library/react'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import reducer from './hoc/redux/reducer'
+import {composeStore} from './hoc/redux/store';
 import { fireEvent, within } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
@@ -36,7 +36,7 @@ export function withProjectLayout(WrappedComponent) {
           name: 'project1',
         },
         selectedDashboardMetadata: {
-          _id: '1',
+          _id: 'id1',
           name: 'dashboard1',
         },
         addDashboard: jest.fn(),
@@ -53,8 +53,7 @@ export function withProjectLayout(WrappedComponent) {
 export function renderWithRedux(
     ui,
     {
-        initialState={},
-        store = createStore(reducer, initialState),
+        store = composeStore(),
         ...renderOptions
     } = {}
 ) {

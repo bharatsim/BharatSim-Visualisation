@@ -82,6 +82,7 @@ async function uploadData({
   data,
   query,
   isCustomErrorHandler,
+  isCustomLoader,
 }) {
   return fetchData({
     url,
@@ -90,6 +91,7 @@ async function uploadData({
     data,
     params: query,
     isCustomErrorHandler,
+    isCustomLoader,
   });
 }
 
