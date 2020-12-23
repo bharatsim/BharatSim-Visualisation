@@ -55,11 +55,11 @@ const api = {
       method: httpMethods.DELETE,
     }),
 
-  deleteDatasourceForDashboard: async (dashboardId) => {
+  deleteDatasource: async (datasourceIds) => {
     return fetchData({
       url: serviceURL.DATA_SOURCES,
       method: httpMethods.DELETE,
-      query: { dashboardId },
+      query: { datasourceIds },
     });
   },
 

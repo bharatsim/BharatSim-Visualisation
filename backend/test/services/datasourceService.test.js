@@ -152,7 +152,7 @@ describe('dataSourceService', () => {
       'datasource2',
     ]);
 
-    expect(data).toEqual({ deleted: 2 });
+    expect(data).toEqual({ deletedCount: 2 });
   });
   describe('mocked function testing', function () {
     beforeEach(async () => {
@@ -210,7 +210,7 @@ describe('dataSourceService', () => {
 
     it('should should return deleted count', async () => {
       const result = await dataSourceService.bulkDeleteDatasource(['dashboardId']);
-      expect(result).toEqual({ deleted: 1 });
+      expect(result).toEqual({ deletedCount: 1 });
     });
   });
 });

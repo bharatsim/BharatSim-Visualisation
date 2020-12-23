@@ -21,6 +21,7 @@ describe('Integration test', () => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  dbHandler.createTestUploadFolder();
   app.use(multer({ dest: dbHandler.TEST_FILE_UPLOAD_PATH }).single('datafile'));
   app.use('/datasources', datasourcesRoutes);
   let insertedMetadata;
@@ -33,6 +34,9 @@ describe('Integration test', () => {
     dataSourceId = _id;
     await DatasourceDashboardMap.insertMany(createDatasourceDashboardMapping(dataSourceId));
     await createModel(dataSourceId.toString()).insertMany(model1Data);
+  });
+  beforeEach(() => {
+    dbHandler.createTestUploadFolder();
   });
   afterAll(async () => {
     await dbHandler.clearDatabase();
@@ -254,7 +258,7 @@ describe('Integration test', () => {
         .delete('/datasources')
         .query({ datasourceIds: [dataSourceId1.toString(), dataSourceId2.toString()] })
         .expect(200)
-        .expect({ deleted: 2 });
+        .expect({ deletedCount: 2 });
       const foundMetadata = parseDBObject(
         await DataSourceMetaData.find({
           _id: { $in: [dataSourceId1, dataSourceId2] },

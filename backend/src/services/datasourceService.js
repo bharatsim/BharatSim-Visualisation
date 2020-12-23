@@ -85,7 +85,7 @@ async function deleteJsonFiles(datasourceIds) {
 async function bulkDeleteDatasource(datasourceIds) {
   await Promise.all([deleteCsvFiles(datasourceIds), deleteJsonFiles(datasourceIds)]);
   await dataSourceMetadataRepository.bulkDeleteDatasourceMetadata(datasourceIds);
-  return { deleted: datasourceIds.length };
+  return { deletedCount: datasourceIds.length };
 }
 
 module.exports = {

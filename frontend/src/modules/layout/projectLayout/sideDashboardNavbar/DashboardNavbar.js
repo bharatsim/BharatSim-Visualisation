@@ -29,24 +29,22 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
 
   const { showError } = useContext(overlayLoaderOrErrorContext);
 
-  async function deleteDataSourceForDashboard(dashboardId, dashboardName) {
+  async function deleteDataSourceForDashboard(datasources, dashboardName) {
+    const datasourceIds = datasources.map(({ _id: datasourceId }) => datasourceId);
     await api
-      .deleteDatasourceForDashboard(dashboardId)
-      .then((data) => {
-        if (data.deleted > 0) {
-          enqueueSnackbar(`Datasource files for Dashboard ${dashboardName} Deleted successfully`, {
-            variant: snackbarVariant.SUCCESS,
-          });
-        }
+      .deleteDatasource(datasourceIds)
+      .then(() => {
+        enqueueSnackbar(`Datasource files for Dashboard ${dashboardName} Deleted successfully`, {
+          variant: snackbarVariant.SUCCESS,
+        });
       })
       .catch(() => {
         showError(errors[errorTypes.DASHBOARD_DATASOURCE_DELETE_FAILED](dashboardName));
       });
   }
 
-  async function handleDeleteDashboard(dashboard) {
-    const { dashboardName, dashboardId } = dashboard;
-    api
+  async function deleteDashboardForDashboardId(dashboardId, dashboardName) {
+    return api
       .deleteDashboard(dashboardId)
       .then(async () => {
         setNavTab(0);
@@ -54,11 +52,19 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
         enqueueSnackbar(`Dashboard ${dashboardName} Deleted successfully`, {
           variant: snackbarVariant.SUCCESS,
         });
-        await deleteDataSourceForDashboard(dashboardId, dashboardName);
       })
       .catch(() => {
         showError(errors[errorTypes.DASHBOARD_DELETE_FAILED](dashboardName));
       });
+  }
+
+  async function handleDeleteDashboard(dashboard) {
+    const { dashboardName, dashboardId } = dashboard;
+    const { dataSources } = await api.getDatasources(dashboardId);
+    await deleteDashboardForDashboardId(dashboardId, dashboardName);
+    if (dataSources.length > 0) {
+      await deleteDataSourceForDashboard(dataSources, dashboardName);
+    }
   }
 
   return (

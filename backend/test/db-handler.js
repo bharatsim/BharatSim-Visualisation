@@ -56,6 +56,14 @@ function clearTestUpload() {
   }
 }
 
+function createTestUploadFolder() {
+  if (!fs.existsSync(`${TEST_FILE_UPLOAD_PATH}`)) {
+    fs.mkdirSync(`${TEST_FILE_UPLOAD_PATH}`, {
+      recursive: true,
+    });
+  }
+}
+
 const connectUsingMongo = async () => {
   const uri = await mongod.getUri();
   mongoDbConnection = await mongoService.connect(uri);
@@ -68,5 +76,6 @@ module.exports = {
   closeDatabase,
   connectUsingMongo,
   clearTestUpload,
+  createTestUploadFolder,
   TEST_FILE_UPLOAD_PATH,
 };

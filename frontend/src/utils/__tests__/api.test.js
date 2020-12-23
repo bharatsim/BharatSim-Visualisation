@@ -201,16 +201,16 @@ describe('API', () => {
     expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });
 
-  it('should call delete datasources for dashboard api with given dashboard id', () => {
+  it('should call delete datasources for given datasource ids', () => {
     const expectedParameter = {
       url: '/api/dataSources',
       query: {
-        dashboardId: 'dashboard1',
+        datasourceIds: ['datasourceId'],
       },
       method: 'delete',
     };
 
-    api.deleteDatasourceForDashboard('dashboard1');
+    api.deleteDatasource(['datasourceId']);
 
     expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });
