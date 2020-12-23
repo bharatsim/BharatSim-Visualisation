@@ -1,7 +1,7 @@
 import React from 'react';
-import {renderWithRedux as render} from '../../../testUtil';
-
 import { fireEvent } from '@testing-library/dom';
+import {renderWithRedux as render, withRouter } from '../../../testUtil';
+
 
 import * as fileUtils from '../../../utils/fileUploadUtils';
 import withThemeProvider from '../../../theme/withThemeProvider';
@@ -10,7 +10,7 @@ import UploadDataset from '../UploadDataset';
 import { api } from '../../../utils/api';
 import withSnackBar from '../../../hoc/snackbar/withSnackBar';
 import withOverlayLoaderOrError from '../../../hoc/loaderWithError/withOverlayLoaderOrError';
-import { withRouter } from '../../../testUtil';
+
 
 jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
   const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };

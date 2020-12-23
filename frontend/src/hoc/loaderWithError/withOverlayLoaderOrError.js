@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { OverlayLoaderOrErrorContextProvider } from '../../contexts/overlayLoaderOrErrorContext';
+import React from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {OverlayLoaderOrErrorContextProvider} from '../../contexts/overlayLoaderOrErrorContext';
 import OverlayLoader from '../../uiComponent/OverlayLoader';
 import OverlayError from '../../uiComponent/OverlayError';
-import {useDispatch, useSelector} from "react-redux";
 import * as actions from "./actions";
 
 function withOverlayLoaderOrError(WrappedComponent) {

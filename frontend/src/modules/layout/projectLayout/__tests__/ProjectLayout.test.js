@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import {renderWithRedux as render} from '../../../../testUtil';
 import * as router from 'react-router-dom';
 import { fireEvent } from '@testing-library/dom';
+import {renderWithRedux as render} from '../../../../testUtil';
 import { api } from '../../../../utils/api';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import ProjectLayout from '../projectLayout/ProjectLayout';

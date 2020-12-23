@@ -1,9 +1,7 @@
 import {enqueueSnackbar, removeSnackbar} from '../snackBarActions'
 import reducer from '../snackBarReducer'
 
-jest.mock('../../../utils/uniqKeyGenerator',()=> {
-    return () => "uniqKey";
-})
+jest.mock('../../../utils/uniqKeyGenerator',()=> () => "uniqKey")
 describe("SnackBar Reducer ",()=>{
     const initialState = {
         notifications: [],

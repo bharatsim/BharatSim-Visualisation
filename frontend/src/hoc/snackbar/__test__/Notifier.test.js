@@ -1,10 +1,10 @@
 import React from "react"
-import { render  } from '@testing-library/react'
+import {render} from '@testing-library/react'
 
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useSnackbar} from "notistack";
 import Notifier from "../Notifier";
-import { removeSnackbar } from '../snackBarActions';
+import {removeSnackbar} from '../snackBarActions';
 
 jest.mock('react-redux',()=>{
     const dispatch = jest.fn();
@@ -67,8 +67,8 @@ describe('notifier',()=>{
         const  {enqueueSnackbar} = useSnackbar()
 
         const onCloseMock = jest.fn()
-        const notification = {message: "success", key: "1", options: { onClose: onCloseMock}};
-        useSelector.mockReturnValue([notification])
+        const notificationWithClose = {message: "success", key: "1", options: { onClose: onCloseMock}};
+        useSelector.mockReturnValue([notificationWithClose])
         let onCloseHandler;
 
         enqueueSnackbar.mockImplementation((msg, options)=>{
@@ -76,7 +76,7 @@ describe('notifier',()=>{
         })
         render(<Notifier />)
 
-        onCloseHandler({}, {},notification.key)
+        onCloseHandler({}, {},notificationWithClose.key)
         expect(onCloseMock).toHaveBeenCalled()
     })
 

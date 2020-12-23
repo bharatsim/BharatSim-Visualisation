@@ -89,6 +89,16 @@ function Dashboard() {
         });
     }
 
+    function onDeleteWidget(id) {
+        updateDashboard({
+            charts: charts.filter((chart) => chart.layout.i !== id),
+            layout,
+            dashboardId,
+            name: dashboardName,
+            count: chartsCount,
+        });
+    }
+
     function retrySave() {
         updateDashboard({
             charts,
@@ -125,7 +135,7 @@ function Dashboard() {
                     margin={[32, 32]}
                   >
                     {charts.map((item) => {
-                            return renderWidget(item);
+                            return renderWidget(item, onDeleteWidget);
                         })}
                   </GridLayout>
                 )}

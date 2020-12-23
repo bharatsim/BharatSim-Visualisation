@@ -1,6 +1,6 @@
 import React from 'react';
-import {renderWithRedux as render} from '../../../../testUtil';
 import { fireEvent } from '@testing-library/dom';
+import {renderWithRedux as render} from '../../../../testUtil';
 import DashboardNavbar from '../sideDashboardNavbar/DashboardNavbar';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import withSnackBar from '../../../../hoc/snackbar/withSnackBar';

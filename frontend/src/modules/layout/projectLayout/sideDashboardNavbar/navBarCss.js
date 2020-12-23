@@ -28,6 +28,9 @@ const useMenuStyles = makeStyles((theme) => {
       display: 'flex',
       alignItems: 'center',
     },
+    listItemIcon:{
+      "min-width": theme.spacing(10)
+    }
   };
 });
 
