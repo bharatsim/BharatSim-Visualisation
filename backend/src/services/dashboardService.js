@@ -1,5 +1,6 @@
 const { getProjectedColumns } = require('../utils/dbUtils');
 const InvalidInputException = require('../exceptions/InvalidInputException');
+const { deleteDatasourceMapping } = require('../repository/dashboardDatasourceMapRepository');
 const { insert, update, getAll, getOne, deleteOne } = require('../repository/dashboardRepository');
 const {
   updateDashboardInvalidInput,
@@ -43,13 +44,25 @@ async function getAllDashboards(filters, columns) {
   const dashboards = await getAll(filters, projectedColumns);
   return { dashboards };
 }
+
 async function getDashboard(dashboardId) {
   const dashboard = await getOne(dashboardId);
   return { dashboard };
 }
-async function deleteDashboard(dashboardId) {
-  const deleteMetadata = await deleteOne(dashboardId);
-  return { deleteMetadata };
+
+async function deleteDashboardAndMapping(dashboardId) {
+  const { deletedCount } = await deleteOne(dashboardId);
+  const { deletedCount: mappingDeletedCount } = await deleteDatasourceMapping(dashboardId);
+  return { deletedCount, mappingDeletedCount };
+}
+
+async function deleteDashboardsAndMappingWithProjectId(projectId) {
+  const { dashboards } = await getAllDashboards({ projectId }, ['_id']);
+  return Promise.all(
+    dashboards.map(({ _id: dashboardId }) => {
+      return deleteDashboardAndMapping(dashboardId.toString());
+    }),
+  );
 }
 
 module.exports = {
@@ -57,5 +70,6 @@ module.exports = {
   insertDashboard,
   getAllDashboards,
   getDashboard,
-  deleteDashboard,
+  deleteDashboardAndMapping,
+  deleteDashboardsAndMappingWithProjectId,
 };

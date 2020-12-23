@@ -3,12 +3,16 @@ const {
   getAllProjects,
   getProject,
   updateProject,
+  deleteProject,
 } = require('../../src/services/projectService');
 const projectRepository = require('../../src/repository/projectRepository');
+const dashboardService = require('../../src/services/dashboardService');
 const InvalidInputException = require('../../src/exceptions/InvalidInputException');
 const NotFoundException = require('../../src/exceptions/NotFoundException');
 
 jest.mock('../../src/repository/projectRepository');
+jest.mock('../../src/repository/dashboardRepository');
+jest.mock('../../src/services/dashboardService');
 
 describe('Project service', function () {
   it('should add new project', async function () {
@@ -61,6 +65,33 @@ describe('Project service', function () {
 
     const result = async () => {
       await getProject('projectId');
+    };
+
+    await expect(result).rejects.toThrow(
+      new NotFoundException('Project with given id not found', 1012),
+    );
+  });
+  it('should delete project with given id', async () => {
+    projectRepository.deleteOne.mockReturnValueOnce({ deletedCount: 1 });
+    dashboardService.deleteDashboardsAndMappingWithProjectId.mockReturnValueOnce([
+      {
+        deletedCount: 3,
+        mappingDeletedCount: 0,
+      },
+    ]);
+
+    const result = await deleteProject('projectId');
+    expect(result).toEqual({
+      dashboardsDeletedCount: 3,
+      projectsDeleted: 1,
+      mappingDeletedCount: 0,
+    });
+  });
+  it('should throw not found exception if project id is not found', async () => {
+    projectRepository.deleteOne.mockRejectedValueOnce(new Error('message'));
+
+    const result = async () => {
+      await deleteProject('projectId');
     };
 
     await expect(result).rejects.toThrow(

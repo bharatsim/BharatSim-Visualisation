@@ -8,6 +8,10 @@ async function getOne(projectId) {
   return ProjectModel.findOne({ _id: projectId }, { __v: 0 });
 }
 
+async function deleteOne(projectId) {
+  return ProjectModel.deleteOne({ _id: projectId }, { __v: 0 });
+}
+
 async function insert(projectConfig) {
   const projectModel = new ProjectModel(projectConfig);
   return projectModel.save();
@@ -22,4 +26,5 @@ module.exports = {
   insert,
   getOne,
   update,
+  deleteOne,
 };

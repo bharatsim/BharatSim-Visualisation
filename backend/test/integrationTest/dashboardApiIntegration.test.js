@@ -6,6 +6,8 @@ const dbHandler = require('../db-handler');
 const datasourcesRoutes = require('../../src/controller/datasourcesController');
 const dashboardRoutes = require('../../src/controller/dashboardController');
 const dashboardModel = require('../../src/model/dashboard');
+
+const DatasourceDashboardMap = require('../../src/model/datasourceDashboardMap');
 const { parseDBObject } = require('../../src/utils/dbUtils');
 
 const TEST_FILE_UPLOAD_PATH = './uploads/';
@@ -16,7 +18,6 @@ const chart = {
   config: { xAxis: 'xCol', yAxis: 'ycol' },
   chartType: 'chartType',
 };
-
 const dashboardData = {
   name: 'dashboard1',
   charts: [chart],
@@ -79,6 +80,33 @@ describe('Integration test for dashboard api', () => {
       dashboardModel.insertMany([dashboardData]);
       const response = await request(app).get('/dashboard').expect(200);
       expect(response.body.dashboards.length).toEqual(1);
+    });
+  });
+  describe('Delete /dashboard:id', () => {
+    it('should delete dashboard from database for given id along  with its mapping', async function () {
+      const insertedData = await dashboardModel.insertMany([dashboardData]);
+      const { _id: dashboardId } = insertedData[0];
+
+      await DatasourceDashboardMap.insertMany([
+        {
+          dashboardId,
+          datasourceId: '313233343536373839303131',
+        },
+        {
+          dashboardId,
+          datasourceId: '313233343536373839303132',
+        },
+      ]);
+      const foundMapping = parseDBObject(
+        await DatasourceDashboardMap.find({
+          dashboardId: '313233343536373839303131',
+        }),
+      );
+      const response = await request(app)
+        .delete(`/dashboard/${dashboardId.toString()}`)
+        .expect(200);
+      expect(response.body).toEqual({ deletedCount: 1, mappingDeletedCount: 2 });
+      expect(foundMapping).toEqual([]);
     });
   });
 });

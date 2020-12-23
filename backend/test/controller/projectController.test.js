@@ -115,4 +115,34 @@ describe('ProjectController', function () {
       expect(projectService.getProject).toHaveBeenCalledWith('id');
     });
   });
+
+  describe('delete /:projectId', () => {
+    it('should delete project with given id', async () => {
+      projectService.deleteProject.mockResolvedValueOnce({
+        projectsDeleted: '1',
+        dashboardsDeleted: '2',
+      });
+      await request(app)
+        .delete('/projects/projectId')
+        .expect(200)
+        .expect({ projectsDeleted: '1', dashboardsDeleted: '2' });
+      expect(projectService.deleteProject).toHaveBeenCalledWith('projectId');
+    });
+    it('should throw error if projectId is not found', async () => {
+      projectService.deleteProject.mockRejectedValueOnce(new NotFoundException('message', 123));
+      await request(app)
+        .delete('/projects/projectId')
+        .expect(404)
+        .expect({ errorMessage: 'Not found - message', errorCode: 123 });
+      expect(projectService.deleteProject).toHaveBeenCalledWith('projectId');
+    });
+    it('should give technical error if any error while deleting', async () => {
+      projectService.deleteProject.mockRejectedValueOnce(new Error('Message'));
+      await request(app)
+        .delete('/projects/projectId')
+        .expect(500)
+        .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
+      expect(projectService.deleteProject).toHaveBeenCalledWith('projectId');
+    });
+  });
 });

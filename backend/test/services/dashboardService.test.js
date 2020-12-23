@@ -5,9 +5,11 @@ const {
 } = require('../../src/services/dashboardService');
 const dashboardRepository = require('../../src/repository/dashboardRepository');
 const InvalidInputException = require('../../src/exceptions/InvalidInputException');
-const { deleteDashboard } = require('../../src/services/dashboardService');
+const dashboardDatasourceMapRepository = require('../../src/repository/dashboardDatasourceMapRepository');
+const { deleteDashboardAndMapping } = require('../../src/services/dashboardService');
 
 jest.mock('../../src/repository/dashboardRepository');
+jest.mock('../../src/repository/dashboardDatasourceMapRepository');
 
 const dashboardDataToUpdate = { dashboardId: 'id', dataConfig: { name: 'newName' } };
 const dashboardDataToAdd = { dashboardId: undefined, dataConfig: { name: 'name' } };
@@ -95,12 +97,19 @@ describe('Dashboard Service', function () {
   });
   it('should call getOne dashboard by dashboard id', async function () {
     await getDashboard('dashboardId');
-
     expect(dashboardRepository.getOne).toHaveBeenCalledWith('dashboardId');
   });
-  it('should call deleteOne dashboard by dashboard id', async function () {
-    await deleteDashboard('dashboardId');
+  it('should call deleteOne dashboard and its datasource mapping given dashboard id', async function () {
+    dashboardDatasourceMapRepository.deleteDatasourceMapping.mockResolvedValueOnce({
+      deletedCount: 1,
+    });
+    dashboardRepository.deleteOne.mockResolvedValueOnce({ deletedCount: 1 });
+    const result = await deleteDashboardAndMapping('dashboardId');
 
+    expect(result).toEqual({ deletedCount: 1, mappingDeletedCount: 1 });
     expect(dashboardRepository.deleteOne).toHaveBeenCalledWith('dashboardId');
+    expect(dashboardDatasourceMapRepository.deleteDatasourceMapping).toHaveBeenCalledWith(
+      'dashboardId',
+    );
   });
 });

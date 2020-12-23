@@ -10,6 +10,7 @@ const dataSourcesRoutes = require('../../src/controller/datasourcesController');
 const DataSourceNotFoundException = require('../../src/exceptions/DatasourceNotFoundException');
 const ColumnsNotFoundException = require('../../src/exceptions/ColumnsNotFoundException');
 const InvalidInputException = require('../../src/exceptions/InvalidInputException');
+const NotFoundException = require('../../src/exceptions/NotFoundException');
 
 const TEST_FILE_UPLOAD_PATH = './test/testUpload/';
 const testSchema = '{ "col1": "String", "col2": "Number" }';
@@ -44,7 +45,7 @@ describe('api', () => {
 
   beforeEach(() => {
     datasourceService.getData.mockResolvedValue({ data: { exposed: [2, 3], hour: [1, 2] } });
-    datasourceService.deleteDatasourceForDashboard.mockResolvedValue({ deleted: 1 });
+    datasourceService.bulkDeleteDatasource.mockResolvedValue({ deleted: 1 });
 
     dataSourceMetadataService.getHeaders.mockResolvedValue({
       headers: [
@@ -276,19 +277,32 @@ describe('api', () => {
   describe('delete / ', () => {
     it('should delete datasource for given dashboardId', async () => {
       await request(app)
-        .delete('/datasources?dashboardId=dashboardId')
+        .delete('/datasources')
+        .query({ datasourceIds: ['datasource1', 'datasource2'] })
         .expect(200)
         .expect({ deleted: 1 });
 
-      expect(datasourceService.deleteDatasourceForDashboard).toHaveBeenCalledWith('dashboardId');
+      expect(datasourceService.bulkDeleteDatasource).toHaveBeenCalledWith([
+        'datasource1',
+        'datasource2',
+      ]);
     });
 
     it('should throw an technical exception if error while deleting', async () => {
-      datasourceService.deleteDatasourceForDashboard.mockRejectedValueOnce(new Error());
+      datasourceService.bulkDeleteDatasource.mockRejectedValueOnce(new Error());
       await request(app)
         .delete('/datasources')
         .expect(500)
         .expect({ errorMessage: 'Technical error ', errorCode: 1003 });
+    });
+    it('should throw an not found exception if id is  not present', async () => {
+      datasourceService.bulkDeleteDatasource.mockRejectedValueOnce(
+        new NotFoundException('error', 1014),
+      );
+      await request(app)
+        .delete('/datasources')
+        .expect(404)
+        .expect({ errorMessage: 'Not found - error', errorCode: 1014 });
     });
   });
 });

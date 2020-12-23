@@ -7,6 +7,7 @@ const {
   getAllProjects,
   getProject,
   updateProject,
+  deleteProject,
 } = require('../services/projectService');
 
 router.post('/', async function (req, res) {
@@ -53,6 +54,21 @@ router.get('/:id', async function (req, res) {
   getProject(projectId)
     .then((project) => {
       res.send(project);
+    })
+    .catch((err) => {
+      if (err instanceof NotFoundException) {
+        sendClientError(err, res, 404);
+      } else {
+        sendServerError(err, res);
+      }
+    });
+});
+
+router.delete('/:id', async function (req, res) {
+  const { id: projectId } = req.params;
+  deleteProject(projectId)
+    .then((result) => {
+      res.send(result);
     })
     .catch((err) => {
       if (err instanceof NotFoundException) {

@@ -2,6 +2,8 @@
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongoService = require('../src/services/mongoService');
+const TEST_FILE_UPLOAD_PATH = './test/testUpload';
+const fs = require('fs');
 
 mongoose.set('useCreateIndex', true);
 
@@ -48,6 +50,12 @@ const clearDatabase = async () => {
   }
 };
 
+function clearTestUpload() {
+  if (fs.existsSync(`${TEST_FILE_UPLOAD_PATH}`)) {
+    return fs.rmdirSync(`${TEST_FILE_UPLOAD_PATH}`, { recursive: true });
+  }
+}
+
 const connectUsingMongo = async () => {
   const uri = await mongod.getUri();
   mongoDbConnection = await mongoService.connect(uri);
@@ -59,4 +67,6 @@ module.exports = {
   clearDatabase,
   closeDatabase,
   connectUsingMongo,
+  clearTestUpload,
+  TEST_FILE_UPLOAD_PATH,
 };

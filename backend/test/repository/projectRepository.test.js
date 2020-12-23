@@ -52,4 +52,17 @@ describe('ProjectRepository', function () {
 
     expect(parseMongoDBResult(updatedProject)).toEqual({ _id: _id.toString(), name: 'new name' });
   });
+  it('should delete one project with given id', async () => {
+    const { _id: firstProjectId } = await ProjectRepository.insert(projectConfig);
+    await ProjectRepository.insert(projectConfig1);
+    await ProjectRepository.insert(projectConfig2);
+
+    const allProjectsBeforeDelete = await ProjectRepository.getAll();
+    expect(allProjectsBeforeDelete.length).toEqual(3);
+
+    await ProjectRepository.deleteOne(firstProjectId);
+
+    const allProjectsAfterDelete = await ProjectRepository.getAll();
+    expect(allProjectsAfterDelete.length).toEqual(2);
+  });
 });

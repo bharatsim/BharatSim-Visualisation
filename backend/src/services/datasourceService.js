@@ -1,7 +1,6 @@
 const fs = require('fs');
 const dataSourceRepository = require('../repository/datasourceRepository');
 const dataSourceMetadataRepository = require('../repository/datasourceMetadataRepository');
-const dashboardDatasourceMapRepository = require('../repository/dashboardDatasourceMapRepository');
 const modelCreator = require('../utils/modelCreator');
 const dbUtils = require('../utils/dbUtils');
 
@@ -83,17 +82,13 @@ async function deleteJsonFiles(datasourceIds) {
   });
 }
 
-async function deleteDatasourceForDashboard(dashboardId) {
-  const datasourceIds = await dashboardDatasourceMapRepository.getDatasourceIdsForDashboard(
-    dashboardId,
-  );
+async function bulkDeleteDatasource(datasourceIds) {
   await Promise.all([deleteCsvFiles(datasourceIds), deleteJsonFiles(datasourceIds)]);
   await dataSourceMetadataRepository.bulkDeleteDatasourceMetadata(datasourceIds);
-  await dashboardDatasourceMapRepository.deleteDatasourceMapping(dashboardId);
   return { deleted: datasourceIds.length };
 }
 
 module.exports = {
   getData,
-  deleteDatasourceForDashboard,
+  bulkDeleteDatasource,
 };

@@ -17,13 +17,11 @@ const {
 const datasourcesRoutes = require('../../src/controller/datasourcesController');
 const { parseDBObject } = require('../../src/utils/dbUtils');
 
-const TEST_FILE_UPLOAD_PATH = './uploads/';
-
 describe('Integration test', () => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(multer({ dest: TEST_FILE_UPLOAD_PATH }).single('datafile'));
+  app.use(multer({ dest: dbHandler.TEST_FILE_UPLOAD_PATH }).single('datafile'));
   app.use('/datasources', datasourcesRoutes);
   let insertedMetadata;
   let dataSourceId;
@@ -39,8 +37,8 @@ describe('Integration test', () => {
   afterAll(async () => {
     await dbHandler.clearDatabase();
     await dbHandler.closeDatabase();
+    dbHandler.clearTestUpload();
   });
-
   describe('/datasources', () => {
     it('should get data sources filter by dashboard id', async () => {
       const expectedDataSource = insertedMetadata.map((metadata) => ({
@@ -110,7 +108,7 @@ describe('Integration test', () => {
   });
 
   describe('Post /datasources', function () {
-    it('should uploaded file in database with 200 as http response', async function () {
+    it('should upload csv file in database with 200 as http response', async function () {
       const testSchemaModal1 = {
         hour: 'Number',
         susceptible: 'Number',
@@ -151,6 +149,26 @@ describe('Integration test', () => {
       expect(datasourceDashboardMappingCount).toEqual(3);
       expect(_id).toEqual(uploadedFileCollectionId);
       expect(dataSourceSchema).toEqual(testSchemaModal1);
+    });
+    it('should upload json file in database', async () => {
+      const response = await request(app)
+        .post('/datasources')
+        .field('schema', '{}')
+        .field('dashboardId', '313233343536373839303198')
+        .field('name', 'datafile')
+        .attach('datafile', 'test/data/simulation.json')
+        .expect(200);
+
+      const uploadedFileCollectionId = response.body.collectionId;
+      const { _id } = parseDBObject(
+        await DataSourceMetaData.findOne({ _id: uploadedFileCollectionId }),
+      );
+      const datasourceDashboardMappingCount = await DatasourceDashboardMap.find(
+        { dashboardId: '313233343536373839303198' },
+        { _id: 0, __v: 0 },
+      ).countDocuments();
+      expect(datasourceDashboardMappingCount).toEqual(1);
+      expect(_id).toEqual(uploadedFileCollectionId);
     });
 
     it('should provide a error when invalid file is uploaded', async function () {
@@ -233,25 +251,17 @@ describe('Integration test', () => {
       await db.collection(dataSourceId2.toString()).insertMany(model1Data);
 
       await request(app)
-        .delete('/datasources?dashboardId=313233343536373839303131')
+        .delete('/datasources')
+        .query({ datasourceIds: [dataSourceId1.toString(), dataSourceId2.toString()] })
         .expect(200)
         .expect({ deleted: 2 });
-
-      const foundMapping = parseDBObject(
-        await DatasourceDashboardMap.find({
-          dashboardId: '313233343536373839303131',
-        }),
-      );
-
       const foundMetadata = parseDBObject(
         await DataSourceMetaData.find({
           _id: { $in: [dataSourceId1, dataSourceId2] },
         }),
       );
-
-      expect(foundMapping).toEqual([]);
       expect(foundMetadata).toEqual([]);
-      const isMappedDatasourcePresent = await db
+      const isMappedDatasourceCollectionPresent = await db
         .listCollections()
         .toArray()
         .then((collections) =>
@@ -259,8 +269,7 @@ describe('Integration test', () => {
             [dataSourceId1.toString(), dataSourceId2.toString()].includes(collection.name),
           ),
         );
-
-      expect(isMappedDatasourcePresent).toEqual(false);
+      expect(isMappedDatasourceCollectionPresent).toEqual(false);
     });
   });
 });

@@ -11,6 +11,7 @@ jest.mock('../../src/repository/dataSourceRepository');
 jest.mock('../../src/repository/dataSourceMetadataRepository');
 jest.mock('../../src/repository/dashboardDatasourceMapRepository');
 jest.mock('../../src/utils/modelCreator');
+jest.mock('../../src/services/dashboardService');
 
 jest.spyOn(fs, 'readFileSync');
 jest.spyOn(fs, 'existsSync');
@@ -144,13 +145,7 @@ describe('dataSourceService', () => {
       { _id: 'datasource2' },
     ]);
 
-    const data = await dataSourceService.deleteDatasourceForDashboard('dashboardId');
-    expect(dashboardDatasourceMapRepository.getDatasourceIdsForDashboard).toHaveBeenCalledWith(
-      'dashboardId',
-    );
-    expect(dashboardDatasourceMapRepository.deleteDatasourceMapping).toHaveBeenCalledWith(
-      'dashboardId',
-    );
+    const data = await dataSourceService.bulkDeleteDatasource(['datasource1', 'datasource2']);
     expect(dataSourceRepository.bulkDeleteCsv).toHaveBeenCalledWith(['datasource1', 'datasource2']);
     expect(dataSourceMetadataRepository.bulkDeleteDatasourceMetadata).toHaveBeenCalledWith([
       'datasource1',
@@ -188,22 +183,12 @@ describe('dataSourceService', () => {
   });
 
   describe('should delete all json and extended datasources for given dashboard id', () => {
-    let result;
     beforeEach(async () => {
       fs.existsSync.mockReturnValue(true);
       fs.rmdirSync.mockReturnValueOnce(true);
       dataSourceMetadataRepository.bulkDeleteDatasourceMetadata.mockResolvedValue({
         deleted: 1,
       });
-      dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
-        fileType: 'json',
-        fileId: 'multerFileId',
-      });
-      dashboardDatasourceMapRepository.deleteDatasourceMapping.mockResolvedValue({ deleted: 1 });
-      dashboardDatasourceMapRepository.getDatasourceIdsForDashboard.mockResolvedValueOnce([
-        'datasource1',
-        'datasource2',
-      ]);
       dataSourceRepository.bulkDeleteCsv.mockResolvedValue([true]);
       dataSourceMetadataRepository.filterDatasourceIds.mockResolvedValue([
         {
@@ -213,28 +198,19 @@ describe('dataSourceService', () => {
         },
         { _id: 'datasource2', fileId: 'multerId2', type: 'json' },
       ]);
-      result = await dataSourceService.deleteDatasourceForDashboard('dashboardId');
     });
-
-    it('should call getDatasourceIdsForDashboard with dashboard id', async () => {
-      expect(dashboardDatasourceMapRepository.getDatasourceIdsForDashboard).toHaveBeenCalledWith(
-        'dashboardId',
-      );
-      expect(dashboardDatasourceMapRepository.deleteDatasourceMapping).toHaveBeenCalledWith(
-        'dashboardId',
-      );
-    });
-    it('should delete all the json files present in server', () => {
+    it('should delete all the json files present in server', async () => {
+      await dataSourceService.bulkDeleteDatasource(['dashboardId']);
       expect(fs.rmdirSync).toHaveBeenCalledTimes(2);
       expect(fs.rmdirSync).toHaveBeenCalledWith('./uploads/multerId', { recursive: true });
       expect(dataSourceMetadataRepository.bulkDeleteDatasourceMetadata).toHaveBeenCalledWith([
-        'datasource1',
-        'datasource2',
+        'dashboardId',
       ]);
     });
 
-    it('should should return deleted true', async () => {
-      expect(result).toEqual({ deleted: 2 });
+    it('should should return deleted count', async () => {
+      const result = await dataSourceService.bulkDeleteDatasource(['dashboardId']);
+      expect(result).toEqual({ deleted: 1 });
     });
   });
 });

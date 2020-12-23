@@ -1,12 +1,14 @@
 const InvalidInputException = require('../exceptions/InvalidInputException');
 const NotFoundException = require('../exceptions/NotFoundException');
+const { deleteDashboardsAndMappingWithProjectId } = require('./dashboardService');
 const {
   insertProjectInvalidInput,
   updateProjectInvalidInput,
   projectNotFound,
 } = require('../exceptions/errors');
 
-const { getAll, insert, getOne, update } = require('../repository/projectRepository');
+const { getAll, insert, getOne, update, deleteOne } = require('../repository/projectRepository');
+
 // TODO: change name to insert
 async function addNewProject(projectData) {
   try {
@@ -45,9 +47,40 @@ async function updateProject({ id, ...projectData }) {
   }
 }
 
+function getTotalDeleteCount(result) {
+  return result.reduce(
+    ({ deletedCount, mappingDeletedCount }, deleteResult) => {
+      return {
+        deletedCount: deletedCount + deleteResult.deletedCount,
+        mappingDeletedCount: mappingDeletedCount + deleteResult.mappingDeletedCount,
+      };
+    },
+    { deletedCount: 0, mappingDeletedCount: 0 },
+  );
+}
+
+async function deleteProject(projectId) {
+  let projectDeleteResult;
+  try {
+    projectDeleteResult = await deleteOne(projectId);
+  } catch (err) {
+    throw new NotFoundException(projectNotFound.errorMessage, projectNotFound.errorCode);
+  }
+  const dashboardsDeleteResult = await deleteDashboardsAndMappingWithProjectId(projectId);
+  const { deletedCount: dashboardsDeletedCount, mappingDeletedCount } = getTotalDeleteCount(
+    dashboardsDeleteResult,
+  );
+  return {
+    projectsDeleted: projectDeleteResult.deletedCount,
+    dashboardsDeletedCount,
+    mappingDeletedCount,
+  };
+}
+
 module.exports = {
   getAllProjects,
   addNewProject,
   getProject,
   updateProject,
+  deleteProject,
 };

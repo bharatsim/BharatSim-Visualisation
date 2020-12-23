@@ -7,6 +7,7 @@ const DataSourceNotFoundException = require('../exceptions/DatasourceNotFoundExc
 const ColumnsNotFoundException = require('../exceptions/ColumnsNotFoundException');
 const { sendServerError, sendClientError } = require('../exceptions/exceptionUtils');
 const InvalidInputException = require('../exceptions/InvalidInputException');
+const NotFoundException = require('../exceptions/NotFoundException');
 const { EXTENDED_JSON_TYPES } = require('../constants/fileTypes');
 const { getFileExtension } = require('../utils/uploadFile');
 const { fileTypes } = require('../constants/fileTypes');
@@ -72,14 +73,18 @@ router.get('/:id/headers', function (req, res) {
 });
 
 router.delete('/', async function (req, res) {
-  const { dashboardId } = req.query;
+  const { datasourceIds } = req.query;
   dataSourceService
-    .deleteDatasourceForDashboard(dashboardId)
+    .bulkDeleteDatasource(datasourceIds)
     .then((deleteMetadata) => {
       res.send(deleteMetadata);
     })
     .catch((err) => {
-      sendServerError(err, res);
+      if (err instanceof NotFoundException) {
+        sendClientError(err, res, 404);
+      } else {
+        sendServerError(err, res);
+      }
     });
 });
 module.exports = router;

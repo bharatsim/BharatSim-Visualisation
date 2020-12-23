@@ -139,19 +139,25 @@ describe('dashboardController', function () {
   });
   describe('delete /dashboard', () => {
     it('should delete dashboard with given dashboard id', async () => {
-      dashboardService.deleteDashboard.mockResolvedValueOnce({ deleteCount: 1 });
-      await request(app).delete('/dashboard/dashboardId').expect(200);
+      dashboardService.deleteDashboardAndMapping.mockResolvedValueOnce({
+        deletedCount: 1,
+        mappingDeletedCount: 1,
+      });
+      await request(app).delete('/dashboard/dashboardId').expect(200).expect({
+        deletedCount: 1,
+        mappingDeletedCount: 1,
+      });
 
-      expect(dashboardService.deleteDashboard).toHaveBeenCalledWith('dashboardId');
+      expect(dashboardService.deleteDashboardAndMapping).toHaveBeenCalledWith('dashboardId');
     });
     it('should throw error if any while deleting the dashboard', async () => {
-      dashboardService.deleteDashboard.mockRejectedValueOnce(new Error('Message'));
+      dashboardService.deleteDashboardAndMapping.mockRejectedValueOnce(new Error('Message'));
       await request(app)
         .delete('/dashboard/dashboardId')
         .expect(500)
         .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
 
-      expect(dashboardService.deleteDashboard).toHaveBeenCalledWith('dashboardId');
+      expect(dashboardService.deleteDashboardAndMapping).toHaveBeenCalledWith('dashboardId');
     });
   });
 });

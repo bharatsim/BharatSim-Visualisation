@@ -7,5 +7,6 @@ module.exports = {
       statements: 100,
     },
   },
+  collectCoverageFrom: ['src/**/*.js', '!test/db-handler.js'],
   coverageReporters: ['text', 'json', 'lcov'],
 };

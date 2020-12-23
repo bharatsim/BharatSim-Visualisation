@@ -44,8 +44,12 @@ const errors = {
     errorMessage: 'Project with given id not found',
   },
   metadataNotFound: {
-    errorCode: 1012,
+    errorCode: 1013,
     errorMessage: 'Datasource Metadata for given id not found',
+  },
+  missingIds: {
+    errorCode: 1014,
+    errorMessage: 'Request is not complete',
   },
 };
 
