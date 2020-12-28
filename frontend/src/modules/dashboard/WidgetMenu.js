@@ -2,15 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { IconButton, Typography } from '@material-ui/core';
 import { DeleteOutline, MoreVert } from '@material-ui/icons';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import DeleteConfirmationModal from '../../uiComponent/DeleteConfirmationModal';
-import useMenuStyles from '../layout/projectLayout/sideDashboardNavbar/navBarCss';
 import useModal from '../../hook/useModal';
+import DropdownMenu from '../../uiComponent/DropdownMenu/DropdownMenu';
 
 export default function WidgetMenu({ onDelete }) {
-  const menuClasses = useMenuStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const {
     isOpen: isDeleteModalOpen,
@@ -40,33 +36,18 @@ export default function WidgetMenu({ onDelete }) {
       <IconButton data-testid="widget-menu" disableRipple onClick={openMenu}>
         <MoreVert />
       </IconButton>
-      <Menu
+      <DropdownMenu
         anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={closeMenu}
-        classes={{ paper: menuClasses.menuPaper }}
-        PopoverClasses={{
-          paper: menuClasses.popoverPaper,
-        }}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        getContentAnchorEl={null}
-      >
-        <MenuItem onClick={onOpenDeleteModal}>
-          <ListItemIcon className={menuClasses.listItemIcon}>
-            <DeleteOutline />
-          </ListItemIcon>
-          <Typography variant="body2">Delete Chart</Typography>
-        </MenuItem>
-      </Menu>
-
+        closeMenu={closeMenu}
+        menuItems={[
+          {
+            label: 'Delete Chart',
+            dataTestId: 'DeleteChart',
+            onClick: onOpenDeleteModal,
+            icon: <DeleteOutline />,
+          },
+        ]}
+      />
       {isDeleteModalOpen && (
         <DeleteConfirmationModal
           handleClose={closeDeleteModal}

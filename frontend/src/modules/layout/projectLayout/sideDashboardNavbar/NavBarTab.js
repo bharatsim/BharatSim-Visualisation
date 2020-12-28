@@ -1,8 +1,6 @@
 import Box from '@material-ui/core/Box';
 import React, { forwardRef, useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
@@ -15,10 +13,10 @@ import optionsIcon from '../../../../assets/images/optionsIcon.svg';
 import deleteIcon from '../../../../assets/images/delete.svg';
 import { useTabStyles } from './sideDashboardNavbarCSS';
 import { ChildrenPropTypes } from '../../../../commanPropTypes';
-import useMenuStyles from './navBarCss';
 import DeleteConfirmationModal from '../../../../uiComponent/DeleteConfirmationModal';
 import useModal from '../../../../hook/useModal';
 import RadioLabel from '../../../../uiComponent/RadioLabel';
+import DropdownMenu from '../../../../uiComponent/DropdownMenu/DropdownMenu';
 
 const useRadioStyle = makeStyles((theme) => ({
   root: {
@@ -39,7 +37,6 @@ const NavBarTab = forwardRef(function NavBarTab(
   ref,
 ) {
   const classes = useTabStyles();
-  const menuClasses = useMenuStyles();
   const radioClasses = useRadioStyle();
   const isSelected = !tabIndex;
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -94,39 +91,18 @@ const NavBarTab = forwardRef(function NavBarTab(
         </Box>
 
         {isSelected && (
-          <Menu
-            id="simple-menu"
+          <DropdownMenu
             anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={closeMenu}
-            classes={{ paper: menuClasses.menuPaper }}
-            PopoverClasses={{
-              paper: menuClasses.popoverPaper,
-            }}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            getContentAnchorEl={null}
-          >
-            <MenuItem
-              onClick={onOpenDeleteModal}
-              classes={{ root: menuClasses.root }}
-              data-testid={`delete-option-${dashboard.dashboardId}`}
-            >
-              <Box className={menuClasses.menuOption}>
-                <img src={deleteIcon} alt="delete-logo" />
-                <Box ml={4}>
-                  <Typography variant="body2">Delete Dashboard</Typography>
-                </Box>
-              </Box>
-            </MenuItem>
-          </Menu>
+            closeMenu={closeMenu}
+            menuItems={[
+              {
+                label: 'Delete Dashboard',
+                icon: <img src={deleteIcon} alt="delete-logo" />,
+                onClick: onOpenDeleteModal,
+                dataTestId: `delete-option-${dashboard.dashboardId}`,
+              },
+            ]}
+          />
         )}
         <Box display="none">{children}</Box>
       </Box>
@@ -184,7 +160,7 @@ const NavBarTab = forwardRef(function NavBarTab(
                 label={(
                   <RadioLabel
                     header="No, keep the dataset in the dataset library"
-                    description="The dataset will be unlinked from the dashboard and the project and 
+                    description="The dataset will be unlinked from the dashboard and the project and
                     will be available in the dataset library."
                   />
                 )}

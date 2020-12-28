@@ -44,14 +44,14 @@ exports[`Dashboard Navbar should render dashboard view for given dashboard data 
           role="tablist"
         >
           <div
-            class="MuiBox-root MuiBox-root-22 makeStyles-root-9 makeStyles-selected-13"
+            class="MuiBox-root MuiBox-root-17 makeStyles-root-9 makeStyles-selected-13"
             data-testid="tab-0"
           >
             <div
-              class="MuiBox-root MuiBox-root-23 makeStyles-iconLabelWrapper-10"
+              class="MuiBox-root MuiBox-root-18 makeStyles-iconLabelWrapper-10"
             >
               <div
-                class="MuiBox-root MuiBox-root-24 makeStyles-icon-12"
+                class="MuiBox-root MuiBox-root-19 makeStyles-icon-12"
               >
                 <img
                   alt="dashboard-logo"
@@ -61,7 +61,7 @@ exports[`Dashboard Navbar should render dashboard view for given dashboard data 
               dashboard1
             </div>
             <div
-              class="MuiBox-root MuiBox-root-25 makeStyles-optionIcon-11"
+              class="MuiBox-root MuiBox-root-20 makeStyles-optionIcon-11"
             >
               <button
                 class="MuiButtonBase-root MuiIconButton-root"

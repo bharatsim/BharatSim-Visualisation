@@ -24,7 +24,9 @@ function ProjectMetadataCard({ project, onProjectClick }) {
   const classes = styles();
   return (
     <Box className={classes.cardContainer} onClick={() => onProjectClick(_id)}>
-      <Typography variant="subtitle2">{name}</Typography>
+      <Box>
+        <Typography variant="subtitle2">{name}</Typography>
+      </Box>
     </Box>
   );
 }

@@ -79,11 +79,15 @@ exports[`Existing User Home Screen should match snapshot for given projects 1`] 
             <div
               class="MuiBox-root MuiBox-root-12 makeStyles-cardContainer-11"
             >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2"
+              <div
+                class="MuiBox-root MuiBox-root-13"
               >
-                project1
-              </h6>
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle2"
+                >
+                  project1
+                </h6>
+              </div>
             </div>
           </div>
         </div>

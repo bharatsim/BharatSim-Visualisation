@@ -82,11 +82,15 @@ exports[`Home should match snapshot for existing users 1`] = `
               <div
                 class="MuiBox-root MuiBox-root-26 makeStyles-cardContainer-25"
               >
-                <h6
-                  class="MuiTypography-root MuiTypography-subtitle2"
+                <div
+                  class="MuiBox-root MuiBox-root-27"
                 >
-                  project1
-                </h6>
+                  <h6
+                    class="MuiTypography-root MuiTypography-subtitle2"
+                  >
+                    project1
+                  </h6>
+                </div>
               </div>
             </div>
           </div>

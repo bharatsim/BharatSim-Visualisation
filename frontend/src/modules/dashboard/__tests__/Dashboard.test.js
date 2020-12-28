@@ -137,7 +137,8 @@ describe('<Dashboard />', () => {
 
     await findByText('dashboard1');
 
-    addChart(renderedComponent);
+    await addChart(renderedComponent);
+
     await findByText('Saving...');
     const lineChart = getByText('LINE CHART');
 
@@ -152,7 +153,7 @@ describe('<Dashboard />', () => {
     const { getByText, findByText } = renderedComponent;
     await findByText('dashboard1');
 
-    addChart(renderedComponent);
+    await addChart(renderedComponent);
 
     await findByText('Unable to save the dashboard');
 
@@ -195,7 +196,7 @@ describe('<Dashboard />', () => {
     const renderedComponent = render(<DashboardWithProviders />);
     const { getByText, findByText, getByTestId, queryByText } = renderedComponent;
     await findByText('dashboard1');
-    addChart(renderedComponent);
+    await addChart(renderedComponent);
     await findByText('Last Saved', { exact: false });
 
     expect(getByText('LINE CHART')).toBeInTheDocument();
