@@ -1,7 +1,7 @@
 import React from 'react';
 import ConfigureDatatype from '../ConfigureDatatype';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import {renderWithRedux as render} from '../../../testUtil';
+import { renderWithRedux as render } from '../../../testUtil';
 
 jest.mock('../../../uiComponent/table/Table');
 

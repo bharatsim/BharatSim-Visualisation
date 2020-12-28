@@ -9,7 +9,7 @@ import {
   FETCH_DASHBOARD,
   UPDATE_DASHBOARD,
 } from './actions';
-import {AUTOSAVE_DEBOUNCE_TIME} from "./constants";
+import { AUTOSAVE_DEBOUNCE_TIME } from './constants';
 
 export function* fetchDashboard(action) {
   const dashbaord = yield call(api.getDashboard, action.id);

@@ -1,9 +1,14 @@
 import React from 'react';
-import {fireEvent} from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import Dashboard from '../Dashboard';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import {renderWithRedux as render, selectDropDownOption, withProjectLayout, withRouter} from '../../../testUtil';
-import {api} from '../../../utils/api';
+import {
+  renderWithRedux as render,
+  selectDropDownOption,
+  withProjectLayout,
+  withRouter,
+} from '../../../testUtil';
+import { api } from '../../../utils/api';
 
 jest.mock('../../charts/lineChart/LineChart', () => (props) => (
   <>
@@ -22,7 +27,10 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-jest.mock('../constants.js', () => ({...jest.requireActual('../constants.js'), AUTOSAVE_DEBOUNCE_TIME:0}));
+jest.mock('../constants.js', () => ({
+  ...jest.requireActual('../constants.js'),
+  AUTOSAVE_DEBOUNCE_TIME: 0,
+}));
 
 jest.mock('../../../utils/api', () => ({
   api: {
@@ -49,38 +57,35 @@ jest.mock('../../../utils/api', () => ({
 }));
 
 describe('<Dashboard />', () => {
-  const DashboardWithProviders =
-    withRouter(
-      withThemeProvider(withProjectLayout(Dashboard)),
-    );
+  const DashboardWithProviders = withRouter(withThemeProvider(withProjectLayout(Dashboard)));
   afterEach(() => {
     jest.clearAllMocks();
   });
 
- const  addChart = async  (renderedComponent)=>{
-   const { getByText, findByText, getByTestId, getByLabelText } = renderedComponent;
+  const addChart = async (renderedComponent) => {
+    const { getByText, findByText, getByTestId, getByLabelText } = renderedComponent;
 
-   const addChartButton = getByTestId('button-add-chart-header');
-   fireEvent.click(addChartButton);
+    const addChartButton = getByTestId('button-add-chart-header');
+    fireEvent.click(addChartButton);
 
-   const lineChartOption = getByTestId('lineChart');
-   const nextButton = getByText('Next');
-   fireEvent.click(lineChartOption);
-   fireEvent.click(nextButton);
+    const lineChartOption = getByTestId('lineChart');
+    const nextButton = getByText('Next');
+    fireEvent.click(lineChartOption);
+    fireEvent.click(nextButton);
 
-   await findByText('Data Source');
-   const chartNameInput = getByLabelText('Add chart name');
-   fireEvent.change(chartNameInput, {
-     target: { value: 'chart name' },
-   });
-   selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
-   await findByText('select x axis');
-   selectDropDownOption(renderedComponent, 'dropdown-x', 'column1');
-   selectDropDownOption(renderedComponent, 'dropdown-y-0', 'column2');
+    await findByText('Data Source');
+    const chartNameInput = getByLabelText('Add chart name');
+    fireEvent.change(chartNameInput, {
+      target: { value: 'chart name' },
+    });
+    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    await findByText('select x axis');
+    selectDropDownOption(renderedComponent, 'dropdown-x', 'column1');
+    selectDropDownOption(renderedComponent, 'dropdown-y-0', 'column2');
 
-   const applyButton = getByText('Apply');
-   fireEvent.click(applyButton)
-  }
+    const applyButton = getByText('Apply');
+    fireEvent.click(applyButton);
+  };
 
   it('should add dashboard name to dashboard component', async () => {
     const { getByText, findByTestId } = render(<DashboardWithProviders />);
@@ -92,10 +97,10 @@ describe('<Dashboard />', () => {
   });
 
   it('should fetch dashboard only once', async () => {
-    const {  findByTestId, rerender } = render(<DashboardWithProviders />);
+    const { findByTestId, rerender } = render(<DashboardWithProviders />);
     await findByTestId('button-add-chart-widget');
-    rerender(<DashboardWithProviders />)
-    expect(api.getDashboard).toBeCalledTimes(1)
+    rerender(<DashboardWithProviders />);
+    expect(api.getDashboard).toBeCalledTimes(1);
   });
 
   it('should return empty component when failed to fetch dashboard', async () => {
@@ -132,11 +137,11 @@ describe('<Dashboard />', () => {
 
     await findByText('dashboard1');
 
-    addChart(renderedComponent)
-    await findByText('Saving...')
+    addChart(renderedComponent);
+    await findByText('Saving...');
     const lineChart = getByText('LINE CHART');
 
-    await findByText('Last Saved',{exact:false})
+    await findByText('Last Saved', { exact: false });
     expect(lineChart).toBeInTheDocument();
     expect(api.saveDashboard).toBeCalled();
   });
@@ -144,10 +149,10 @@ describe('<Dashboard />', () => {
   it('should show error if any while saving the dashboard', async () => {
     const renderedComponent = render(<DashboardWithProviders />);
     api.saveDashboard.mockRejectedValueOnce('Error');
-    const { getByText, findByText} = renderedComponent;
+    const { getByText, findByText } = renderedComponent;
     await findByText('dashboard1');
 
-    addChart(renderedComponent)
+    addChart(renderedComponent);
 
     await findByText('Unable to save the dashboard');
 
@@ -155,10 +160,9 @@ describe('<Dashboard />', () => {
 
     const retry = getByText('Retry');
     fireEvent.click(retry);
-    await findByText('Last Saved',{exact:false})
+    await findByText('Last Saved', { exact: false });
 
-    expect(getByText('Last Saved',{exact:false})).toBeInTheDocument();
-
+    expect(getByText('Last Saved', { exact: false })).toBeInTheDocument();
   });
 
   it('should close modal on click of close icon', async () => {
@@ -187,23 +191,22 @@ describe('<Dashboard />', () => {
     expect(mockHistoryPush).toHaveBeenCalledWith('/projects/1/configure-dataset');
   });
 
-  it('should delete the widget and autoSave',async ()=>{
+  it('should delete the widget and autoSave', async () => {
     const renderedComponent = render(<DashboardWithProviders />);
-    const { getByText, findByText, getByTestId, queryByText } = renderedComponent
+    const { getByText, findByText, getByTestId, queryByText } = renderedComponent;
     await findByText('dashboard1');
-    addChart(renderedComponent)
-    await findByText('Last Saved',{exact:false})
+    addChart(renderedComponent);
+    await findByText('Last Saved', { exact: false });
 
-    expect(getByText('LINE CHART')).toBeInTheDocument()
+    expect(getByText('LINE CHART')).toBeInTheDocument();
 
     fireEvent.click(getByTestId('widget-menu'));
-    fireEvent.click(getByText('Delete Chart'))
-    fireEvent.click(getByTestId('delete-chart-confirm'))
+    fireEvent.click(getByText('Delete Chart'));
+    fireEvent.click(getByTestId('delete-chart-confirm'));
 
     const saving = getByText('Saving...');
-    await findByText('Last Saved',{exact:false})
+    await findByText('Last Saved', { exact: false });
     expect(saving).toBeInTheDocument();
     expect(queryByText('LINE CHART')).not.toBeInTheDocument();
-
-  })
+  });
 });

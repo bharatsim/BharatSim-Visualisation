@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { within, fireEvent } from '@testing-library/react';
 import Button from '@material-ui/core/Button';
 import withOverlayLoaderOrError from '../withOverlayLoaderOrError';
-import {renderWithRedux as render} from '../../../testUtil';
+import { renderWithRedux as render } from '../../../testUtil';
 
 import { overlayLoaderOrErrorContext } from '../../../contexts/overlayLoaderOrErrorContext';
 

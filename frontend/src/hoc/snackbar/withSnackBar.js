@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import failureIcon from '../../assets/images/error-icon.svg';
 import successIcon from '../../assets/images/success-icon.svg';
-import Notifier from "./Notifier";
+import Notifier from './Notifier';
 
 const useSnackBarStyles = makeStyles((theme) => ({
   contentRoot: {

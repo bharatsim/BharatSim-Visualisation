@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, within } from '@testing-library/react';
 import { SnackbarProvider } from 'notistack';
-import {renderWithRedux as render} from '../../../testUtil';
+import { renderWithRedux as render } from '../../../testUtil';
 
 import ProjectHomeScreen from '../ProjectHomeScreen';
 import withThemeProvider from '../../../theme/withThemeProvider';
@@ -246,7 +246,8 @@ describe('<ProjectHomeScreenComponent />', () => {
     });
   });
 
-  it('should not navigate to create-dashboard url for dashboard creation failure project is already present', async () => {
+  // eslint-disable-next-line max-len
+  it('should not navigate to create-dashboard url after dashboard creation failure if project is already present', async () => {
     api.addNewDashboard.mockRejectedValueOnce('error');
     const Component = withThemeProvider(
       withOverlayLoaderOrError(() => (

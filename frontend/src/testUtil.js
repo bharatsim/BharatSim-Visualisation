@@ -1,9 +1,9 @@
 /* eslint-disable */
-import React from 'react'
-import { render as rtlRender } from '@testing-library/react'
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import {composeStore} from './hoc/redux/store';
+import React from 'react';
+import { render as rtlRender } from '@testing-library/react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { composeStore } from './hoc/redux/store';
 import { fireEvent, within } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
@@ -48,17 +48,9 @@ export function withProjectLayout(WrappedComponent) {
   );
 }
 
-
-
-export function renderWithRedux(
-    ui,
-    {
-        store = composeStore(),
-        ...renderOptions
-    } = {}
-) {
-    function Wrapper({ children }) {
-        return <Provider store={store}>{children}</Provider>
-    }
-    return rtlRender(ui, { wrapper: Wrapper, ...renderOptions })
+export function renderWithRedux(ui, { store = composeStore(), ...renderOptions } = {}) {
+  function Wrapper({ children }) {
+    return <Provider store={store}>{children}</Provider>;
+  }
+  return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
 }

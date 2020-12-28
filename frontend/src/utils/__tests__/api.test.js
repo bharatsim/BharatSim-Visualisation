@@ -1,5 +1,5 @@
-import {api} from '../api';
-import {fetchData, uploadData} from '../fetch';
+import { api } from '../api';
+import { fetchData, uploadData } from '../fetch';
 
 jest.mock('../fetch', () => ({
   fetchData: jest.fn(),
@@ -15,9 +15,9 @@ describe('API', () => {
 
     const expectedParameter = {
       data: JSON.stringify({
-        dashboardData: {charts: [], layout: [], dashboardId: 'id', name: 'name', count: 0},
+        dashboardData: { charts: [], layout: [], dashboardId: 'id', name: 'name', count: 0 },
       }),
-      headers: {'content-type': 'application/json'},
+      headers: { 'content-type': 'application/json' },
       url: '/api/dashboard',
       isCustomErrorHandler: true,
       isCustomLoader: true,

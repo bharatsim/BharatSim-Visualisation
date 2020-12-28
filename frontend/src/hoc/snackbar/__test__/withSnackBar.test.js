@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
-import {  fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import withSnackBar from '../withSnackBar';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import {renderWithRedux as render} from '../../../testUtil';
+import { renderWithRedux as render } from '../../../testUtil';
 
 function DummyComponent() {
   const { enqueueSnackbar } = useSnackbar();

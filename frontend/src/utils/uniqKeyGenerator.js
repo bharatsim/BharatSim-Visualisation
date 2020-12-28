@@ -1,1 +1,1 @@
-export default () => `${ Date.now() }${Math.random()}`
+export default () => `${Date.now()}${Math.random()}`;

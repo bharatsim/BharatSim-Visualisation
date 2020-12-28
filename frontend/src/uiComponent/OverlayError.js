@@ -70,10 +70,7 @@ function OverlayError({ isError, errorConfig, hideError }) {
 
         <ErrorBar message={errorMessage} visible />
         <Box mt={4}>
-          <Typography variant="body2">
-            {helperText}
-            {' '}
-          </Typography>
+          <Typography variant="body2">{helperText}</Typography>
         </Box>
 
         <Box className={classes.errorActions}>

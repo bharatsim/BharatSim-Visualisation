@@ -12,7 +12,6 @@ function withOverlayLoaderOrError(WrappedComponent) {
     const errorConfig = useSelector((state) => state.loaderOrError.errorConfig);
 
     const dispatch = useDispatch();
-
     function startLoader() {
       dispatch(actions.startLoader());
     }
@@ -28,7 +27,6 @@ function withOverlayLoaderOrError(WrappedComponent) {
     function hideError() {
       dispatch(actions.hideErrors());
     }
-
     return (
       <OverlayLoaderOrErrorContextProvider value={{ stopLoader, startLoader, showError }}>
         <WrappedComponent {...props} />

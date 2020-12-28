@@ -1,10 +1,9 @@
 import React from 'react';
-import {renderWithRedux as render, withProjectLayout } from '../../../testUtil';
+import { renderWithRedux as render, withProjectLayout } from '../../../testUtil';
 import CreateNewDashboardModal from '../CreateNewDashboardModal';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import withSnackBar from '../../../hoc/snackbar/withSnackBar';
 import withOverlayLoaderOrError from '../../../hoc/loaderWithError/withOverlayLoaderOrError';
-
 
 jest.mock('../../../utils/api', () => ({
   api: {

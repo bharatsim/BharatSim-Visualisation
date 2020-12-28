@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import  {compose} from 'redux';
+import { compose } from 'redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ import withOverlayLoaderOrError from './hoc/loaderWithError/withOverlayLoaderOrE
 import { initLoader } from './utils/fetch';
 import { overlayLoaderOrErrorContext } from './contexts/overlayLoaderOrErrorContext';
 import { initHistory } from './utils/browserHistory';
-import withRedux from "./hoc/redux/withRedux";
+import withRedux from './hoc/redux/withRedux';
 
 const useRootStyles = makeStyles(() => ({
   root: {
@@ -37,9 +37,9 @@ function App() {
 }
 
 export default compose(
-    withRedux,
-    withThemeProvider,
-    withSnackBar,
-    withOverlayLoaderOrError,
-    withAppLayout,
+  withRedux,
+  withThemeProvider,
+  withSnackBar,
+  withOverlayLoaderOrError,
+  withAppLayout,
 )(App);
