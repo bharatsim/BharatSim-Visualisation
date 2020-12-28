@@ -194,6 +194,7 @@ describe('API', () => {
     const expectedParameter = {
       url: '/api/dashboard/dashboard1',
       method: 'delete',
+      isCustomErrorHandler: true,
     };
 
     api.deleteDashboard('dashboard1');
@@ -207,6 +208,7 @@ describe('API', () => {
       query: {
         datasourceIds: ['datasourceId'],
       },
+      isCustomErrorHandler: true,
       method: 'delete',
     };
 

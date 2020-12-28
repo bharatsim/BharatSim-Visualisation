@@ -31,7 +31,7 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
 
   async function deleteDataSourceForDashboard(datasources, dashboardName) {
     const datasourceIds = datasources.map(({ _id: datasourceId }) => datasourceId);
-    await api
+    return api
       .deleteDatasource(datasourceIds)
       .then(() => {
         enqueueSnackbar(`Datasource files for Dashboard ${dashboardName} Deleted successfully`, {
@@ -46,7 +46,7 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
   async function deleteDashboardForDashboardId(dashboardId, dashboardName) {
     return api
       .deleteDashboard(dashboardId)
-      .then(async () => {
+      .then(() => {
         setNavTab(0);
         deleteDashboard(dashboardId);
         enqueueSnackbar(`Dashboard ${dashboardName} Deleted successfully`, {
@@ -58,11 +58,11 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
       });
   }
 
-  async function handleDeleteDashboard(dashboard) {
+  async function handleDeleteDashboard(dashboard, shouldDeleteDatasources) {
     const { dashboardName, dashboardId } = dashboard;
-    const { dataSources } = await api.getDatasources(dashboardId);
+    const { dataSources } = await api.getDatasources(dashboardId, false, false);
     await deleteDashboardForDashboardId(dashboardId, dashboardName);
-    if (dataSources.length > 0) {
+    if (shouldDeleteDatasources && dataSources.length > 0) {
       await deleteDataSourceForDashboard(dataSources, dashboardName);
     }
   }

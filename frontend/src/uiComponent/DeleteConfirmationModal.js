@@ -7,10 +7,11 @@ import Box from '@material-ui/core/Box';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import ErrorButton from './ErrorButton';
 import { DialogActions, DialogTitle } from './Modal';
+import { ChildrenPropTypes } from '../commanPropTypes';
 
 const dialogStyles = makeStyles((theme) => ({
   paper: {
-    width: theme.spacing(121),
+    width: theme.spacing(142),
   },
 }));
 const DialogContent = withStyles((theme) => ({
@@ -50,7 +51,7 @@ DeleteConfirmationModal.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
+  children: ChildrenPropTypes.isRequired,
   deleteAction: PropTypes.shape({
     name: PropTypes.string.isRequired,
     dataTestId: PropTypes.string.isRequired,

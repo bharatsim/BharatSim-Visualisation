@@ -58,9 +58,7 @@ function clearTestUpload() {
 
 function createTestUploadFolder() {
   if (!fs.existsSync(`${TEST_FILE_UPLOAD_PATH}`)) {
-    fs.mkdirSync(`${TEST_FILE_UPLOAD_PATH}`, {
-      recursive: true,
-    });
+    fs.mkdirSync(`${TEST_FILE_UPLOAD_PATH}`);
   }
 }
 

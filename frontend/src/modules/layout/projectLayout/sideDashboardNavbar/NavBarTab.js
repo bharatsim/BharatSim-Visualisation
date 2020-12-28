@@ -1,10 +1,15 @@
 import Box from '@material-ui/core/Box';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
+import { makeStyles } from '@material-ui/core/styles';
 import dashboardIcon from '../../../../assets/images/dashboard-icon.svg';
 import optionsIcon from '../../../../assets/images/optionsIcon.svg';
 import deleteIcon from '../../../../assets/images/delete.svg';
@@ -13,13 +18,29 @@ import { ChildrenPropTypes } from '../../../../commanPropTypes';
 import useMenuStyles from './navBarCss';
 import DeleteConfirmationModal from '../../../../uiComponent/DeleteConfirmationModal';
 import useModal from '../../../../hook/useModal';
+import RadioLabel from '../../../../uiComponent/RadioLabel';
 
+const useRadioStyle = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    alignItems: 'flex-start',
+  },
+  label: {
+    marginLeft: theme.spacing(3),
+  },
+}));
+
+const RadioOptions = {
+  Yes: true,
+  No: false,
+};
 const NavBarTab = forwardRef(function NavBarTab(
   { onClick, dashboard, dataTestId, tabIndex, children, deleteDashboard },
   ref,
 ) {
   const classes = useTabStyles();
   const menuClasses = useMenuStyles();
+  const radioClasses = useRadioStyle();
   const isSelected = !tabIndex;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const {
@@ -27,6 +48,7 @@ const NavBarTab = forwardRef(function NavBarTab(
     openModal: openDeleteModal,
     closeModal: closeDeleteModal,
   } = useModal();
+  const [shouldDeleteDatasources, setShouldDeleteDatasources] = useState('Yes');
 
   const openMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -42,7 +64,11 @@ const NavBarTab = forwardRef(function NavBarTab(
 
   function handleDelete() {
     closeDeleteModal();
-    deleteDashboard(dashboard);
+    deleteDashboard(dashboard, RadioOptions[shouldDeleteDatasources]);
+  }
+
+  function handleRadioButtonChange(event) {
+    setShouldDeleteDatasources(event.target.value);
   }
 
   return (
@@ -115,10 +141,57 @@ const NavBarTab = forwardRef(function NavBarTab(
             dataTestId: 'delete-dashboard-button',
           }}
         >
-          <Typography variant="body2">
-            Are you sure you want to delete this dashboard and all it’s configurations? This action
-            can’t be undone
-          </Typography>
+          <Box pb={4}>
+            <Box pb={4}>
+              <Typography variant="body1">
+                You want to delete this dashboard and all it’s configurations? This action can’t be
+                undone.
+              </Typography>
+            </Box>
+            <Typography variant="body1">
+              However, you can decide what you want to do with the dataset that is linked to this
+              dashboard alone.
+            </Typography>
+          </Box>
+
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label="gender"
+              name="gender1"
+              value={shouldDeleteDatasources}
+              onChange={handleRadioButtonChange}
+            >
+              <Box mb={3}>
+                <FormControlLabel
+                  value="Yes"
+                  control={<Radio />}
+                  classes={radioClasses}
+                  data-testid="yes-radio-button"
+                  label={(
+                    <RadioLabel
+                      header="Yes, delete all the dataset associated with this Dashboard"
+                      description="Any dataset that is not linked to another project
+                    or dashboard will be permanently deleted from the dataset library."
+                    />
+                  )}
+                />
+              </Box>
+              <FormControlLabel
+                value="No"
+                control={<Radio />}
+                classes={radioClasses}
+                data-testid="no-radio-button"
+                label={(
+                  <RadioLabel
+                    header="No, keep the dataset in the dataset library"
+                    description="The dataset will be unlinked from the dashboard and the project and 
+                    will be available in the dataset library."
+                  />
+                )}
+              />
+            </RadioGroup>
+          </FormControl>
+          <Box />
         </DeleteConfirmationModal>
       )}
     </>

@@ -52,6 +52,7 @@ const api = {
   deleteDashboard: async (dashboardId) =>
     fetchData({
       url: serviceURL.getDashboardUrl(dashboardId),
+      isCustomErrorHandler: true,
       method: httpMethods.DELETE,
     }),
 
@@ -59,6 +60,7 @@ const api = {
     return fetchData({
       url: serviceURL.DATA_SOURCES,
       method: httpMethods.DELETE,
+      isCustomErrorHandler: true,
       query: { datasourceIds },
     });
   },
@@ -83,12 +85,12 @@ const api = {
       isCustomLoader: true,
     }),
 
-  getDatasources: async (dashboardId) =>
+  getDatasources: async (dashboardId, isCustomLoader = true, isCustomErrorHandler = true) =>
     fetchData({
       url: serviceURL.DATA_SOURCES,
       query: { dashboardId },
-      isCustomLoader: true,
-      isCustomErrorHandler: true,
+      isCustomLoader,
+      isCustomErrorHandler,
     }),
 
   getData: async (datasource, columns) =>

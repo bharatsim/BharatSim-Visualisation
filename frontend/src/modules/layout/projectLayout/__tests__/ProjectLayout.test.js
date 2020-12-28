@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import * as router from 'react-router-dom';
 import { fireEvent } from '@testing-library/dom';
-import {renderWithRedux as render} from '../../../../testUtil';
+import { renderWithRedux as render } from '../../../../testUtil';
 import { api } from '../../../../utils/api';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import ProjectLayout from '../projectLayout/ProjectLayout';
@@ -30,13 +30,14 @@ jest.mock('../../../../utils/api', () => ({
   api: {
     getProject: jest.fn().mockResolvedValue({ project: { name: 'name', _id: 'id' } }),
     deleteDashboard: jest.fn().mockResolvedValue({}),
-    deleteDatasourceForDashboard: jest.fn().mockResolvedValue({}),
+    deleteDatasource: jest.fn().mockResolvedValue({}),
     getAllDashBoardByProjectId: jest.fn().mockResolvedValue({
       dashboards: [
         { name: 'dashboardName1', _id: 'dashboardId1' },
         { name: 'dashboardName2', _id: 'dashboardId2' },
       ],
     }),
+    getDatasources: jest.fn().mockResolvedValue({ dataSources: [{ _id: 'datasourceId' }] }),
   },
 }));
 
