@@ -12,6 +12,7 @@ const errorTypes = {
   DASHBOARD_DELETE_FAILED: 'dashboardDeleteFailed',
   PROJECT_DELETE_FAILED: 'projectDeleteFailed',
   DASHBOARD_DATASOURCE_DELETE_FAILED: 'dashboardDatasourceDeleteFailed',
+  PROJECT_DATASOURCE_DELETE_FAILED: 'projectDatasourceDeleteFailed',
   PROJECT_AND_DASHBOARD_CREATE_FAILED: 'projectAndDashboardCreateFailed',
 };
 
@@ -147,6 +148,13 @@ const errors = {
     errorTitle: `Aw Snap! Failed to delete datasource file for dashboard ${dashboardTitle}`,
     errorMessage: 'Some error at server',
     helperText: 'Try to delete datasource file for dashboard in manage datasource tab',
+    errorModalButtonText: 'Okay',
+    onErrorModalButtonClick: () => {},
+  }),
+  [errorTypes.PROJECT_DATASOURCE_DELETE_FAILED]: (projectName) => ({
+    errorTitle: `Aw Snap! Failed to delete datasource file for project ${projectName}`,
+    errorMessage: 'Some error at server',
+    helperText: 'Try to delete datasource file for project in manage datasource tab',
     errorModalButtonText: 'Okay',
     onErrorModalButtonClick: () => {},
   }),

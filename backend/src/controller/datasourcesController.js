@@ -13,9 +13,9 @@ const { getFileExtension } = require('../utils/uploadFile');
 const { fileTypes } = require('../constants/fileTypes');
 
 router.get('/', async function (req, res) {
-  const { dashboardId } = req.query;
+  const { dashboardId, projectId } = req.query;
   dataSourceMetadataService
-    .getDataSourcesByDashboardId(dashboardId)
+    .getDataSources({ dashboardId, projectId })
     .then((data) => res.json(data))
     .catch((err) => {
       sendServerError(err, res);

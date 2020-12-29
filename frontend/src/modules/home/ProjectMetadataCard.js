@@ -64,7 +64,27 @@ function ProjectMetadataCard({ project, onProjectClick, deleteProject }) {
     setShouldDeleteDatasources(event.target.value);
   }
 
-  function handleDelete() {
+  function getUniqueDatasourceIds(allDatasourceIds) {
+    return [...new Set(allDatasourceIds)];
+  }
+
+  async function deleteDatasourcesForProject(dataSources) {
+    const datasourceIds = dataSources.map(({ _id: datasourceId }) => datasourceId);
+    if (datasourceIds.length > 0) {
+      api
+        .deleteDatasource(getUniqueDatasourceIds(datasourceIds))
+        .then(() => {
+          enqueueSnackbar(`Datasource files for Project ${projectName} Deleted successfully`, {
+            variant: snackbarVariant.SUCCESS,
+          });
+        })
+        .catch(() => {
+          showError(errors[errorTypes.PROJECT_DATASOURCE_DELETE_FAILED](projectName));
+        });
+    }
+  }
+
+  async function deleteProjectFromDb() {
     api
       .deleteProject(projectId)
       .then(() => {
@@ -76,6 +96,14 @@ function ProjectMetadataCard({ project, onProjectClick, deleteProject }) {
       .catch(() => {
         showError(errors[errorTypes.PROJECT_DELETE_FAILED](projectName));
       });
+  }
+
+  async function handleDelete() {
+    if (shouldDeleteDatasources === 'Yes') {
+      const { dataSources } = await api.getDatasourcesForProject(projectId);
+      await deleteDatasourcesForProject(dataSources);
+    }
+    await deleteProjectFromDb();
     closeDeleteModal();
   }
 

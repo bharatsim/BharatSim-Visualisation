@@ -12,6 +12,10 @@ jest.mock('../../../utils/api', () => ({
     deleteProject: jest.fn().mockResolvedValue({
       deleted: 1,
     }),
+    getDatasourcesForProject: jest.fn().mockResolvedValue({
+      dataSources: [{ _id: 'datasourceId' }],
+    }),
+    deleteDatasource: jest.fn().mockResolvedValue({ deleted: 1 }),
   },
 }));
 const mockHistoryPush = jest.fn();
@@ -106,6 +110,30 @@ describe('Existing User Home Screen', () => {
 
     expect(getByText('Aw Snap! Failed to delete project projectName')).toBeInTheDocument();
   });
+  it('should show error if any while deleting datasources for project', async () => {
+    const mockSetRecentProject = jest.fn();
+    api.deleteDatasource.mockRejectedValueOnce();
+    const { getByTestId, findByText, getByText } = render(
+      <ExistingUserHomeScreenWithProviders
+        recentProjects={[{ _id: 'projectId', name: 'projectName' }]}
+        setRecentProjects={mockSetRecentProject}
+      />,
+    );
+    const projectMenuButton = getByTestId('project-menu');
+    fireEvent.click(projectMenuButton);
+
+    const deleteOptionForProject1 = getByTestId('delete-project-projectId');
+    fireEvent.click(deleteOptionForProject1);
+
+    const deleteProjectConfirmationButton = getByTestId('delete-project-confirmation-button');
+    fireEvent.click(deleteProjectConfirmationButton);
+
+    await findByText('Aw Snap! Failed to delete datasource file for project projectName');
+
+    expect(
+      getByText('Aw Snap! Failed to delete datasource file for project projectName'),
+    ).toBeInTheDocument();
+  });
   it(
     'should not delete the datasources associated with project id ' +
       'on click of no from confirmation modal',
@@ -125,6 +153,34 @@ describe('Existing User Home Screen', () => {
 
       const NoRadioButton = getByTestId('no-radio-button');
       fireEvent.click(NoRadioButton);
+
+      const deleteProjectConfirmationButton = getByTestId('delete-project-confirmation-button');
+      fireEvent.click(deleteProjectConfirmationButton);
+
+      await findByText('Project projectName deleted successfully');
+
+      expect(getByText('Project projectName deleted successfully')).toBeInTheDocument();
+    },
+  );
+  it(
+    'should not delete the datasources associated with project' +
+      ' id if datasources are not present',
+    async () => {
+      const mockSetRecentProject = jest.fn();
+      api.getDatasourcesForProject.mockResolvedValue({
+        dataSources: [],
+      });
+      const { getByTestId, findByText, getByText } = render(
+        <ExistingUserHomeScreenWithProviders
+          recentProjects={[{ _id: 'projectId', name: 'projectName' }]}
+          setRecentProjects={mockSetRecentProject}
+        />,
+      );
+      const projectMenuButton = getByTestId('project-menu');
+      fireEvent.click(projectMenuButton);
+
+      const deleteOptionForProject1 = getByTestId('delete-project-projectId');
+      fireEvent.click(deleteOptionForProject1);
 
       const deleteProjectConfirmationButton = getByTestId('delete-project-confirmation-button');
       fireEvent.click(deleteProjectConfirmationButton);

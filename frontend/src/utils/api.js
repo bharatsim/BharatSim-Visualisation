@@ -98,6 +98,12 @@ const api = {
       isCustomErrorHandler,
     }),
 
+  getDatasourcesForProject: async (projectId) =>
+    fetchData({
+      url: serviceURL.DATA_SOURCES,
+      query: { projectId },
+    }),
+
   getData: async (datasource, columns) =>
     fetchData({
       url: serviceURL.getDataUrl(datasource),
