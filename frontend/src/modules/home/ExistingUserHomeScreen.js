@@ -19,11 +19,18 @@ const styles = makeStyles(() => ({
   },
 }));
 
-function ExistingUserHomeScreen({ recentProjects }) {
+function ExistingUserHomeScreen({ recentProjects, setRecentProjects }) {
   const [selectedTab] = React.useState(0);
   const history = useHistory();
 
   const classes = styles();
+
+  function deleteProject(selectedProjectId) {
+    const updatedProjects = recentProjects.filter(({ _id: projectId }) => {
+      return projectId !== selectedProjectId;
+    });
+    setRecentProjects(updatedProjects);
+  }
 
   function openProject(id) {
     history.push(`/projects/${id}/configure-dataset`);
@@ -54,7 +61,11 @@ function ExistingUserHomeScreen({ recentProjects }) {
                 const { _id } = project;
                 return (
                   <Grid item xs={3} key={_id}>
-                    <ProjectMetadataCard project={project} onProjectClick={openProject} />
+                    <ProjectMetadataCard
+                      project={project}
+                      onProjectClick={openProject}
+                      deleteProject={deleteProject}
+                    />
                   </Grid>
                 );
               })}
@@ -67,6 +78,7 @@ function ExistingUserHomeScreen({ recentProjects }) {
 }
 
 ExistingUserHomeScreen.propTypes = {
+  setRecentProjects: PropTypes.func.isRequired,
   recentProjects: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,

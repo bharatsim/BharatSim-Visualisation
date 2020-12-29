@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProjectMetadataCard should match snapshot ProjectMetadataCard 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-8"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-9 makeStyles-cardContainer-7"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-10 makeStyles-titleContainer-6"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle2"
+        >
+          projectName
+        </h6>
+        <button
+          class="MuiButtonBase-root MuiIconButton-root"
+          data-testid="project-menu"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+              />
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

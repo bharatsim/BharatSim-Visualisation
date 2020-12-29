@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ExistingUserHomeScreen from './ExistingUserHomeScreen';
-import useFetch from '../../hook/useFetch';
 import { api } from '../../utils/api';
 import NewUserHomeScreen from './NewUserHomeScreen';
 
@@ -13,16 +12,29 @@ const styles = makeStyles(() => ({
     marginTop: 0,
   },
 }));
+
 function Home() {
-  const { data: recentProjects } = useFetch(api.getProjects);
   const classes = styles();
+  const [recentProjects, setRecentProjects] = useState();
+
+  async function fetchData() {
+    const fetchedProjects = await api.getProjects();
+    setRecentProjects(fetchedProjects.projects);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   if (!recentProjects) {
     return null;
   }
   return (
     <Box px={32} pt={16} className={classes.mainContainer}>
-      {recentProjects && recentProjects.projects.length > 0 ? (
-        <ExistingUserHomeScreen recentProjects={recentProjects.projects} />
+      {recentProjects && recentProjects.length > 0 ? (
+        <ExistingUserHomeScreen
+          recentProjects={recentProjects}
+          setRecentProjects={setRecentProjects}
+        />
       ) : (
         <NewUserHomeScreen />
       )}

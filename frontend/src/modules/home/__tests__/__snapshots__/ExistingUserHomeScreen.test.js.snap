@@ -3,10 +3,10 @@
 exports[`Existing User Home Screen should match snapshot for given projects 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-2"
+    class="MuiBox-root MuiBox-root-7"
   >
     <div
-      class="MuiBox-root MuiBox-root-3"
+      class="MuiBox-root MuiBox-root-8"
     >
       <div
         class="MuiTabs-root"
@@ -38,13 +38,13 @@ exports[`Existing User Home Screen should match snapshot for given projects 1`] 
             </button>
           </div>
           <span
-            class="PrivateTabIndicator-root-4 PrivateTabIndicator-colorPrimary-5 MuiTabs-indicator"
+            class="PrivateTabIndicator-root-9 PrivateTabIndicator-colorPrimary-10 MuiTabs-indicator"
             style="left: 0px; width: 0px;"
           />
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-9 makeStyles-buttonGroup-8"
+        class="MuiBox-root MuiBox-root-14 makeStyles-buttonGroup-13"
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
@@ -63,7 +63,7 @@ exports[`Existing User Home Screen should match snapshot for given projects 1`] 
       </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-10 makeStyles-projectListContainer-1"
+      class="MuiBox-root MuiBox-root-15 makeStyles-projectListContainer-6"
     >
       <div
         aria-labelledby="simple-tab-0"
@@ -77,16 +77,41 @@ exports[`Existing User Home Screen should match snapshot for given projects 1`] 
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
           >
             <div
-              class="MuiBox-root MuiBox-root-12 makeStyles-cardContainer-11"
+              class="MuiBox-root MuiBox-root-18"
             >
               <div
-                class="MuiBox-root MuiBox-root-13"
+                class="MuiBox-root MuiBox-root-19 makeStyles-cardContainer-17"
               >
-                <h6
-                  class="MuiTypography-root MuiTypography-subtitle2"
+                <div
+                  class="MuiBox-root MuiBox-root-20 makeStyles-titleContainer-16"
                 >
-                  project1
-                </h6>
+                  <h6
+                    class="MuiTypography-root MuiTypography-subtitle2"
+                  >
+                    project1
+                  </h6>
+                  <button
+                    class="MuiButtonBase-root MuiIconButton-root"
+                    data-testid="project-menu"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiIconButton-label"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

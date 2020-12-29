@@ -10,6 +10,7 @@ const errorTypes = {
   TECHNICAL_ERROR: 500,
   DASHBOARD_CREATE_FAILED: 'dashboardCreateFailed',
   DASHBOARD_DELETE_FAILED: 'dashboardDeleteFailed',
+  PROJECT_DELETE_FAILED: 'projectDeleteFailed',
   DASHBOARD_DATASOURCE_DELETE_FAILED: 'dashboardDatasourceDeleteFailed',
   PROJECT_AND_DASHBOARD_CREATE_FAILED: 'projectAndDashboardCreateFailed',
 };
@@ -131,6 +132,14 @@ const errors = {
     errorTitle: `Aw Snap! Failed to delete dashboard ${dashboardTitle}`,
     errorMessage: 'Some error at server',
     helperText: 'Try to delete dashboard again',
+    errorModalButtonText: 'Okay',
+    onErrorModalButtonClick: () => {},
+  }),
+
+  [errorTypes.PROJECT_DELETE_FAILED]: (projectTitle) => ({
+    errorTitle: `Aw Snap! Failed to delete project ${projectTitle}`,
+    errorMessage: 'Some error at server',
+    helperText: 'Try to delete project again',
     errorModalButtonText: 'Okay',
     onErrorModalButtonClick: () => {},
   }),

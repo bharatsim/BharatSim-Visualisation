@@ -35,7 +35,7 @@ function DropdownMenu({ anchorEl, closeMenu, menuItems }) {
             onClick={onClick}
             classes={{ root: menuClasses.root }}
             data-testid={dataTestId}
-            key={`menu-item-${label}`}
+            key={dataTestId}
           >
             <Box className={menuClasses.menuOption}>
               {icon}

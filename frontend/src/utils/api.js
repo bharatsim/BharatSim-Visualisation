@@ -55,7 +55,12 @@ const api = {
       isCustomErrorHandler: true,
       method: httpMethods.DELETE,
     }),
-
+  deleteProject: async (projectId) =>
+    fetchData({
+      url: serviceURL.getProjectUrl(projectId),
+      isCustomErrorHandler: true,
+      method: httpMethods.DELETE,
+    }),
   deleteDatasource: async (datasourceIds) => {
     return fetchData({
       url: serviceURL.DATA_SOURCES,

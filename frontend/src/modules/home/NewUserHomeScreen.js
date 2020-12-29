@@ -45,9 +45,7 @@ function NewUserHomeScreen() {
           Intro text
         </Typography>
         <Typography variant="body2" className={classes.textCentered}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco
+          Bharat Sim Visualisation description text
         </Typography>
       </Box>
       <Box mt={5} className={classes.itemsCentered}>

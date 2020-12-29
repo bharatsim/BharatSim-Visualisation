@@ -201,6 +201,15 @@ describe('API', () => {
 
     expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });
+  it('should call delete project api with given project id', () => {
+    const expectedParameter = {
+      url: '/api/projects/projectId',
+      method: 'delete',
+      isCustomErrorHandler: true,
+    };
+    api.deleteProject('projectId');
+    expect(fetchData).toHaveBeenCalledWith(expectedParameter);
+  });
 
   it('should call delete datasources for given datasource ids', () => {
     const expectedParameter = {
