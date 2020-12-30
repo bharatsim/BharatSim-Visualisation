@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "backend for visualization",
   "main": "index.js",
+  "engines": {
+    "node": ">=14.15.0"
+  },
   "scripts": {
     "test": "jest  --coverage --env=node --watchAll=false",
     "start": "nodemon app.js",

@@ -78,6 +78,27 @@ describe('Datasource metadata repository', () => {
       expect(dataSources).toEqual(expectedResult);
     });
   });
+  it('should get All Except given Datasource Ids', async () => {
+    const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
+
+    const expectedResult = insertedMetadata.map((metadata) => ({
+      _id: metadata.id,
+      name: metadata.name,
+      fileSize: metadata.fileSize,
+      fileType: metadata.fileType,
+      createdAt: metadata.createdAt.toISOString(),
+      updatedAt: metadata.updatedAt.toISOString(),
+      fileId: 'fileidByMulter',
+    }))[0];
+
+    const insertedIds = insertedMetadata.map((metadata) => metadata.id.toString());
+
+    const dataSources = parseMongoDBResult(
+      await DataSourceMetaDataRepository.getAllExceptDatasourceIds([insertedIds[1]]),
+    );
+
+    expect(dataSources).toEqual([expectedResult]);
+  });
 
   describe('get DataSource Schema By Id', function () {
     it('should return datasource schema for given datasource name', async () => {

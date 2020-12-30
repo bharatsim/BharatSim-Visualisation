@@ -1,8 +1,8 @@
 const dataSourceMetadataRepository = require('../repository/datasourceMetadataRepository');
 const dashboardDatasourceMapRepository = require('../repository/dashboardDatasourceMapRepository');
 const dbUtils = require('../utils/dbUtils');
-const InvalidInputException = require('../exceptions/InvalidInputException');
-const { missingIds } = require('../exceptions/errors');
+const { parseDBObject } = require('../utils/dbUtils');
+const { getAllProjects } = require('./projectService');
 const { getAllDashboards } = require('./dashboardService');
 
 function transformDataSourceSchema(dataSourceSchema) {
@@ -15,38 +15,65 @@ async function getHeaders(datasourceId) {
   return { headers };
 }
 
-function mergeAllDatasourceIdsFromDashboards(datasourceIdsForDashboards) {
-  return datasourceIdsForDashboards.flatMap((datasourceIdsForDashboard) => {
-    return datasourceIdsForDashboard;
+async function getAndTransformDataSources(
+  { _id: dashboardId, name: dashboardName },
+  projectId,
+  projectName,
+) {
+  const dataSourcesForDashboard = await getDatasourcesForDashboardId(dashboardId.toString());
+  return dataSourcesForDashboard.map((dataSourceForDashboard) => {
+    return {
+      ...parseDBObject(dataSourceForDashboard),
+      projectId,
+      dashboardId,
+      projectName,
+      dashboardName,
+    };
   });
 }
 
-async function getDatasourcesForProjectId(projectId) {
-  const { dashboards: dashboardIds } = await getAllDashboards({ projectId }, ['_id']);
+async function getDatasourcesForProjectId(projectId, projectName) {
+  const { dashboards } = await getAllDashboards({ projectId }, ['_id', 'name']);
   return Promise.all(
-    dashboardIds.map(async ({ _id: dashboardId }) => {
-      return getDatasourceIdsForDashboard(dashboardId.toString());
+    dashboards.map(async (dashboard) => {
+      return getAndTransformDataSources(dashboard, projectId, projectName);
     }),
   )
-    .then(mergeAllDatasourceIdsFromDashboards)
+    .then((data) => data.flat())
     .catch((err) => {
       throw err;
     });
 }
 
-async function getDatasourceIdsForDashboard(dashboardId) {
+async function getDatasourcesForDashboardId(dashboardId) {
   const datasourceIds = dbUtils.parseDBObject(
     await dashboardDatasourceMapRepository.getDatasourceIdsForDashboard(dashboardId),
   );
   return dataSourceMetadataRepository.getManyDataSourcesMetadataByIds(datasourceIds);
 }
 
+async function getAllDataSources() {
+  const { projects } = await getAllProjects();
+  const assignedDatasources = await Promise.all(
+    projects.map(async ({ _id: projectId, name: projectName }) => {
+      return getDatasourcesForProjectId(projectId.toString(), projectName);
+    }),
+  );
+  const assignedDatasourceIds = assignedDatasources.map(({ _id: datasourceId }) => datasourceId);
+
+  const unAssignedDatasources = await dataSourceMetadataRepository.getAllExceptDatasourceIds(
+    assignedDatasourceIds,
+  );
+  return unAssignedDatasources.concat(assignedDatasources);
+}
+
 async function getDataSources({ projectId, dashboardId }) {
   if (!projectId && !dashboardId) {
-    throw new InvalidInputException(missingIds.errorMessage, missingIds.errorCode);
+    const dataSources = await getAllDataSources();
+    return { dataSources: dataSources.flat() };
   }
   if (dashboardId) {
-    const dataSources = await getDatasourceIdsForDashboard(dashboardId);
+    const dataSources = await getDatasourcesForDashboardId(dashboardId);
     return { dataSources };
   }
   const dataSources = await getDatasourcesForProjectId(projectId);

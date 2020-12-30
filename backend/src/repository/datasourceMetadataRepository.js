@@ -49,6 +49,10 @@ function filterDatasourceIds(datasourceIds, filters) {
   );
 }
 
+function getAllExceptDatasourceIds(datasourceIds) {
+  return DataSourceMetadata.find({ _id: { $nin: datasourceIds } }, { __v: 0, dataSourceSchema: 0 });
+}
+
 async function getDatasourceMetadataForDatasourceId(dataSourceId) {
   return DataSourceMetadata.findOne({ _id: dataSourceId });
 }
@@ -62,4 +66,5 @@ module.exports = {
   bulkDeleteDatasourceMetadata,
   getDatasourceMetadataForDatasourceId,
   filterDatasourceIds,
+  getAllExceptDatasourceIds,
 };

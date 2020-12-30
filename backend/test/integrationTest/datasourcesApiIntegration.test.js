@@ -86,6 +86,9 @@ describe('Integration test', () => {
         createdAt: metadata.createdAt.toISOString(),
         updatedAt: metadata.updatedAt.toISOString(),
         fileId: 'fileIdByMulter',
+        projectId: '313233343536373839303132',
+        dashboardId: dashboardId.toString(),
+        dashboardName: 'dashboard1',
       }));
 
       await request(app)
