@@ -42,10 +42,12 @@ function NewUserHomeScreen() {
       </Box>
       <Box className={classes.introTextContainer}>
         <Typography variant="subtitle2" className={classes.textCentered}>
-          Intro text
+          Vision
         </Typography>
         <Typography variant="body2" className={classes.textCentered}>
-          Bharat Sim Visualisation description text
+          The vision for BharatSim is to build an India scale agent based framework that would
+          enable modellers from various fields of study like epidemiology, disaster management,
+          economics etc to advise policy makers and institutions.
         </Typography>
       </Box>
       <Box mt={5} className={classes.itemsCentered}>

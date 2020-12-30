@@ -6,6 +6,7 @@ const mongoService = require('../../src/services/mongoService');
 const dbHandler = require('../db-handler');
 const DataSourceMetaData = require('../../src/model/datasourceMetadata');
 const DatasourceDashboardMap = require('../../src/model/datasourceDashboardMap');
+const DashboardModel = require('../../src/model/dashboard');
 
 const {
   dataSourceMetadata,
@@ -56,6 +57,39 @@ describe('Integration test', () => {
       }));
       await request(app)
         .get('/datasources?dashboardId=313233343536373839303137')
+        .expect(200)
+        .expect({ dataSources: [expectedDataSource[0]] });
+    });
+  });
+  describe('/datasources', () => {
+    it('should get data sources filter by project id', async () => {
+      const dashboardData = {
+        name: 'dashboard1',
+        charts: [],
+        layout: [],
+        count: 0,
+        projectId: '313233343536373839303132',
+      };
+      const { _id: dashboardId } = (await DashboardModel.insertMany(dashboardData))[0];
+      await DatasourceDashboardMap.insertMany([
+        {
+          dashboardId: dashboardId.toString(),
+          datasourceId: dataSourceId,
+        },
+      ]);
+
+      const expectedDataSource = insertedMetadata.map((metadata) => ({
+        _id: metadata.id,
+        name: metadata.name,
+        fileSize: metadata.fileSize,
+        fileType: metadata.fileType,
+        createdAt: metadata.createdAt.toISOString(),
+        updatedAt: metadata.updatedAt.toISOString(),
+        fileId: 'fileIdByMulter',
+      }));
+
+      await request(app)
+        .get('/datasources?projectId=313233343536373839303132')
         .expect(200)
         .expect({ dataSources: [expectedDataSource[0]] });
     });
@@ -150,7 +184,7 @@ describe('Integration test', () => {
       await mongoService.close();
 
       expect(numberOfDocuments).toEqual(19);
-      expect(datasourceDashboardMappingCount).toEqual(3);
+      expect(datasourceDashboardMappingCount).toEqual(4);
       expect(_id).toEqual(uploadedFileCollectionId);
       expect(dataSourceSchema).toEqual(testSchemaModal1);
     });
