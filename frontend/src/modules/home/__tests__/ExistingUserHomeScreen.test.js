@@ -15,6 +15,9 @@ jest.mock('../../../utils/api', () => ({
     getDatasourcesForProject: jest.fn().mockResolvedValue({
       dataSources: [{ _id: 'datasourceId' }],
     }),
+    getAllDatasources: jest.fn().mockResolvedValue({
+      dataSources: [{ _id: 'datasourceId', name: 'fileName' }],
+    }),
     deleteDatasource: jest.fn().mockResolvedValue({ deleted: 1 }),
   },
 }));
@@ -40,6 +43,18 @@ describe('Existing User Home Screen', () => {
     );
 
     expect(container).toMatchSnapshot();
+  });
+  it('should navigate to datesets library on click of datasets tab', async () => {
+    const { getByText, findByText } = render(
+      <ExistingUserHomeScreenWithProviders
+        recentProjects={[{ _id: '1', name: 'project1' }]}
+        setRecentProjects={jest.fn()}
+      />,
+    );
+    const datasetsTabButton = getByText('Datasets');
+    fireEvent.click(datasetsTabButton);
+    await findByText('fileName');
+    expect(getByText('fileName')).toBeInTheDocument();
   });
   it('should navigate to project on click of project card', () => {
     const { getByText } = render(

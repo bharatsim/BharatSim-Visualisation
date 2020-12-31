@@ -12,6 +12,7 @@ import ProjectMetadataCard from './ProjectMetadataCard';
 import theme from '../../theme/theme';
 import TabPanel from '../../uiComponent/TabPanel';
 import ButtonGroup from '../../uiComponent/ButtonGroup';
+import Datasets from './Datasets';
 
 const styles = makeStyles(() => ({
   projectListContainer: {
@@ -20,9 +21,8 @@ const styles = makeStyles(() => ({
 }));
 
 function ExistingUserHomeScreen({ recentProjects, setRecentProjects }) {
-  const [selectedTab] = React.useState(0);
+  const [selectedTab, setSelectedTab] = React.useState(0);
   const history = useHistory();
-
   const classes = styles();
 
   function deleteProject(selectedProjectId) {
@@ -40,12 +40,23 @@ function ExistingUserHomeScreen({ recentProjects, setRecentProjects }) {
     history.push('/projects/create');
   }
 
+  function onTabChange(e, value) {
+    setSelectedTab(value);
+  }
+
   return (
     <Box>
       <Box display="flex" justifyContent="space-between">
-        <Tabs value={selectedTab} indicatorColor="primary" aria-label="disabled tabs example">
-          <Tab label="Recent Projects" />
+        <Tabs
+          value={selectedTab}
+          indicatorColor="primary"
+          aria-label="disabled tabs example"
+          onChange={onTabChange}
+        >
+          <Tab label="Recent Projects" value={0} />
+          <Tab label="Datasets" value={1} />
         </Tabs>
+
         <ButtonGroup>
           <Button variant="contained" color="primary" size="small" onClick={createNewProject}>
             Add New
@@ -71,6 +82,9 @@ function ExistingUserHomeScreen({ recentProjects, setRecentProjects }) {
               })}
             </Grid>
           )}
+        </TabPanel>
+        <TabPanel value={selectedTab} index={1}>
+          <Datasets />
         </TabPanel>
       </Box>
     </Box>

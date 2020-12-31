@@ -16,4 +16,14 @@ function convertObjectArrayToOptionStructure(objectArray, displayNameKey, valueK
   }));
 }
 
-export { updateState, convertStringArrayToOptions, convertObjectArrayToOptionStructure };
+function convertFileSizeToMB(fileSize) {
+  const BYTE_TO_MB_CONVERTOR_UNIT = 1024 * 1024;
+  return `${(fileSize / BYTE_TO_MB_CONVERTOR_UNIT).toFixed(2)}MB`;
+}
+
+export {
+  updateState,
+  convertStringArrayToOptions,
+  convertObjectArrayToOptionStructure,
+  convertFileSizeToMB,
+};

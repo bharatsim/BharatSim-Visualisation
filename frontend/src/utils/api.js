@@ -103,6 +103,10 @@ const api = {
       url: serviceURL.DATA_SOURCES,
       query: { projectId },
     }),
+  getAllDatasources: async () =>
+    fetchData({
+      url: serviceURL.DATA_SOURCES,
+    }),
 
   getData: async (datasource, columns) =>
     fetchData({

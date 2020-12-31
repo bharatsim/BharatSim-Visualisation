@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Datasets should match snapshot Datasets library 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
+    style="position: relative; box-shadow: none; border: 1px solid; border-color: #594ab73d; border-radius: 4px; overflow: hidden;"
+  >
+    <div
+      class="Component-horizontalScrollContainer-10"
+      style="overflow-x: auto; position: relative;"
+    >
+      <div>
+        <div
+          style="overflow-y: auto;"
+        >
+          <div>
+            <table
+              class="MuiTable-root"
+              style="table-layout: auto;"
+            >
+              <thead
+                class="MuiTableHead-root"
+              >
+                <tr
+                  class="MuiTableRow-root MuiTableRow-head"
+                >
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-11 MuiTableCell-alignLeft"
+                    scope="col"
+                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
+                  >
+                    Name
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-11 MuiTableCell-alignRight"
+                    scope="col"
+                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
+                  >
+                    Size
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-11 MuiTableCell-alignLeft"
+                    scope="col"
+                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
+                  >
+                    Type
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-11 MuiTableCell-alignRight"
+                    scope="col"
+                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
+                  >
+                    Datasource Usage
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-11 MuiTableCell-alignLeft"
+                    scope="col"
+                    style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
+                  >
+                    Date Added
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="MuiTableBody-root"
+              >
+                <tr
+                  class="MuiTableRow-root"
+                  index="0"
+                  level="0"
+                  path="0"
+                  style="transition: all ease 300ms; height: 32px; background-color: transparent; border-bottom: 1px solid #594ab73D;"
+                >
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    style="box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                    value="fileName"
+                  >
+                    fileName
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+                    style="box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                    value="49440"
+                  >
+                    0.05MB
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    style="box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                    value="fileType"
+                  />
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+                    style="box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                    value="2"
+                  >
+                    2
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    style="box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                    value="2020-12-31T09:32:48.123Z"
+                  >
+                    31-Dec-2020 at 9:32 AM
+                  </td>
+                </tr>
+                <tr
+                  class="MuiTableRow-root"
+                  index="1"
+                  level="0"
+                  path="1"
+                  style="transition: all ease 300ms; height: 32px; background-color: rgb(240, 238, 249);"
+                >
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    style="box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                    value="fileName2"
+                  >
+                    fileName2
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+                    style="box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                    value="49440"
+                  >
+                    0.05MB
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    style="box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                    value="fileTyp2e"
+                  />
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+                    style="box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                    value="0"
+                  >
+                    0
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    style="box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                    value="2020-12-31T09:32:48.123Z"
+                  >
+                    31-Dec-2020 at 9:32 AM
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

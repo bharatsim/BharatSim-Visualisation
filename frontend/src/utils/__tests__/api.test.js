@@ -103,7 +103,16 @@ describe('API', () => {
 
     expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });
-  it('should call datasources api to get all datasources', () => {
+  it('should call datasources api to get all data sources', () => {
+    const expectedParameter = {
+      url: '/api/dataSources',
+    };
+
+    api.getAllDatasources();
+
+    expect(fetchData).toHaveBeenCalledWith(expectedParameter);
+  });
+  it('should call datasources api to get all datasources for project', () => {
     const expectedParameter = {
       url: '/api/dataSources',
       query: {

@@ -5,12 +5,7 @@ import Table from '../../uiComponent/table/Table';
 import fileTypes from '../../constants/fileTypes';
 import { formatDate } from '../../utils/dateUtils';
 import tableStyles from '../../uiComponent/table/tableCSS';
-
-const BYTE_TO_MB_CONVERTOR_UNIT = 1024 * 1024;
-
-function convertFileSizeToMB(fileSize) {
-  return `${(fileSize / BYTE_TO_MB_CONVERTOR_UNIT).toFixed(2)}MB`;
-}
+import { convertFileSizeToMB } from '../../utils/helper';
 
 function DashboardDataSetsTable({ dataSources }) {
   const theme = useTheme();

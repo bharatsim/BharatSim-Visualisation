@@ -17,14 +17,14 @@ function Home() {
   const classes = styles();
   const [recentProjects, setRecentProjects] = useState();
 
-  async function fetchData() {
+  async function fetchRecentProjects() {
     const fetchedProjects = await api.getProjects();
     setRecentProjects(fetchedProjects.projects);
   }
-
   useEffect(() => {
-    fetchData();
+    fetchRecentProjects();
   }, []);
+
   if (!recentProjects) {
     return null;
   }
