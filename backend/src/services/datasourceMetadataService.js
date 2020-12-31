@@ -52,25 +52,28 @@ async function getDatasourcesForDashboardId(dashboardId) {
   return dataSourceMetadataRepository.getManyDataSourcesMetadataByIds(datasourceIds);
 }
 
-async function getAllDataSources() {
+async function getAllLinkedDataSources() {
   const { projects } = await getAllProjects();
   const assignedDatasources = await Promise.all(
     projects.map(async ({ _id: projectId, name: projectName }) => {
       return getDatasourcesForProjectId(projectId.toString(), projectName);
     }),
   );
-  const assignedDatasourceIds = assignedDatasources.map(({ _id: datasourceId }) => datasourceId);
+  return assignedDatasources.flat();
+}
 
-  const unAssignedDatasources = await dataSourceMetadataRepository.getAllExceptDatasourceIds(
-    assignedDatasourceIds,
+async function getAllUnlinkedDataSources(mappedDatasourceIds) {
+  return dataSourceMetadataRepository.getAllExceptDatasourceIds(
+    mappedDatasourceIds,
   );
-  return unAssignedDatasources.concat(assignedDatasources);
 }
 
 async function getDataSources({ projectId, dashboardId }) {
   if (!projectId && !dashboardId) {
-    const dataSources = await getAllDataSources();
-    return { dataSources: dataSources.flat() };
+    const linkedDataSources = await getAllLinkedDataSources();
+    const linkedDatasourceIds = linkedDataSources.map(({ _id: datasourceId }) => datasourceId);
+    const unlinkedDataSources = await getAllUnlinkedDataSources(linkedDatasourceIds);
+    return { dataSources: [...unlinkedDataSources, ...linkedDataSources] };
   }
   if (dashboardId) {
     const dataSources = await getDatasourcesForDashboardId(dashboardId);
