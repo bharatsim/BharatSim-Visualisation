@@ -99,12 +99,12 @@ function ProjectMetadataCard({ project, onProjectClick, deleteProject }) {
   }
 
   async function handleDelete() {
+    closeDeleteModal();
     if (shouldDeleteDatasources === 'Yes') {
       const { dataSources } = await api.getDatasourcesForProject(projectId);
       await deleteDatasourcesForProject(dataSources);
     }
     await deleteProjectFromDb();
-    closeDeleteModal();
   }
 
   return (
