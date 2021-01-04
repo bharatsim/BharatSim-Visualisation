@@ -20,13 +20,16 @@ describe('Integration test for project api', () => {
   beforeAll(async () => {
     await dbHandler.connect();
   });
+
   afterEach(async () => {
     await dbHandler.clearDatabase();
   });
+
   afterAll(async () => {
     await dbHandler.clearDatabase();
     await dbHandler.closeDatabase();
   });
+
   describe('POST /project', function () {
     it('should add new project to database', async function () {
       const response = await request(app).post('/project').send({ projectData }).expect(200);

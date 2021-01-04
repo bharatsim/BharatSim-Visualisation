@@ -1,7 +1,6 @@
 const express = require('express');
 const request = require('supertest');
 const multer = require('multer');
-const mongoService = require('../../src/services/mongoService');
 
 const dbHandler = require('../db-handler');
 const DataSourceMetaData = require('../../src/model/datasourceMetadata');
@@ -18,34 +17,43 @@ const {
 const datasourcesRoutes = require('../../src/controller/datasourcesController');
 const { parseDBObject } = require('../../src/utils/dbUtils');
 
+const TEST_FOLDER_EXTENSION = "datasource"
+
 // TODO - add integration tests to get all the datasource without dashboardId and projectId
 describe('Integration test', () => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  dbHandler.createTestUploadFolder();
-  app.use(multer({ dest: dbHandler.TEST_FILE_UPLOAD_PATH }).single('datafile'));
+  app.use(multer({ dest: `${dbHandler.TEST_FILE_UPLOAD_PATH}-${TEST_FOLDER_EXTENSION}` }).single('datafile'));
   app.use('/datasources', datasourcesRoutes);
   let insertedMetadata;
   let dataSourceId;
+  let connection;
 
   beforeAll(async () => {
     await dbHandler.connect();
+    connection = await dbHandler.connectUsingMongo();
+  });
+
+  beforeEach(async ()=>{
     insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
     const { _id } = insertedMetadata[0];
     dataSourceId = _id;
     await DatasourceDashboardMap.insertMany(createDatasourceDashboardMapping(dataSourceId));
     await createModel(dataSourceId.toString()).insertMany(model1Data);
-  });
-  beforeEach(() => {
-    dbHandler.createTestUploadFolder();
-  });
+  })
+
+  afterEach(async ()=>{
+    await dbHandler.clearDatabase();
+  })
+
   afterAll(async () => {
     await dbHandler.clearDatabase();
     await dbHandler.closeDatabase();
-    dbHandler.clearTestUpload();
+    dbHandler.clearTestUpload(TEST_FOLDER_EXTENSION);
   });
-  describe('/datasources', () => {
+
+  describe('get /datasources by dashboard id', () => {
     it('should get data sources filter by dashboard id', async () => {
       const expectedDataSource = insertedMetadata.map((metadata) => ({
         _id: metadata.id,
@@ -62,7 +70,8 @@ describe('Integration test', () => {
         .expect({ dataSources: [expectedDataSource[0]] });
     });
   });
-  describe('/datasources', () => {
+
+  describe('get /datasources by project id', () => {
     it('should get data sources filter by project id', async () => {
       const dashboardData = {
         name: 'dashboard1',
@@ -99,7 +108,7 @@ describe('Integration test', () => {
     });
   });
 
-  describe('/datasources/:id/headers', () => {
+  describe('get /datasources/:id/headers', () => {
     it('should get headers', async () => {
       await request(app)
         .get(`/datasources/${dataSourceId}/headers`)
@@ -120,7 +129,7 @@ describe('Integration test', () => {
     });
   });
 
-  describe('/datasources/:id/', () => {
+  describe('get /datasources/:id/', () => {
     it('should get data for requested columns', async () => {
       await request(app)
         .get(`/datasources/${dataSourceId}`)
@@ -162,8 +171,6 @@ describe('Integration test', () => {
         city: 'String',
       };
 
-      await dbHandler.connectUsingMongo();
-
       const response = await request(app)
         .post('/datasources')
         .field('schema', JSON.stringify(testSchemaModal1))
@@ -181,17 +188,15 @@ describe('Integration test', () => {
         { _id: 0, __v: 0 },
       ).countDocuments();
 
-      const connection = mongoService.getConnection();
       const db = connection.db();
       const numberOfDocuments = await db.collection(uploadedFileCollectionId).countDocuments();
 
-      await mongoService.close();
-
       expect(numberOfDocuments).toEqual(19);
-      expect(datasourceDashboardMappingCount).toEqual(4);
+      expect(datasourceDashboardMappingCount).toEqual(3);
       expect(_id).toEqual(uploadedFileCollectionId);
       expect(dataSourceSchema).toEqual(testSchemaModal1);
     });
+
     it('should upload json file in database', async () => {
       const response = await request(app)
         .post('/datasources')
@@ -225,8 +230,6 @@ describe('Integration test', () => {
         city: 'String',
       };
 
-      await dbHandler.connectUsingMongo();
-
       await request(app)
         .post('/datasources')
         .field('schema', JSON.stringify(testSchemaModal1))
@@ -238,8 +241,6 @@ describe('Integration test', () => {
           errorMessage: 'Invalid Input - File type does not match',
           errorCode: 1010,
         });
-
-      await mongoService.close();
     });
     // it('should throw and error if column data and schema are not compatible', async function () {
     //   const testSchemaModal1 = {
@@ -273,8 +274,6 @@ describe('Integration test', () => {
 
   describe('delete /datasources', () => {
     it('should delete all file mapped with dashboard id', async function () {
-      await dbHandler.connectUsingMongo();
-      const connection = mongoService.getConnection();
       insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
       const { _id: dataSourceId1 } = insertedMetadata[0];
       const { _id: dataSourceId2 } = insertedMetadata[1];

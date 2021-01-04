@@ -1,7 +1,7 @@
 const mongoService = require('../services/mongoService');
 
 async function getData(datasourceModel, columnsMap) {
-  return datasourceModel.find({}, { _id: 0, ...columnsMap }).then((data) => data);
+  return datasourceModel.find({}, { _id: 0, ...columnsMap });
 }
 
 async function insert(datasourceModel, data) {

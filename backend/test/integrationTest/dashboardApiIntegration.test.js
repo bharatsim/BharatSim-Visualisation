@@ -10,7 +10,9 @@ const dashboardModel = require('../../src/model/dashboard');
 const DatasourceDashboardMap = require('../../src/model/datasourceDashboardMap');
 const { parseDBObject } = require('../../src/utils/dbUtils');
 
-const TEST_FILE_UPLOAD_PATH = './uploads/';
+
+const TEST_FOLDER_EXTENSION = "dashboard"
+
 
 const chart = {
   layout: { h: 1, i: 'test', w: 2, x: 1, y: 3 },
@@ -30,7 +32,7 @@ describe('Integration test for dashboard api', () => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(multer({ dest: TEST_FILE_UPLOAD_PATH }).single('datafile'));
+  app.use(multer({ dest: `${dbHandler.TEST_FILE_UPLOAD_PATH}-${TEST_FOLDER_EXTENSION}` }).single('datafile'));
   app.use('/datasources', datasourcesRoutes);
   app.use('/dashboard', dashboardRoutes);
   beforeAll(async () => {
@@ -42,6 +44,7 @@ describe('Integration test for dashboard api', () => {
   afterAll(async () => {
     await dbHandler.clearDatabase();
     await dbHandler.closeDatabase();
+    dbHandler.clearTestUpload(TEST_FOLDER_EXTENSION);
   });
   describe('POST /dashboard', function () {
     it('should save dashboard to database', async function () {

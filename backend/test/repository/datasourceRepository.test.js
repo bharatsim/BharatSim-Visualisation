@@ -28,9 +28,10 @@ const DataSourceModel = mongoose.model('dataSourceModel', model);
 const parseMongoDBResult = (result) => JSON.parse(JSON.stringify(result));
 
 describe('get Datasource name ', () => {
+  let connection;
   beforeAll(async () => {
     await dbHandler.connect();
-    await dbHandler.connectUsingMongo();
+    connection = await dbHandler.connectUsingMongo();
   });
   afterEach(async () => {
     await dbHandler.clearDatabase();
@@ -84,8 +85,6 @@ describe('get Datasource name ', () => {
   });
 
   it('should delete at bulk for given ids', async () => {
-    const connection = await dbHandler.connectUsingMongo();
-
     await DataSourceRepository.bulkInsert('metadataId1', datasourceData);
     await DataSourceRepository.bulkInsert('metadataId2', datasourceData);
     await DataSourceRepository.bulkInsert('metadataId3', datasourceData);
@@ -93,11 +92,12 @@ describe('get Datasource name ', () => {
     const result = await DataSourceRepository.bulkDeleteCsv(['metadataId1', 'metadataId3']);
     expect(result.toString()).toBe('true,true');
 
-    const collectionList = await connection
-      .db()
-      .listCollections()
-      .toArray()
-      .then((collections) => collections.map((collection) => collection.name));
+    const db = connection.db();
+
+    const collectionList = await db
+        .listCollections()
+        .toArray()
+        .then((collections) => collections.map((collection) => collection.name));
 
     expect(collectionList).toEqual(['metadataId2']);
   });

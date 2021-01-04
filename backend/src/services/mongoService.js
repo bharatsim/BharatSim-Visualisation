@@ -12,12 +12,8 @@ function getConnection(){
   return mongoDbConnection;
 }
 
-function close(){
-    mongoDbConnection.close();
-}
 
 module.exports = {
   connect,
   getConnection,
-  close
 };

@@ -30,10 +30,10 @@ const connect = async () => {
 const closeDatabase = async () => {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
-  await mongod.stop();
   if (mongoDbConnection) {
     await mongoDbConnection.close();
   }
+  await mongod.stop();
 };
 
 /**
@@ -45,19 +45,21 @@ const clearDatabase = async () => {
     const collection = collections[key];
     await collection.deleteMany();
   }
-  if (mongoDbConnection) {
-    await mongoDbConnection.db().dropDatabase();
+  if (!mongoDbConnection) {
+    return;
   }
+  const db = mongoDbConnection.db();
+  await db.dropDatabase();
 };
 
-function clearTestUpload() {
-  if (fs.existsSync(`${TEST_FILE_UPLOAD_PATH}`)) {
-    return fs.rmdirSync(`${TEST_FILE_UPLOAD_PATH}`, { recursive: true });
+function clearTestUpload(extension) {
+  if (fs.existsSync(`${TEST_FILE_UPLOAD_PATH}-${extension}`)) {
+    return fs.rmdirSync(`${TEST_FILE_UPLOAD_PATH}-${extension}`, { recursive: true });
   }
 }
 
-function createTestUploadFolder() {
-  if (!fs.existsSync(`${TEST_FILE_UPLOAD_PATH}`)) {
+function createTestUploadFolder(extension) {
+  if (!fs.existsSync(`${TEST_FILE_UPLOAD_PATH}-${extension}`)) {
     fs.mkdirSync(`${TEST_FILE_UPLOAD_PATH}`);
   }
 }
