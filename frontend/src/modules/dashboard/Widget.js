@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import { Typography } from '@material-ui/core';
 import { ChildrenPropTypes } from '../../commanPropTypes';
+import dragIcon from '../../assets/images/dragIcon.svg';
 import WidgetMenu from './WidgetMenu';
 
 const useStyles = makeStyles((theme) => ({
@@ -23,14 +24,18 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: 'ellipsis',
   },
   widgetTitle: {
-    height: theme.spacing(8),
-    padding: theme.spacing(1, 6),
+    padding: theme.spacing(0, 6, 2, 6),
     'padding-right': theme.spacing(1),
     boxShadow: 'inset 0px -1px 1px rgba(105, 78, 214, 0.25)',
     'justify-content': 'space-between',
     display: 'flex',
     alignItems: 'center',
     textTransform: 'capitalize',
+  },
+  dragIconContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    cursor: 'grab',
   },
 }));
 
@@ -39,6 +44,9 @@ function Widget({ title, onDelete, children }) {
 
   return (
     <>
+      <Box className={`dragHandler ${classes.dragIconContainer}`}>
+        <img src={dragIcon} alt="drag" />
+      </Box>
       <Box className={classes.widgetTitle}>
         <Typography classes={{ body2: classes.chartName }} variant="body2">
           {title}

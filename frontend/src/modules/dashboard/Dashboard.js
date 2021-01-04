@@ -133,6 +133,7 @@ function Dashboard() {
             onLayoutChange={onLayoutChange}
             className={classes.reactGridLayout}
             margin={[32, 32]}
+            draggableHandle=".dragHandler"
           >
             {charts.map((item) => {
               return renderWidget(item, onDeleteWidget);

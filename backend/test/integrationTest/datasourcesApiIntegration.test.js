@@ -18,6 +18,7 @@ const {
 const datasourcesRoutes = require('../../src/controller/datasourcesController');
 const { parseDBObject } = require('../../src/utils/dbUtils');
 
+// TODO - add integration tests to get all the datasource without dashboardId and projectId
 describe('Integration test', () => {
   const app = express();
   app.use(express.json());

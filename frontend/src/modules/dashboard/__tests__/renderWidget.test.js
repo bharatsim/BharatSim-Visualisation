@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { renderWidget } from '../renderWidget';
+import withThemeProvider from '../../../theme/withThemeProvider';
 
 jest.mock('../../charts/renderChart', () => ({
   __esModule: true,
@@ -18,12 +19,15 @@ jest.mock('../../charts/renderChart', () => ({
 
 describe('Create element', () => {
   it('should provide element with data-grid', () => {
-    const element = renderWidget({
-      layout: { i: 'id-1' },
-      chartType: 'Linechart',
-      config: { chartName: 'title' },
-    });
-    const { container } = render(<>{element}</>);
+    const Chart = withThemeProvider(() =>
+      renderWidget({
+        layout: { i: 'id-1' },
+        chartType: 'Linechart',
+        config: { chartName: 'title' },
+      }),
+    );
+
+    const { container } = render(<Chart />);
 
     expect(container).toMatchSnapshot();
   });

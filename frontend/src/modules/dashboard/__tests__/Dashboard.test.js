@@ -139,7 +139,7 @@ describe('<Dashboard />', () => {
 
     await addChart(renderedComponent);
 
-    await findByText('Saving...');
+    await findByText('Saving...', { timeout: 2300 });
     const lineChart = getByText('LINE CHART');
 
     await findByText('Last Saved', { exact: false });
@@ -155,7 +155,7 @@ describe('<Dashboard />', () => {
 
     await addChart(renderedComponent);
 
-    await findByText('Unable to save the dashboard');
+    await findByText('Unable to save the dashboard', { timeout: 2300 });
 
     expect(getByText('Unable to save the dashboard')).toBeInTheDocument();
 
@@ -205,9 +205,8 @@ describe('<Dashboard />', () => {
     fireEvent.click(getByText('Delete Chart'));
     fireEvent.click(getByTestId('delete-chart-confirm'));
 
-    const saving = getByText('Saving...');
+    await findByText('Saving...', { timeout: 2300 });
     await findByText('Last Saved', { exact: false });
-    expect(saving).toBeInTheDocument();
     expect(queryByText('LINE CHART')).not.toBeInTheDocument();
   });
 });

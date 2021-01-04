@@ -3,7 +3,15 @@
 exports[`<Widget /> should match snapshot 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-5 makeStyles-widgetTitle-4"
+    class="MuiBox-root MuiBox-root-6 dragHandler makeStyles-dragIconContainer-5"
+  >
+    <img
+      alt="drag"
+      src="dragIcon.svg"
+    />
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-7 makeStyles-widgetTitle-4"
   >
     <p
       class="MuiTypography-root MuiTypography-body2 makeStyles-chartName-3"
@@ -11,7 +19,7 @@ exports[`<Widget /> should match snapshot 1`] = `
       Line Chart
     </p>
     <button
-      class="MuiButtonBase-root MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root makeStyles-root-8"
       data-testid="widget-menu"
       tabindex="0"
       type="button"
@@ -22,6 +30,7 @@ exports[`<Widget /> should match snapshot 1`] = `
         <svg
           aria-hidden="true"
           class="MuiSvgIcon-root"
+          color="#797d82"
           focusable="false"
           viewBox="0 0 24 24"
         >
@@ -33,7 +42,7 @@ exports[`<Widget /> should match snapshot 1`] = `
     </button>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-11 makeStyles-chartContainer-1"
+    class="MuiBox-root MuiBox-root-14 makeStyles-chartContainer-1"
   >
     Line Chart
   </div>
