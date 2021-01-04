@@ -56,6 +56,7 @@ function ProjectMetadataCard({ project, onProjectClick, deleteProject }) {
 
   function onOpenDeleteModal(event) {
     event.stopPropagation();
+    setShouldDeleteDatasources('Yes');
     openDeleteModal();
     closeMenu();
   }

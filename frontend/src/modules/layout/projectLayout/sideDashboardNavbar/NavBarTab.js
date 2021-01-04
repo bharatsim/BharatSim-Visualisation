@@ -38,6 +38,7 @@ const NavBarTab = forwardRef(function NavBarTab(
 
   function onOpenDeleteModal() {
     closeMenu();
+    setShouldDeleteDatasources('Yes');
     openDeleteModal();
   }
 
