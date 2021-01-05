@@ -55,7 +55,7 @@ function Datasets() {
         },
         { title: 'Type', field: 'fileType', render: (rowData) => fileTypes[rowData.fileType] },
         {
-          title: 'Datasource Usage',
+          title: 'Usage',
           field: 'count',
           type: 'numeric',
         },
