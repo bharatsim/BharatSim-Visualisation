@@ -56,12 +56,13 @@ function ExistingUserHomeScreen({ recentProjects, setRecentProjects }) {
           <Tab label="Recent Projects" value={0} />
           <Tab label="Datasets" value={1} />
         </Tabs>
-
-        <ButtonGroup>
-          <Button variant="contained" color="primary" size="small" onClick={createNewProject}>
-            Add New
-          </Button>
-        </ButtonGroup>
+        {selectedTab === 0 && (
+          <ButtonGroup>
+            <Button variant="contained" color="primary" size="small" onClick={createNewProject}>
+              Add New
+            </Button>
+          </ButtonGroup>
+        )}
       </Box>
 
       <Box className={classes.projectListContainer}>
