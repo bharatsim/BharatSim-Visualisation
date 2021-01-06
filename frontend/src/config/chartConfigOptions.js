@@ -4,6 +4,9 @@ import XAxisChartConfig from '../modules/chartConfigOptions/XAxisChartConfig';
 import YAxisChartConfig from '../modules/chartConfigOptions/YAxisChartConfig';
 import { xAxisValidator, yAxisValidator } from '../utils/validators';
 import { chartConfigOptionTypes } from '../constants/chartConfigOptionTypes';
+import LongitudeChartConfig from '../modules/chartConfigOptions/LongitudeChartConfig';
+import LatitudeChartConfig from '../modules/chartConfigOptions/LatitudeChartConfig';
+import GeoMetricsSeries from '../modules/chartConfigOptions/GeoMetricSeries';
 
 const chartConfigOptions = {
   [chartConfigOptionTypes.X_AXIS]: {
@@ -29,6 +32,42 @@ const chartConfigOptions = {
       />
     ),
     validator: yAxisValidator,
+  },
+  [chartConfigOptionTypes.LONGITUDE]: {
+    component: ({ headers, updateConfigState, errors, values }) => (
+      <LongitudeChartConfig
+        headers={headers}
+        updateConfigState={updateConfigState}
+        configKey={chartConfigOptionTypes.LONGITUDE}
+        error={errors[chartConfigOptionTypes.LONGITUDE]}
+        value={values[chartConfigOptionTypes.LONGITUDE]}
+      />
+    ),
+    validator: xAxisValidator,
+  },
+  [chartConfigOptionTypes.LATITUDE]: {
+    component: ({ headers, updateConfigState, errors, values }) => (
+      <LatitudeChartConfig
+        headers={headers}
+        updateConfigState={updateConfigState}
+        configKey={chartConfigOptionTypes.LATITUDE}
+        error={errors[chartConfigOptionTypes.LATITUDE]}
+        value={values[chartConfigOptionTypes.LATITUDE]}
+      />
+    ),
+    validator: xAxisValidator,
+  },
+  [chartConfigOptionTypes.GEO_METRIC_SERIES]: {
+    component: ({ headers, updateConfigState, errors, values }) => (
+      <GeoMetricsSeries
+        headers={headers}
+        updateConfigState={updateConfigState}
+        configKey={chartConfigOptionTypes.GEO_METRIC_SERIES}
+        error={errors[chartConfigOptionTypes.GEO_METRIC_SERIES]}
+        value={values[chartConfigOptionTypes.GEO_METRIC_SERIES]}
+      />
+    ),
+    validator: xAxisValidator,
   },
 };
 
