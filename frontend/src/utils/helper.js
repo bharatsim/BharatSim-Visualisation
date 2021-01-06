@@ -21,9 +21,23 @@ function convertFileSizeToMB(fileSize) {
   return `${(fileSize / BYTE_TO_MB_CONVERTOR_UNIT).toFixed(2)}MB`;
 }
 
+function debounce(fn, delay){
+  let timer = null;
+  return (...args) => {
+    const context = this;
+    const later = () => {
+      fn.apply(context, args);
+    };
+    clearTimeout(timer);
+    timer = setTimeout(later, delay);
+  };
+};
+
+
 export {
   updateState,
   convertStringArrayToOptions,
   convertObjectArrayToOptionStructure,
   convertFileSizeToMB,
+  debounce
 };

@@ -4,7 +4,9 @@ import LineChart from '../modules/charts/lineChart/LineChart';
 import { chartConfigOptionTypes } from '../constants/chartConfigOptionTypes';
 import lineChartIcon from '../assets/images/lineChart.svg';
 import barChartIcon from '../assets/images/barChart.svg';
+import heatMapIcon from '../assets/images/heatmap.svg';
 import BarChart from '../modules/charts/barChart/BarChart';
+import HeatMap from '../modules/charts/GeoMap/HeatMap';
 
 const chartConfigs = {
   [chartTypes.LINE_CHART]: {
@@ -20,6 +22,17 @@ const chartConfigs = {
     icon: barChartIcon,
     chart: (chartProps) => <BarChart {...chartProps} />,
     configOptions: [chartConfigOptionTypes.X_AXIS, chartConfigOptionTypes.Y_AXIS],
+  },
+  [chartTypes.HEAT_MAP]: {
+    key: chartTypes.HEAT_MAP,
+    label: 'Heatmap',
+    icon: heatMapIcon,
+    chart: (chartProps) => <HeatMap {...chartProps} />,
+    configOptions: [
+      chartConfigOptionTypes.LATITUDE,
+      chartConfigOptionTypes.LONGITUDE,
+      chartConfigOptionTypes.GEO_METRIC_SERIES,
+    ],
   },
 };
 
