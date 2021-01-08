@@ -150,16 +150,51 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
                   </div>
                 </div>
               </div>
+              <div
+                class="MuiBox-root MuiBox-root-29"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-30"
+                >
+                  <h6
+                    class="MuiTypography-root MuiTypography-subtitle2"
+                  >
+                    Geo Chart
+                  </h6>
+                </div>
+                <div
+                  class="MuiBox-root MuiBox-root-31 makeStyles-chartTypeContainer-9"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-33 makeStyles-buttonContainer-17 makeStyles-buttonContainer-32"
+                    data-testid="heatMap"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-34 makeStyles-imageContainer-18 null"
+                    >
+                      <img
+                        alt="heatMap"
+                        src="heatmap.svg"
+                      />
+                    </div>
+                    <span
+                      class="MuiTypography-root MuiTypography-caption"
+                    >
+                      Heatmap
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-29 makeStyles-footer-10"
+            class="MuiBox-root MuiBox-root-35 makeStyles-footer-10"
           >
             <hr
               class="MuiDivider-root"
             />
             <div
-              class="MuiBox-root MuiBox-root-30"
+              class="MuiBox-root MuiBox-root-36"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall Mui-disabled Mui-disabled"

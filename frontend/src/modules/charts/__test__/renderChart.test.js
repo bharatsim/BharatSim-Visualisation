@@ -20,7 +20,6 @@ describe('Render chart config', () => {
     const chartProps = { config: { dataSource: 'test', xAxis: 'testA', yAxis: 'testB' } };
     const Chart = renderChart(chartType, chartProps);
     const { container } = render(Chart);
-
     expect(container).toMatchSnapshot();
   });
 });
