@@ -21,14 +21,24 @@ function useFrom(defaultValues = {}, validators = {}) {
 
   function shouldEnableSubmit() {
     const keys = Object.keys(validators);
-    return keys.every((key) => validate(key, values[key]) === '');
+    return (
+      keys.every((key) => validate(key, values[key]) === '') &&
+      Object.values(errors).every((error) => error === '')
+    );
   }
 
   function resetValue(key) {
     setValue(key, defaultValues[key]);
   }
 
-  return { values, errors, handleInputChange, shouldEnableSubmit, resetValue };
+  return {
+    values,
+    errors,
+    handleInputChange,
+    shouldEnableSubmit,
+    resetValue,
+    handleError: setError,
+  };
 }
 
 export default useFrom;

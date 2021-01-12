@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => {
       justifyContent: 'space-between',
       alignItems: 'center',
       width: ({ fullWidth }) => (fullWidth ? '100%' : 'unset'),
-      minWidth: theme.spacing(100),
     },
   };
 });
@@ -49,9 +48,11 @@ function ErrorBar({ visible, message, errorAction, fullWidth }) {
         </Typography>
       </Box>
       {errorAction && (
-        <ErrorButton onClick={errorAction.onClick} size="small" variant="text">
-          {errorAction.name}
-        </ErrorButton>
+        <Box ml={7}>
+          <ErrorButton onClick={errorAction.onClick} size="small" variant="text">
+            {errorAction.name}
+          </ErrorButton>
+        </Box>
       )}
     </Box>
   );

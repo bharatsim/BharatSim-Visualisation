@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import XAxisChartConfig from '../XAxisChartConfig';
 import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
+import GeoMetricSeries from '../GeoMetricSeries';
 
-describe('<XAxisChartConfig />', () => {
-  const XAxisChartConfigWithTheme = withThemeProvider(XAxisChartConfig);
+describe('<GeoMetricSeries />', () => {
+  const GeoMetricSeriesConfigWithTheme = withThemeProvider(GeoMetricSeries);
   const props = {
     headers: [
       { name: 'a', type: 'number' },
@@ -14,21 +14,21 @@ describe('<XAxisChartConfig />', () => {
       { name: 'c', type: 'number' },
     ],
     handleConfigChange: jest.fn(),
-    configKey: 'xAxis',
+    configKey: 'geoMetricSeries',
     error: '',
     value: '',
   };
   it('should match snapshot', () => {
-    const { container } = render(<XAxisChartConfigWithTheme {...props} />);
+    const { container } = render(<GeoMetricSeriesConfigWithTheme {...props} />);
 
     expect(container).toMatchSnapshot();
   });
 
   it('should call setConfig callback after value change', () => {
-    const renderedContainer = render(<XAxisChartConfigWithTheme {...props} />);
+    const renderedContainer = render(<GeoMetricSeriesConfigWithTheme {...props} />);
 
-    selectDropDownOption(renderedContainer, 'dropdown-x', 'a');
+    selectDropDownOption(renderedContainer, 'dropdown-geo-metric-series', 'a');
 
-    expect(props.handleConfigChange).toHaveBeenCalledWith('xAxis', 'a');
+    expect(props.handleConfigChange).toHaveBeenCalledWith('geoMetricSeries', 'a');
   });
 });

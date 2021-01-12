@@ -29,8 +29,7 @@ const chartConfigs = {
     icon: heatMapIcon,
     chart: (chartProps) => <HeatMap {...chartProps} />,
     configOptions: [
-      chartConfigOptionTypes.LATITUDE,
-      chartConfigOptionTypes.LONGITUDE,
+      chartConfigOptionTypes.GEO_DIMENSIONS,
       chartConfigOptionTypes.GEO_METRIC_SERIES,
     ],
   },

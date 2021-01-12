@@ -1,6 +1,8 @@
 import {
   chartNameValidator,
   datasourceValidator,
+  geoMetricValidator,
+  requiredValueForDropdown,
   validateFile,
   xAxisValidator,
   yAxisValidator,
@@ -18,6 +20,38 @@ describe('Validators', () => {
 
     it('should provide message if x axis value is undefined', () => {
       expect(xAxisValidator()).toEqual('Please select value for x axis');
+    });
+  });
+
+  describe('dropdown value required', () => {
+    it('should provide message if x axis value is not present', () => {
+      expect(requiredValueForDropdown('')).toEqual(
+        'Please select some value, this is mandatory field',
+      );
+    });
+
+    it('should provide empty message if x axis value is present', () => {
+      expect(requiredValueForDropdown('test')).toEqual('');
+    });
+
+    it('should provide message if x axis value is undefined', () => {
+      expect(requiredValueForDropdown()).toEqual(
+        'Please select some value, this is mandatory field',
+      );
+    });
+  });
+
+  describe('geoMetric Validator', () => {
+    it('should provide message if x axis value is not present', () => {
+      expect(geoMetricValidator('')).toEqual('Please select value for geo metric');
+    });
+
+    it('should provide empty message if x axis value is present', () => {
+      expect(geoMetricValidator('test')).toEqual('');
+    });
+
+    it('should provide message if x axis value is undefined', () => {
+      expect(geoMetricValidator()).toEqual('Please select value for geo metric');
     });
   });
 

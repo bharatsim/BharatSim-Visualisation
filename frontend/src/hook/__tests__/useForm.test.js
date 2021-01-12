@@ -45,20 +45,26 @@ describe('Use form hook', () => {
   });
   describe('shouldEnableSubmit', () => {
     it('should return true if no field has error', () => {
-      act(() => {
-        act(() => renderedHook.current.handleInputChange('age', 70));
-      });
-      act(() => {
-        act(() => renderedHook.current.handleInputChange('name', 'someone'));
-      });
+      act(() => renderedHook.current.handleInputChange('age', 70));
+      act(() => renderedHook.current.handleInputChange('name', 'someone'));
 
       expect(renderedHook.current.shouldEnableSubmit()).toEqual(true);
     });
 
-    it('should return false if any field has error', () => {
+    it('should return false if any field has error while validation check', () => {
+      act(() => renderedHook.current.handleInputChange('age', 79));
+
       act(() => {
-        act(() => renderedHook.current.handleInputChange('age', 79));
+        renderedHook.current.handleInputChange('name', 'vary very long name');
       });
+
+      expect(renderedHook.current.shouldEnableSubmit()).toEqual(false);
+    });
+
+    it('should return false if any field has error', () => {
+      act(() => renderedHook.current.handleInputChange('age', 79));
+      act(() => renderedHook.current.handleError('name', 'error'));
+
       act(() => {
         renderedHook.current.handleInputChange('name', 'vary very long name');
       });

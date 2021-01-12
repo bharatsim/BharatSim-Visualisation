@@ -11,10 +11,11 @@ import LoaderOrError from '../../loaderOrError/LoaderOrError';
 function ConfigSelector({
   dataSourceId,
   chartType,
-  updateConfigState,
+  handleConfigChange,
   errors,
   values,
   resetValue,
+  handleError,
 }) {
   const [fetchedCsvHeaders, setFetchedCsvHeaders] = useState();
 
@@ -45,7 +46,7 @@ function ConfigSelector({
   }
 
   const { headers } = fetchedCsvHeaders || {};
-  const chartConfigProps = { headers, updateConfigState, errors, values };
+  const chartConfigProps = { headers, handleConfigChange, errors, values, handleError };
   const configOptionsKeysForSelectedChart = chartConfigs[chartType].configOptions;
   function isLastConfigOption(configs, index) {
     return configs.length - index === 1;
@@ -82,7 +83,8 @@ function ConfigSelector({
 ConfigSelector.propTypes = {
   dataSourceId: PropTypes.string.isRequired,
   chartType: PropTypes.string.isRequired,
-  updateConfigState: PropTypes.func.isRequired,
+  handleConfigChange: PropTypes.func.isRequired,
+  handleError: PropTypes.func.isRequired,
   resetValue: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
   values: PropTypes.shape({}).isRequired,

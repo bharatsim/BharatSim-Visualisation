@@ -45,7 +45,14 @@ function ChartConfigSelectorStep({ chartType, onApply, backToChartType }) {
   const [selectedTab] = React.useState(0);
   const classes = useStyles();
 
-  const { values, errors, handleInputChange, shouldEnableSubmit, resetValue } = useForm(
+  const {
+    values,
+    errors,
+    handleInputChange,
+    shouldEnableSubmit,
+    resetValue,
+    handleError,
+  } = useForm(
     {
       [CHART_NAME_KEY]: 'Untitled Chart',
     },
@@ -105,7 +112,8 @@ function ChartConfigSelectorStep({ chartType, onApply, backToChartType }) {
               <ConfigSelector
                 dataSourceId={values[DATASOURCE_SELECTOR_KEY]}
                 errors={errors}
-                updateConfigState={handleInputChange}
+                handleConfigChange={handleInputChange}
+                handleError={handleError}
                 chartType={chartType}
                 values={values}
                 resetValue={resetValue}

@@ -20,14 +20,15 @@ jest.mock('../../../../utils/api', () => ({
 describe('<ConfigSelector />', () => {
   const ConfigSelectorWithTheme = withThemeProvider(ConfigSelector);
   it('should match snapshot for configs for line chart', async () => {
-    const updateConfigStateMock = jest.fn();
+    const handleConfigChangeMock = jest.fn();
     const { container, findByText } = render(
       <ConfigSelectorWithTheme
         chartType="lineChart"
         dataSourceId="dataSourceId"
         errors={{}}
-        updateConfigState={updateConfigStateMock}
+        handleConfigChange={handleConfigChangeMock}
         values={{}}
+        handleError={jest.fn()}
         resetValue={jest.fn()}
       />,
     );
@@ -37,13 +38,13 @@ describe('<ConfigSelector />', () => {
   });
 
   it('should update config on change of dropdown', async () => {
-    const updateConfigStateMock = jest.fn();
+    const handleConfigChangeMock = jest.fn();
     const renderedComponent = render(
       <ConfigSelectorWithTheme
         chartType="lineChart"
         dataSourceId="dataSourceId"
         errors={{}}
-        updateConfigState={updateConfigStateMock}
+        handleConfigChange={handleConfigChangeMock}
         values={{}}
         resetValue={jest.fn()}
       />,
@@ -52,17 +53,17 @@ describe('<ConfigSelector />', () => {
 
     selectDropDownOption(renderedComponent, 'dropdown-x', 'column1');
 
-    expect(updateConfigStateMock).toHaveBeenCalledWith('xAxis', 'column1');
+    expect(handleConfigChangeMock).toHaveBeenCalledWith('xAxis', 'column1');
   });
 
   it('should call getCsvHeaders with data source id on render', async () => {
-    const updateConfigStateMock = jest.fn();
+    const handleConfigChangeMock = jest.fn();
     const renderedComponent = render(
       <ConfigSelectorWithTheme
         chartType="lineChart"
         dataSourceId="dataSourceId"
         errors={{}}
-        updateConfigState={updateConfigStateMock}
+        handleConfigChange={handleConfigChangeMock}
         values={{}}
         resetValue={jest.fn()}
       />,
@@ -73,13 +74,13 @@ describe('<ConfigSelector />', () => {
   });
 
   it('should call getCsvHeaders with data source id on rerender for data source id change', async () => {
-    const updateConfigStateMock = jest.fn();
+    const handleConfigChangeMock = jest.fn();
     const { findByText, rerender } = render(
       <ConfigSelectorWithTheme
         chartType="lineChart"
         dataSourceId="dataSourceId"
         errors={{}}
-        updateConfigState={updateConfigStateMock}
+        handleConfigChange={handleConfigChangeMock}
         values={{}}
         resetValue={jest.fn()}
       />,
@@ -92,7 +93,7 @@ describe('<ConfigSelector />', () => {
         chartType="lineChart"
         dataSourceId="dataSourceId2"
         errors={{}}
-        updateConfigState={updateConfigStateMock}
+        handleConfigChange={handleConfigChangeMock}
         values={{}}
         resetValue={jest.fn()}
       />,
@@ -110,7 +111,7 @@ describe('<ConfigSelector />', () => {
         chartType="lineChart"
         dataSourceId="dataSourceId"
         errors={{}}
-        updateConfigState={jest.fn()}
+        handleConfigChange={jest.fn()}
         values={{}}
         resetValue={resetValue}
       />,
@@ -123,7 +124,7 @@ describe('<ConfigSelector />', () => {
         chartType="lineChart"
         dataSourceId="dataSourceId2"
         errors={{}}
-        updateConfigState={jest.fn()}
+        handleConfigChange={jest.fn()}
         values={{}}
         resetValue={resetValue}
       />,
@@ -135,13 +136,13 @@ describe('<ConfigSelector />', () => {
   });
 
   it('should show loader while fetching data', async () => {
-    const updateConfigStateMock = jest.fn();
+    const handleConfigChangeMock = jest.fn();
     const renderedComponent = render(
       <ConfigSelectorWithTheme
         chartType="lineChart"
         dataSourceId="dataSourceId"
         errors={{}}
-        updateConfigState={updateConfigStateMock}
+        handleConfigChange={handleConfigChangeMock}
         values={{}}
         resetValue={jest.fn()}
       />,
@@ -160,7 +161,7 @@ describe('<ConfigSelector />', () => {
         chartType="lineChart"
         dataSourceId="dataSourceId"
         errors={{}}
-        updateConfigState={jest.fn()}
+        handleConfigChange={jest.fn()}
         values={{}}
         resetValue={jest.fn()}
       />,
@@ -178,7 +179,7 @@ describe('<ConfigSelector />', () => {
         chartType="lineChart"
         dataSourceId="dataSourceId"
         errors={{}}
-        updateConfigState={jest.fn()}
+        handleConfigChange={jest.fn()}
         values={{}}
         resetValue={jest.fn()}
       />,

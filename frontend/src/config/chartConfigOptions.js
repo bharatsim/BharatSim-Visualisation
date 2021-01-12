@@ -2,18 +2,17 @@
 import React from 'react';
 import XAxisChartConfig from '../modules/chartConfigOptions/XAxisChartConfig';
 import YAxisChartConfig from '../modules/chartConfigOptions/YAxisChartConfig';
-import { xAxisValidator, yAxisValidator } from '../utils/validators';
+import { geoMetricValidator, xAxisValidator, yAxisValidator } from '../utils/validators';
 import { chartConfigOptionTypes } from '../constants/chartConfigOptionTypes';
-import LongitudeChartConfig from '../modules/chartConfigOptions/LongitudeChartConfig';
-import LatitudeChartConfig from '../modules/chartConfigOptions/LatitudeChartConfig';
 import GeoMetricsSeries from '../modules/chartConfigOptions/GeoMetricSeries';
+import GeoDimensions from '../modules/chartConfigOptions/GeoDimensions';
 
 const chartConfigOptions = {
   [chartConfigOptionTypes.X_AXIS]: {
-    component: ({ headers, updateConfigState, errors, values }) => (
+    component: ({ headers, handleConfigChange, errors, values }) => (
       <XAxisChartConfig
         headers={headers}
-        updateConfigState={updateConfigState}
+        handleConfigChange={handleConfigChange}
         configKey={chartConfigOptionTypes.X_AXIS}
         error={errors[chartConfigOptionTypes.X_AXIS]}
         value={values[chartConfigOptionTypes.X_AXIS]}
@@ -22,10 +21,10 @@ const chartConfigOptions = {
     validator: xAxisValidator,
   },
   [chartConfigOptionTypes.Y_AXIS]: {
-    component: ({ headers, updateConfigState, errors, values }) => (
+    component: ({ headers, handleConfigChange, errors, values }) => (
       <YAxisChartConfig
         headers={headers}
-        updateConfigState={updateConfigState}
+        handleConfigChange={handleConfigChange}
         configKey={chartConfigOptionTypes.Y_AXIS}
         error={errors[chartConfigOptionTypes.Y_AXIS]}
         value={values[chartConfigOptionTypes.Y_AXIS]}
@@ -33,41 +32,31 @@ const chartConfigOptions = {
     ),
     validator: yAxisValidator,
   },
-  [chartConfigOptionTypes.LONGITUDE]: {
-    component: ({ headers, updateConfigState, errors, values }) => (
-      <LongitudeChartConfig
+
+  [chartConfigOptionTypes.GEO_DIMENSIONS]: {
+    component: ({ headers, handleConfigChange, errors, values, handleError }) => (
+      <GeoDimensions
         headers={headers}
-        updateConfigState={updateConfigState}
-        configKey={chartConfigOptionTypes.LONGITUDE}
-        error={errors[chartConfigOptionTypes.LONGITUDE]}
-        value={values[chartConfigOptionTypes.LONGITUDE]}
+        handleConfigChange={handleConfigChange}
+        configKey={chartConfigOptionTypes.GEO_DIMENSIONS}
+        error={errors[chartConfigOptionTypes.GEO_DIMENSIONS]}
+        value={values[chartConfigOptionTypes.GEO_DIMENSIONS]}
+        handleError={handleError}
       />
     ),
-    validator: xAxisValidator,
   },
-  [chartConfigOptionTypes.LATITUDE]: {
-    component: ({ headers, updateConfigState, errors, values }) => (
-      <LatitudeChartConfig
-        headers={headers}
-        updateConfigState={updateConfigState}
-        configKey={chartConfigOptionTypes.LATITUDE}
-        error={errors[chartConfigOptionTypes.LATITUDE]}
-        value={values[chartConfigOptionTypes.LATITUDE]}
-      />
-    ),
-    validator: xAxisValidator,
-  },
+
   [chartConfigOptionTypes.GEO_METRIC_SERIES]: {
-    component: ({ headers, updateConfigState, errors, values }) => (
+    component: ({ headers, handleConfigChange, errors, values }) => (
       <GeoMetricsSeries
         headers={headers}
-        updateConfigState={updateConfigState}
+        handleConfigChange={handleConfigChange}
         configKey={chartConfigOptionTypes.GEO_METRIC_SERIES}
         error={errors[chartConfigOptionTypes.GEO_METRIC_SERIES]}
         value={values[chartConfigOptionTypes.GEO_METRIC_SERIES]}
       />
     ),
-    validator: xAxisValidator,
+    validator: geoMetricValidator,
   },
 };
 

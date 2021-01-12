@@ -9,6 +9,13 @@ function isEmptyArray(value) {
   return Array.isArray(value) && !value.length;
 }
 
+function requiredValueForDropdown(value) {
+  if (isAbsent(value)) {
+    return 'Please select some value, this is mandatory field';
+  }
+  return '';
+}
+
 function areAllFieldsSelected(value) {
   return value.some((ele) => ele === '');
 }
@@ -16,6 +23,13 @@ function areAllFieldsSelected(value) {
 function xAxisValidator(value = '') {
   if (isAbsent(value)) {
     return 'Please select value for x axis';
+  }
+  return '';
+}
+
+function geoMetricValidator(value = '') {
+  if (isAbsent(value)) {
+    return 'Please select value for geo metric';
   }
   return '';
 }
@@ -60,4 +74,12 @@ function validateFile(file) {
   return '';
 }
 
-export { datasourceValidator, xAxisValidator, yAxisValidator, validateFile, chartNameValidator };
+export {
+  requiredValueForDropdown,
+  geoMetricValidator,
+  datasourceValidator,
+  xAxisValidator,
+  yAxisValidator,
+  validateFile,
+  chartNameValidator,
+};

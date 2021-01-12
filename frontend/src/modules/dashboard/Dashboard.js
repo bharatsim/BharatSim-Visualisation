@@ -50,9 +50,7 @@ function Dashboard() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!dashboard) {
-      dispatch(fetchDashboard(dashboardId));
-    }
+    dispatch(fetchDashboard(dashboardId));
   }, []);
 
   function updateDashboard(newDashboard) {

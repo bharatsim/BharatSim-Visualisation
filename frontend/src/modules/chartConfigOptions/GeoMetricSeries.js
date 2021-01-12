@@ -5,28 +5,22 @@ import { Box, fade, makeStyles, Typography } from '@material-ui/core';
 import Dropdown from '../../uiComponent/Dropdown';
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    fieldContainer: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      padding: theme.spacing(2),
-      borderColor: fade(theme.colors.primaryColorScale['500'], 0.24),
-      border: '1px solid',
-      borderRadius: theme.spacing(1),
-      marginBottom: theme.spacing(4),
-      '&:last-child': {
-        marginBottom: 0,
-      },
-    },
-  };
-});
+const useStyles = makeStyles((theme) => ({
+  fieldContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: theme.spacing(2),
+    borderColor: fade(theme.colors.primaryColorScale['500'], 0.24),
+    border: '1px solid',
+    borderRadius: theme.spacing(1),
+  },
+}));
 
-function GeoMetricsSeries({ headers, updateConfigState, configKey, error, value }) {
+function GeoMetricsSeries({ headers, handleConfigChange, configKey, error, value }) {
   const classes = useStyles();
 
   function handleXChange(selectedValue) {
-    updateConfigState(configKey, selectedValue);
+    handleConfigChange(configKey, selectedValue);
   }
 
   return (
@@ -39,7 +33,7 @@ function GeoMetricsSeries({ headers, updateConfigState, configKey, error, value 
           options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
           onChange={handleXChange}
           id="dropdown-geo-metric-series"
-          label="select metric column"
+          label="select metric"
           error={error}
           value={value}
         />
@@ -60,7 +54,7 @@ GeoMetricsSeries.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  updateConfigState: PropTypes.func.isRequired,
+  handleConfigChange: PropTypes.func.isRequired,
   configKey: PropTypes.string.isRequired,
   error: PropTypes.string,
   value: PropTypes.string,

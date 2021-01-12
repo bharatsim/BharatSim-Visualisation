@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GeoMetricSeries /> should match snapshot 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-2"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-3"
+    >
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle2"
+      >
+         Geo Metric Series
+      </h6>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-4 makeStyles-fieldContainer-1"
+    >
+      <div
+        class="MuiFormControl-root makeStyles-formControl-5"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+          data-shrink="false"
+          id="dropdown-label"
+        >
+          select metric
+        </label>
+        <div
+          class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+          data-testid="dropdown-geo-metric-series"
+        >
+          <div
+            aria-haspopup="listbox"
+            aria-labelledby="dropdown-label dropdown-geo-metric-series"
+            class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
+            id="dropdown-geo-metric-series"
+            role="button"
+            tabindex="0"
+          >
+            <span>
+              ​
+            </span>
+          </div>
+          <input
+            aria-hidden="true"
+            class="MuiSelect-nativeInput"
+            tabindex="-1"
+            value=""
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

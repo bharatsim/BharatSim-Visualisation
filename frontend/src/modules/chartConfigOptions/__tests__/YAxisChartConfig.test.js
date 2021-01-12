@@ -13,7 +13,7 @@ describe('<YAxisChartConfig />', () => {
       { name: 'column2', type: 'number' },
       { name: 'column3', type: 'number' },
     ],
-    updateConfigState: jest.fn(),
+    handleConfigChange: jest.fn(),
     configKey: 'yAxis',
     error: '',
   };
@@ -31,7 +31,7 @@ describe('<YAxisChartConfig />', () => {
 
     selectDropDownOption(renderedContainer, 'dropdown-y-0', 'column1');
 
-    expect(props.updateConfigState).toHaveBeenCalledWith('yAxis', [
+    expect(props.handleConfigChange).toHaveBeenCalledWith('yAxis', [
       { name: 'column1', type: 'number' },
     ]);
   });
@@ -45,7 +45,7 @@ describe('<YAxisChartConfig />', () => {
     expect(newField).toBeInTheDocument();
   });
 
-  it('should updateConfigState for multiple y axis fields', () => {
+  it('should handleConfigChange for multiple y axis fields', () => {
     const renderedComponent = render(<YAxisChartConfigWithTheme {...props} />);
     const { getByText } = renderedComponent;
 
@@ -55,14 +55,14 @@ describe('<YAxisChartConfig />', () => {
     fireEvent.click(addFieldButton);
     selectDropDownOption(renderedComponent, 'dropdown-y-1', ['column2']);
 
-    expect(props.updateConfigState).toHaveBeenCalledWith('yAxis', [
+    expect(props.handleConfigChange).toHaveBeenCalledWith('yAxis', [
       { name: 'column1', type: 'number' },
     ]);
-    expect(props.updateConfigState).toHaveBeenCalledWith('yAxis', [
+    expect(props.handleConfigChange).toHaveBeenCalledWith('yAxis', [
       { name: 'column1', type: 'number' },
       { name: 'column2', type: 'number' },
     ]);
-    expect(props.updateConfigState).toHaveBeenCalledTimes(3);
+    expect(props.handleConfigChange).toHaveBeenCalledTimes(3);
   });
 
   it('should delete y axis field on click of delete button', () => {
@@ -91,9 +91,9 @@ describe('<YAxisChartConfig />', () => {
     const deleteButton = getByTestId('delete-button-dropdown-y-1');
     fireEvent.click(deleteButton);
 
-    expect(props.updateConfigState).toHaveBeenLastCalledWith('yAxis', [
+    expect(props.handleConfigChange).toHaveBeenLastCalledWith('yAxis', [
       { name: 'column1', type: 'number' },
     ]);
-    expect(props.updateConfigState).toHaveBeenCalledTimes(4);
+    expect(props.handleConfigChange).toHaveBeenCalledTimes(4);
   });
 });

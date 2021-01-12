@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function XAxisChartConfig({ headers, updateConfigState, configKey, error, value }) {
+function XAxisChartConfig({ headers, handleConfigChange, configKey, error, value }) {
   const classes = useStyles();
   function handleXChange(selectedValue) {
-    updateConfigState(configKey, selectedValue);
+    handleConfigChange(configKey, selectedValue);
   }
 
   return (
@@ -59,7 +59,7 @@ XAxisChartConfig.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  updateConfigState: PropTypes.func.isRequired,
+  handleConfigChange: PropTypes.func.isRequired,
   configKey: PropTypes.string.isRequired,
   error: PropTypes.string,
   value: PropTypes.string,

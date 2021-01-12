@@ -47,13 +47,13 @@ describe('<DatasourceSelector />', () => {
   });
 
   it('should show loader while fetching data', async () => {
-    const updateConfigStateMock = jest.fn();
+    const handleConfigChangeMock = jest.fn();
     const renderedComponent = render(
       <DatasourceSelectorWithProvider
         chartType="lineChart"
         dataSourceId="dataSourceId"
         errors={{}}
-        handleDataSourceChange={updateConfigStateMock}
+        handleDataSourceChange={handleConfigChangeMock}
         values={{}}
       />,
     );
