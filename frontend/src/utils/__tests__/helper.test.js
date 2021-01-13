@@ -2,6 +2,7 @@ import {
   convertObjectArrayToOptionStructure,
   convertStringArrayToOptions,
   debounce,
+  getLatLngCenter,
   transformDataForHeatMap,
   updateState,
 } from '../helper';
@@ -103,6 +104,32 @@ describe('Helpers', () => {
       jest.runAllTimers();
 
       expect(callback).toBeCalledTimes(1);
+    });
+  });
+
+  describe('getLatLang center', () => {
+    it('should give center of lat and lang', () => {
+      const data = [
+        [1.22, 3.44],
+        [4.22, 5.234],
+        [1.45, 2.44],
+      ];
+
+      const actualData = getLatLngCenter(data);
+
+      expect(actualData).toEqual([2.297044263496376, 3.703412118048416]);
+    });
+
+    it('should give center of india if no data is present', () => {
+      const actualData = getLatLngCenter();
+
+      expect(actualData).toEqual([20.59, 78.96]);
+    });
+
+    it('should give center of india if if array is empty', () => {
+      const actualData = getLatLngCenter([]);
+
+      expect(actualData).toEqual([20.59, 78.96]);
     });
   });
 });

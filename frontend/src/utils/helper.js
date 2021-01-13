@@ -1,3 +1,5 @@
+import { INDIA_CENTER } from '../constants/geoMap';
+
 function updateState(prevState, updatedValue) {
   return { ...prevState, ...updatedValue };
 }
@@ -48,6 +50,43 @@ function transformDataForHeatMap(data, latitude, longitude, geoMetricSeries) {
   return transformedData;
 }
 
+function rad2degr(rad) {
+  return (rad * 180) / Math.PI;
+}
+
+function degr2rad(degr) {
+  return (degr * Math.PI) / 180;
+}
+
+function getLatLngCenter(latLngInDegr) {
+  if (!latLngInDegr || latLngInDegr.length === 0) {
+    return INDIA_CENTER;
+  }
+  const LATIDX = 0;
+  const LNGIDX = 1;
+  let sumX = 0;
+  let sumY = 0;
+  let sumZ = 0;
+
+  for (let i = 0; i < latLngInDegr.length; i += 1) {
+    const lat = degr2rad(latLngInDegr[i][LATIDX]);
+    const lng = degr2rad(latLngInDegr[i][LNGIDX]);
+    sumX += Math.cos(lat) * Math.cos(lng);
+    sumY += Math.cos(lat) * Math.sin(lng);
+    sumZ += Math.sin(lat);
+  }
+
+  const avgX = sumX / latLngInDegr.length;
+  const avgY = sumY / latLngInDegr.length;
+  const avgZ = sumZ / latLngInDegr.length;
+
+  const lng = Math.atan2(avgY, avgX);
+  const hyp = Math.sqrt(avgX * avgX + avgY * avgY);
+  const lat = Math.atan2(avgZ, hyp);
+
+  return [rad2degr(lat), rad2degr(lng)];
+}
+
 export {
   updateState,
   transformDataForHeatMap,
@@ -55,4 +94,5 @@ export {
   convertStringArrayToOptions,
   convertObjectArrayToOptionStructure,
   convertFileSizeToMB,
+  getLatLngCenter,
 };

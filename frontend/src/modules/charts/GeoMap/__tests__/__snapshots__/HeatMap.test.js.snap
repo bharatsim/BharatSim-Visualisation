@@ -11,10 +11,11 @@ exports[`HeatMap should create a heatmap component 1`] = `
     >
       MapContainer
       ViewAndZoomLayer
-      {"center":[2,1,2],"zoom":4}
+      {"center":[2.5000950751631947,1.4998094835255649]}
       TileLayer
       HeatMapLayer
       {"points":[[2,1,2],[3,2,3]],"options":{"max":3,"radius":75}}
+      ScaleControl
     </div>
   </div>
 </div>

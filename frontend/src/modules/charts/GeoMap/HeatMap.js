@@ -2,15 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { MapContainer, TileLayer } from 'react-leaflet';
-import HeatMapLayer from '../../../uiComponent/mapLayers/HeatMapLayer';
+import { MapContainer, ScaleControl, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import useLoader from '../../../hook/useLoader';
 import { api } from '../../../utils/api';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
-import { INDIA_CENTER } from '../../../constants/geoMap';
-import { debounce, transformDataForHeatMap } from '../../../utils/helper';
-import ViewAndZoomLayer from '../../../uiComponent/mapLayers/ViewAndZoomLayer';
+import { debounce, getLatLngCenter, transformDataForHeatMap } from '../../../utils/helper';
+import ViewLayer from '../../../uiComponent/mapLayers/ViewLayer';
+import HeatMapLayer from '../../../uiComponent/mapLayers/HeatMapLayer';
 
 const useStyles = makeStyles({
   fullWidthHeight: { height: '100%', width: '100%' },
@@ -46,7 +45,7 @@ function HeatMap({ config }) {
   );
 
   const locationPoints = transformDataForHeatMap(fetchedData, latitude, longitude, geoMetricSeries);
-
+  const center = getLatLngCenter(locationPoints);
   if (map) {
     resize();
   }
@@ -77,11 +76,11 @@ function HeatMap({ config }) {
         <div className={classes.fullWidthHeight} data-testid="map-container">
           <MapContainer
             className={classes.fullWidthHeight}
-            center={locationPoints[0] || INDIA_CENTER}
-            zoom={4}
+            center={center}
+            zoom={8}
             whenCreated={(lMap) => setMap(lMap)}
           >
-            <ViewAndZoomLayer center={locationPoints[0] || INDIA_CENTER} zoom={4} />
+            <ViewLayer center={center} />
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -90,6 +89,7 @@ function HeatMap({ config }) {
               points={locationPoints}
               options={{ max: maxOfGeoMatrixSeries, radius: 75 }}
             />
+            <ScaleControl />
           </MapContainer>
         </div>
       </LoaderOrError>

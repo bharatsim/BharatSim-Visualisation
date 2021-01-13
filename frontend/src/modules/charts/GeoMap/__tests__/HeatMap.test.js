@@ -29,6 +29,7 @@ jest.mock('react-leaflet', () => ({
     );
   },
   TileLayer: () => <>TileLayer</>,
+  ScaleControl: () => <>ScaleControl</>,
 }));
 
 jest.mock('../../../../uiComponent/mapLayers/HeatMapLayer', () => (props) => (
@@ -38,7 +39,7 @@ jest.mock('../../../../uiComponent/mapLayers/HeatMapLayer', () => (props) => (
   </>
 ));
 
-jest.mock('../../../../uiComponent/mapLayers/ViewAndZoomLayer', () => (props) => (
+jest.mock('../../../../uiComponent/mapLayers/ViewLayer', () => (props) => (
   <>
     ViewAndZoomLayer
     {JSON.stringify(props)}
