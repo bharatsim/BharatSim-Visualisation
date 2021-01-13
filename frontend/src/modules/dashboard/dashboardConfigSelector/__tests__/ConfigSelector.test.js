@@ -46,6 +46,7 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         handleConfigChange={handleConfigChangeMock}
         values={{}}
+        handleError={jest.fn()}
         resetValue={jest.fn()}
       />,
     );
@@ -65,6 +66,7 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         handleConfigChange={handleConfigChangeMock}
         values={{}}
+        handleError={jest.fn()}
         resetValue={jest.fn()}
       />,
     );
@@ -82,6 +84,7 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         handleConfigChange={handleConfigChangeMock}
         values={{}}
+        handleError={jest.fn()}
         resetValue={jest.fn()}
       />,
     );
@@ -95,6 +98,7 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         handleConfigChange={handleConfigChangeMock}
         values={{}}
+        handleError={jest.fn()}
         resetValue={jest.fn()}
       />,
     );
@@ -113,6 +117,7 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         handleConfigChange={jest.fn()}
         values={{}}
+        handleError={jest.fn()}
         resetValue={resetValue}
       />,
     );
@@ -126,6 +131,7 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         handleConfigChange={jest.fn()}
         values={{}}
+        handleError={jest.fn()}
         resetValue={resetValue}
       />,
     );
@@ -144,6 +150,7 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         handleConfigChange={handleConfigChangeMock}
         values={{}}
+        handleError={jest.fn()}
         resetValue={jest.fn()}
       />,
     );
@@ -163,6 +170,7 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         handleConfigChange={jest.fn()}
         values={{}}
+        handleError={jest.fn()}
         resetValue={jest.fn()}
       />,
     );
@@ -181,6 +189,7 @@ describe('<ConfigSelector />', () => {
         errors={{}}
         handleConfigChange={jest.fn()}
         values={{}}
+        handleError={jest.fn()}
         resetValue={jest.fn()}
       />,
     );

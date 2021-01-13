@@ -21,8 +21,37 @@ function convertFileSizeToMB(fileSize) {
   return `${(fileSize / BYTE_TO_MB_CONVERTOR_UNIT).toFixed(2)}MB`;
 }
 
+function debounce(fn, delay) {
+  let timer = null;
+  return (...args) => {
+    const context = this;
+    const later = () => {
+      fn.apply(context, args);
+    };
+    clearTimeout(timer);
+    timer = setTimeout(later, delay);
+  };
+}
+
+function transformDataForHeatMap(data, latitude, longitude, geoMetricSeries) {
+  const transformedData = [];
+  if (!data) {
+    return transformedData;
+  }
+  data[latitude].forEach((_, index) => {
+    transformedData.push([
+      data[latitude][index],
+      data[longitude][index],
+      data[geoMetricSeries][index],
+    ]);
+  });
+  return transformedData;
+}
+
 export {
   updateState,
+  transformDataForHeatMap,
+  debounce,
   convertStringArrayToOptions,
   convertObjectArrayToOptionStructure,
   convertFileSizeToMB,

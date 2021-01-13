@@ -16,20 +16,20 @@ jest.mock('../../../../utils/api', () => ({
 
 const mockEffect = useEffect;
 jest.mock('react-leaflet', () => ({
-    MapContainer: ({ children, whenCreated }) => {
-      mockEffect(() => {
-        whenCreated({ invalidateSize: jest.fn() });
-      }, []);
+  MapContainer: ({ children, whenCreated }) => {
+    mockEffect(() => {
+      whenCreated({ invalidateSize: jest.fn() });
+    }, []);
 
-      return (
-        <>
-          MapContainer
-          {children}
-        </>
-      );
-    },
-    TileLayer: () => <>TileLayer</>,
-  }));
+    return (
+      <>
+        MapContainer
+        {children}
+      </>
+    );
+  },
+  TileLayer: () => <>TileLayer</>,
+}));
 
 jest.mock('../../../../uiComponent/mapLayers/HeatMapLayer', () => (props) => (
   <>
@@ -38,7 +38,20 @@ jest.mock('../../../../uiComponent/mapLayers/HeatMapLayer', () => (props) => (
   </>
 ));
 
+jest.mock('../../../../uiComponent/mapLayers/ViewAndZoomLayer', () => (props) => (
+  <>
+    ViewAndZoomLayer
+    {JSON.stringify(props)}
+  </>
+));
+
 describe('HeatMap', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+  beforeEach(() => {
+    jest.runAllTimers();
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });

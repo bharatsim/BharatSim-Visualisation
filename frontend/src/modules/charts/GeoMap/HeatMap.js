@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { makeStyles } from '@material-ui/core/styles';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import HeatMapLayer from '../../../uiComponent/mapLayers/HeatMapLayer';
 import 'leaflet/dist/leaflet.css';
@@ -8,21 +9,12 @@ import useLoader from '../../../hook/useLoader';
 import { api } from '../../../utils/api';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import { INDIA_CENTER } from '../../../constants/geoMap';
+import { debounce, transformDataForHeatMap } from '../../../utils/helper';
+import ViewAndZoomLayer from '../../../uiComponent/mapLayers/ViewAndZoomLayer';
 
-function transformDataForHeatMap(data, latitude, longitude, geoMetricSeries) {
-  const transformedData = [];
-  if (!data) {
-    return transformedData;
-  }
-  data[latitude].forEach((_, index) => {
-    transformedData.push([
-      data[latitude][index],
-      data[longitude][index],
-      data[geoMetricSeries][index],
-    ]);
-  });
-  return transformedData;
-}
+const useStyles = makeStyles({
+  fullWidthHeight: { height: '100%', width: '100%' },
+});
 
 function HeatMap({ config }) {
   const {
@@ -31,6 +23,7 @@ function HeatMap({ config }) {
     geoMetricSeries,
   } = config;
 
+  const classes = useStyles();
   const [map, setMap] = useState();
   const [fetchedData, setFetchedData] = useState();
   const {
@@ -45,7 +38,18 @@ function HeatMap({ config }) {
     fetchData();
   }, []);
 
+  const resize = useCallback(
+    debounce(() => {
+      map.invalidateSize();
+    }, 500),
+    [map],
+  );
+
   const locationPoints = transformDataForHeatMap(fetchedData, latitude, longitude, geoMetricSeries);
+
+  if (map) {
+    resize();
+  }
 
   const maxOfGeoMatrixSeries = fetchedData ? Math.max(...fetchedData[geoMetricSeries]) : 1;
 
@@ -62,25 +66,22 @@ function HeatMap({ config }) {
       });
   }
 
-  if (map) {
-    map.invalidateSize();
-  }
-
   const onErrorAction = {
     name: 'Retry',
     onClick: fetchData,
   };
 
   return (
-    <div style={{ height: `100%`, width: `100%` }}>
+    <div className={classes.fullWidthHeight}>
       <LoaderOrError loadingState={loadingState} message={message} errorAction={onErrorAction}>
-        <div style={{ height: `100%`, width: `100%` }} data-testid="map-container">
+        <div className={classes.fullWidthHeight} data-testid="map-container">
           <MapContainer
-            style={{ height: `100%`, width: `100%` }}
+            className={classes.fullWidthHeight}
             center={locationPoints[0] || INDIA_CENTER}
-            zoom={13}
+            zoom={4}
             whenCreated={(lMap) => setMap(lMap)}
           >
+            <ViewAndZoomLayer center={locationPoints[0] || INDIA_CENTER} zoom={4} />
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

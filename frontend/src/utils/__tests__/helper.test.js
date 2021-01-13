@@ -1,6 +1,8 @@
 import {
   convertObjectArrayToOptionStructure,
   convertStringArrayToOptions,
+  debounce,
+  transformDataForHeatMap,
   updateState,
 } from '../helper';
 
@@ -65,6 +67,42 @@ describe('Helpers', () => {
       const updatedState = convertStringArrayToOptions(arrayObject);
 
       expect(updatedState).toEqual(expectedOptions);
+    });
+  });
+
+  describe('transform Data For HeatMap', () => {
+    it('should transform data to [[lat,lan, intensity]] format', () => {
+      const data = { lat: [1, 2, 3], lan: [4, 5, 6], geoMetric: [2, 3, 5] };
+      const expectedData = [
+        [1, 4, 2],
+        [2, 5, 3],
+        [3, 6, 5],
+      ];
+
+      const actualData = transformDataForHeatMap(data, 'lat', 'lan', 'geoMetric');
+
+      expect(actualData).toEqual(expectedData);
+    });
+  });
+
+  describe('Debouncing', () => {
+    beforeAll(() => {
+      jest.useFakeTimers();
+    });
+    afterEach(() => {
+      jest.clearAllTimers();
+    });
+    it('should call function only one time follow debouncing behavior', () => {
+      const callback = jest.fn();
+      const debounceFunc = debounce(callback, 1000);
+      for (let i = 0; i < 100; i += 1) {
+        debounceFunc();
+      }
+      expect(callback).toBeCalledTimes(0);
+
+      jest.runAllTimers();
+
+      expect(callback).toBeCalledTimes(1);
     });
   });
 });

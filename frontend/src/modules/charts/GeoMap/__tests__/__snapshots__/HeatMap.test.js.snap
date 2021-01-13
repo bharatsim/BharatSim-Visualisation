@@ -3,13 +3,15 @@
 exports[`HeatMap should create a heatmap component 1`] = `
 <div>
   <div
-    style="height: 100%; width: 100%;"
+    class="makeStyles-fullWidthHeight-1"
   >
     <div
+      class="makeStyles-fullWidthHeight-1"
       data-testid="map-container"
-      style="height: 100%; width: 100%;"
     >
       MapContainer
+      ViewAndZoomLayer
+      {"center":[2,1,2],"zoom":4}
       TileLayer
       HeatMapLayer
       {"points":[[2,1,2],[3,2,3]],"options":{"max":3,"radius":75}}
