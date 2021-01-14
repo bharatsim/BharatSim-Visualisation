@@ -150,7 +150,7 @@ describe('<ProjectHomeScreenComponent />', () => {
     await renderComponent.findByText('Project ProjectName is saved');
 
     expect(mockHistoryReplace).toHaveBeenCalledWith({
-      pathname: '/projects/projectId/configure-dataset',
+      pathname: '/projects/projectId/dashboard',
     });
   });
 

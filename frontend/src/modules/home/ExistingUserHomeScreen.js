@@ -33,7 +33,7 @@ function ExistingUserHomeScreen({ recentProjects, setRecentProjects }) {
   }
 
   function openProject(id) {
-    history.push(`/projects/${id}/configure-dataset`);
+    history.push(`/projects/${id}/dashboard`);
   }
 
   function createNewProject() {

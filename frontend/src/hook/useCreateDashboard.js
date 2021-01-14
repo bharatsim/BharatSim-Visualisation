@@ -22,7 +22,7 @@ function useCreateDashboard() {
           variant: SUCCESS,
         });
         addDashboard({ _id: dashboardId, name: dashboardTitle });
-        history.replace({ pathname: `/projects/${savedProjectId}/configure-dataset` });
+        history.replace({ pathname: `/projects/${savedProjectId}/dashboard` });
       })
       .catch(() => {
         showError(errors[errorTypes.DASHBOARD_CREATE_FAILED](dashboardTitle));

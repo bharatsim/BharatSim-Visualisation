@@ -51,7 +51,7 @@ function Dashboard() {
 
   useEffect(() => {
     dispatch(fetchDashboard(dashboardId));
-  }, []);
+  }, [dashboardId]);
 
   function updateDashboard(newDashboard) {
     dispatch(updateDashboardAction(newDashboard));

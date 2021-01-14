@@ -46,7 +46,7 @@ function ProjectLayout({ children }) {
 
   useEffect(() => {
     if (projectId) {
-      history.push(`/projects/${projectId}/configure-dataset`);
+      history.push(`/projects/${projectId}/dashboard`);
     }
   }, [projectId, selectedDashboard]);
 
