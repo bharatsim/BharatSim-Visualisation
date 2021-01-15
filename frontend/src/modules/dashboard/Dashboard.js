@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core';
-
+import { useHistory } from 'react-router-dom';
 import ReactGridLayout, { WidthProvider } from 'react-grid-layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
@@ -15,6 +15,8 @@ import CreateNewChartWidget from './CreateNewChartWidget';
 import { renderWidget } from './renderWidget';
 import DashboardHeader from './DashboardHeader';
 import { fetchDashboard, updateDashboard as updateDashboardAction } from './actions';
+import useFetch from '../../hook/useFetch';
+import { api } from '../../utils/api';
 
 const COLUMNS = 12;
 
@@ -42,12 +44,26 @@ const useStyles = makeStyles((theme) => {
 function Dashboard() {
   const classes = useStyles();
   const { isOpen, closeModal, openModal } = useModal();
-  const { selectedDashboardMetadata } = useContext(projectLayoutContext);
+  const { selectedDashboardMetadata, projectMetadata } = useContext(projectLayoutContext);
   const { name: dashboardName, _id: dashboardId } = selectedDashboardMetadata;
   const dashboard = useSelector((state) => state.dashboards.dashboards[dashboardId]);
   const autoSaveStatus = useSelector((state) => state.dashboards.autoSaveStatus[dashboardId]);
   const { layout = [], charts = [], count: chartsCount = 0 } = dashboard || {};
   const dispatch = useDispatch();
+  const [dataSources, setDataSources] = useState(null);
+  const history = useHistory();
+  const { data: fetchedDataSources } = useFetch(api.getDatasources, [dashboardId], !!dashboardId);
+
+  useEffect(() => {
+    if (fetchedDataSources) {
+      setDataSources(fetchedDataSources.dataSources);
+    }
+  }, [fetchedDataSources]);
+  console.log('rendering', { dataSources });
+
+  if (dataSources && dataSources.length === 0) {
+    history.push(`/projects/${projectMetadata.id}/configure-dataset`);
+  }
 
   useEffect(() => {
     dispatch(fetchDashboard(dashboardId));
@@ -107,7 +123,7 @@ function Dashboard() {
     });
   }
 
-  if (!dashboard) {
+  if (!dashboard || !dataSources) {
     return null;
   }
 

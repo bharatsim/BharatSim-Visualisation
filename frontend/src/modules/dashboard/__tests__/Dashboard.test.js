@@ -191,6 +191,14 @@ describe('<Dashboard />', () => {
 
     expect(mockHistoryPush).toHaveBeenCalledWith('/projects/1/configure-dataset');
   });
+  it('should navigate to configure data on click if no data sources are uploaded', async () => {
+    api.getDatasources.mockResolvedValueOnce({
+      dataSources: [],
+    });
+    const { findByText } = render(<DashboardWithProviders />);
+    await findByText('dashboard1');
+    expect(mockHistoryPush).toHaveBeenCalledWith('/projects/1/configure-dataset');
+  });
 
   it('should delete the widget and autoSave', async () => {
     const renderedComponent = render(<DashboardWithProviders />);
