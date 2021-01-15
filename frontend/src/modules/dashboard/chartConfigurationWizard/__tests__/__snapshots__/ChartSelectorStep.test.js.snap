@@ -3,13 +3,13 @@
 exports[`Chart configuration wizard should match snapshot 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-4"
+    class="MuiBox-root MuiBox-root-3"
   >
     <hr
       class="MuiDivider-root"
     />
     <div
-      class="MuiBox-root MuiBox-root-5"
+      class="MuiBox-root MuiBox-root-4"
     >
       <h6
         class="MuiTypography-root MuiTypography-subtitle1"
@@ -17,13 +17,13 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
         Choose a chart type to start configuring your chart
       </h6>
       <div
-        class="MuiBox-root MuiBox-root-6 makeStyles-chartSelectorContainer-1"
+        class="MuiBox-root MuiBox-root-5 makeStyles-chartSelectorContainer-1"
       >
         <div
-          class="MuiBox-root MuiBox-root-7"
+          class="MuiBox-root MuiBox-root-6"
         >
           <div
-            class="MuiBox-root MuiBox-root-8"
+            class="MuiBox-root MuiBox-root-7"
           >
             <h6
               class="MuiTypography-root MuiTypography-subtitle2"
@@ -32,14 +32,14 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
             </h6>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-9 makeStyles-chartTypeContainer-2"
+            class="MuiBox-root MuiBox-root-8 makeStyles-chartTypeContainer-2"
           >
             <div
-              class="MuiBox-root MuiBox-root-14 makeStyles-buttonContainer-10 makeStyles-buttonContainer-13"
+              class="MuiBox-root MuiBox-root-12 makeStyles-buttonContainer-9"
               data-testid="lineChart"
             >
               <div
-                class="MuiBox-root MuiBox-root-15 makeStyles-imageContainer-11 null"
+                class="MuiBox-root MuiBox-root-13 makeStyles-imageContainer-10"
               >
                 <img
                   alt="lineChart"
@@ -55,10 +55,10 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-16"
+          class="MuiBox-root MuiBox-root-14"
         >
           <div
-            class="MuiBox-root MuiBox-root-17"
+            class="MuiBox-root MuiBox-root-15"
           >
             <h6
               class="MuiTypography-root MuiTypography-subtitle2"
@@ -67,14 +67,14 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
             </h6>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-18 makeStyles-chartTypeContainer-2"
+            class="MuiBox-root MuiBox-root-16 makeStyles-chartTypeContainer-2"
           >
             <div
-              class="MuiBox-root MuiBox-root-20 makeStyles-buttonContainer-10 makeStyles-buttonContainer-19"
+              class="MuiBox-root MuiBox-root-17 makeStyles-buttonContainer-9"
               data-testid="barChart"
             >
               <div
-                class="MuiBox-root MuiBox-root-21 makeStyles-imageContainer-11 null"
+                class="MuiBox-root MuiBox-root-18 makeStyles-imageContainer-10"
               >
                 <img
                   alt="barChart"
@@ -90,10 +90,10 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-22"
+          class="MuiBox-root MuiBox-root-19"
         >
           <div
-            class="MuiBox-root MuiBox-root-23"
+            class="MuiBox-root MuiBox-root-20"
           >
             <h6
               class="MuiTypography-root MuiTypography-subtitle2"
@@ -102,14 +102,14 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
             </h6>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-24 makeStyles-chartTypeContainer-2"
+            class="MuiBox-root MuiBox-root-21 makeStyles-chartTypeContainer-2"
           >
             <div
-              class="MuiBox-root MuiBox-root-26 makeStyles-buttonContainer-10 makeStyles-buttonContainer-25"
+              class="MuiBox-root MuiBox-root-22 makeStyles-buttonContainer-9"
               data-testid="heatMap"
             >
               <div
-                class="MuiBox-root MuiBox-root-27 makeStyles-imageContainer-11 null"
+                class="MuiBox-root MuiBox-root-23 makeStyles-imageContainer-10"
               >
                 <img
                   alt="heatMap"
@@ -124,29 +124,6 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div
-      class="MuiBox-root MuiBox-root-28 makeStyles-footer-3"
-    >
-      <hr
-        class="MuiDivider-root"
-      />
-      <div
-        class="MuiBox-root MuiBox-root-29"
-      >
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall Mui-disabled Mui-disabled"
-          disabled=""
-          tabindex="-1"
-          type="button"
-        >
-          <span
-            class="MuiButton-label"
-          >
-            Next
-          </span>
-        </button>
       </div>
     </div>
   </div>

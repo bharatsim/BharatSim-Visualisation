@@ -1,42 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Image Option should match snapshot for selected state 1`] = `
-<div>
-  <div
-    class="MuiBox-root MuiBox-root-11 makeStyles-buttonContainer-7 makeStyles-buttonContainer-10"
-    data-testid=""
-  >
-    <div
-      class="MuiBox-root MuiBox-root-12 makeStyles-imageContainer-8 makeStyles-selectedImageContainer-9"
-    >
-      <svg
-        aria-hidden="true"
-        class="MuiSvgIcon-root"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"
-        />
-      </svg>
-    </div>
-    <span
-      class="MuiTypography-root MuiTypography-caption"
-    >
-      line chart
-    </span>
-  </div>
-</div>
-`;
-
 exports[`Image Option should match snapshot for unselected state 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-5 makeStyles-buttonContainer-1 makeStyles-buttonContainer-4"
+    class="MuiBox-root MuiBox-root-4 makeStyles-buttonContainer-1"
     data-testid=""
   >
     <div
-      class="MuiBox-root MuiBox-root-6 makeStyles-imageContainer-2 null"
+      class="MuiBox-root MuiBox-root-5 makeStyles-imageContainer-2"
     >
       <svg
         aria-hidden="true"

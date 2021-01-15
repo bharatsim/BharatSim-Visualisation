@@ -69,9 +69,7 @@ describe('<Dashboard />', () => {
     fireEvent.click(addChartButton);
 
     const lineChartOption = getByTestId('lineChart');
-    const nextButton = getByText('Next');
     fireEvent.click(lineChartOption);
-    fireEvent.click(nextButton);
 
     await findByText('Data Source');
     const chartNameInput = getByLabelText('Add chart name');

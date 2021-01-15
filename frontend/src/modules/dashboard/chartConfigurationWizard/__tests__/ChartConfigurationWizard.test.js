@@ -39,10 +39,8 @@ describe('Chart configuration wizard', () => {
     );
 
     const lineChartOption = getByTestId('lineChart');
-    const nextButton = getByText('Next');
-
     fireEvent.click(lineChartOption);
-    fireEvent.click(nextButton);
+
     await findByText('Data Source');
 
     expect(getByText('Data Source')).toBeInTheDocument();
@@ -56,10 +54,8 @@ describe('Chart configuration wizard', () => {
     const { findByText, getByText, getByTestId, getByLabelText } = renderedComponent;
 
     const lineChartOption = getByTestId('lineChart');
-    const nextButton = getByText('Next');
 
     fireEvent.click(lineChartOption);
-    fireEvent.click(nextButton);
     await findByText('Data Source');
 
     const chartNameInput = getByLabelText('Add chart name');
@@ -91,10 +87,8 @@ describe('Chart configuration wizard', () => {
     const { findByText, getByText, getByTestId } = renderedComponent;
 
     const lineChartOption = getByTestId('lineChart');
-    const nextButton = getByText('Next');
 
     fireEvent.click(lineChartOption);
-    fireEvent.click(nextButton);
     await findByText('Data Source');
 
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
@@ -120,10 +114,8 @@ describe('Chart configuration wizard', () => {
     const { findByText, getByText, getByTestId } = renderedComponent;
 
     const lineChartOption = getByTestId('lineChart');
-    const nextButton = getByText('Next');
 
     fireEvent.click(lineChartOption);
-    fireEvent.click(nextButton);
     await findByText('Data Source');
 
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
@@ -142,10 +134,8 @@ describe('Chart configuration wizard', () => {
     const { findByText, getByText, getByTestId } = renderedComponent;
 
     const lineChartOption = getByTestId('lineChart');
-    const nextButton = getByText('Next');
 
     fireEvent.click(lineChartOption);
-    fireEvent.click(nextButton);
     await findByText('Data Source');
 
     const backToChartTypeButton = getByText('Back to chart type').closest('button');

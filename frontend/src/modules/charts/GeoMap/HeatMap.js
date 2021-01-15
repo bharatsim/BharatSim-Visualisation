@@ -87,7 +87,7 @@ function HeatMap({ config }) {
             />
             <HeatMapLayer
               points={locationPoints}
-              options={{ max: maxOfGeoMatrixSeries, radius: 75 }}
+              options={{ max: maxOfGeoMatrixSeries, radius: 25 }}
             />
             <ScaleControl />
           </MapContainer>

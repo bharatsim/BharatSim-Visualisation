@@ -56,14 +56,12 @@ function Dashboard() {
 
   useEffect(() => {
     if (fetchedDataSources) {
+      if (fetchedDataSources.dataSources.length === 0) {
+        history.push(`/projects/${projectMetadata.id}/configure-dataset`);
+      }
       setDataSources(fetchedDataSources.dataSources);
     }
   }, [fetchedDataSources]);
-  console.log('rendering', { dataSources });
-
-  if (dataSources && dataSources.length === 0) {
-    history.push(`/projects/${projectMetadata.id}/configure-dataset`);
-  }
 
   useEffect(() => {
     dispatch(fetchDashboard(dashboardId));
@@ -122,7 +120,6 @@ function Dashboard() {
       count: chartsCount,
     });
   }
-
   if (!dashboard || !dataSources) {
     return null;
   }

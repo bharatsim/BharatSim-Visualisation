@@ -10,9 +10,9 @@ const useStyles = makeStyles((theme) => {
       textAlign: 'center',
       cursor: 'pointer',
       width: theme.spacing(16),
-      color: (isSelected) => {
-        return isSelected ? theme.palette.text.primary : theme.palette.text.secondary;
-      },
+      // color: (isSelected) => {
+      //   return isSelected ? theme.palette.text.primary : theme.palette.text.secondary;
+      // },
     },
     imageContainer: {
       display: 'flex',
@@ -31,20 +31,16 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function ImageOption({ icon, label, isSelected, value, onCLick, dataTestId }) {
-  const classes = useStyles(isSelected);
+function ImageOption({ icon, label, value, onCLick, dataTestId }) {
+  const classes = useStyles();
+
   function onImageOptionClick() {
     onCLick(value);
   }
+
   return (
     <Box className={classes.buttonContainer} onClick={onImageOptionClick} data-testid={dataTestId}>
-      <Box
-        className={`${classes.imageContainer} ${
-          isSelected ? classes.selectedImageContainer : null
-        }`}
-      >
-        {icon}
-      </Box>
+      <Box className={classes.imageContainer}>{icon}</Box>
       <Typography variant="caption">{label}</Typography>
     </Box>
   );
@@ -57,7 +53,6 @@ ImageOption.defaultProps = {
 ImageOption.propTypes = {
   icon: PropTypes.element.isRequired,
   label: PropTypes.string.isRequired,
-  isSelected: PropTypes.bool.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   onCLick: PropTypes.func.isRequired,
   dataTestId: PropTypes.string,

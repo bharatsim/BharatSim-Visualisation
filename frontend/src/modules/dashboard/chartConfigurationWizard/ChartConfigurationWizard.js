@@ -46,9 +46,7 @@ function ChartConfigurationWizard({ isOpen, closeModal, onApply }) {
           activeStep={activeStep}
         />
         <Box>
-          {activeStep === 0 && (
-            <ChartSelectorStep onNext={onClickOfChartSelectorNext} chart={selectedChart} />
-          )}
+          {activeStep === 0 && <ChartSelectorStep onNext={onClickOfChartSelectorNext} />}
           {activeStep === 1 && (
             <ChartConfigSelectorStep
               chartType={selectedChart}
