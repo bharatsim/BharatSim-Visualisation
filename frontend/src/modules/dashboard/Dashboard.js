@@ -15,7 +15,6 @@ import CreateNewChartWidget from './CreateNewChartWidget';
 import { renderWidget } from './renderWidget';
 import DashboardHeader from './DashboardHeader';
 import { fetchDashboard, updateDashboard as updateDashboardAction } from './actions';
-import useFetch from '../../hook/useFetch';
 import { api } from '../../utils/api';
 
 const COLUMNS = 12;
@@ -47,21 +46,27 @@ function Dashboard() {
   const { selectedDashboardMetadata, projectMetadata } = useContext(projectLayoutContext);
   const { name: dashboardName, _id: dashboardId } = selectedDashboardMetadata;
   const dashboard = useSelector((state) => state.dashboards.dashboards[dashboardId]);
+
   const autoSaveStatus = useSelector((state) => state.dashboards.autoSaveStatus[dashboardId]);
   const { layout = [], charts = [], count: chartsCount = 0 } = dashboard || {};
   const dispatch = useDispatch();
   const [dataSources, setDataSources] = useState(null);
   const history = useHistory();
-  const { data: fetchedDataSources } = useFetch(api.getDatasources, [dashboardId], !!dashboardId);
 
-  useEffect(() => {
-    if (fetchedDataSources) {
-      if (fetchedDataSources.dataSources.length === 0) {
+  async function fetchDataSources() {
+    api.getDatasources(dashboardId, false, false).then((resData) => {
+      const { dataSources: fetchedDataSources } = resData;
+      setDataSources(fetchedDataSources);
+      if (fetchedDataSources.length === 0) {
         history.push(`/projects/${projectMetadata.id}/configure-dataset`);
       }
-      setDataSources(fetchedDataSources.dataSources);
-    }
-  }, [fetchedDataSources]);
+    });
+  }
+
+  useEffect(() => {
+    setDataSources(null);
+    fetchDataSources();
+  }, [dashboardId]);
 
   useEffect(() => {
     dispatch(fetchDashboard(dashboardId));
@@ -120,6 +125,7 @@ function Dashboard() {
       count: chartsCount,
     });
   }
+
   if (!dashboard || !dataSources) {
     return null;
   }

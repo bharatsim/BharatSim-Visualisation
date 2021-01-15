@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
 import useConfigureDatasetStyles from './configureDatasetCSS';
 import ProjectHeader from '../../uiComponent/ProjectHeader';
-import useFetch from '../../hook/useFetch';
 import { api } from '../../utils/api';
 import DashboardDataSetsTable from './DashboardDataSetsTable';
 import plusIcon from '../../assets/images/plus.svg';
@@ -23,26 +22,27 @@ function ConfigureDataset() {
     selectedDashboardMetadata: { _id: selectedDashboardId, name: selectedDashboardName },
   } = useContext(projectLayoutContext);
 
-  const { data: fetchedDataSources } = useFetch(
-    api.getDatasources,
-    [selectedDashboardId],
-    !!selectedDashboardId,
-  );
-
-  const uploadFilePage = `/projects/${projectMetadata.id}/upload-dataset`;
+  async function fetchDataSources() {
+    api.getDatasources(selectedDashboardId, false, false).then((resData) => {
+      const { dataSources: fetchedDataSources } = resData;
+      setDataSources(fetchedDataSources);
+    });
+  }
 
   useEffect(() => {
-    if (fetchedDataSources) {
-      setDataSources(fetchedDataSources.dataSources);
-    }
-  }, [fetchedDataSources]);
+    fetchDataSources();
+  }, []);
+
+  const uploadFilePage = `/projects/${projectMetadata.id}/upload-dataset`;
 
   function openUploadDatasets() {
     history.push(uploadFilePage);
   }
+
   if (!dataSources) {
     return null;
   }
+
   function openDashboard() {
     history.push(`/projects/${projectMetadata.id}/dashboard`);
   }
