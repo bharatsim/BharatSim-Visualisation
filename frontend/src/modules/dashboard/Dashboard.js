@@ -153,7 +153,7 @@ function Dashboard() {
             draggableHandle=".dragHandler"
           >
             {charts.map((item) => {
-              return renderWidget(item, onDeleteWidget);
+              return renderWidget(item, onDeleteWidget, dashboardId);
             })}
           </GridLayout>
         )}

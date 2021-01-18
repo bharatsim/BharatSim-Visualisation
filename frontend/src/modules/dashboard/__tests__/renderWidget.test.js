@@ -20,11 +20,15 @@ jest.mock('../../charts/renderChart', () => ({
 describe('Create element', () => {
   it('should provide element with data-grid', () => {
     const Chart = withThemeProvider(() =>
-      renderWidget({
-        layout: { i: 'id-1' },
-        chartType: 'Linechart',
-        config: { chartName: 'title' },
-      }),
+      renderWidget(
+        {
+          layout: { i: 'id-1' },
+          chartType: 'Linechart',
+          config: { chartName: 'title' },
+        },
+        jest.fn(),
+        'dashboardId',
+      ),
     );
 
     const { container } = render(<Chart />);
