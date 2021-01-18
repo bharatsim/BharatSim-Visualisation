@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ColorScale /> should match snapshot 1`] = `
+<div>
+  <div
+    class="makeStyles-legend-1"
+  >
+    <div
+      class="makeStyles-colorScale-2 makeStyles-colorScale-5"
+    />
+    <div
+      class="makeStyles-labelScale-3"
+    >
+      <div
+        class="makeStyles-label-4"
+        style="top: 0%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          0.00
+        </p>
+      </div>
+      <div
+        class="makeStyles-label-4"
+        style="top: 100%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          1.00
+        </p>
+      </div>
+      <div
+        class="makeStyles-label-4"
+        style="top: 40%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          0.40
+        </p>
+      </div>
+      <div
+        class="makeStyles-label-4"
+        style="top: 60%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          0.60
+        </p>
+      </div>
+      <div
+        class="makeStyles-label-4"
+        style="top: 70%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          0.70
+        </p>
+      </div>
+      <div
+        class="makeStyles-label-4"
+        style="top: 80%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          0.80
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<ColorScale /> should match snapshot without 0.0 as scale 1`] = `
+<div>
+  <div
+    class="makeStyles-legend-6"
+  >
+    <div
+      class="makeStyles-colorScale-7 makeStyles-colorScale-10"
+    />
+    <div
+      class="makeStyles-labelScale-8"
+    >
+      <div
+        class="makeStyles-label-9"
+        style="top: 0%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          0.00
+        </p>
+      </div>
+      <div
+        class="makeStyles-label-9"
+        style="top: 100%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          1.00
+        </p>
+      </div>
+      <div
+        class="makeStyles-label-9"
+        style="top: 40%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          0.40
+        </p>
+      </div>
+      <div
+        class="makeStyles-label-9"
+        style="top: 60%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          0.60
+        </p>
+      </div>
+      <div
+        class="makeStyles-label-9"
+        style="top: 70%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          0.70
+        </p>
+      </div>
+      <div
+        class="makeStyles-label-9"
+        style="top: 80%;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          0.80
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

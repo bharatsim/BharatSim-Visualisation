@@ -37,7 +37,6 @@ function DeleteConfirmationModal({ open, handleClose, title, children, deleteAct
       <DialogContent>
         <Box px={2}>{children}</Box>
       </DialogContent>
-
       <DialogActions>
         <ErrorButton data-testid={dataTestId} autoFocus onClick={onDelete} variant="contained">
           {name}

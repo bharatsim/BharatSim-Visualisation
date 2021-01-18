@@ -11,7 +11,7 @@ exports[`<Modal /> should match snapshot 1`] = `
     id="customized-dialog-title"
   >
     <div
-      class="MuiBox-root MuiBox-root-4 Component-titleContainer-3"
+      class="MuiBox-root MuiBox-root-3 Component-titleContainer-2"
     >
       <h5
         class="MuiTypography-root MuiTypography-h5"
@@ -20,7 +20,7 @@ exports[`<Modal /> should match snapshot 1`] = `
       </h5>
       <button
         aria-label="close"
-        class="MuiButtonBase-root MuiIconButton-root Component-closeButton-2"
+        class="MuiButtonBase-root MuiIconButton-root"
         data-testid="button-icon-close"
         tabindex="0"
         type="button"
@@ -46,15 +46,15 @@ exports[`<Modal /> should match snapshot 1`] = `
     </div>
   </div>
   <div
-    class="MuiDialogContent-root WithStyles(ForwardRef(DialogContent))-root-5 MuiDialogContent-dividers"
+    class="MuiDialogContent-root WithStyles(ForwardRef(DialogContent))-root-4 MuiDialogContent-dividers"
   >
     Hello this is modal
   </div>
   <div
-    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-6 MuiDialogActions-spacing"
+    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-5 MuiDialogActions-spacing"
   >
     <div
-      class="MuiBox-root MuiBox-root-8 makeStyles-buttonGroup-7"
+      class="MuiBox-root MuiBox-root-7 makeStyles-buttonGroup-6"
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary Mui-focusVisible Mui-focusVisible"
@@ -92,11 +92,11 @@ exports[`<Modal /> should match snapshot without actions 1`] = `
   role="dialog"
 >
   <div
-    class="MuiDialogTitle-root Component-root-9"
+    class="MuiDialogTitle-root Component-root-8"
     id="customized-dialog-title"
   >
     <div
-      class="MuiBox-root MuiBox-root-12 Component-titleContainer-11"
+      class="MuiBox-root MuiBox-root-10 Component-titleContainer-9"
     >
       <h5
         class="MuiTypography-root MuiTypography-h5"
@@ -105,7 +105,7 @@ exports[`<Modal /> should match snapshot without actions 1`] = `
       </h5>
       <button
         aria-label="close"
-        class="MuiButtonBase-root MuiIconButton-root Component-closeButton-10"
+        class="MuiButtonBase-root MuiIconButton-root"
         data-testid="button-icon-close"
         tabindex="0"
         type="button"
@@ -131,7 +131,7 @@ exports[`<Modal /> should match snapshot without actions 1`] = `
     </div>
   </div>
   <div
-    class="MuiDialogContent-root WithStyles(ForwardRef(DialogContent))-root-13 MuiDialogContent-dividers"
+    class="MuiDialogContent-root WithStyles(ForwardRef(DialogContent))-root-11 MuiDialogContent-dividers"
   >
     Hello this is modal
   </div>

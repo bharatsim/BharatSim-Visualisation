@@ -46,6 +46,13 @@ jest.mock('../../../../uiComponent/mapLayers/ViewLayer', () => (props) => (
   </>
 ));
 
+jest.mock('../../../../uiComponent/mapLayers/ColorScaleLegend', () => (props) => (
+  <>
+    ColorScaleLegend
+    {JSON.stringify(props)}
+  </>
+));
+
 describe('HeatMap', () => {
   beforeAll(() => {
     jest.useFakeTimers();

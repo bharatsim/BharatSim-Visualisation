@@ -8,10 +8,9 @@ function HeatMapLayer({ points, options }) {
   const map = useMap();
   useEffect(() => {
     const heatMap = L.heatLayer(points, options).addTo(map);
-
     return () => map.removeLayer(heatMap);
-  }, []);
-  useEffect(() => {});
+  });
+
   return null;
 }
 

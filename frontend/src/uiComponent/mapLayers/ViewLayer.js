@@ -6,7 +6,7 @@ function ViewLayer({ center }) {
   const map = useMap();
   useEffect(() => {
     map.setView(new L.LatLng(center[0], center[1]));
-  }, [center[0], center[1]]);
+  }, [center[0], center[1], map]);
   return null;
 }
 

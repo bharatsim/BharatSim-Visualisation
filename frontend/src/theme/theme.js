@@ -162,8 +162,8 @@ theme.overrides = {
   },
   MuiIconButton: {
     root: {
-      height: theme.spacing(8),
-      width: theme.spacing(8),
+      height: theme.spacing(6),
+      width: theme.spacing(6),
       color: theme.palette.grey['800'],
     },
   },

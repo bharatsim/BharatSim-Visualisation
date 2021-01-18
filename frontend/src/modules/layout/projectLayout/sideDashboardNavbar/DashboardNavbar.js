@@ -69,7 +69,7 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
 
   return (
     <Box px={2}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" pl={7}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" pl={7} mb={1}>
         <Typography variant="subtitle2">Dashboards </Typography>
         <IconButton onClick={openModal} data-testid="add-dashboard-button">
           <img src={plusIcon} alt="icon" />

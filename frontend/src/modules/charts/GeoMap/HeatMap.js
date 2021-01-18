@@ -10,6 +10,7 @@ import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import { debounce, getLatLngCenter, transformDataForHeatMap } from '../../../utils/helper';
 import ViewLayer from '../../../uiComponent/mapLayers/ViewLayer';
 import HeatMapLayer from '../../../uiComponent/mapLayers/HeatMapLayer';
+import ColorScaleLegend from '../../../uiComponent/mapLayers/ColorScaleLegend';
 
 const useStyles = makeStyles({
   fullWidthHeight: { height: '100%', width: '100%' },
@@ -70,6 +71,14 @@ function HeatMap({ config }) {
     onClick: fetchData,
   };
 
+  const scale = {
+    0.4: 'blue',
+    0.6: 'cyan',
+    0.7: 'lime',
+    0.8: 'yellow',
+    1.0: 'red',
+  };
+
   return (
     <div className={classes.fullWidthHeight}>
       <LoaderOrError loadingState={loadingState} message={message} errorAction={onErrorAction}>
@@ -79,6 +88,7 @@ function HeatMap({ config }) {
             center={center}
             zoom={8}
             whenCreated={(lMap) => setMap(lMap)}
+            preferCanvas
           >
             <ViewLayer center={center} />
             <TileLayer
@@ -87,8 +97,14 @@ function HeatMap({ config }) {
             />
             <HeatMapLayer
               points={locationPoints}
-              options={{ max: maxOfGeoMatrixSeries, radius: 25 }}
+              options={{
+                max: maxOfGeoMatrixSeries,
+                radius: 25,
+                minOpacity: 0.3,
+                gradient: scale,
+              }}
             />
+            <ColorScaleLegend scale={scale} />
             <ScaleControl />
           </MapContainer>
         </div>

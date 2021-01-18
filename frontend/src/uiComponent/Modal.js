@@ -16,13 +16,7 @@ import ButtonGroup from './ButtonGroup';
 const styles = (theme) => ({
   root: {
     margin: 0,
-    padding: theme.spacing(4, 5, 4, 6),
-  },
-  // Todo: remove this stying added at global level
-  closeButton: {
-    height: theme.spacing(8),
-    width: theme.spacing(8),
-    color: theme.palette.grey['800'],
+    padding: theme.spacing(4, 4, 4, 6),
   },
   titleContainer: {
     display: 'flex',
@@ -51,12 +45,7 @@ const DialogTitle = withStyles(styles)((props) => {
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Box className={classes.titleContainer}>
         <Typography variant="h5">{children}</Typography>
-        <IconButton
-          aria-label="close"
-          data-testid="button-icon-close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
+        <IconButton aria-label="close" data-testid="button-icon-close" onClick={onClose}>
           <CloseIcon />
         </IconButton>
       </Box>

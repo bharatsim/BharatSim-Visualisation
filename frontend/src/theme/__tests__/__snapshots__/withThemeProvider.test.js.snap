@@ -187,8 +187,8 @@ exports[`withThemeProvider HOC should match snapshot 1`] = `
     },
     "MuiIconButton": {
       "root": {
-        "height": 32,
-        "width": 32,
+        "height": 24,
+        "width": 24,
         "color": "#343A40"
       }
     }

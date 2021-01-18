@@ -11,7 +11,7 @@ exports[`<DeleteConfirmationModal /> should match snapshot 1`] = `
     id="customized-dialog-title"
   >
     <div
-      class="MuiBox-root MuiBox-root-5 Component-titleContainer-4"
+      class="MuiBox-root MuiBox-root-4 Component-titleContainer-3"
     >
       <h5
         class="MuiTypography-root MuiTypography-h5"
@@ -20,7 +20,7 @@ exports[`<DeleteConfirmationModal /> should match snapshot 1`] = `
       </h5>
       <button
         aria-label="close"
-        class="MuiButtonBase-root MuiIconButton-root Component-closeButton-3"
+        class="MuiButtonBase-root MuiIconButton-root"
         data-testid="button-icon-close"
         tabindex="0"
         type="button"
@@ -46,19 +46,19 @@ exports[`<DeleteConfirmationModal /> should match snapshot 1`] = `
     </div>
   </div>
   <div
-    class="MuiDialogContent-root WithStyles(ForwardRef(DialogContent))-root-6"
+    class="MuiDialogContent-root WithStyles(ForwardRef(DialogContent))-root-5"
   >
     <div
-      class="MuiBox-root MuiBox-root-7"
+      class="MuiBox-root MuiBox-root-6"
     >
       Hello this is modal
     </div>
   </div>
   <div
-    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-8 MuiDialogActions-spacing"
+    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-7 MuiDialogActions-spacing"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-contained-10 Mui-focusVisible Mui-focusVisible"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-contained-9 Mui-focusVisible Mui-focusVisible"
       data-testid="test"
       tabindex="0"
       type="button"
