@@ -86,7 +86,7 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
               >
                 <div
                   class="makeStyles-label-4"
-                  style="top: 0%;"
+                  style="top: calc(100% - 10px);"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2"
@@ -96,7 +96,7 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
                 </div>
                 <div
                   class="makeStyles-label-4"
-                  style="top: 100%;"
+                  style="top: calc(0% - 10px);"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2"
@@ -106,7 +106,7 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
                 </div>
                 <div
                   class="makeStyles-label-4"
-                  style="top: 40%;"
+                  style="top: calc(60% - 10px);"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2"
@@ -116,7 +116,7 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
                 </div>
                 <div
                   class="makeStyles-label-4"
-                  style="top: 60%;"
+                  style="top: calc(40% - 10px);"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2"
@@ -126,7 +126,7 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
                 </div>
                 <div
                   class="makeStyles-label-4"
-                  style="top: 70%;"
+                  style="top: calc(30.000000000000004% - 10px);"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2"
@@ -136,7 +136,7 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
                 </div>
                 <div
                   class="makeStyles-label-4"
-                  style="top: 80%;"
+                  style="top: calc(19.999999999999996% - 10px);"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2"

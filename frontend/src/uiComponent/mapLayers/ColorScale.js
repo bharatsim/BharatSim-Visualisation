@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import { fade, Typography } from '@material-ui/core';
 
+const HALF_OF_SCALE_LABEL_POINT_SIZE = '10px';
 function isZeroPresentAsKey(object) {
   return Object.keys(object).find((key) => Number(key) === 0);
 }
@@ -17,19 +18,19 @@ function getScaleColor(scale) {
 const useStyles = makeStyles((theme) => ({
   legend: {
     height: theme.spacing(25),
-    padding: theme.spacing(1),
-    background: theme.palette.background.default,
+    padding: theme.spacing(2, 1),
+    background: fade(theme.palette.background.default, 0.8),
     borderRadius: theme.spacing(0.5),
     display: 'flex',
   },
   colorScale: {
     width: theme.spacing(2),
     backgroundImage: ({ colors }) => `linear-gradient(to bottom, ${colors})`,
+    transform: 'rotate(180deg)',
   },
   labelScale: {
     marginLeft: theme.spacing(1),
     width: theme.spacing(4),
-    height: `calc(100% - ${theme.spacing(2)}px)`,
     position: 'relative',
   },
   label: {
@@ -47,7 +48,11 @@ function LegendScale({ scale }) {
       <div className={classes.colorScale} />
       <div className={classes.labelScale}>
         {Object.keys(colorScale).map((scalePoint) => (
-          <div key={scalePoint} style={{ top: `${scalePoint * 100}%` }} className={classes.label}>
+          <div
+            key={scalePoint}
+            style={{ top: `calc(${(1 - scalePoint) * 100}% - ${HALF_OF_SCALE_LABEL_POINT_SIZE})` }}
+            className={classes.label}
+          >
             <Typography variant="body2">{Number(scalePoint).toFixed(2)}</Typography>
           </div>
         ))}

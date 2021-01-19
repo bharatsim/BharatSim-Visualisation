@@ -14,9 +14,9 @@ exports[`HeatMap should create a heatmap component 1`] = `
       {"center":[2.5000950751631947,1.4998094835255649]}
       TileLayer
       HeatMapLayer
-      {"points":[[2,1,2],[3,2,3]],"options":{"max":3,"radius":25,"minOpacity":0.3,"gradient":{"1":"red","0.4":"blue","0.6":"cyan","0.7":"lime","0.8":"yellow"}}}
+      {"points":[[2,1,2],[3,2,3]],"options":{"max":3,"radius":25,"minOpacity":0.3,"gradient":{"1":"red","0.2":"blue","0.4":"cyan","0.6":"lime","0.8":"yellow"}}}
       ColorScaleLegend
-      {"scale":{"1":"red","0.4":"blue","0.6":"cyan","0.7":"lime","0.8":"yellow"}}
+      {"scale":{"1":"red","0.2":"blue","0.4":"cyan","0.6":"lime","0.8":"yellow"}}
       ScaleControl
     </div>
   </div>

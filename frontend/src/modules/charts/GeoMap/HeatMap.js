@@ -72,9 +72,9 @@ function HeatMap({ config }) {
   };
 
   const scale = {
-    0.4: 'blue',
-    0.6: 'cyan',
-    0.7: 'lime',
+    0.2: 'blue',
+    0.4: 'cyan',
+    0.6: 'lime',
     0.8: 'yellow',
     1.0: 'red',
   };
