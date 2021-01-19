@@ -18,7 +18,8 @@ exports[`<ColorScale /> should match snapshot 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          0.00
+          0
+          %
         </p>
       </div>
       <div
@@ -28,7 +29,8 @@ exports[`<ColorScale /> should match snapshot 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          1.00
+          100
+          %
         </p>
       </div>
       <div
@@ -38,7 +40,8 @@ exports[`<ColorScale /> should match snapshot 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          0.40
+          40
+          %
         </p>
       </div>
       <div
@@ -48,7 +51,8 @@ exports[`<ColorScale /> should match snapshot 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          0.60
+          60
+          %
         </p>
       </div>
       <div
@@ -58,7 +62,8 @@ exports[`<ColorScale /> should match snapshot 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          0.70
+          70
+          %
         </p>
       </div>
       <div
@@ -68,7 +73,8 @@ exports[`<ColorScale /> should match snapshot 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          0.80
+          80
+          %
         </p>
       </div>
     </div>
@@ -94,7 +100,8 @@ exports[`<ColorScale /> should match snapshot without 0.0 as scale 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          0.00
+          0
+          %
         </p>
       </div>
       <div
@@ -104,7 +111,8 @@ exports[`<ColorScale /> should match snapshot without 0.0 as scale 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          1.00
+          100
+          %
         </p>
       </div>
       <div
@@ -114,7 +122,8 @@ exports[`<ColorScale /> should match snapshot without 0.0 as scale 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          0.40
+          40
+          %
         </p>
       </div>
       <div
@@ -124,7 +133,8 @@ exports[`<ColorScale /> should match snapshot without 0.0 as scale 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          0.60
+          60
+          %
         </p>
       </div>
       <div
@@ -134,7 +144,8 @@ exports[`<ColorScale /> should match snapshot without 0.0 as scale 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          0.70
+          70
+          %
         </p>
       </div>
       <div
@@ -144,7 +155,8 @@ exports[`<ColorScale /> should match snapshot without 0.0 as scale 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2"
         >
-          0.80
+          80
+          %
         </p>
       </div>
     </div>

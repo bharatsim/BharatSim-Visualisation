@@ -53,7 +53,10 @@ function LegendScale({ scale }) {
             style={{ top: `calc(${(1 - scalePoint) * 100}% - ${HALF_OF_SCALE_LABEL_POINT_SIZE})` }}
             className={classes.label}
           >
-            <Typography variant="body2">{Number(scalePoint).toFixed(2)}</Typography>
+            <Typography variant="body2">
+              {Number(scalePoint).toFixed(2) * 100}
+              %
+            </Typography>
           </div>
         ))}
       </div>
