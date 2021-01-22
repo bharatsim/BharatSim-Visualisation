@@ -2,10 +2,17 @@
 import React from 'react';
 import XAxisChartConfig from '../modules/chartConfigOptions/XAxisChartConfig';
 import YAxisChartConfig from '../modules/chartConfigOptions/YAxisChartConfig';
-import { geoMetricValidator, xAxisValidator, yAxisValidator } from '../utils/validators';
+import {
+  geoMetricValidator,
+  requiredValueForDropdown,
+  xAxisValidator,
+  yAxisValidator,
+} from '../utils/validators';
 import { chartConfigOptionTypes } from '../constants/chartConfigOptionTypes';
-import GeoMetricsSeries from '../modules/chartConfigOptions/GeoMetricSeries';
-import GeoDimensions from '../modules/chartConfigOptions/GeoDimensions';
+import GeoMetricsSeries from '../modules/chartConfigOptions/GeoMetricSeriesConfig';
+import GeoDimensionsConfig from '../modules/chartConfigOptions/GeoDimensionsConfig';
+import GISShapeLayerConfig from '../modules/chartConfigOptions/GISShapeLayerConfig';
+import ChartConfigDropdown from '../modules/chartConfigOptions/ChartConfigDropdown';
 
 const chartConfigOptions = {
   [chartConfigOptionTypes.X_AXIS]: {
@@ -35,7 +42,7 @@ const chartConfigOptions = {
 
   [chartConfigOptionTypes.GEO_DIMENSIONS]: {
     component: ({ headers, handleConfigChange, errors, values, handleError }) => (
-      <GeoDimensions
+      <GeoDimensionsConfig
         headers={headers}
         handleConfigChange={handleConfigChange}
         configKey={chartConfigOptionTypes.GEO_DIMENSIONS}
@@ -57,6 +64,47 @@ const chartConfigOptions = {
       />
     ),
     validator: geoMetricValidator,
+  },
+  [chartConfigOptionTypes.GIS_SHAPE_LAYER]: {
+    component: ({ handleConfigChange, errors, values }) => (
+      <GISShapeLayerConfig
+        handleConfigChange={handleConfigChange}
+        configKey={chartConfigOptionTypes.GIS_SHAPE_LAYER}
+        error={errors[chartConfigOptionTypes.GIS_SHAPE_LAYER]}
+        value={values[chartConfigOptionTypes.GIS_SHAPE_LAYER]}
+      />
+    ),
+    validator: requiredValueForDropdown,
+  },
+  [chartConfigOptionTypes.GIS_REGION_ID]: {
+    component: ({ headers, handleConfigChange, errors, values }) => (
+      <ChartConfigDropdown
+        headers={headers}
+        id="gis-region-id"
+        label="select region id"
+        title="GIS Region Id"
+        handleConfigChange={handleConfigChange}
+        configKey={chartConfigOptionTypes.GIS_REGION_ID}
+        error={errors[chartConfigOptionTypes.GIS_REGION_ID]}
+        value={values[chartConfigOptionTypes.GIS_REGION_ID]}
+      />
+    ),
+    validator: requiredValueForDropdown,
+  },
+  [chartConfigOptionTypes.GIS_MEASURE]: {
+    component: ({ headers, handleConfigChange, errors, values }) => (
+      <ChartConfigDropdown
+        headers={headers}
+        id="gis-measure"
+        label="select measure"
+        title="GIS Measure"
+        handleConfigChange={handleConfigChange}
+        configKey={chartConfigOptionTypes.GIS_MEASURE}
+        error={errors[chartConfigOptionTypes.GIS_MEASURE]}
+        value={values[chartConfigOptionTypes.GIS_MEASURE]}
+      />
+    ),
+    validator: requiredValueForDropdown,
   },
 };
 

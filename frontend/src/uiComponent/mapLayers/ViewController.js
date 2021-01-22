@@ -2,7 +2,7 @@ import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { useEffect } from 'react';
 
-function ViewLayer({ center }) {
+function ViewController({ center }) {
   const map = useMap();
   useEffect(() => {
     map.setView(new L.LatLng(center[0], center[1]));
@@ -10,4 +10,4 @@ function ViewLayer({ center }) {
   return null;
 }
 
-export default ViewLayer;
+export default ViewController;

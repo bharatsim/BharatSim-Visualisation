@@ -3,10 +3,10 @@
 exports[`Chart configuration header should match snapshot without chart name 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-3"
+    class="MuiBox-root MuiBox-root-4"
   >
     <div
-      class="MuiBox-root MuiBox-root-4"
+      class="MuiBox-root MuiBox-root-5"
     >
       <h6
         class="MuiTypography-root MuiTypography-h6"

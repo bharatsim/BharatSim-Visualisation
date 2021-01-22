@@ -43,7 +43,7 @@ function getJsonData(datasourceMetadata) {
   const filePath = `${FILE_UPLOAD_PATH}${datasourceMetadata.fileId}`;
   if (fs.existsSync(filePath)) {
     const data = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(data);
+    return { data: JSON.parse(data) };
   }
   throw new DatasourceNotFoundException(datasourceMetadata.fileId);
 }

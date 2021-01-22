@@ -3,10 +3,10 @@ import { render } from '@testing-library/react';
 
 import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import GeoDimensions from '../GeoDimensions';
+import GeoDimensionsConfig from '../GeoDimensionsConfig';
 
-describe('<GeoDimensions />', () => {
-  const GeoDimensionsWithTheme = withThemeProvider(GeoDimensions);
+describe('<GeoDimensionsConfig />', () => {
+  const GeoDimensionsWithTheme = withThemeProvider(GeoDimensionsConfig);
   const props = {
     headers: [
       { name: 'a', type: 'number' },

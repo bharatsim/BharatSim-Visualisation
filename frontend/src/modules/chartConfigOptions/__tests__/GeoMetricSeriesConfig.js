@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 
 import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import GeoMetricSeries from '../GeoMetricSeries';
+import GeoMetricSeries from '../GeoMetricSeriesConfig';
 
 describe('<GeoMetricSeries />', () => {
   const GeoMetricSeriesConfigWithTheme = withThemeProvider(GeoMetricSeries);

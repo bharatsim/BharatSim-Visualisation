@@ -122,6 +122,24 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
                 Heatmap
               </span>
             </div>
+            <div
+              class="MuiBox-root MuiBox-root-24 makeStyles-buttonContainer-9"
+              data-testid="choroplethMap"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-25 makeStyles-imageContainer-10"
+              >
+                <img
+                  alt="choroplethMap"
+                  src="heatmap.svg"
+                />
+              </div>
+              <span
+                class="MuiTypography-root MuiTypography-caption"
+              >
+                Choropleth
+              </span>
+            </div>
           </div>
         </div>
       </div>

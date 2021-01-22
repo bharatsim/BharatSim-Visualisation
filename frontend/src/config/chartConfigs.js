@@ -7,6 +7,7 @@ import barChartIcon from '../assets/images/barChart.svg';
 import heatMapIcon from '../assets/images/heatmap.svg';
 import BarChart from '../modules/charts/barChart/BarChart';
 import HeatMap from '../modules/charts/GeoMap/HeatMap';
+import Choropleth from '../modules/charts/GeoMap/Choropleth';
 
 const chartConfigs = {
   [chartTypes.LINE_CHART]: {
@@ -31,6 +32,17 @@ const chartConfigs = {
     configOptions: [
       chartConfigOptionTypes.GEO_DIMENSIONS,
       chartConfigOptionTypes.GEO_METRIC_SERIES,
+    ],
+  },
+  [chartTypes.CHOROPLETH_MAP]: {
+    key: chartTypes.CHOROPLETH_MAP,
+    label: 'Choropleth',
+    icon: heatMapIcon,
+    chart: (chartProps) => <Choropleth {...chartProps} />,
+    configOptions: [
+      chartConfigOptionTypes.GIS_SHAPE_LAYER,
+      chartConfigOptionTypes.GIS_REGION_ID,
+      chartConfigOptionTypes.GIS_MEASURE,
     ],
   },
 };

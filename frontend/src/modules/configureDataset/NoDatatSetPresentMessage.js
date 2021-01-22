@@ -6,13 +6,13 @@ import { Link as RouterLink } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import useConfigureDatasetStyles from './configureDatasetCSS';
 
-function NoDataSetPresentMessage({ projectMetadataId }) {
+function NoDataSetPresentMessage({ projectMetadataId, message }) {
   const classes = useConfigureDatasetStyles();
   const uploadFilePage = `/projects/${projectMetadataId}/upload-dataset`;
   return (
     <Box className={classes.noDataSourcesMessage}>
       <Typography variant="subtitle2" color="textPrimary">
-        Before we can create any visualization, we ‘ll need some data.
+        {message}
       </Typography>
       <Typography variant="body2">
         Use
@@ -28,9 +28,13 @@ function NoDataSetPresentMessage({ projectMetadataId }) {
     </Box>
   );
 }
+NoDataSetPresentMessage.defaultProps = {
+  message: 'Before we can create any visualization, we ‘ll need some data.',
+};
 
 NoDataSetPresentMessage.propTypes = {
   projectMetadataId: PropTypes.string.isRequired,
+  message: PropTypes.string,
 };
 
 export default NoDataSetPresentMessage;

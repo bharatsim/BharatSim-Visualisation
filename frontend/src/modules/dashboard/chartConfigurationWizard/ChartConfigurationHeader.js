@@ -7,23 +7,28 @@ import Box from '@material-ui/core/Box';
 import { Close } from '@material-ui/icons';
 import chartConfigs from '../../../config/chartConfigs';
 
-const useStyles = makeStyles((theme) => ({
-  imageContainer: {
-    height: theme.spacing(8),
-    width: theme.spacing(8),
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: theme.colors.primaryColorScale['50'],
-    borderColor: theme.palette.grey['100'],
-    border: '1px solid',
-    marginRight: theme.spacing(3),
-    borderRadius: theme.spacing(1),
-  },
-  image: {
-    width: theme.spacing(6),
-  },
-}));
+const useStyles = makeStyles((theme) => {
+  return {
+    imageContainer: {
+      height: theme.spacing(8),
+      width: theme.spacing(8),
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: theme.colors.primaryColorScale['50'],
+      borderColor: theme.palette.grey['100'],
+      border: '1px solid',
+      marginRight: theme.spacing(3),
+      borderRadius: theme.spacing(1),
+    },
+    image: {
+      width: theme.spacing(6),
+    },
+    chartName: {
+      color: theme.palette.text.secondary,
+    },
+  };
+});
 
 function ChartConfigurationHeader({ closeModal, chart, activeStep }) {
   const classes = useStyles();
@@ -36,7 +41,7 @@ function ChartConfigurationHeader({ closeModal, chart, activeStep }) {
             <Box className={classes.imageContainer}>
               <img src={chartConfigs[chart].icon} alt={chart} className={classes.image} />
             </Box>
-            <Typography variant="body2" color="secondary">
+            <Typography variant="body2" classes={{ root: classes.chartName }}>
               {chartConfigs[chart].label}
             </Typography>
           </Box>

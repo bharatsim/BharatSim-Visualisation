@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,10 +7,12 @@ import 'leaflet/dist/leaflet.css';
 import useLoader from '../../../hook/useLoader';
 import { api } from '../../../utils/api';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
-import { debounce, getLatLngCenter, transformDataForHeatMap } from '../../../utils/helper';
-import ViewLayer from '../../../uiComponent/mapLayers/ViewLayer';
+import { getLatLngCenter, transformDataForHeatMap } from '../../../utils/helper';
+import ViewController from '../../../uiComponent/mapLayers/ViewController';
 import HeatMapLayer from '../../../uiComponent/mapLayers/HeatMapLayer';
 import ColorScaleLegend from '../../../uiComponent/mapLayers/ColorScaleLegend';
+import ResizeController from '../../../uiComponent/mapLayers/ResizeController';
+import { scale } from '../../../constants/colorScale';
 
 const useStyles = makeStyles({
   fullWidthHeight: { height: '100%', width: '100%' },
@@ -24,7 +26,6 @@ function HeatMap({ config }) {
   } = config;
 
   const classes = useStyles();
-  const [map, setMap] = useState();
   const [fetchedData, setFetchedData] = useState();
   const {
     loadingState,
@@ -38,18 +39,8 @@ function HeatMap({ config }) {
     fetchData();
   }, []);
 
-  const resize = useCallback(
-    debounce(() => {
-      map.invalidateSize();
-    }, 500),
-    [map],
-  );
-
   const locationPoints = transformDataForHeatMap(fetchedData, latitude, longitude, geoMetricSeries);
   const center = getLatLngCenter(locationPoints);
-  if (map) {
-    resize();
-  }
 
   const maxOfGeoMatrixSeries = fetchedData ? Math.max(...fetchedData[geoMetricSeries]) : 1;
 
@@ -71,26 +62,11 @@ function HeatMap({ config }) {
     onClick: fetchData,
   };
 
-  const scale = {
-    0.2: 'blue',
-    0.4: 'cyan',
-    0.6: 'lime',
-    0.8: 'yellow',
-    1.0: 'red',
-  };
-
   return (
     <div className={classes.fullWidthHeight}>
       <LoaderOrError loadingState={loadingState} message={message} errorAction={onErrorAction}>
         <div className={classes.fullWidthHeight} data-testid="map-container">
-          <MapContainer
-            className={classes.fullWidthHeight}
-            center={center}
-            zoom={8}
-            whenCreated={(lMap) => setMap(lMap)}
-            preferCanvas
-          >
-            <ViewLayer center={center} />
+          <MapContainer className={classes.fullWidthHeight} center={center} zoom={8} preferCanvas>
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -105,6 +81,8 @@ function HeatMap({ config }) {
               }}
             />
             <ColorScaleLegend scale={scale} />
+            <ResizeController />
+            <ViewController center={center} />
             <ScaleControl />
           </MapContainer>
         </div>

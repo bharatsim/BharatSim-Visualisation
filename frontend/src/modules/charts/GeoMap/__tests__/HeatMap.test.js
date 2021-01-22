@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import { render } from '@testing-library/react';
 import HeatMap from '../HeatMap';
@@ -14,20 +14,13 @@ jest.mock('../../../../utils/api', () => ({
   },
 }));
 
-const mockEffect = useEffect;
 jest.mock('react-leaflet', () => ({
-  MapContainer: ({ children, whenCreated }) => {
-    mockEffect(() => {
-      whenCreated({ invalidateSize: jest.fn() });
-    }, []);
-
-    return (
-      <>
-        MapContainer
-        {children}
-      </>
-    );
-  },
+  MapContainer: ({ children }) => (
+    <>
+      MapContainer
+      {children}
+    </>
+  ),
   TileLayer: () => <>TileLayer</>,
   ScaleControl: () => <>ScaleControl</>,
 }));
@@ -39,7 +32,7 @@ jest.mock('../../../../uiComponent/mapLayers/HeatMapLayer', () => (props) => (
   </>
 ));
 
-jest.mock('../../../../uiComponent/mapLayers/ViewLayer', () => (props) => (
+jest.mock('../../../../uiComponent/mapLayers/ViewController', () => (props) => (
   <>
     ViewAndZoomLayer
     {JSON.stringify(props)}
@@ -49,6 +42,13 @@ jest.mock('../../../../uiComponent/mapLayers/ViewLayer', () => (props) => (
 jest.mock('../../../../uiComponent/mapLayers/ColorScaleLegend', () => (props) => (
   <>
     ColorScaleLegend
+    {JSON.stringify(props)}
+  </>
+));
+
+jest.mock('../../../../uiComponent/mapLayers/ResizeController', () => (props) => (
+  <>
+    Resize controller
     {JSON.stringify(props)}
   </>
 ));

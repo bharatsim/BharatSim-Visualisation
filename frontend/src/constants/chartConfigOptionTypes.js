@@ -3,4 +3,7 @@ export const chartConfigOptionTypes = {
   Y_AXIS: 'yAxis',
   GEO_METRIC_SERIES: 'geoMetricSeries',
   GEO_DIMENSIONS: 'geoDimensions',
+  GIS_SHAPE_LAYER: 'gisShapeLayer',
+  GIS_REGION_ID: 'gisRegionId',
+  GIS_MEASURE: 'gisMeasure',
 };

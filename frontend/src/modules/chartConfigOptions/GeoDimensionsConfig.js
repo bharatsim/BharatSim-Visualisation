@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function GeoDimensions({ headers, handleConfigChange, configKey, value, handleError }) {
+function GeoDimensionsConfig({ headers, handleConfigChange, configKey, value, handleError }) {
   const classes = useStyles();
   const [validationError, setValidationError] = useState({});
 
@@ -85,11 +85,11 @@ function GeoDimensions({ headers, handleConfigChange, configKey, value, handleEr
   );
 }
 
-GeoDimensions.defaultProps = {
+GeoDimensionsConfig.defaultProps = {
   value: { [geoDimensionsField.LAT]: '', [geoDimensionsField.LON]: '' },
 };
 
-GeoDimensions.propTypes = {
+GeoDimensionsConfig.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -105,4 +105,4 @@ GeoDimensions.propTypes = {
   }),
 };
 
-export default GeoDimensions;
+export default GeoDimensionsConfig;

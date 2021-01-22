@@ -74,7 +74,7 @@ describe('dataSourceService', () => {
     });
     const dataSourceID = 'model';
     const data = await dataSourceService.getData(dataSourceID);
-    expect(data).toEqual([{ hour: 1 }, { hour: 2 }, { hour: 3 }]);
+    expect(data).toEqual({ data: [{ hour: 1 }, { hour: 2 }, { hour: 3 }] });
   });
   it('should throw exception for datasource not found if file is present', async () => {
     fs.existsSync.mockReturnValueOnce(false);
