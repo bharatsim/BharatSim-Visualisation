@@ -65,7 +65,7 @@ function validateFile(file) {
   if (!file) {
     return 'Please upload valid file';
   }
-  if (!VALID_FILE_EXTENSIONS.includes(getFileExtension(file))) {
+  if (!VALID_FILE_EXTENSIONS.includes(getFileExtension(file)) || file.name.indexOf('.') === -1) {
     return 'Failed to Import file, the format is not supported';
   }
   if (file.size > MAX_FILE_SIZE) {

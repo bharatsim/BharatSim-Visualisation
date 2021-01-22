@@ -259,7 +259,7 @@ describe('Import Dataset', () => {
     const inputComponent = getByTestId('file-input');
 
     fireEvent.change(inputComponent, {
-      target: { files: [{ name: 'csv', size: '120843092842123', type: 'text/badtype' }] },
+      target: { files: [{ name: 'file.txt', size: '120843092842123' }] },
     });
 
     expect(queryByText('Failed to Import file, the format is not supported')).toBeInTheDocument();

@@ -55,7 +55,8 @@ function createColumnForMTable(schema) {
 }
 
 function getFileExtension(file) {
-  return file.name.split('.')[1];
+  const splitText = file.name.split('.');
+  return splitText[splitText.length - 1];
 }
 
 export {
