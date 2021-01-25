@@ -24,8 +24,14 @@ function GeoDimensionsConfig({ headers, handleConfigChange, configKey, value, ha
   const [validationError, setValidationError] = useState({});
 
   useEffect(() => {
-    setErrorForValidationErrors();
+    if (hasEmptyValues()) {
+      setErrorForValidationErrors();
+    }
   }, [validationError]);
+
+  function hasEmptyValues() {
+    return value[geoDimensionsField.LAT] === '' || value[geoDimensionsField.LON] === '';
+  }
 
   function setErrorForValidationErrors() {
     const isValidationError = Object.values(geoDimensionsField).some(

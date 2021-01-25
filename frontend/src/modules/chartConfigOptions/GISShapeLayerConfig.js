@@ -12,7 +12,7 @@ import NoDataSetPresentMessage from '../configureDataset/NoDatatSetPresentMessag
 
 const GISShapeLayerFileTypes = ['geojson', 'topojson', 'json'];
 
-function GISShapeLayerConfig({ handleConfigChange, configKey, error, value }) {
+function GISShapeLayerConfig({ handleConfigChange, configKey, error, value, isEditMode }) {
   const { selectedDashboardMetadata, projectMetadata } = useContext(projectLayoutContext);
   const { _id: selectedDashboardId } = selectedDashboardMetadata;
   const {
@@ -78,6 +78,7 @@ function GISShapeLayerConfig({ handleConfigChange, configKey, error, value }) {
               label="select GIS shape Layer"
               error={error}
               value={value}
+              disabled={isEditMode}
             />
           </>
         ) : (
@@ -96,6 +97,7 @@ function GISShapeLayerConfig({ handleConfigChange, configKey, error, value }) {
 GISShapeLayerConfig.defaultProps = {
   error: '',
   value: '',
+  isEditMode: false
 };
 
 GISShapeLayerConfig.propTypes = {
@@ -103,6 +105,7 @@ GISShapeLayerConfig.propTypes = {
   error: PropTypes.string,
   value: PropTypes.string,
   configKey: PropTypes.string.isRequired,
+  isEditMode: PropTypes.bool,
 };
 
 export default GISShapeLayerConfig;

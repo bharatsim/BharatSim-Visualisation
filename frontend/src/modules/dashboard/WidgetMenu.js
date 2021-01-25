@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { IconButton, Typography, useTheme } from '@material-ui/core';
-import { DeleteOutline, MoreVert } from '@material-ui/icons';
+import { DeleteOutline, MoreVert, EditOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteConfirmationModal from '../../uiComponent/DeleteConfirmationModal';
 import useModal from '../../hook/useModal';
@@ -14,7 +14,7 @@ const iconStyles = makeStyles((theme) => ({
     width: theme.spacing(5),
   },
 }));
-export default function WidgetMenu({ onDelete }) {
+export default function WidgetMenu({ onDelete, onEdit }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const theme = useTheme();
   const iconClasses = iconStyles();
@@ -31,9 +31,11 @@ export default function WidgetMenu({ onDelete }) {
     setAnchorEl(null);
   };
 
-  function onOpenDeleteModal() {
-    closeMenu();
-    openDeleteModal();
+  function onMenuClick(handler){
+   return () => {
+     closeMenu();
+     handler()
+   }
   }
 
   function handleDelete() {
@@ -51,11 +53,19 @@ export default function WidgetMenu({ onDelete }) {
         closeMenu={closeMenu}
         menuItems={[
           {
+            label: 'Configure Chart',
+            dataTestId: 'EditChart',
+            onClick: onMenuClick(onEdit),
+            icon: <EditOutlined />,
+          },
+          {
             label: 'Delete Chart',
             dataTestId: 'DeleteChart',
-            onClick: onOpenDeleteModal,
+            onClick: onMenuClick(openDeleteModal),
             icon: <DeleteOutline />,
+            withDivider: true
           },
+
         ]}
       />
       {isDeleteModalOpen && (
@@ -80,5 +90,6 @@ export default function WidgetMenu({ onDelete }) {
 }
 
 WidgetMenu.propTypes = {
+  onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };

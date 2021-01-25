@@ -61,3 +61,63 @@ exports[`<GISShapeLayerConfig /> should match snapshot for GIS Shape Layer selec
   </div>
 </div>
 `;
+
+exports[`<GISShapeLayerConfig /> should match snapshot for GIS Shape Layer selector in editMode 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-19"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-20"
+    >
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle2"
+      >
+        GIS Shape Layer
+      </h6>
+    </div>
+    <div
+      class="MuiFormControl-root makeStyles-formControl-28"
+    >
+      <label
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-filled"
+        data-shrink="true"
+        id="dropdown-label"
+      >
+        select GIS shape Layer
+      </label>
+      <div
+        class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline Mui-disabled Mui-disabled MuiInputBase-formControl"
+        data-testid="dropdown-gis-shape-layer"
+      >
+        <div
+          aria-disabled="true"
+          aria-haspopup="listbox"
+          aria-labelledby="dropdown-label dropdown-gis-shape-layer"
+          class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input Mui-disabled Mui-disabled Mui-disabled"
+          id="dropdown-gis-shape-layer"
+          role="button"
+        >
+          datasource2
+        </div>
+        <input
+          aria-hidden="true"
+          class="MuiSelect-nativeInput"
+          tabindex="-1"
+          value="id2"
+        />
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled Mui-disabled"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7 10l5 5 5-5z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -6,9 +6,9 @@ import withThemeProvider from '../../../theme/withThemeProvider';
 describe('<widgetMenu>', () => {
   it('should render all the menu', () => {
     const MenuWithProviders = withThemeProvider(WidgetMenu);
-    const { container, getByTestId } = render(<MenuWithProviders onDelete={() => {}} />);
+    const { getByTestId } = render(<MenuWithProviders onDelete={() => {}} onEdit={() => {}} />);
     fireEvent.click(getByTestId('widget-menu'));
 
-    expect(container).toMatchSnapshot();
+    expect(document.body).toMatchSnapshot();
   });
 });

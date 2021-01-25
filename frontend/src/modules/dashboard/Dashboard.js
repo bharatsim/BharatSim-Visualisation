@@ -51,6 +51,7 @@ function Dashboard() {
   const { layout = [], charts = [], count: chartsCount = 0 } = dashboard || {};
   const dispatch = useDispatch();
   const [dataSources, setDataSources] = useState(null);
+  const [chartToEdit, setChartToEdit] = useState(null);
   const history = useHistory();
 
   async function fetchDataSources() {
@@ -76,8 +77,9 @@ function Dashboard() {
     dispatch(updateDashboardAction(newDashboard));
   }
 
-  function onApply(chartType, config) {
-    const newCharts = addChart(chartType, config);
+
+  function onApply(chartId, chartType, config) {
+    const newCharts = chartId ? updateChart(chartId,chartType, config): addChart(chartType, config);
     updateDashboard({
       charts: newCharts,
       layout,
@@ -85,6 +87,11 @@ function Dashboard() {
       name: dashboardName,
       count: chartsCount + 1,
     });
+    onCloseModal()
+  }
+
+  function onCloseModal (){
+    setChartToEdit(null)
     closeModal();
   }
 
@@ -94,6 +101,13 @@ function Dashboard() {
       chartType,
       layout: getNewWidgetLayout(charts.length, COLUMNS, chartsCount),
     });
+  }
+
+  function updateChart(chartId, chartType, config) {
+    const existingChart =  charts.find((c)=>c.layout.i === chartId);
+    const restCharts =  charts.filter((c)=>c.layout.i !== chartId);
+    const updatedChart = {...existingChart, chartType, config}
+    return restCharts.concat(updatedChart)
   }
 
   function onLayoutChange(changedLayout) {
@@ -114,6 +128,12 @@ function Dashboard() {
       name: dashboardName,
       count: chartsCount,
     });
+  }
+
+  function onEditWidget(id) {
+    const chart = charts.find((c)=> c.layout.i === id)
+    setChartToEdit(chart)
+    openModal()
   }
 
   function retrySave() {
@@ -153,13 +173,13 @@ function Dashboard() {
             draggableHandle=".dragHandler"
           >
             {charts.map((item) => {
-              return renderWidget(item, onDeleteWidget, dashboardId);
+              return renderWidget(item, dashboardId, onDeleteWidget, onEditWidget);
             })}
           </GridLayout>
         )}
       </Box>
       {isOpen && (
-        <ChartConfigurationWizard isOpen={isOpen} closeModal={closeModal} onApply={onApply} />
+        <ChartConfigurationWizard chart={chartToEdit} isOpen={isOpen} closeModal={onCloseModal} onApply={onApply} />
       )}
     </Box>
   );

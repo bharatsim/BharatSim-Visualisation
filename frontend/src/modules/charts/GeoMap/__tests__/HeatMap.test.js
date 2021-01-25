@@ -1,9 +1,9 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/dom';
-import { render } from '@testing-library/react';
+import {fireEvent} from '@testing-library/dom';
+import {render} from '@testing-library/react';
 import HeatMap from '../HeatMap';
 import 'leaflet/dist/leaflet.css';
-import { api } from '../../../../utils/api';
+import {api} from '../../../../utils/api';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 
 jest.mock('../../../../utils/api', () => ({
@@ -98,6 +98,38 @@ describe('HeatMap', () => {
 
     expect(getByText('Unable to fetch data')).toBeInTheDocument();
   });
+
+    it('should fetch data when rerenderd with different values ', () => {
+        const config = {
+            dataSource: 'test.csv',
+            geoDimensions: {latitude: 'lat', longitude: 'long'},
+            geoMetricSeries: 'dataPoints'
+        };
+        const configWithNewLat = {...config, geoDimensions: {latitude: 'newLat', longitude: 'long'}};
+        const configWithNewLong = {...config, geoDimensions: {latitude: 'lat', longitude: 'newLong'}};
+        const configWithNewSeries = {...config, geoMetricSeries: 'newDataPoint'};
+
+        [configWithNewLat, configWithNewLong, configWithNewSeries].forEach((updateConfig) => {
+            jest.clearAllMocks();
+
+            const {rerender} = render(
+              <HeatMapWithProvider
+                config={config}
+              />,
+            );
+            expect(api.getData).toHaveBeenLastCalledWith('test.csv', ['lat', 'long', 'dataPoints']);
+
+            rerender(<HeatMapWithProvider
+              config={updateConfig}
+            />)
+
+
+            const {latitude, longitude} = updateConfig.geoDimensions
+            expect(api.getData).toHaveBeenLastCalledWith('test.csv', [latitude, longitude, updateConfig.geoMetricSeries]);
+
+        })
+
+    });
 
   it('should call fetch data on click of retry button', async () => {
     api.getData.mockRejectedValueOnce('error');

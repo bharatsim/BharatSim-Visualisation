@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { fireEvent } from '@testing-library/dom';
+import {fireEvent, within} from '@testing-library/dom';
 import { selectDropDownOption } from '../../../testUtil';
 import YAxisChartConfig from '../YAxisChartConfig';
 import withThemeProvider from '../../../theme/withThemeProvider';
@@ -34,6 +34,36 @@ describe('<YAxisChartConfig />', () => {
     expect(props.handleConfigChange).toHaveBeenCalledWith('yAxis', [
       { name: 'column1', type: 'number' },
     ]);
+  });
+
+  it('should prefill existing value when value are passed in props', () => {
+    const existingValue = {name: 'column1', type: 'number'}
+
+    const {getByTestId} = render(<YAxisChartConfigWithTheme {...props} value={[existingValue]} />);
+
+    const dropDown = getByTestId('dropdown-y-0')
+    expect(within(dropDown).queryByText(existingValue.name)).toBeInTheDocument()
+
+  });
+
+
+  it('should allow add y axis in addition to existing values', () => {
+    const existingValue = [{name: 'column1', type: 'number'}, {name: 'column2', type: 'number'}]
+
+    const renderedComponent = render(<YAxisChartConfigWithTheme {...props} value={existingValue} />);
+    const { getByText } = renderedComponent;
+
+    const addFieldButton = getByText('Add Metric');
+    fireEvent.click(addFieldButton);
+    selectDropDownOption(renderedComponent, 'dropdown-y-2', ['column3']);
+
+
+    expect(props.handleConfigChange).toHaveBeenCalledWith('yAxis', [
+      { name: 'column1', type: 'number' },
+      { name: 'column2', type: 'number' },
+      { name: 'column3', type: 'number' },
+    ]);
+    expect(props.handleConfigChange).toHaveBeenCalledTimes(2);
   });
 
   it('should add y axis field on click of add metric button', () => {

@@ -40,6 +40,24 @@ describe('<GISShapeLayerConfig />', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('should match snapshot for GIS Shape Layer selector in editMode', async () => {
+
+    const { container, getByText } = render(
+      <GISShapeLayerConfigWithProvides
+        handleConfigChange={jest.fn()}
+        value="id2"
+        error=""
+        isEditMode
+        configKey="gisShapeLayer"
+      />,
+    );
+
+    await waitFor(() => getByText('GIS Shape Layer'));
+
+
+    expect(container).toMatchSnapshot();
+  });
+
   it('should show no gis shape file present message if api have no gis files', async () => {
     api.getDatasources.mockResolvedValueOnce({
       dataSources: [{ name: 'datasource1', _id: 'id1', fileType: 'csv' }],

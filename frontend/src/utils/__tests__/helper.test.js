@@ -84,6 +84,19 @@ describe('Helpers', () => {
 
       expect(actualData).toEqual(expectedData);
     });
+
+    it('should return empty when column is not present', () => {
+      const data = { lat: [1, 2, 3], lon: [4, 5, 6], geoMetric: [2, 3, 5] };
+      const invalidInputs = [[undefined,'lat', 'lon', 'geoMetric'],
+        [data,'invalidLat', 'lon', 'geoMetric'],
+        [data,'lat', 'invalidLon', 'geoMetric'],
+        [data,'lat', 'lon', 'invalidGeoMetric']
+      ];
+      invalidInputs.forEach((inputs)=>{
+        const actualData = transformDataForHeatMap(...inputs);
+        expect(actualData).toEqual([]);
+      })
+    });
   });
 
   describe('Debouncing', () => {

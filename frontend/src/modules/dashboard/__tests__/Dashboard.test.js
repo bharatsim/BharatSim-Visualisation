@@ -145,6 +145,35 @@ describe('<Dashboard />', () => {
     expect(api.saveDashboard).toBeCalled();
   });
 
+  it('should edit chart and auto save', async () => {
+    const renderedComponent = render(<DashboardWithProviders />);
+    const { queryByText,getByText, findByText, getByTestId, getByLabelText , debug} = renderedComponent;
+
+    await findByText('dashboard1');
+
+    await addChart(renderedComponent);
+    await findByText('Last Saved', { exact: false });
+
+    expect(queryByText('chart name')).toBeInTheDocument()
+
+    fireEvent.click(getByTestId('widget-menu'));
+    fireEvent.click(getByText('Configure Chart'));
+
+    const chartNameInput = getByLabelText('Add chart name');
+    fireEvent.change(chartNameInput, {
+      target: { value: 'edited chart name' },
+    });
+    const applyButton = getByText('Apply');
+    fireEvent.click(applyButton);
+
+    await findByText('Saving...', { timeout: 2300 });
+    await findByText('Last Saved', { exact: false });
+
+    expect(queryByText('chart name')).not.toBeInTheDocument();
+    expect(queryByText('edited chart name')).toBeInTheDocument();
+    expect(api.saveDashboard).toBeCalled();
+  });
+
   it('should show error if any while saving the dashboard', async () => {
     const renderedComponent = render(<DashboardWithProviders />);
     api.saveDashboard.mockRejectedValueOnce('Error');

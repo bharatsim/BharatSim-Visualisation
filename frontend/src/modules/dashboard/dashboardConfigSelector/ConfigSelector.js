@@ -16,6 +16,7 @@ function ConfigSelector({
   values,
   resetValue,
   handleError,
+   isEditMode
 }) {
   const [fetchedCsvHeaders, setFetchedCsvHeaders] = useState();
 
@@ -46,7 +47,7 @@ function ConfigSelector({
   }
 
   const { headers } = fetchedCsvHeaders || {};
-  const chartConfigProps = { headers, handleConfigChange, errors, values, handleError };
+  const chartConfigProps = { headers, handleConfigChange, errors, values, handleError, isEditMode };
   const configOptionsKeysForSelectedChart = chartConfigs[chartType].configOptions;
   function isLastConfigOption(configs, index) {
     return configs.length - index === 1;
@@ -88,6 +89,7 @@ ConfigSelector.propTypes = {
   resetValue: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
   values: PropTypes.shape({}).isRequired,
+  isEditMode: PropTypes.bool.isRequired,
 };
 
 export default ConfigSelector;

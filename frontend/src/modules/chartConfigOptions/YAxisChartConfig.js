@@ -30,11 +30,23 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function YAxisChartConfig({ headers, handleConfigChange, configKey }) {
-  const [selectedValues, setSelectedValues] = useState({ 'dropdown-y-0': '' });
-  const [axisCount, setAxisCount] = useState(1);
+function YAxisChartConfig({ headers, handleConfigChange, configKey, value }) {
+  const initialSelectedValues = preFillValues()
+  const [selectedValues, setSelectedValues] = useState(initialSelectedValues);
+  const [axisCount, setAxisCount] = useState(Object.keys(initialSelectedValues).length);
   const classes = useStyles();
 
+  function isEqual(value1, value2) {
+    return value1.name === value2.name && value1.type === value2.type
+  }
+
+  function preFillValues() {
+    if(Array.isArray(value)){
+     return value.map((v)=> headers.find((h)=> isEqual(h,v)))
+         .reduce((acc, v, i)=> ({...acc, [`dropdown-y-${i}`]: v}),{});
+    }
+    return { 'dropdown-y-0': '' }
+  }
   function handleYChange(id, selectedValue) {
     setSelectedValues((prevState) => {
       const newState = { ...prevState, [id]: selectedValue };
@@ -103,6 +115,13 @@ YAxisChartConfig.propTypes = {
   ).isRequired,
   handleConfigChange: PropTypes.func.isRequired,
   configKey: PropTypes.string.isRequired,
+  value: PropTypes.arrayOf( PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+  }))
 };
 
+YAxisChartConfig.defaultProps = {
+  value: undefined
+}
 export default YAxisChartConfig;

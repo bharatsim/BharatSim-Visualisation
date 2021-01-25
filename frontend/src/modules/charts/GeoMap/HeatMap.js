@@ -37,12 +37,12 @@ function HeatMap({ config }) {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [latitude,longitude, geoMetricSeries]);
 
   const locationPoints = transformDataForHeatMap(fetchedData, latitude, longitude, geoMetricSeries);
   const center = getLatLngCenter(locationPoints);
 
-  const maxOfGeoMatrixSeries = fetchedData ? Math.max(...fetchedData[geoMetricSeries]) : 1;
+  const maxOfGeoMatrixSeries = fetchedData && fetchedData[geoMetricSeries] ? Math.max(...fetchedData[geoMetricSeries]) : 1;
 
   async function fetchData() {
     startLoader();

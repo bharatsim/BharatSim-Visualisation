@@ -66,9 +66,10 @@ const chartConfigOptions = {
     validator: geoMetricValidator,
   },
   [chartConfigOptionTypes.GIS_SHAPE_LAYER]: {
-    component: ({ handleConfigChange, errors, values }) => (
+    component: ({ handleConfigChange, errors, values, isEditMode }) => (
       <GISShapeLayerConfig
         handleConfigChange={handleConfigChange}
+        isEditMode={isEditMode}
         configKey={chartConfigOptionTypes.GIS_SHAPE_LAYER}
         error={errors[chartConfigOptionTypes.GIS_SHAPE_LAYER]}
         value={values[chartConfigOptionTypes.GIS_SHAPE_LAYER]}

@@ -46,6 +46,23 @@ describe('<DatasourceSelector />', () => {
     expect(handleDataSourceChangeMock).toHaveBeenCalledWith('id2');
   });
 
+  it('should not be able to change datsource when disable', async () => {
+    const handleDataSourceChangeMock = jest.fn();
+    const renderedComponent = render(
+      <DatasourceSelectorWithProvider
+        handleDataSourceChange={handleDataSourceChangeMock}
+        value=""
+        error=""
+        disabled
+      />,
+    );
+
+    await waitFor(() => renderedComponent.getByText('Data Source'));
+     const dropDown =  renderedComponent.getByTestId("dropdown-dataSources")
+
+    expect(dropDown).toHaveClass('Mui-disabled');
+  });
+
   it('should show loader while fetching data', async () => {
     const handleConfigChangeMock = jest.fn();
     const renderedComponent = render(

@@ -10,7 +10,7 @@ import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import NoDataSetPresentMessage from '../../configureDataset/NoDatatSetPresentMessage';
 
-function DatasourceSelector({ handleDataSourceChange, value, error }) {
+function DatasourceSelector({ handleDataSourceChange, value, error, disabled  }) {
   const { selectedDashboardMetadata, projectMetadata } = useContext(projectLayoutContext);
   const { _id: selectedDashboardId } = selectedDashboardMetadata;
   const {
@@ -67,6 +67,7 @@ function DatasourceSelector({ handleDataSourceChange, value, error }) {
             label="select data source"
             error={error}
             value={value}
+            disabled={disabled}
           />
         </>
       ) : (
@@ -81,12 +82,14 @@ function DatasourceSelector({ handleDataSourceChange, value, error }) {
 DatasourceSelector.defaultProps = {
   error: '',
   value: '',
+  disabled: false,
 };
 
 DatasourceSelector.propTypes = {
   handleDataSourceChange: PropTypes.func.isRequired,
   error: PropTypes.string,
   value: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default DatasourceSelector;

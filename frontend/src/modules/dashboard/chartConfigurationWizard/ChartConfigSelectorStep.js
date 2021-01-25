@@ -40,11 +40,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ChartConfigSelectorStep({ chartType, onApply, backToChartType }) {
+function ChartConfigSelectorStep({existingConfig, chartType, onApply, backToChartType }) {
   const footerClasses = useFooterStyles();
   const [selectedTab] = React.useState(0);
   const classes = useStyles();
-
+  const chartName =  existingConfig[CHART_NAME_KEY] || 'Untitled Chart'
   const {
     values,
     errors,
@@ -54,7 +54,9 @@ function ChartConfigSelectorStep({ chartType, onApply, backToChartType }) {
     handleError,
   } = useForm(
     {
-      [CHART_NAME_KEY]: 'Untitled Chart',
+      [CHART_NAME_KEY]: chartName,
+      [DATASOURCE_SELECTOR_KEY]: existingConfig[DATASOURCE_SELECTOR_KEY],
+      ...fillExistingValues(chartConfigs[chartType].configOptions)
     },
     {
       [CHART_NAME_KEY]: chartNameValidator,
@@ -63,6 +65,13 @@ function ChartConfigSelectorStep({ chartType, onApply, backToChartType }) {
     },
   );
 
+  function isEditMode() {
+    return Object.keys(existingConfig).length!==0
+  }
+
+  function fillExistingValues(options) {
+   return options.reduce((existingValues, option)=>({ ...existingValues,[option]: existingConfig[option]}),{})
+  }
   function handleDataSourceChange(dataSourceId) {
     handleInputChange(DATASOURCE_SELECTOR_KEY, dataSourceId);
   }
@@ -73,6 +82,15 @@ function ChartConfigSelectorStep({ chartType, onApply, backToChartType }) {
 
   function onApplyClick() {
     onApply(values);
+  }
+
+  function renderBackToChartType() {
+      if(isEditMode()) return null;
+    return (
+      <Button variant="text" size="small" onClick={backToChartType}>
+        Back to chart type
+      </Button>
+    )
   }
 
   return (
@@ -103,6 +121,7 @@ function ChartConfigSelectorStep({ chartType, onApply, backToChartType }) {
             handleDataSourceChange={handleDataSourceChange}
             value={values[DATASOURCE_SELECTOR_KEY]}
             error={errors[DATASOURCE_SELECTOR_KEY]}
+            disabled={isEditMode()}
           />
         </Box>
         {values[DATASOURCE_SELECTOR_KEY] && (
@@ -111,6 +130,7 @@ function ChartConfigSelectorStep({ chartType, onApply, backToChartType }) {
             <Box pt={6}>
               <ConfigSelector
                 dataSourceId={values[DATASOURCE_SELECTOR_KEY]}
+                isEditMode={isEditMode()}
                 errors={errors}
                 handleConfigChange={handleInputChange}
                 handleError={handleError}
@@ -125,9 +145,7 @@ function ChartConfigSelectorStep({ chartType, onApply, backToChartType }) {
           <Divider />
           <Box mt={3} display="flex" justifyContent="flex-end">
             <ButtonGroup>
-              <Button variant="text" size="small" onClick={backToChartType}>
-                Back to chart type
-              </Button>
+              {renderBackToChartType()}
               <Button
                 variant="contained"
                 color="primary"
@@ -146,9 +164,13 @@ function ChartConfigSelectorStep({ chartType, onApply, backToChartType }) {
 }
 
 ChartConfigSelectorStep.propTypes = {
+  existingConfig:  PropTypes.shape({}),
   chartType: PropTypes.string.isRequired,
   onApply: PropTypes.func.isRequired,
   backToChartType: PropTypes.func.isRequired,
 };
 
+ChartConfigSelectorStep.defaultProps = {
+  existingConfig: {}
+}
 export default ChartConfigSelectorStep;

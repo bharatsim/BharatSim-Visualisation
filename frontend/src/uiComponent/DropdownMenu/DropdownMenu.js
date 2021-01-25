@@ -4,6 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { Typography } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import PropTypes from 'prop-types';
+import Divider from "@material-ui/core/Divider";
 import useMenuStyles from './dropdownMenuCss';
 
 function DropdownMenu({ anchorEl, closeMenu, menuItems }) {
@@ -29,21 +30,24 @@ function DropdownMenu({ anchorEl, closeMenu, menuItems }) {
       }}
       getContentAnchorEl={null}
     >
-      {menuItems.map(({ icon, label, onClick, dataTestId }) => {
+      {menuItems.map(({ icon, label, onClick, dataTestId, withDivider = false }) => {
         return (
-          <MenuItem
-            onClick={onClick}
-            classes={{ root: menuClasses.root }}
-            data-testid={dataTestId}
-            key={dataTestId}
-          >
-            <Box className={menuClasses.menuOption}>
-              {icon}
-              <Box ml={4}>
-                <Typography variant="body2">{label}</Typography>
+          <>
+            { withDivider && <Divider />}
+            <MenuItem
+              onClick={onClick}
+              classes={{ root: menuClasses.root }}
+              data-testid={dataTestId}
+              key={dataTestId}
+            >
+              <Box className={menuClasses.menuOption}>
+                {icon}
+                <Box ml={4}>
+                  <Typography variant="body2">{label}</Typography>
+                </Box>
               </Box>
-            </Box>
-          </MenuItem>
+            </MenuItem>
+          </>
         );
       })}
     </Menu>
@@ -63,6 +67,7 @@ DropdownMenu.propTypes = {
       label: PropTypes.string.isRequired,
       onClick: PropTypes.func.isRequired,
       dataTestId: PropTypes.string.isRequired,
+      withDivider: PropTypes.bool,
     }),
   ).isRequired,
 };

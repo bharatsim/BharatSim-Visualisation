@@ -26,8 +26,9 @@ describe('Create element', () => {
           chartType: 'Linechart',
           config: { chartName: 'title' },
         },
-        jest.fn(),
         'dashboardId',
+          jest.fn(),
+          jest.fn()
       ),
     );
 

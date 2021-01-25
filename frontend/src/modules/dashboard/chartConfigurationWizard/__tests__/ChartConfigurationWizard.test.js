@@ -33,6 +33,26 @@ describe('Chart configuration wizard', () => {
 
     expect(sideBarWizard).toMatchSnapshot();
   });
+
+  it('should match snapshot in edit mode',  async () => {
+    const existingChart = {
+      chartType: "lineChart",
+      config : {
+        chartName: "chart1",
+        dataSource: "id1",
+        xAxis: "column1",
+        yAxis:[{name:"column2", type:"number"}]
+      },
+      layout:{i:"widget-3", x:6, y:null, w:6, h:2}
+    }
+    const {findByText} = render(<ComponentWithProvider chart={existingChart} closeModal={jest.fn()} isOpen onApply={jest.fn()} />);
+    await findByText('Data Source');
+
+    const sideBarWizard = document.querySelector('.MuiDrawer-root');
+
+    expect(sideBarWizard).toMatchSnapshot();
+  });
+
   it('should select chart and go to next step of configure chart', async () => {
     const { findByText, getByText, getByTestId } = render(
       <ComponentWithProvider closeModal={jest.fn()} isOpen onApply={jest.fn()} />,
@@ -71,7 +91,7 @@ describe('Chart configuration wizard', () => {
     const applyButton = getByText('Apply');
     fireEvent.click(applyButton);
 
-    expect(onApplyMock).toHaveBeenCalledWith('lineChart', {
+    expect(onApplyMock).toHaveBeenCalledWith(undefined,'lineChart', {
       chartName: 'chart name',
       dataSource: 'id2',
       xAxis: 'column1',
@@ -99,7 +119,7 @@ describe('Chart configuration wizard', () => {
     const applyButton = getByText('Apply');
     fireEvent.click(applyButton);
 
-    expect(onApplyMock).toHaveBeenCalledWith('lineChart', {
+    expect(onApplyMock).toHaveBeenCalledWith(undefined, 'lineChart', {
       chartName: 'Untitled Chart',
       dataSource: 'id2',
       xAxis: 'column1',

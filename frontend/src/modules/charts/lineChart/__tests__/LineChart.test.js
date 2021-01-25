@@ -54,6 +54,40 @@ describe('LineChart', () => {
     expect(api.getData).toHaveBeenCalledWith('dataSource', ['hour', 'exposed']);
   });
 
+    it('should get data whenever column name are updated',  () => {
+        const config ={
+            dataSource: 'dataSource',
+            xAxis: 'hour',
+            yAxis: [{ type: 'number', name: 'exposed' }]
+        };
+        const configWithNewXaxis ={
+           ...config,
+            xAxis: 'newHour'
+        };
+        const configWithNewYaxis ={
+            ...config,
+            yAxis: [{ type: 'number', name: 'newExposed' }]
+
+        };
+        [configWithNewXaxis, configWithNewYaxis].forEach((updatedConfig)=>{
+            jest.clearAllMocks()
+            const {rerender} = render(
+              <LineChartWithProvider
+                config={config}
+              />,
+            );
+            
+            expect(api.getData).toHaveBeenCalledWith('dataSource', ['hour', 'exposed']);
+            
+            rerender( <LineChartWithProvider
+              config={updatedConfig}
+            />)
+            expect(api.getData).toHaveBeenCalledWith('dataSource',[updatedConfig.xAxis, ...updatedConfig.yAxis.map(y=>y.name)] );
+
+        })
+        
+    });
+
   it('should show loader while fetching data', async () => {
     render(
       <LineChartWithProvider

@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Widget({ title, onDelete, children }) {
+function Widget({ title, onDelete, onEdit,children }) {
   const classes = useStyles();
 
   return (
@@ -51,7 +51,7 @@ function Widget({ title, onDelete, children }) {
         <Typography classes={{ body2: classes.chartName }} variant="body2">
           {title}
         </Typography>
-        <WidgetMenu onDelete={onDelete} />
+        <WidgetMenu onEdit={onEdit} onDelete={onDelete} />
       </Box>
       <Box className={classes.chartContainer}>{children}</Box>
     </>
@@ -61,6 +61,7 @@ function Widget({ title, onDelete, children }) {
 Widget.propTypes = {
   title: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
   children: ChildrenPropTypes.isRequired,
 };
 export default Widget;

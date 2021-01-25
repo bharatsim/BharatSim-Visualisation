@@ -37,9 +37,10 @@ function debounce(fn, delay) {
 
 function transformDataForHeatMap(data, latitude, longitude, geoMetricSeries) {
   const transformedData = [];
-  if (!data) {
+  if (!data || (!data[latitude]) || (!data[longitude]) || (!data[geoMetricSeries]) ) {
     return transformedData;
   }
+
   data[latitude].forEach((_, index) => {
     transformedData.push([
       data[latitude][index],

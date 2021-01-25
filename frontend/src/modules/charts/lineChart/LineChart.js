@@ -34,7 +34,7 @@ function LineChart({ config }) {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [xColumn, ...yColumns]);
 
   const transformedData = trasformDataForChart(fetchedData, xColumn, yColumns);
 

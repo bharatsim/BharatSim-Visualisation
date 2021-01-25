@@ -16,10 +16,15 @@ const useDrawerStyles = makeStyles((theme) => ({
   },
 }));
 
-function ChartConfigurationWizard({ isOpen, closeModal, onApply }) {
+function ChartConfigurationWizard({ chart: chartToEdit, isOpen, closeModal, onApply }) {
   const drawerClasses = useDrawerStyles();
-  const [activeStep, setActiveStep] = useState(0);
-  const [selectedChart, setSelectedChart] = useState('');
+  const initialStep = chartToEdit? 1: 0
+  const initialChartType = chartToEdit? chartToEdit.chartType: ''
+  const [activeStep, setActiveStep] = useState(initialStep);
+  const [selectedChart, setSelectedChart] = useState(initialChartType);
+
+  const existingConfig =  chartToEdit ? chartToEdit.config: {}
+  const chartId = chartToEdit ? chartToEdit.layout.i : undefined
 
   function goToNextStep() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -34,7 +39,7 @@ function ChartConfigurationWizard({ isOpen, closeModal, onApply }) {
     goToNextStep();
   }
   function onClickOfConfigSelectorNext(config) {
-    onApply(selectedChart, config);
+    onApply(chartId, selectedChart, config);
   }
 
   return (
@@ -50,6 +55,7 @@ function ChartConfigurationWizard({ isOpen, closeModal, onApply }) {
           {activeStep === 1 && (
             <ChartConfigSelectorStep
               chartType={selectedChart}
+              existingConfig={existingConfig}
               onApply={onClickOfConfigSelectorNext}
               backToChartType={goToChartSelectorStep}
             />
@@ -62,8 +68,17 @@ function ChartConfigurationWizard({ isOpen, closeModal, onApply }) {
 
 ChartConfigurationWizard.propTypes = {
   isOpen: PropTypes.bool.isRequired,
+  chart: PropTypes.shape({
+    layout: PropTypes.shape({i: PropTypes.string.isRequired}).isRequired,
+    config: PropTypes.shape({}).isRequired,
+    chartType: PropTypes.string.isRequired,
+  }),
   closeModal: PropTypes.func.isRequired,
   onApply: PropTypes.func.isRequired,
 };
+
+ChartConfigurationWizard.defaultProps = {
+  chart: null
+}
 
 export default ChartConfigurationWizard;

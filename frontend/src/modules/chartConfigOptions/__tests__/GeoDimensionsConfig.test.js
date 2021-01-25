@@ -18,6 +18,11 @@ describe('<GeoDimensionsConfig />', () => {
     handleError: jest.fn(),
     value: undefined,
   };
+
+  afterEach(()=>{
+    jest.clearAllMocks()
+  })
+
   it('should match snapshot', () => {
     const { container } = render(<GeoDimensionsWithTheme {...props} />);
 
@@ -28,6 +33,12 @@ describe('<GeoDimensionsConfig />', () => {
     render(<GeoDimensionsWithTheme {...props} />);
 
     expect(props.handleError).toHaveBeenCalledWith('geoDimensions', 'error');
+  });
+
+  it('should not call handle error with error message when values are populated', () => {
+    render(<GeoDimensionsWithTheme {...props} value={{ latitude: 'a', longitude: 'b' }} />);
+
+    expect(props.handleError).not.toHaveBeenCalledWith('geoDimensions', 'error');
   });
 
   it('should call handle error with empty message if all metric are selected', () => {
