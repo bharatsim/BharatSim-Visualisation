@@ -51,7 +51,7 @@ router.get('/:id', async function (req, res) {
       if (err instanceof DataSourceNotFoundException) {
         sendClientError(err, res, 404);
       } else if (err instanceof ColumnsNotFoundException) {
-        res.status(200).end();
+        res.status(400).end();
       } else {
         sendServerError(err, res);
       }

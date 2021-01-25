@@ -65,6 +65,30 @@ describe('dataSourceService', () => {
       data: { hour: [1, 2, 3] },
     });
   });
+  it(
+    'should fetch data from database for give datasource name ' +
+      'and selected columns only for same column name',
+    async () => {
+      dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
+        dataSourceSchema: 'DataSourceSchema',
+      });
+      dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+        fileType: 'csv',
+      });
+      dataSourceRepository.getData.mockResolvedValue([{ hour: 1 }, { hour: 2 }, { hour: 3 }]);
+      modelCreator.createModel.mockReturnValue('DataSourceModel');
+      const dataSourceID = 'model';
+
+      const data = await dataSourceService.getData(dataSourceID, ['hour', 'hour']);
+
+      expect(dataSourceMetadataRepository.getDataSourceSchemaById).toHaveBeenCalledWith('model');
+      expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 });
+      expect(modelCreator.createModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
+      expect(data).toEqual({
+        data: { hour: [1, 2, 3] },
+      });
+    },
+  );
   it('should fetch data from file server for given json or extended json file', async () => {
     fs.existsSync.mockReturnValueOnce(true);
     fs.readFileSync.mockReturnValueOnce(JSON.stringify([{ hour: 1 }, { hour: 2 }, { hour: 3 }]));

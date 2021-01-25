@@ -17,14 +17,18 @@ const {
 const datasourcesRoutes = require('../../src/controller/datasourcesController');
 const { parseDBObject } = require('../../src/utils/dbUtils');
 
-const TEST_FOLDER_EXTENSION = "datasource"
+const TEST_FOLDER_EXTENSION = 'datasource';
 
 // TODO - add integration tests to get all the datasource without dashboardId and projectId
 describe('Integration test', () => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(multer({ dest: `${dbHandler.TEST_FILE_UPLOAD_PATH}-${TEST_FOLDER_EXTENSION}` }).single('datafile'));
+  app.use(
+    multer({ dest: `${dbHandler.TEST_FILE_UPLOAD_PATH}-${TEST_FOLDER_EXTENSION}` }).single(
+      'datafile',
+    ),
+  );
   app.use('/datasources', datasourcesRoutes);
   let insertedMetadata;
   let dataSourceId;
@@ -35,17 +39,17 @@ describe('Integration test', () => {
     connection = await dbHandler.connectUsingMongo();
   });
 
-  beforeEach(async ()=>{
+  beforeEach(async () => {
     insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
     const { _id } = insertedMetadata[0];
     dataSourceId = _id;
     await DatasourceDashboardMap.insertMany(createDatasourceDashboardMapping(dataSourceId));
     await createModel(dataSourceId.toString()).insertMany(model1Data);
-  })
+  });
 
-  afterEach(async ()=>{
+  afterEach(async () => {
     await dbHandler.clearDatabase();
-  })
+  });
 
   afterAll(async () => {
     await dbHandler.clearDatabase();
@@ -153,7 +157,7 @@ describe('Integration test', () => {
       await request(app)
         .get(`/datasources/${dataSourceId}`)
         .query({ columns: ['exposeed', 'hour'] })
-        .expect(200)
+        .expect(400)
         .expect({});
     });
   });

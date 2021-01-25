@@ -21,6 +21,7 @@ async function getDataSourceModel(datasourceId) {
 }
 
 async function getData(datasourceId, columns) {
+  const uniqueColumns = [...new Set(columns)];
   const datasourceMetadata = await dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId(
     datasourceId,
   );
@@ -34,7 +35,7 @@ async function getData(datasourceId, columns) {
     return getJsonData(datasourceMetadata);
   }
   if (datasourceMetadata.fileType === fileTypes.CSV) {
-    return getCsvData(datasourceId, columns);
+    return getCsvData(datasourceId, uniqueColumns);
   }
   throw new DatasourceNotFoundException(datasourceMetadata.fileId);
 }
@@ -53,7 +54,7 @@ async function getCsvData(datasourceId, columns) {
   const columnsMap = dbUtils.getProjectedColumns(columns);
   const dataRecords = await dataSourceRepository.getData(dataSourceModel, columnsMap);
   const data = dbUtils.changeRecordDimensionToArray(dataRecords);
-  if (columns && isNotProvidedDataHaveEqualColumns(data, columns)) {
+  if (columns.length > 0 && isNotProvidedDataHaveEqualColumns(data, columns)) {
     throw new ColumnsNotFoundException();
   }
   return { data };

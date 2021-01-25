@@ -147,7 +147,7 @@ describe('api', () => {
       await request(app)
         .get('/datasources/datasourceId')
         .query({ columns: ['exposeed', 'hour'] })
-        .expect(200)
+        .expect(400)
         .expect({});
 
       expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', ['exposeed', 'hour']);
