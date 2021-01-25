@@ -5,54 +5,58 @@ exports[`<GISShapeLayerConfig /> should match snapshot for GIS Shape Layer selec
   <div
     class="MuiBox-root MuiBox-root-3"
   >
-    <h6
-      class="MuiTypography-root MuiTypography-subtitle2"
-    >
-      GIS Shape Layer
-    </h6>
-  </div>
-  <div
-    class="MuiFormControl-root makeStyles-formControl-11"
-  >
-    <label
-      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
-      data-shrink="false"
-      id="dropdown-label"
-    >
-      select GIS shape Layer
-    </label>
     <div
-      class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
-      data-testid="dropdown-gis-shape-layer"
+      class="MuiBox-root MuiBox-root-4"
     >
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle2"
+      >
+        GIS Shape Layer
+      </h6>
+    </div>
+    <div
+      class="MuiFormControl-root makeStyles-formControl-12"
+    >
+      <label
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+        data-shrink="false"
+        id="dropdown-label"
+      >
+        select GIS shape Layer
+      </label>
       <div
-        aria-haspopup="listbox"
-        aria-labelledby="dropdown-label dropdown-gis-shape-layer"
-        class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
-        id="dropdown-gis-shape-layer"
-        role="button"
-        tabindex="0"
+        class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+        data-testid="dropdown-gis-shape-layer"
       >
-        <span>
-          ​
-        </span>
-      </div>
-      <input
-        aria-hidden="true"
-        class="MuiSelect-nativeInput"
-        tabindex="-1"
-        value=""
-      />
-      <svg
-        aria-hidden="true"
-        class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M7 10l5 5 5-5z"
+        <div
+          aria-haspopup="listbox"
+          aria-labelledby="dropdown-label dropdown-gis-shape-layer"
+          class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
+          id="dropdown-gis-shape-layer"
+          role="button"
+          tabindex="0"
+        >
+          <span>
+            ​
+          </span>
+        </div>
+        <input
+          aria-hidden="true"
+          class="MuiSelect-nativeInput"
+          tabindex="-1"
+          value=""
         />
-      </svg>
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7 10l5 5 5-5z"
+          />
+        </svg>
+      </div>
     </div>
   </div>
 </div>

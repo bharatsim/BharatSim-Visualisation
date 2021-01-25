@@ -65,28 +65,30 @@ function GISShapeLayerConfig({ handleConfigChange, configKey, error, value }) {
       errorAction={onErrorAction}
       fullWidth
     >
-      {isDataSourcePresent ? (
-        <>
-          <Box mb={2}>
-            <Typography variant="subtitle2">GIS Shape Layer</Typography>
+      <Box px={2}>
+        {isDataSourcePresent ? (
+          <>
+            <Box mb={2}>
+              <Typography variant="subtitle2">GIS Shape Layer</Typography>
+            </Box>
+            <Dropdown
+              options={convertObjectArrayToOptionStructure(dataSources, 'name', '_id')}
+              onChange={handleChange}
+              id="dropdown-gis-shape-layer"
+              label="select GIS shape Layer"
+              error={error}
+              value={value}
+            />
+          </>
+        ) : (
+          <Box>
+            <NoDataSetPresentMessage
+              projectMetadataId={projectMetadata.id}
+              message="Before we can create any GIS visualization, we‘ll need some GIS layer data."
+            />
           </Box>
-          <Dropdown
-            options={convertObjectArrayToOptionStructure(dataSources, 'name', '_id')}
-            onChange={handleChange}
-            id="dropdown-gis-shape-layer"
-            label="select GIS shape Layer"
-            error={error}
-            value={value}
-          />
-        </>
-      ) : (
-        <Box>
-          <NoDataSetPresentMessage
-            projectMetadataId={projectMetadata.id}
-            message="Before we can create any GIS visualization, we‘ll need some GIS layer data."
-          />
-        </Box>
-      )}
+        )}
+      </Box>
     </LoaderOrError>
   );
 }
