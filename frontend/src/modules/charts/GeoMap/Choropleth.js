@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { MapContainer, ScaleControl, TileLayer } from 'react-leaflet';
@@ -16,9 +16,7 @@ const useStyles = makeStyles({
 
 function transformData(ids, measure) {
   const idMeasureMap = {};
-  if(ids && measure){
-    ids.forEach((id, index) => (idMeasureMap[id] = measure[index]));
-  }
+  ids.forEach((id, index) => (idMeasureMap[id] = measure[index]));
   return idMeasureMap;
 }
 
@@ -39,7 +37,7 @@ function Choropleth({ config }) {
 
   useEffect(() => {
     fetchAllData();
-  }, [gisMeasure, gisRegionId]);
+  }, [dataSource, gisShapeLayer, gisRegionId, gisMeasure]);
 
   async function fetchAllData() {
     startLoader();
@@ -75,7 +73,11 @@ function Choropleth({ config }) {
   }
 
   const classes = useStyles();
-  const idMeasureMap = data ? transformData(data[gisRegionId], data[gisMeasure]) : {};
+
+  const idMeasureMap = useMemo(
+    () => (data ? transformData(data[gisRegionId], data[gisMeasure]) : {}),
+    [data],
+  );
 
   const onErrorAction = {
     name: 'Retry',
