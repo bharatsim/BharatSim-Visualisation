@@ -58,7 +58,7 @@ function Dashboard() {
     api.getDatasources(dashboardId, false, false).then((resData) => {
       const { dataSources: fetchedDataSources } = resData;
       setDataSources(fetchedDataSources);
-      if (fetchedDataSources.length === 0) {
+      if (dashboardId && fetchedDataSources.length === 0) {
         history.push(`/projects/${projectMetadata.id}/configure-dataset`);
       }
     });
@@ -70,16 +70,17 @@ function Dashboard() {
   }, [dashboardId]);
 
   useEffect(() => {
-    dispatch(fetchDashboard(dashboardId));
+    if (dashboardId) dispatch(fetchDashboard(dashboardId));
   }, [dashboardId]);
 
   function updateDashboard(newDashboard) {
     dispatch(updateDashboardAction(newDashboard));
   }
 
-
   function onApply(chartId, chartType, config) {
-    const newCharts = chartId ? updateChart(chartId,chartType, config): addChart(chartType, config);
+    const newCharts = chartId
+      ? updateChart(chartId, chartType, config)
+      : addChart(chartType, config);
     updateDashboard({
       charts: newCharts,
       layout,
@@ -87,11 +88,11 @@ function Dashboard() {
       name: dashboardName,
       count: chartsCount + 1,
     });
-    onCloseModal()
+    onCloseModal();
   }
 
-  function onCloseModal (){
-    setChartToEdit(null)
+  function onCloseModal() {
+    setChartToEdit(null);
     closeModal();
   }
 
@@ -104,10 +105,10 @@ function Dashboard() {
   }
 
   function updateChart(chartId, chartType, config) {
-    const existingChart =  charts.find((c)=>c.layout.i === chartId);
-    const restCharts =  charts.filter((c)=>c.layout.i !== chartId);
-    const updatedChart = {...existingChart, chartType, config}
-    return restCharts.concat(updatedChart)
+    const existingChart = charts.find((c) => c.layout.i === chartId);
+    const restCharts = charts.filter((c) => c.layout.i !== chartId);
+    const updatedChart = { ...existingChart, chartType, config };
+    return restCharts.concat(updatedChart);
   }
 
   function onLayoutChange(changedLayout) {
@@ -131,9 +132,9 @@ function Dashboard() {
   }
 
   function onEditWidget(id) {
-    const chart = charts.find((c)=> c.layout.i === id)
-    setChartToEdit(chart)
-    openModal()
+    const chart = charts.find((c) => c.layout.i === id);
+    setChartToEdit(chart);
+    openModal();
   }
 
   function retrySave() {
@@ -179,7 +180,12 @@ function Dashboard() {
         )}
       </Box>
       {isOpen && (
-        <ChartConfigurationWizard chart={chartToEdit} isOpen={isOpen} closeModal={onCloseModal} onApply={onApply} />
+        <ChartConfigurationWizard
+          chart={chartToEdit}
+          isOpen={isOpen}
+          closeModal={onCloseModal}
+          onApply={onApply}
+        />
       )}
     </Box>
   );
