@@ -16,7 +16,9 @@ const useStyles = makeStyles({
 
 function transformData(ids, measure) {
   const idMeasureMap = {};
-  ids.forEach((id, index) => (idMeasureMap[id] = measure[index]));
+  if(ids && measure){
+    ids.forEach((id, index) => (idMeasureMap[id] = measure[index]));
+  }
   return idMeasureMap;
 }
 
@@ -37,7 +39,7 @@ function Choropleth({ config }) {
 
   useEffect(() => {
     fetchAllData();
-  }, []);
+  }, [gisMeasure, gisRegionId]);
 
   async function fetchAllData() {
     startLoader();
@@ -73,7 +75,6 @@ function Choropleth({ config }) {
   }
 
   const classes = useStyles();
-
   const idMeasureMap = data ? transformData(data[gisRegionId], data[gisMeasure]) : {};
 
   const onErrorAction = {

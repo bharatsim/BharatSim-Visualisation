@@ -32,7 +32,7 @@ function DropdownMenu({ anchorEl, closeMenu, menuItems }) {
     >
       {menuItems.map(({ icon, label, onClick, dataTestId, withDivider = false }) => {
         return (
-          <>
+          <div>
             { withDivider && <Divider />}
             <MenuItem
               onClick={onClick}
@@ -47,7 +47,7 @@ function DropdownMenu({ anchorEl, closeMenu, menuItems }) {
                 </Box>
               </Box>
             </MenuItem>
-          </>
+          </div>
         );
       })}
     </Menu>
