@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, IconButton, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { DeleteOutline, MoreVert } from '@material-ui/icons';
 import { useSnackbar } from 'notistack';
@@ -11,6 +11,7 @@ import { api } from '../../utils/api';
 import { errors, errorTypes } from '../../constants/loaderAndErrorMessages';
 import { overlayLoaderOrErrorContext } from '../../contexts/overlayLoaderOrErrorContext';
 import snackbarVariant from '../../constants/snackbarVariant';
+import IconButton from '../../uiComponent/IconButton';
 
 const styles = makeStyles((theme) => ({
   titleContainer: {

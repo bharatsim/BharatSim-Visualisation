@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, fade, makeStyles, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import plusIcon from '../../assets/images/plus.svg';
 import deleteIcon from '../../assets/images/delete.svg';
 import Dropdown from '../../uiComponent/Dropdown';
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
+import IconButton from '../../uiComponent/IconButton';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -31,21 +31,22 @@ const useStyles = makeStyles((theme) => {
 });
 
 function YAxisChartConfig({ headers, handleConfigChange, configKey, value }) {
-  const initialSelectedValues = preFillValues()
+  const initialSelectedValues = preFillValues();
   const [selectedValues, setSelectedValues] = useState(initialSelectedValues);
   const [axisCount, setAxisCount] = useState(Object.keys(initialSelectedValues).length);
   const classes = useStyles();
 
   function isEqual(value1, value2) {
-    return value1.name === value2.name && value1.type === value2.type
+    return value1.name === value2.name && value1.type === value2.type;
   }
 
   function preFillValues() {
-    if(Array.isArray(value)){
-     return value.map((v)=> headers.find((h)=> isEqual(h,v)))
-         .reduce((acc, v, i)=> ({...acc, [`dropdown-y-${i}`]: v}),{});
+    if (Array.isArray(value)) {
+      return value
+        .map((v) => headers.find((h) => isEqual(h, v)))
+        .reduce((acc, v, i) => ({ ...acc, [`dropdown-y-${i}`]: v }), {});
     }
-    return { 'dropdown-y-0': '' }
+    return { 'dropdown-y-0': '' };
   }
   function handleYChange(id, selectedValue) {
     setSelectedValues((prevState) => {
@@ -115,13 +116,15 @@ YAxisChartConfig.propTypes = {
   ).isRequired,
   handleConfigChange: PropTypes.func.isRequired,
   configKey: PropTypes.string.isRequired,
-  value: PropTypes.arrayOf( PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-  }))
+  value: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    }),
+  ),
 };
 
 YAxisChartConfig.defaultProps = {
-  value: undefined
-}
+  value: undefined,
+};
 export default YAxisChartConfig;

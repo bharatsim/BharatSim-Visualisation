@@ -1,6 +1,5 @@
 import Box from '@material-ui/core/Box';
 import React, { forwardRef, useState } from 'react';
-import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
 import dashboardIcon from '../../../../assets/images/dashboard-icon.svg';
 import optionsIcon from '../../../../assets/images/optionsIcon.svg';
@@ -10,6 +9,7 @@ import { ChildrenPropTypes } from '../../../../commanPropTypes';
 import useModal from '../../../../hook/useModal';
 import DropdownMenu from '../../../../uiComponent/DropdownMenu/DropdownMenu';
 import DashboardDeleteConfirmationModal from './DashboardDeleteConfirmationModal';
+import IconButton from '../../../../uiComponent/IconButton';
 
 const RadioOptions = {
   Yes: true,

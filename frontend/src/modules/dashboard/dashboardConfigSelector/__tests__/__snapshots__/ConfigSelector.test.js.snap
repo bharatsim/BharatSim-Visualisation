@@ -138,7 +138,7 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-20"
             data-testid="delete-button-dropdown-y-0"
             tabindex="0"
             type="button"
@@ -157,7 +157,7 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
           </button>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-20 makeStyles-addMetricButtonContainer-17"
+          class="MuiBox-root MuiBox-root-21 makeStyles-addMetricButtonContainer-17"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"

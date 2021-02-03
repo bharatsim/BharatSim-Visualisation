@@ -43,6 +43,7 @@ const chartConfigs = {
       chartConfigOptionTypes.GIS_SHAPE_LAYER,
       chartConfigOptionTypes.GIS_REGION_ID,
       chartConfigOptionTypes.GIS_MEASURE,
+      chartConfigOptionTypes.SLIDER_CONFIG,
     ],
   },
 };

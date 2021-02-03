@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { IconButton, Typography, useTheme } from '@material-ui/core';
+import { Typography, useTheme } from '@material-ui/core';
 import { DeleteOutline, MoreVert, EditOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteConfirmationModal from '../../uiComponent/DeleteConfirmationModal';
 import useModal from '../../hook/useModal';
 import DropdownMenu from '../../uiComponent/DropdownMenu/DropdownMenu';
+import IconButton from '../../uiComponent/IconButton';
 
 const iconStyles = makeStyles((theme) => ({
   root: {
@@ -31,11 +32,11 @@ export default function WidgetMenu({ onDelete, onEdit }) {
     setAnchorEl(null);
   };
 
-  function onMenuClick(handler){
-   return () => {
-     closeMenu();
-     handler()
-   }
+  function onMenuClick(handler) {
+    return () => {
+      closeMenu();
+      handler();
+    };
   }
 
   function handleDelete() {
@@ -63,9 +64,8 @@ export default function WidgetMenu({ onDelete, onEdit }) {
             dataTestId: 'DeleteChart',
             onClick: onMenuClick(openDeleteModal),
             icon: <DeleteOutline />,
-            withDivider: true
+            withDivider: true,
           },
-
         ]}
       />
       {isDeleteModalOpen && (

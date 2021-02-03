@@ -17,7 +17,7 @@ exports[`ProjectMetadataCard should match snapshot ProjectMetadataCard 1`] = `
           projectName
         </h6>
         <button
-          class="MuiButtonBase-root MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-11"
           data-testid="project-menu"
           tabindex="0"
           type="button"

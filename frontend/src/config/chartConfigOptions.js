@@ -13,6 +13,7 @@ import GeoMetricsSeries from '../modules/chartConfigOptions/GeoMetricSeriesConfi
 import GeoDimensionsConfig from '../modules/chartConfigOptions/GeoDimensionsConfig';
 import GISShapeLayerConfig from '../modules/chartConfigOptions/GISShapeLayerConfig';
 import ChartConfigDropdown from '../modules/chartConfigOptions/ChartConfigDropdown';
+import TimeSliderConfig from '../modules/chartConfigOptions/TimeSliderConfig';
 
 const chartConfigOptions = {
   [chartConfigOptionTypes.X_AXIS]: {
@@ -106,6 +107,18 @@ const chartConfigOptions = {
       />
     ),
     validator: requiredValueForDropdown,
+  },
+  [chartConfigOptionTypes.SLIDER_CONFIG]: {
+    component: ({ headers, handleConfigChange, errors, values, handleError }) => (
+      <TimeSliderConfig
+        headers={headers}
+        handleConfigChange={handleConfigChange}
+        configKey={chartConfigOptionTypes.SLIDER_CONFIG}
+        error={errors[chartConfigOptionTypes.SLIDER_CONFIG]}
+        value={values[chartConfigOptionTypes.SLIDER_CONFIG]}
+        handleError={handleError}
+      />
+    ),
   },
 };
 

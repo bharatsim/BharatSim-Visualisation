@@ -16,7 +16,7 @@ exports[`Chart configuration header should match snapshot without chart name 1`]
       
     </div>
     <button
-      class="MuiButtonBase-root MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-6"
       data-testid="close-wizard"
       tabindex="0"
       type="button"

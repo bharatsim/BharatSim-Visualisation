@@ -9,10 +9,13 @@ exports[`Choropleth should create a choropleth component 1`] = `
       class="makeStyles-fullWidthHeight-1"
       data-testid="map-container"
     >
+      <div
+        class="MuiBox-root MuiBox-root-5"
+      />
       MapContainer
       TileLayer
       GeoJsonLayer
-      {"data":{"type":"FeatureCollection","name":"Gwalior","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"AC_NO":14},"geometry":{"type":"MultiPolygon","coordinates":[[[[78.2644056977648,26.336678009382695],[78.27417096821569,26.336251003181303],[78.28502017444157,26.34688759258836]]]]}}]},"measure":{"1":2,"2":4,"3":6},"idName":"regionId","measureName":"infected","scale":{"0":"#FDF1D9","1":"#D3501E","0.5":"#F7C75C"}}
+      {"data":{"type":"FeatureCollection","name":"Gwalior","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"AC_NO":14},"geometry":{"type":"MultiPolygon","coordinates":[[[[78.2644056977648,26.336678009382695],[78.27417096821569,26.336251003181303],[78.28502017444157,26.34688759258836]]]]}}]},"measure":{"1":2,"2":4,"3":6},"idName":"regionId","measureName":"infected","scale":{"0":"#FDF1D9","1":"#D3501E","0.5":"#F7C75C"},"tick":1}
       Resize controller
       {}
       ScaleControl

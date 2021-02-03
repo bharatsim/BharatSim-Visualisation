@@ -160,13 +160,6 @@ theme.overrides = {
       border: `1px solid ${theme.colors.primaryColorScale['600']}`,
     },
   },
-  MuiIconButton: {
-    root: {
-      height: theme.spacing(6),
-      width: theme.spacing(6),
-      color: theme.palette.grey['800'],
-    },
-  },
 };
 
 export default theme;

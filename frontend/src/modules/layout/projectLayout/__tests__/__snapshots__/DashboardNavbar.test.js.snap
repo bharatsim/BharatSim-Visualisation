@@ -14,7 +14,7 @@ exports[`Dashboard Navbar should render dashboard view for given dashboard data 
         Dashboards 
       </h6>
       <button
-        class="MuiButtonBase-root MuiIconButton-root"
+        class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-9"
         data-testid="add-dashboard-button"
         tabindex="0"
         type="button"
@@ -44,14 +44,14 @@ exports[`Dashboard Navbar should render dashboard view for given dashboard data 
           role="tablist"
         >
           <div
-            class="MuiBox-root MuiBox-root-15 makeStyles-root-9 makeStyles-selected-13"
+            class="MuiBox-root MuiBox-root-16 makeStyles-root-10 makeStyles-selected-14"
             data-testid="tab-0"
           >
             <div
-              class="MuiBox-root MuiBox-root-16 makeStyles-iconLabelWrapper-10"
+              class="MuiBox-root MuiBox-root-17 makeStyles-iconLabelWrapper-11"
             >
               <div
-                class="MuiBox-root MuiBox-root-17 makeStyles-icon-12"
+                class="MuiBox-root MuiBox-root-18 makeStyles-icon-13"
               >
                 <img
                   alt="dashboard-logo"
@@ -61,10 +61,10 @@ exports[`Dashboard Navbar should render dashboard view for given dashboard data 
               dashboard1
             </div>
             <div
-              class="MuiBox-root MuiBox-root-18 makeStyles-optionIcon-11"
+              class="MuiBox-root MuiBox-root-19 makeStyles-optionIcon-12"
             >
               <button
-                class="MuiButtonBase-root MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-9"
                 tabindex="0"
                 type="button"
               >
@@ -82,7 +82,7 @@ exports[`Dashboard Navbar should render dashboard view for given dashboard data 
               </button>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-24"
+              class="MuiBox-root MuiBox-root-25"
             >
               <span
                 class="MuiTab-wrapper"
@@ -94,7 +94,7 @@ exports[`Dashboard Navbar should render dashboard view for given dashboard data 
           </div>
         </div>
         <span
-          class="PrivateTabIndicator-root-25 PrivateTabIndicator-colorSecondary-27 MuiTabs-indicator makeStyles-indicator-6 PrivateTabIndicator-vertical-28"
+          class="PrivateTabIndicator-root-26 PrivateTabIndicator-colorSecondary-28 MuiTabs-indicator makeStyles-indicator-6 PrivateTabIndicator-vertical-29"
           style="top: 0px; height: 0px;"
         />
       </div>

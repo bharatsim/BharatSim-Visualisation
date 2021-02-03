@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AntSwitch /> should match snapshot 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-2 makeStyles-container-1"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-3"
+    >
+      OFF
+    </div>
+    <span
+      class="MuiSwitch-root WithStyles(ForwardRef(Switch))-root-4"
+    >
+      <span
+        aria-disabled="false"
+        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-9 MuiSwitch-switchBase WithStyles(ForwardRef(Switch))-switchBase-5 MuiSwitch-colorSecondary PrivateSwitchBase-checked-10 Mui-checked WithStyles(ForwardRef(Switch))-checked-8"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <input
+            checked=""
+            class="PrivateSwitchBase-input-12 MuiSwitch-input"
+            type="checkbox"
+            value=""
+          />
+          <span
+            class="MuiSwitch-thumb WithStyles(ForwardRef(Switch))-thumb-6"
+          />
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </span>
+      <span
+        class="MuiSwitch-track WithStyles(ForwardRef(Switch))-track-7"
+      />
+    </span>
+    <div
+      class="MuiBox-root MuiBox-root-13"
+    >
+      ON
+    </div>
+  </div>
+</div>
+`;

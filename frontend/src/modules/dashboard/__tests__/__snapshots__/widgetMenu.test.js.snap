@@ -8,7 +8,7 @@ exports[`<widgetMenu> should render all the menu 1`] = `
     aria-hidden="true"
   >
     <button
-      class="MuiButtonBase-root MuiIconButton-root makeStyles-root-1"
+      class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-2 makeStyles-root-1"
       data-testid="widget-menu"
       tabindex="0"
       type="button"
@@ -45,7 +45,7 @@ exports[`<widgetMenu> should render all the menu 1`] = `
       tabindex="0"
     />
     <div
-      class="MuiPaper-root MuiMenu-paper makeStyles-menuPaper-4 MuiPopover-paper makeStyles-popoverPaper-3 MuiPaper-elevation8 MuiPaper-rounded"
+      class="MuiPaper-root MuiMenu-paper makeStyles-menuPaper-5 MuiPopover-paper makeStyles-popoverPaper-4 MuiPaper-elevation8 MuiPaper-rounded"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
       tabindex="-1"
     >
@@ -60,13 +60,13 @@ exports[`<widgetMenu> should render all the menu 1`] = `
         >
           <li
             aria-disabled="false"
-            class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root makeStyles-root-2 MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+            class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root makeStyles-root-3 MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
             data-testid="EditChart"
             role="menuitem"
             tabindex="-1"
           >
             <div
-              class="MuiBox-root MuiBox-root-7 makeStyles-menuOption-5"
+              class="MuiBox-root MuiBox-root-8 makeStyles-menuOption-6"
             >
               <svg
                 aria-hidden="true"
@@ -79,7 +79,7 @@ exports[`<widgetMenu> should render all the menu 1`] = `
                 />
               </svg>
               <div
-                class="MuiBox-root MuiBox-root-8"
+                class="MuiBox-root MuiBox-root-9"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2"
@@ -99,13 +99,13 @@ exports[`<widgetMenu> should render all the menu 1`] = `
           />
           <li
             aria-disabled="false"
-            class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root makeStyles-root-2 MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+            class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root makeStyles-root-3 MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
             data-testid="DeleteChart"
             role="menuitem"
             tabindex="-1"
           >
             <div
-              class="MuiBox-root MuiBox-root-9 makeStyles-menuOption-5"
+              class="MuiBox-root MuiBox-root-10 makeStyles-menuOption-6"
             >
               <svg
                 aria-hidden="true"
@@ -118,7 +118,7 @@ exports[`<widgetMenu> should render all the menu 1`] = `
                 />
               </svg>
               <div
-                class="MuiBox-root MuiBox-root-10"
+                class="MuiBox-root MuiBox-root-11"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2"

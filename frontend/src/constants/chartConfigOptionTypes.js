@@ -6,4 +6,5 @@ export const chartConfigOptionTypes = {
   GIS_SHAPE_LAYER: 'gisShapeLayer',
   GIS_REGION_ID: 'gisRegionId',
   GIS_MEASURE: 'gisMeasure',
+  SLIDER_CONFIG: 'sliderConfig',
 };

@@ -59,7 +59,7 @@ exports[`<YAxisChartConfig /> should match snapshot 1`] = `
       </div>
     </div>
     <button
-      class="MuiButtonBase-root MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-10"
       data-testid="delete-button-dropdown-y-0"
       tabindex="0"
       type="button"
@@ -78,7 +78,7 @@ exports[`<YAxisChartConfig /> should match snapshot 1`] = `
     </button>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-10 makeStyles-addMetricButtonContainer-2"
+    class="MuiBox-root MuiBox-root-11 makeStyles-addMetricButtonContainer-2"
   >
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"

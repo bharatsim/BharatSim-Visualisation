@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TimeSlider /> should match snapshot 1`] = `
+<div>
+  <div
+    class="makeStyles-root-1"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body2"
+    >
+      title 1
+    </p>
+    <input
+      max="5"
+      min="1"
+      type="range"
+    />
+  </div>
+</div>
+`;

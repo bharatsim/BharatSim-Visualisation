@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { GeoJSON, useMap } from 'react-leaflet';
 import MapBoundController from './MapBoundController';
@@ -21,7 +21,7 @@ function renderToolTip(feature, idName, measure, measureName, maxOfMeasure) {
     `;
 }
 
-function GeoJsonLayer({ data, measure, idName, measureName, scale }) {
+function GeoJsonLayer({ data, measure, idName, measureName, scale, tick }) {
   const map = useMap();
   const geoJSONRef = useRef();
 
@@ -38,10 +38,15 @@ function GeoJsonLayer({ data, measure, idName, measureName, scale }) {
   }
 
   const getGeoJsonStyle = geoJSONStyle(idName, measure, maxOfMeasure, scale);
-
   return (
     <>
-      <GeoJSON data={data} ref={geoJSONRef} onEachFeature={onEachFeature} style={getGeoJsonStyle} />
+      <GeoJSON
+        key={tick}
+        data={data}
+        ref={geoJSONRef}
+        onEachFeature={onEachFeature}
+        style={getGeoJsonStyle}
+      />
       <MapBoundController layerRef={geoJSONRef} />
     </>
   );
@@ -53,6 +58,7 @@ GeoJsonLayer.propTypes = {
   idName: PropTypes.string.isRequired,
   measureName: PropTypes.string.isRequired,
   scale: PropTypes.shape({}).isRequired,
+  tick: PropTypes.number.isRequired,
 };
 
 export default GeoJsonLayer;

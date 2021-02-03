@@ -6,8 +6,8 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
 import ErrorBar from './ErrorBar';
+import IconButton from './IconButton';
 
 const useStyles = makeStyles((theme) => {
   return {

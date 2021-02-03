@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
 import { Typography } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import { useTabsStyles } from './sideDashboardNavbarCSS';
@@ -16,6 +15,7 @@ import NavBarTab from './NavBarTab';
 import snackbarVariant from '../../../../constants/snackbarVariant';
 import { overlayLoaderOrErrorContext } from '../../../../contexts/overlayLoaderOrErrorContext';
 import { errors, errorTypes } from '../../../../constants/loaderAndErrorMessages';
+import IconButton from '../../../../uiComponent/IconButton';
 
 function DashboardNavbar({ navItems, value, setNavTab }) {
   const { enqueueSnackbar } = useSnackbar();

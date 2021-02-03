@@ -19,7 +19,7 @@ exports[`<Widget /> should match snapshot 1`] = `
       Line Chart
     </p>
     <button
-      class="MuiButtonBase-root MuiIconButton-root makeStyles-root-8"
+      class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-9 makeStyles-root-8"
       data-testid="widget-menu"
       tabindex="0"
       type="button"
@@ -42,7 +42,7 @@ exports[`<Widget /> should match snapshot 1`] = `
     </button>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-14 makeStyles-chartContainer-1"
+    class="MuiBox-root MuiBox-root-15 makeStyles-chartContainer-1"
   >
     Line Chart
   </div>
