@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
-const dataSourceMetadataService = require('../services/datasourceMetadataService.js');
-const dataSourceService = require('../services/datasourceService.js');
+const datasourceMetadataService = require('../services/datasourceMetadataService.js');
+const datasourceService = require('../services/datasourceService.js');
 const uploadDatasourceService = require('../services/uploadDatasourceService.js');
 const DataSourceNotFoundException = require('../exceptions/DatasourceNotFoundException');
 const ColumnsNotFoundException = require('../exceptions/ColumnsNotFoundException');
@@ -14,7 +14,7 @@ const { fileTypes } = require('../constants/fileTypes');
 
 router.get('/', async function (req, res) {
   const { dashboardId, projectId } = req.query;
-  dataSourceMetadataService
+  datasourceMetadataService
     .getDataSources({ dashboardId, projectId })
     .then((data) => res.json(data))
     .catch((err) => {
@@ -44,7 +44,7 @@ router.post('/', async function (req, res) {
 router.get('/:id', async function (req, res) {
   const { columns } = req.query;
   const { id: datasourceId } = req.params;
-  dataSourceService
+  datasourceService
     .getData(datasourceId, columns)
     .then((data) => res.json(data))
     .catch((err) => {
@@ -60,7 +60,7 @@ router.get('/:id', async function (req, res) {
 
 router.get('/:id/headers', function (req, res) {
   const { id: datasourceId } = req.params;
-  dataSourceMetadataService
+  datasourceMetadataService
     .getHeaders(datasourceId)
     .then((headers) => res.json(headers))
     .catch((err) => {
@@ -74,7 +74,7 @@ router.get('/:id/headers', function (req, res) {
 
 router.delete('/', async function (req, res) {
   const { datasourceIds } = req.query;
-  dataSourceService
+  datasourceService
     .bulkDeleteDatasource(datasourceIds)
     .then((deleteMetadata) => {
       res.send(deleteMetadata);

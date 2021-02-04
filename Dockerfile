@@ -11,11 +11,19 @@ RUN apk add --no-cache \
         pango-dev \
         cairo-dev \
         giflib-dev \
-        python \
+        python3 \
         bash
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.6/main' >> /etc/apk/repositories
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.6/community' >> /etc/apk/repositories
+RUN apk update
+RUN apk add mongodb=3.4.4-r0
+
 RUN mkdir visualisation
 COPY . /visualisation
 WORKDIR /visualisation
-RUN npm run deep-clean
-RUN npm install
-RUN npm run install-deps
+RUN yarn deep-clean
+RUN yarn install
+RUN yarn install-deps
+
+#add variables
+#MONGOMS_SYSTEM_BINARY=/usr/bin/mongod

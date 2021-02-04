@@ -1,14 +1,15 @@
 const fs = require('fs');
-const dataSourceService = require('../../src/services/datasourceService');
+const datasourceService = require('../../src/services/datasourceService');
 const dataSourceRepository = require('../../src/repository/datasourceRepository');
 const dataSourceMetadataRepository = require('../../src/repository/datasourceMetadataRepository');
 const dashboardDatasourceMapRepository = require('../../src/repository/dashboardDatasourceMapRepository');
 const modelCreator = require('../../src/utils/modelCreator');
+
 const ColumnsNotFoundException = require('../../src/exceptions/ColumnsNotFoundException');
 const DatasourceNotFoundException = require('../../src/exceptions/DatasourceNotFoundException');
 
-jest.mock('../../src/repository/dataSourceRepository');
-jest.mock('../../src/repository/dataSourceMetadataRepository');
+jest.mock('../../src/repository/datasourceRepository');
+jest.mock('../../src/repository/datasourceMetadataRepository');
 jest.mock('../../src/repository/dashboardDatasourceMapRepository');
 jest.mock('../../src/utils/modelCreator');
 jest.mock('../../src/services/dashboardService');
@@ -17,7 +18,7 @@ jest.spyOn(fs, 'readFileSync');
 jest.spyOn(fs, 'existsSync');
 jest.spyOn(fs, 'rmdirSync');
 
-describe('dataSourceService', () => {
+describe('datasourceService', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -35,7 +36,7 @@ describe('dataSourceService', () => {
 
     const dataSourceID = 'model';
 
-    const data = await dataSourceService.getData(dataSourceID);
+    const data = await datasourceService.getData(dataSourceID);
 
     expect(data).toEqual({
       data: {
@@ -56,7 +57,7 @@ describe('dataSourceService', () => {
     modelCreator.createModel.mockReturnValue('DataSourceModel');
     const dataSourceID = 'model';
 
-    const data = await dataSourceService.getData(dataSourceID, ['hour']);
+    const data = await datasourceService.getData(dataSourceID, ['hour']);
 
     expect(dataSourceMetadataRepository.getDataSourceSchemaById).toHaveBeenCalledWith('model');
     expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 });
@@ -79,7 +80,7 @@ describe('dataSourceService', () => {
       modelCreator.createModel.mockReturnValue('DataSourceModel');
       const dataSourceID = 'model';
 
-      const data = await dataSourceService.getData(dataSourceID, ['hour', 'hour']);
+      const data = await datasourceService.getData(dataSourceID, ['hour', 'hour']);
 
       expect(dataSourceMetadataRepository.getDataSourceSchemaById).toHaveBeenCalledWith('model');
       expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 });
@@ -97,7 +98,7 @@ describe('dataSourceService', () => {
       fileId: 'multerFileId',
     });
     const dataSourceID = 'model';
-    const data = await dataSourceService.getData(dataSourceID);
+    const data = await datasourceService.getData(dataSourceID);
     expect(data).toEqual({ data: [{ hour: 1 }, { hour: 2 }, { hour: 3 }] });
   });
   it('should throw exception for datasource not found if file is present', async () => {
@@ -107,7 +108,7 @@ describe('dataSourceService', () => {
       fileId: 'multerFileId',
     });
     const result = async () => {
-      await dataSourceService.getData('dataSourceID');
+      await datasourceService.getData('dataSourceID');
     };
     await expect(result).rejects.toThrow(new DatasourceNotFoundException('multerFileId'));
   });
@@ -116,7 +117,7 @@ describe('dataSourceService', () => {
       fileId: 'multerFileId',
     });
     const result = async () => {
-      await dataSourceService.getData('dataSourceID');
+      await datasourceService.getData('dataSourceID');
     };
     await expect(result).rejects.toThrow(new DatasourceNotFoundException('multerFileId'));
   });
@@ -124,7 +125,7 @@ describe('dataSourceService', () => {
   it('should throw exception for datasource not found if metadata is not present', async () => {
     dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce(null);
     const result = async () => {
-      await dataSourceService.getData('dataSourceID');
+      await datasourceService.getData('dataSourceID');
     };
     await expect(result).rejects.toThrow(new DatasourceNotFoundException('dataSourceID'));
   });
@@ -145,7 +146,7 @@ describe('dataSourceService', () => {
     const dataSourceId = 'model';
 
     const result = async () => {
-      await dataSourceService.getData(dataSourceId, ['hours', 'exposed']);
+      await datasourceService.getData(dataSourceId, ['hours', 'exposed']);
     };
 
     await expect(result).rejects.toThrow(new ColumnsNotFoundException());
@@ -169,7 +170,7 @@ describe('dataSourceService', () => {
       { _id: 'datasource2' },
     ]);
 
-    const data = await dataSourceService.bulkDeleteDatasource(['datasource1', 'datasource2']);
+    const data = await datasourceService.bulkDeleteDatasource(['datasource1', 'datasource2']);
     expect(dataSourceRepository.bulkDeleteCsv).toHaveBeenCalledWith(['datasource1', 'datasource2']);
     expect(dataSourceMetadataRepository.bulkDeleteDatasourceMetadata).toHaveBeenCalledWith([
       'datasource1',
@@ -190,7 +191,7 @@ describe('dataSourceService', () => {
       dataSourceRepository.getData.mockResolvedValue([{ hour: 1 }, { hour: 2 }, { hour: 3 }]);
       modelCreator.createModel.mockReturnValue('DataSourceModel');
       const dataSourceId = 'model';
-      await dataSourceService.getData(dataSourceId, ['hour']);
+      await datasourceService.getData(dataSourceId, ['hour']);
     });
 
     it('should getDataSourceSchema to have been called with dataSource name', function () {
@@ -224,7 +225,7 @@ describe('dataSourceService', () => {
       ]);
     });
     it('should delete all the json files present in server', async () => {
-      await dataSourceService.bulkDeleteDatasource(['dashboardId']);
+      await datasourceService.bulkDeleteDatasource(['dashboardId']);
       expect(fs.rmdirSync).toHaveBeenCalledTimes(2);
       expect(fs.rmdirSync).toHaveBeenCalledWith('./uploads/multerId', { recursive: true });
       expect(dataSourceMetadataRepository.bulkDeleteDatasourceMetadata).toHaveBeenCalledWith([
@@ -233,7 +234,7 @@ describe('dataSourceService', () => {
     });
 
     it('should should return deleted count', async () => {
-      const result = await dataSourceService.bulkDeleteDatasource(['dashboardId']);
+      const result = await datasourceService.bulkDeleteDatasource(['dashboardId']);
       expect(result).toEqual({ deletedCount: 1 });
     });
   });

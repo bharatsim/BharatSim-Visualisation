@@ -3,10 +3,11 @@ const request = require('supertest');
 const multer = require('multer');
 const fs = require('fs');
 
-const dataSourceMetadataService = require('../../src/services/datasourceMetadataService');
+const datasourceMetadataService = require('../../src/services/datasourceMetadataService');
 const datasourceService = require('../../src/services/datasourceService');
 const uploadDatasourceService = require('../../src/services/uploadDatasourceService');
 const dataSourcesRoutes = require('../../src/controller/datasourcesController');
+
 const DataSourceNotFoundException = require('../../src/exceptions/DatasourceNotFoundException');
 const ColumnsNotFoundException = require('../../src/exceptions/ColumnsNotFoundException');
 const InvalidInputException = require('../../src/exceptions/InvalidInputException');
@@ -15,8 +16,8 @@ const NotFoundException = require('../../src/exceptions/NotFoundException');
 const TEST_FILE_UPLOAD_PATH = './test/testUpload/';
 const testSchema = '{ "col1": "String", "col2": "Number" }';
 jest.mock('multer');
-jest.mock('../../src/services/dataSourceMetadataService');
-jest.mock('../../src/services/dataSourceService');
+jest.mock('../../src/services/datasourceMetadataService');
+jest.mock('../../src/services/datasourceService');
 jest.mock('../../src/services/uploadDatasourceService');
 
 let mockUploadFileName = 'sample.csv';
@@ -47,13 +48,13 @@ describe('api', () => {
     datasourceService.getData.mockResolvedValue({ data: { exposed: [2, 3], hour: [1, 2] } });
     datasourceService.bulkDeleteDatasource.mockResolvedValue({ deleted: 1 });
 
-    dataSourceMetadataService.getHeaders.mockResolvedValue({
+    datasourceMetadataService.getHeaders.mockResolvedValue({
       headers: [
         { name: 'hour', type: 'number' },
         { name: 'susceptible', type: 'number' },
       ],
     });
-    dataSourceMetadataService.getDataSources.mockResolvedValue({
+    datasourceMetadataService.getDataSources.mockResolvedValue({
       dataSources: [{ name: 'model_1' }, { name: 'model_2' }],
     });
 
@@ -81,28 +82,28 @@ describe('api', () => {
             { name: 'susceptible', type: 'number' },
           ],
         });
-      expect(dataSourceMetadataService.getHeaders).toHaveBeenCalledWith('model_1');
+      expect(datasourceMetadataService.getHeaders).toHaveBeenCalledWith('model_1');
     });
 
     it('should throw error if datasource not found', async () => {
       const dataSourceNotFoundException = new DataSourceNotFoundException('model_1');
-      dataSourceMetadataService.getHeaders.mockRejectedValueOnce(dataSourceNotFoundException);
+      datasourceMetadataService.getHeaders.mockRejectedValueOnce(dataSourceNotFoundException);
       await request(app).get('/datasources/model_1/headers').expect(404).expect({
         errorMessage: 'datasource with id model_1 not found',
         errorCode: 1002,
       });
-      expect(dataSourceMetadataService.getHeaders).toHaveBeenCalledWith('model_1');
+      expect(datasourceMetadataService.getHeaders).toHaveBeenCalledWith('model_1');
     });
 
     it('should send error for any technical error', async () => {
-      dataSourceMetadataService.getHeaders.mockRejectedValueOnce(new Error('error'));
+      datasourceMetadataService.getHeaders.mockRejectedValueOnce(new Error('error'));
 
       await request(app)
         .get('/datasources/datasourceName/headers')
         .expect(500)
         .expect({ errorMessage: 'Technical error error', errorCode: 1003 });
 
-      expect(dataSourceMetadataService.getHeaders).toHaveBeenCalledWith('datasourceName');
+      expect(datasourceMetadataService.getHeaders).toHaveBeenCalledWith('datasourceName');
     });
   });
 
@@ -172,21 +173,21 @@ describe('api', () => {
         .get('/datasources?dashboardId=123123')
         .expect(200)
         .expect({ dataSources: [{ name: 'model_1' }, { name: 'model_2' }] });
-      expect(dataSourceMetadataService.getDataSources).toHaveBeenCalledWith({
+      expect(datasourceMetadataService.getDataSources).toHaveBeenCalledWith({
         dashboardId: '123123',
         projectId: undefined,
       });
     });
 
     it('should send error message for columns not found exception', async () => {
-      dataSourceMetadataService.getDataSources.mockRejectedValueOnce(new Error('error'));
+      datasourceMetadataService.getDataSources.mockRejectedValueOnce(new Error('error'));
 
       await request(app)
         .get('/datasources?dashboardId=123123')
         .expect(500)
         .expect({ errorMessage: 'Technical error error', errorCode: 1003 });
 
-      expect(dataSourceMetadataService.getDataSources).toHaveBeenCalled();
+      expect(datasourceMetadataService.getDataSources).toHaveBeenCalled();
     });
   });
 
