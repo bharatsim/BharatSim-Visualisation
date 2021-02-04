@@ -3,6 +3,7 @@ import {
   convertStringArrayToOptions,
   debounce,
   getLatLngCenter,
+  transformChoroplethData,
   transformDataForHeatMap,
   updateState,
 } from '../helper';
@@ -87,15 +88,16 @@ describe('Helpers', () => {
 
     it('should return empty when column is not present', () => {
       const data = { lat: [1, 2, 3], lon: [4, 5, 6], geoMetric: [2, 3, 5] };
-      const invalidInputs = [[undefined,'lat', 'lon', 'geoMetric'],
-        [data,'invalidLat', 'lon', 'geoMetric'],
-        [data,'lat', 'invalidLon', 'geoMetric'],
-        [data,'lat', 'lon', 'invalidGeoMetric']
+      const invalidInputs = [
+        [undefined, 'lat', 'lon', 'geoMetric'],
+        [data, 'invalidLat', 'lon', 'geoMetric'],
+        [data, 'lat', 'invalidLon', 'geoMetric'],
+        [data, 'lat', 'lon', 'invalidGeoMetric'],
       ];
-      invalidInputs.forEach((inputs)=>{
+      invalidInputs.forEach((inputs) => {
         const actualData = transformDataForHeatMap(...inputs);
         expect(actualData).toEqual([]);
-      })
+      });
     });
   });
 
@@ -143,6 +145,38 @@ describe('Helpers', () => {
       const actualData = getLatLngCenter([]);
 
       expect(actualData).toEqual([20.59, 78.96]);
+    });
+  });
+
+  describe('transform data for choropleth', () => {
+    it('should give transform data for choropleth without time metric', () => {
+      const ids = [1, 2, 3, 4];
+      const measure = [100, 200, 300, 400];
+      const expectedData = {
+        1: 100,
+        2: 200,
+        3: 300,
+        4: 400,
+      };
+
+      const actualData = transformChoroplethData(ids, measure);
+
+      expect(actualData).toEqual(expectedData);
+    });
+
+    it('should give transform data for choropleth with time metric', () => {
+      const ids = [1, 2, 3, 4];
+      const measure = [100, 200, 300, 400];
+      const timeMetric = [1, 1, 2, 2];
+      const timeSlider = 2;
+      const expectedData = {
+        3: 300,
+        4: 400,
+      };
+
+      const actualData = transformChoroplethData(ids, measure, timeMetric, timeSlider);
+
+      expect(actualData).toEqual(expectedData);
     });
   });
 });

@@ -10,10 +10,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function valuetext(value) {
-  return `Tick No. ${value}`;
-}
-
 export default function TimeSlider({
   defaultValue,
   maxValue,
@@ -22,27 +18,35 @@ export default function TimeSlider({
   setTimeSliderValue,
   title,
   timeSliderValue,
+  dataTestId,
 }) {
   const classes = useStyles();
+
+  function onChange(e, value) {
+    setTimeSliderValue(value);
+  }
 
   return (
     <div className={classes.root}>
       <Typography variant="body2">{`${title} ${timeSliderValue}`}</Typography>
       <Slider
         defaultValue={defaultValue}
-        getAriaValueText={valuetext}
         aria-labelledby="Time Slider"
         step={step}
         marks
-        onChange={(e, val) => setTimeSliderValue(val)}
+        onChange={onChange}
         min={minValue}
         max={maxValue}
         valueLabelDisplay="auto"
-        data-testid="time-slider"
+        data-testid={dataTestId}
       />
     </div>
   );
 }
+
+TimeSlider.defaultProps = {
+  dataTestId: '',
+};
 
 TimeSlider.propTypes = {
   defaultValue: PropTypes.number.isRequired,
@@ -52,4 +56,5 @@ TimeSlider.propTypes = {
   setTimeSliderValue: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   timeSliderValue: PropTypes.number.isRequired,
+  dataTestId: PropTypes.string,
 };

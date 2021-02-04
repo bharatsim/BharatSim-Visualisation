@@ -142,6 +142,104 @@ describe('Choropleth', () => {
     expect(getByText('Unable to fetch data')).toBeInTheDocument();
   });
 
+  it('should call fetch data on render', async () => {
+    const { findByTestId } = render(
+      <ChoroplethWithProvider
+        config={{
+          dataSource: 'test.csv',
+          gisShapeLayer: 'india.geojson',
+          gisRegionId: 'regionId',
+          gisMeasure: 'infected',
+          sliderConfig: {},
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+
+    expect(api.getData).toHaveBeenCalledWith('india.geojson');
+    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected']);
+  });
+
+  it('should call fetch data on render with time Metrics if time metric is present ', async () => {
+    api.getData.mockImplementation((data) => {
+      if (data === 'test.csv')
+        return Promise.resolve({
+          data: { regionId: [1, 2, 3], infected: [2, 4, 6], day: [1, 2, 3] },
+        });
+      return Promise.resolve({ data: mockGeoJson });
+    });
+
+    const { findByTestId } = render(
+      <ChoroplethWithProvider
+        config={{
+          dataSource: 'test.csv',
+          gisShapeLayer: 'india.geojson',
+          gisRegionId: 'regionId',
+          gisMeasure: 'infected',
+          sliderConfig: {
+            timeMetrics: 'day',
+          },
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+
+    expect(api.getData).toHaveBeenCalledWith('india.geojson');
+    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected', 'day']);
+  });
+
+  it('should rerender when prop value changes', async () => {
+    api.getData.mockImplementation((data) => {
+      if (data === 'test.csv')
+        return Promise.resolve({
+          data: {
+            regionId: [1, 2, 3],
+            infected: [2, 4, 6],
+            day: [1, 2, 3],
+            regionIdNew: [1, 2, 3],
+          },
+        });
+      return Promise.resolve({ data: mockGeoJson });
+    });
+
+    const { findByTestId, rerender } = render(
+      <ChoroplethWithProvider
+        config={{
+          dataSource: 'test.csv',
+          gisShapeLayer: 'india.geojson',
+          gisRegionId: 'regionId',
+          gisMeasure: 'infected',
+          sliderConfig: {
+            timeMetrics: 'day',
+          },
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected', 'day']);
+
+    rerender(
+      <ChoroplethWithProvider
+        config={{
+          dataSource: 'test.csv',
+          gisShapeLayer: 'india.geojson',
+          gisRegionId: 'regionIdNew',
+          gisMeasure: 'infected',
+          sliderConfig: {
+            timeMetrics: 'day',
+          },
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+
+    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionIdNew', 'infected', 'day']);
+  });
+
   it('should call fetch data on click of retry button', async () => {
     api.getData.mockRejectedValueOnce('error');
     const { findByText, getByText, findByTestId } = render(
@@ -168,44 +266,6 @@ describe('Choropleth', () => {
     expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected']);
   });
 
-  // it('should call fetch data on prop change', async () => {
-  //   const config = {
-  //     dataSource: 'test.csv',
-  //     gisShapeLayer: 'india.geojson',
-  //     gisRegionId: 'regionId',
-  //     gisMeasure: 'infected',
-  //     sliderConfig: {},
-  //   };
-  //   const newConfigs = [
-  //     // { gisRegionId: 'newRegionId', gisMeasure: 'infected' },
-  //     {
-  //       gisRegionId: 'regionId',
-  //       gisMeasure: 'newInfected',
-  //     },
-  //   ];
-  //
-  //   await Promise.all(
-  //     newConfigs.map(async (updatedConfig) => {
-  //       const { findAllByTestId, rerender } = render(<ChoroplethWithProvider config={config} />);
-  //
-  //       rerender(
-  //         <ChoroplethWithProvider
-  //           config={{
-  //             ...config,
-  //             ...updatedConfig,
-  //           }}
-  //         />,
-  //       );
-  //       await findAllByTestId('map-container');
-  //
-  //       expect(api.getData).toHaveBeenCalledWith('india.geojson');
-  //       expect(api.getData).toHaveBeenCalledWith(config.dataSource, [
-  //         updatedConfig.gisRegionId,
-  //         updatedConfig.gisMeasure,
-  //       ]);
-  //     }),
-  //   );
-  // });
   it('should show error if get data api fail to load for map layer', async () => {
     api.getData.mockImplementation((data) => {
       if (data === 'india.geojson') return Promise.reject('error');

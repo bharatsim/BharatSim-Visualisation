@@ -37,7 +37,7 @@ function debounce(fn, delay) {
 
 function transformDataForHeatMap(data, latitude, longitude, geoMetricSeries) {
   const transformedData = [];
-  if (!data || (!data[latitude]) || (!data[longitude]) || (!data[geoMetricSeries]) ) {
+  if (!data || !data[latitude] || !data[longitude] || !data[geoMetricSeries]) {
     return transformedData;
   }
 
@@ -88,6 +88,27 @@ function getLatLngCenter(latLngInDegr) {
   return [rad2degr(lat), rad2degr(lng)];
 }
 
+function transformChoroplethDataForTimeSlider(ids, measure, tick, selectedTick) {
+  const idMeasureMap = {};
+  ids.forEach((id, index) => {
+    if (tick[index] === selectedTick) {
+      idMeasureMap[id] = measure[index];
+    }
+  });
+  return idMeasureMap;
+}
+
+function transformChoroplethData(ids, measure, timeMetrics, selectedTick) {
+  if (timeMetrics) {
+    return transformChoroplethDataForTimeSlider(ids, measure, timeMetrics, selectedTick);
+  }
+  const idMeasureMap = {};
+  ids.forEach((id, index) => {
+    idMeasureMap[id] = measure[index];
+  });
+  return idMeasureMap;
+}
+
 export {
   updateState,
   transformDataForHeatMap,
@@ -96,4 +117,5 @@ export {
   convertObjectArrayToOptionStructure,
   convertFileSizeToMB,
   getLatLngCenter,
+  transformChoroplethData,
 };

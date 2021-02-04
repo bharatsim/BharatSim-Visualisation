@@ -11,7 +11,7 @@ import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import GeoJsonLayer from '../../../uiComponent/mapLayers/GeoJsonLayer';
 import ColorScaleLegend from '../../../uiComponent/mapLayers/ColorScaleLegend';
 import TimeSlider from '../../../uiComponent/TimeSlider';
-import tableIcons from '../../../uiComponent/table/tableIcon';
+import { transformChoroplethData } from '../../../utils/helper';
 
 const useStyles = makeStyles((theme) => ({
   fullWidthHeight: { height: '100%', width: '100%' },
@@ -19,22 +19,6 @@ const useStyles = makeStyles((theme) => ({
     height: `calc(100% - ${theme.spacing(15)}px )`,
   },
 }));
-
-function transformData(ids, measure, tick, selectedTick, timeMetrics) {
-  const idMeasureMap = {};
-  if (timeMetrics) {
-    ids.forEach((id, index) => {
-      if (tick[index] === selectedTick) {
-        idMeasureMap[id] = measure[index];
-      }
-    });
-    return idMeasureMap;
-  }
-  ids.forEach((id, index) => {
-    idMeasureMap[id] = measure[index];
-  });
-  return idMeasureMap;
-}
 
 const scale = { 0: '#FDF1D9', '0.5': '#F7C75C', 1: '#D3501E' };
 
@@ -55,7 +39,13 @@ function Choropleth({ config }) {
 
   useEffect(() => {
     fetchAllData();
-  }, [dataSource, gisShapeLayer, gisRegionId, gisMeasure]);
+  }, [dataSource, gisShapeLayer, gisRegionId, gisMeasure, timeMetrics]);
+
+  useEffect(() => {
+    if (data && data[timeMetrics]) {
+      setTimeSliderValue(Math.min(...data[timeMetrics]));
+    }
+  }, [data]);
 
   async function fetchAllData() {
     startLoader();
@@ -99,12 +89,11 @@ function Choropleth({ config }) {
   const idMeasureMap = useMemo(
     () =>
       data
-        ? transformData(
+        ? transformChoroplethData(
             data[gisRegionId],
             data[gisMeasure],
             data[timeMetrics],
             timeSliderValue,
-            timeMetrics,
           )
         : {},
     [data, timeSliderValue],
@@ -123,7 +112,7 @@ function Choropleth({ config }) {
             {timeMetrics && data && data[timeMetrics] && (
               <Box>
                 <TimeSlider
-                  defaultValue={1}
+                  defaultValue={Math.min(...data[timeMetrics])}
                   maxValue={Math.max(...data[timeMetrics])}
                   minValue={Math.min(...data[timeMetrics])}
                   step={1}
@@ -163,6 +152,9 @@ Choropleth.propTypes = {
     gisShapeLayer: PropTypes.string.isRequired,
     gisRegionId: PropTypes.string.isRequired,
     gisMeasure: PropTypes.string.isRequired,
+    sliderConfig: PropTypes.shape({
+      timeMetrics: PropTypes.string,
+    }).isRequired,
   }).isRequired,
 };
 

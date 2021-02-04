@@ -11,6 +11,7 @@ exports[`<TimeSlider /> should match snapshot 1`] = `
       title 1
     </p>
     <input
+      data-testid="time-slider"
       max="5"
       min="1"
       type="range"
