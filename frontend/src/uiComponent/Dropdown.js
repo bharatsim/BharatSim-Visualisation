@@ -74,10 +74,6 @@ export default function Dropdown({
   const menuListClasses = useMenuListStyles();
   const menuListItemClasses = useMenuListItemStyles();
 
-  function handleChange(event) {
-    onChange(event.target.value);
-  }
-
   return (
     <FormControl variant="filled" className={classes.formControl} error={!!error}>
       <InputLabel id="dropdown-label">{label}</InputLabel>
@@ -85,7 +81,7 @@ export default function Dropdown({
         labelId="dropdown-label"
         id={id}
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
         multiple={multiple}
         label={label}
         data-testid={id}

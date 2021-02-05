@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import Dropdown from '../../uiComponent/Dropdown';
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
 import { timeSliderConfig } from '../../constants/sliderConfigs';
-import { requiredValueForDropdown } from '../../utils/validators';
 import AntSwitch from '../../uiComponent/AntSwitch';
+import ControlledDropDown from '../../uiComponent/ControlledDropdown';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -24,48 +23,9 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function TimeSliderConfig({ headers, handleConfigChange, configKey, value, handleError }) {
+function TimeSliderConfig({ headers, configKey, control, register, watch, errors }) {
   const classes = useStyles();
-  const [validationError, setValidationError] = useState({});
-  const [switchChecked, setSwitchChecked] = useState(false);
-
-  useEffect(() => {
-    if (hasEmptyValues()) {
-      setErrorForValidationErrors();
-    }
-  }, [validationError, switchChecked]);
-
-  useEffect(() => {
-    if (!switchChecked) {
-      handleConfigChange(configKey, { ...value, [timeSliderConfig.TIME_METRICS]: '' });
-    }
-  }, [switchChecked]);
-
-  function hasEmptyValues() {
-    if (!switchChecked) {
-      return '';
-    }
-    return value[timeSliderConfig.TIME_METRICS] === '';
-  }
-
-  function setErrorForValidationErrors() {
-    const isValidationError = Object.values(timeSliderConfig).some(
-      (timeMetricsValue) => validationError[timeMetricsValue] !== '',
-    );
-    handleError(configKey, isValidationError ? 'error' : '');
-  }
-
-  function handleTimeMetricsChange(selectedValue) {
-    setValidationError({
-      ...validationError,
-      [timeSliderConfig.TIME_METRICS]: requiredValueForDropdown(selectedValue),
-    });
-    handleConfigChange(configKey, { ...value, [timeSliderConfig.TIME_METRICS]: selectedValue });
-  }
-
-  function handleSwitchChange(e, val) {
-    setSwitchChecked(val);
-  }
+  const showSliderConfig = watch(`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`);
 
   return (
     <Box>
@@ -74,25 +34,26 @@ function TimeSliderConfig({ headers, handleConfigChange, configKey, value, handl
         <Box ml={2}>
           <AntSwitch
             dataTestid="toggle-time-slider"
-            checked={switchChecked}
-            onChange={handleSwitchChange}
+            register={register}
+            name={`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`}
             onLabel="Yes"
             offLabel="No"
           />
         </Box>
       </Box>
-      {switchChecked && (
+      {showSliderConfig && (
         <Box className={classes.fieldContainer}>
           <Box>
             <Typography variant="body1">Time</Typography>
-            <Dropdown
+            <ControlledDropDown
               options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
-              onChange={handleTimeMetricsChange}
               id="timeMetrics"
               key="dropdown-timeMetrics"
               label="select Time Metrics"
-              value={value[timeSliderConfig.TIME_METRICS]}
-              error={validationError[timeSliderConfig.TIME_METRICS]}
+              control={control}
+              validations={{ required: 'Required' }}
+              name={`${configKey}.${timeSliderConfig.TIME_METRICS}`}
+              error={errors[timeSliderConfig.TIME_METRICS]}
             />
           </Box>
         </Box>
@@ -102,7 +63,7 @@ function TimeSliderConfig({ headers, handleConfigChange, configKey, value, handl
 }
 
 TimeSliderConfig.defaultProps = {
-  value: { [timeSliderConfig.TIME_METRICS]: '', [timeSliderConfig.INTERVAL]: 1 },
+  errors: { [timeSliderConfig.TIME_METRICS]: {} },
 };
 
 TimeSliderConfig.propTypes = {
@@ -112,12 +73,13 @@ TimeSliderConfig.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  handleConfigChange: PropTypes.func.isRequired,
-  handleError: PropTypes.func.isRequired,
   configKey: PropTypes.string.isRequired,
-  value: PropTypes.shape({
-    [timeSliderConfig.TIME_METRICS]: PropTypes.string,
+  errors: PropTypes.shape({
+    [timeSliderConfig.TIME_METRICS]: PropTypes.shape({}),
   }),
+  control: PropTypes.shape({}).isRequired,
+  register: PropTypes.func.isRequired,
+  watch: PropTypes.func.isRequired,
 };
 
 export default TimeSliderConfig;

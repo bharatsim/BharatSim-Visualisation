@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { act, fireEvent } from '@testing-library/react';
 import Dashboard from '../Dashboard';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import {
@@ -35,7 +35,7 @@ jest.mock('../constants.js', () => ({
 jest.mock('../../../utils/api', () => ({
   api: {
     saveDashboard: jest.fn().mockResolvedValue({
-      dashboardId: 'dashboardId',
+      dashboardId: 'id1',
     }),
     getDashboard: jest.fn().mockResolvedValue({
       dashboard: { name: 'datasource1', _id: 'id1' },
@@ -56,10 +56,16 @@ jest.mock('../../../utils/api', () => ({
   },
 }));
 
+const flushPromises = () => new Promise(setImmediate);
+
 describe('<Dashboard />', () => {
   const DashboardWithProviders = withRouter(withThemeProvider(withProjectLayout(Dashboard)));
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
   afterEach(() => {
     jest.clearAllMocks();
+    jest.clearAllTimers();
   });
 
   const addChart = async (renderedComponent) => {
@@ -73,16 +79,21 @@ describe('<Dashboard />', () => {
 
     await findByText('Data Source');
     const chartNameInput = getByLabelText('Add chart name');
-    fireEvent.change(chartNameInput, {
+    fireEvent.input(chartNameInput, {
       target: { value: 'chart name' },
     });
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
-    selectDropDownOption(renderedComponent, 'dropdown-x', 'column1');
-    selectDropDownOption(renderedComponent, 'dropdown-y-0', 'column2');
+    selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
+    selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 
     const applyButton = getByText('Apply');
-    fireEvent.click(applyButton);
+
+    await flushPromises();
+
+    await act(async () => expect(applyButton).not.toBeDisabled());
+
+    await act(async () => fireEvent.click(applyButton));
   };
 
   it('should add dashboard name to dashboard component', async () => {
@@ -103,7 +114,9 @@ describe('<Dashboard />', () => {
 
   it('should return empty component when failed to fetch dashboard', async () => {
     api.getDashboard.mockResolvedValueOnce(undefined);
+
     const { container } = render(<DashboardWithProviders />);
+
     expect(container).toMatchInlineSnapshot(`<div />`);
   });
 
@@ -137,7 +150,9 @@ describe('<Dashboard />', () => {
 
     await addChart(renderedComponent);
 
-    await findByText('Saving...', { timeout: 2300 });
+    await findByText('Saving...');
+    jest.runAllImmediates();
+    await flushPromises();
     const lineChart = getByText('LINE CHART');
 
     await findByText('Last Saved', { exact: false });
@@ -147,14 +162,14 @@ describe('<Dashboard />', () => {
 
   it('should edit chart and auto save', async () => {
     const renderedComponent = render(<DashboardWithProviders />);
-    const { queryByText,getByText, findByText, getByTestId, getByLabelText , debug} = renderedComponent;
+    const { queryByText, getByText, findByText, getByTestId, getByLabelText } = renderedComponent;
 
     await findByText('dashboard1');
 
     await addChart(renderedComponent);
     await findByText('Last Saved', { exact: false });
 
-    expect(queryByText('chart name')).toBeInTheDocument()
+    expect(queryByText('chart name')).toBeInTheDocument();
 
     fireEvent.click(getByTestId('widget-menu'));
     fireEvent.click(getByText('Configure Chart'));
@@ -166,7 +181,9 @@ describe('<Dashboard />', () => {
     const applyButton = getByText('Apply');
     fireEvent.click(applyButton);
 
-    await findByText('Saving...', { timeout: 2300 });
+    await findByText('Saving...');
+    jest.runAllImmediates();
+    await flushPromises();
     await findByText('Last Saved', { exact: false });
 
     expect(queryByText('chart name')).not.toBeInTheDocument();
@@ -181,8 +198,9 @@ describe('<Dashboard />', () => {
     await findByText('dashboard1');
 
     await addChart(renderedComponent);
+    await flushPromises();
 
-    await findByText('Unable to save the dashboard', { timeout: 2300 });
+    await findByText('Unable to save the dashboard');
 
     expect(getByText('Unable to save the dashboard')).toBeInTheDocument();
 
@@ -240,7 +258,8 @@ describe('<Dashboard />', () => {
     fireEvent.click(getByText('Delete Chart'));
     fireEvent.click(getByTestId('delete-chart-confirm'));
 
-    await findByText('Saving...', { timeout: 2300 });
+    await findByText('Saving...');
+    jest.runAllImmediates();
     await findByText('Last Saved', { exact: false });
     expect(queryByText('LINE CHART')).not.toBeInTheDocument();
   });

@@ -3,6 +3,7 @@ import {
   convertStringArrayToOptions,
   debounce,
   getLatLngCenter,
+  shapeFileFilter,
   transformChoroplethData,
   transformDataForHeatMap,
   updateState,
@@ -177,6 +178,22 @@ describe('Helpers', () => {
       const actualData = transformChoroplethData(ids, measure, timeMetric, timeSlider);
 
       expect(actualData).toEqual(expectedData);
+    });
+  });
+
+  describe('filter for shape file', () => {
+    it('should return false if file is not shape file ', () => {
+      const file = { name: 'csv file', fileType: 'csv' };
+      const isShapeFile = shapeFileFilter(file);
+
+      expect(isShapeFile).toEqual(false);
+    });
+
+    it('should return true if file is shape file ', () => {
+      const file = { name: 'csv file', fileType: 'json' };
+      const isShapeFile = shapeFileFilter(file);
+
+      expect(isShapeFile).toEqual(true);
     });
   });
 });

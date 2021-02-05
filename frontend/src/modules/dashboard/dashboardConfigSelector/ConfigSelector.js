@@ -11,12 +11,12 @@ import LoaderOrError from '../../loaderOrError/LoaderOrError';
 function ConfigSelector({
   dataSourceId,
   chartType,
-  handleConfigChange,
   errors,
-  values,
   resetValue,
-  handleError,
-   isEditMode
+  isEditMode,
+  control,
+  register,
+  watch,
 }) {
   const [fetchedCsvHeaders, setFetchedCsvHeaders] = useState();
 
@@ -29,7 +29,7 @@ function ConfigSelector({
   } = useLoader();
 
   useEffect(() => {
-    configOptionsKeysForSelectedChart.map((chartConfigKey) => resetValue(chartConfigKey));
+    resetValue(configOptionsKeysForSelectedChart);
     fetchCsvHeaders();
   }, [dataSourceId]);
 
@@ -47,7 +47,7 @@ function ConfigSelector({
   }
 
   const { headers } = fetchedCsvHeaders || {};
-  const chartConfigProps = { headers, handleConfigChange, errors, values, handleError, isEditMode };
+  const chartConfigProps = { headers, register, control, watch, errors, isEditMode };
   const configOptionsKeysForSelectedChart = chartConfigs[chartType].configOptions;
   function isLastConfigOption(configs, index) {
     return configs.length - index === 1;
@@ -84,12 +84,12 @@ function ConfigSelector({
 ConfigSelector.propTypes = {
   dataSourceId: PropTypes.string.isRequired,
   chartType: PropTypes.string.isRequired,
-  handleConfigChange: PropTypes.func.isRequired,
-  handleError: PropTypes.func.isRequired,
   resetValue: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
-  values: PropTypes.shape({}).isRequired,
   isEditMode: PropTypes.bool.isRequired,
+  control: PropTypes.shape({}).isRequired,
+  register: PropTypes.func.isRequired,
+  watch: PropTypes.func.isRequired,
 };
 
 export default ConfigSelector;

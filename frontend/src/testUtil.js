@@ -1,10 +1,8 @@
 /* eslint-disable */
 import React from 'react';
-import { render as rtlRender } from '@testing-library/react';
-import { createStore } from 'redux';
+import { fireEvent, render as rtlRender, within } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { composeStore } from './hoc/redux/store';
-import { fireEvent, within } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { ProjectLayoutProvider } from './contexts/projectLayoutContext';

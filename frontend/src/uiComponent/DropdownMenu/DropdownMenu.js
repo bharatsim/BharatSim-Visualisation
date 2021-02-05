@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { Typography } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import PropTypes from 'prop-types';
-import Divider from "@material-ui/core/Divider";
+import Divider from '@material-ui/core/Divider';
 import useMenuStyles from './dropdownMenuCss';
 
 function DropdownMenu({ anchorEl, closeMenu, menuItems }) {
@@ -32,13 +32,12 @@ function DropdownMenu({ anchorEl, closeMenu, menuItems }) {
     >
       {menuItems.map(({ icon, label, onClick, dataTestId, withDivider = false }) => {
         return (
-          <div>
-            { withDivider && <Divider />}
+          <div key={dataTestId}>
+            {withDivider && <Divider />}
             <MenuItem
               onClick={onClick}
               classes={{ root: menuClasses.root }}
               data-testid={dataTestId}
-              key={dataTestId}
             >
               <Box className={menuClasses.menuOption}>
                 {icon}

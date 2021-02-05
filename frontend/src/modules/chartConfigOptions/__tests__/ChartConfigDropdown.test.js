@@ -1,11 +1,13 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { useForm } from 'react-hook-form';
+import { act, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/dom';
 import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import ChartConfigDropdown from '../ChartConfigDropdown';
 
-describe('<ChartConfigDropdown />', () => {
-  const ChartConfigDropdownWithTheme = withThemeProvider(ChartConfigDropdown);
+const FormWithChartConfigDropdown = ({ onSubmit }) => {
+  const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
   const props = {
     id: 'gis-measure',
     label: 'select measure',
@@ -15,22 +17,28 @@ describe('<ChartConfigDropdown />', () => {
       { name: 'b', type: 'number' },
       { name: 'c', type: 'number' },
     ],
-    handleConfigChange: jest.fn(),
     configKey: 'gisMeasure',
-    error: '',
-    value: '',
   };
-  it('should match snapshot', () => {
-    const { container } = render(<ChartConfigDropdownWithTheme {...props} />);
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <ChartConfigDropdown {...props} control={control} error={errors[props.configKey]} />
+      <button type="submit">submit</button>
+    </form>
+  );
+};
 
-    expect(container).toMatchSnapshot();
-  });
-
-  it('should call setConfig callback after value change', () => {
-    const renderedContainer = render(<ChartConfigDropdownWithTheme {...props} />);
+describe('<ChartConfigDropdown />', () => {
+  const DemoForm = withThemeProvider(FormWithChartConfigDropdown);
+  it('should call setConfig callback after value change', async () => {
+    const onSubmit = jest.fn();
+    const renderedContainer = render(<DemoForm onSubmit={onSubmit} />);
 
     selectDropDownOption(renderedContainer, 'gis-measure', 'a');
 
-    expect(props.handleConfigChange).toHaveBeenCalledWith('gisMeasure', 'a');
+    await act(async () => {
+      fireEvent.click(renderedContainer.getByText('submit'));
+    });
+
+    expect(onSubmit).toHaveBeenCalledWith({ gisMeasure: 'a' }, expect.anything());
   });
 });

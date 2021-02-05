@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { renderWithRedux as render } from '../../../../testUtil';
 import DashboardNavbar from '../sideDashboardNavbar/DashboardNavbar';
 import withThemeProvider from '../../../../theme/withThemeProvider';
@@ -234,6 +234,7 @@ describe('Dashboard Navbar', () => {
       await findByText('Aw Snap! Failed to delete dashboard dashboard1');
 
       expect(getByText('Aw Snap! Failed to delete dashboard dashboard1')).toBeInTheDocument();
+      await waitFor(() => {});
     });
   });
 });

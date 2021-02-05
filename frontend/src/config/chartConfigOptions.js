@@ -1,134 +1,117 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import XAxisChartConfig from '../modules/chartConfigOptions/XAxisChartConfig';
 import YAxisChartConfig from '../modules/chartConfigOptions/YAxisChartConfig';
-import {
-  geoMetricValidator,
-  requiredValueForDropdown,
-  xAxisValidator,
-  yAxisValidator,
-} from '../utils/validators';
 import { chartConfigOptionTypes } from '../constants/chartConfigOptionTypes';
-import GeoMetricsSeries from '../modules/chartConfigOptions/GeoMetricSeriesConfig';
 import GeoDimensionsConfig from '../modules/chartConfigOptions/GeoDimensionsConfig';
-import GISShapeLayerConfig from '../modules/chartConfigOptions/GISShapeLayerConfig';
 import ChartConfigDropdown from '../modules/chartConfigOptions/ChartConfigDropdown';
 import TimeSliderConfig from '../modules/chartConfigOptions/TimeSliderConfig';
+import DatasourceSelector from '../modules/dashboard/dashboardConfigSelector/DatasourceSelector';
+import { shapeFileFilter } from '../utils/helper';
 
 const chartConfigOptions = {
   [chartConfigOptionTypes.X_AXIS]: {
-    component: ({ headers, handleConfigChange, errors, values }) => (
-      <XAxisChartConfig
+    component: ({ headers, control, errors }) => (
+      <ChartConfigDropdown
         headers={headers}
-        handleConfigChange={handleConfigChange}
+        id="x-axis-dropdown"
+        label="select x axis"
+        title="X-axis"
+        control={control}
         configKey={chartConfigOptionTypes.X_AXIS}
         error={errors[chartConfigOptionTypes.X_AXIS]}
-        value={values[chartConfigOptionTypes.X_AXIS]}
       />
     ),
-    validator: xAxisValidator,
   },
   [chartConfigOptionTypes.Y_AXIS]: {
-    component: ({ headers, handleConfigChange, errors, values }) => (
+    component: ({ headers, control, errors }) => (
       <YAxisChartConfig
         headers={headers}
-        handleConfigChange={handleConfigChange}
+        handleConfigChange={headers}
         configKey={chartConfigOptionTypes.Y_AXIS}
-        error={errors[chartConfigOptionTypes.Y_AXIS]}
-        value={values[chartConfigOptionTypes.Y_AXIS]}
+        errors={errors[chartConfigOptionTypes.Y_AXIS]}
+        control={control}
       />
     ),
-    validator: yAxisValidator,
   },
 
   [chartConfigOptionTypes.GEO_DIMENSIONS]: {
-    component: ({ headers, handleConfigChange, errors, values, handleError }) => (
+    component: ({ headers, control, errors }) => (
       <GeoDimensionsConfig
         headers={headers}
-        handleConfigChange={handleConfigChange}
+        control={control}
         configKey={chartConfigOptionTypes.GEO_DIMENSIONS}
-        error={errors[chartConfigOptionTypes.GEO_DIMENSIONS]}
-        value={values[chartConfigOptionTypes.GEO_DIMENSIONS]}
-        handleError={handleError}
+        errors={errors[chartConfigOptionTypes.GEO_DIMENSIONS]}
       />
     ),
   },
 
   [chartConfigOptionTypes.GEO_METRIC_SERIES]: {
-    component: ({ headers, handleConfigChange, errors, values }) => (
-      <GeoMetricsSeries
+    component: ({ headers, control, errors }) => (
+      <ChartConfigDropdown
         headers={headers}
-        handleConfigChange={handleConfigChange}
+        id="dropdown-geo-metric-series"
+        label="select metric"
+        title="Geo Metric"
+        control={control}
         configKey={chartConfigOptionTypes.GEO_METRIC_SERIES}
         error={errors[chartConfigOptionTypes.GEO_METRIC_SERIES]}
-        value={values[chartConfigOptionTypes.GEO_METRIC_SERIES]}
       />
     ),
-    validator: geoMetricValidator,
   },
   [chartConfigOptionTypes.GIS_SHAPE_LAYER]: {
-    component: ({ handleConfigChange, errors, values, isEditMode }) => (
-      <GISShapeLayerConfig
-        handleConfigChange={handleConfigChange}
+    component: ({ control, errors, isEditMode }) => (
+      <DatasourceSelector
         isEditMode={isEditMode}
-        configKey={chartConfigOptionTypes.GIS_SHAPE_LAYER}
+        name={chartConfigOptionTypes.GIS_SHAPE_LAYER}
+        control={control}
+        disabled={isEditMode}
+        filterDatasource={shapeFileFilter}
+        noDataSourcePresentMessage="Before we can create any GIS visualization, we‘ll need some GIS layer data."
         error={errors[chartConfigOptionTypes.GIS_SHAPE_LAYER]}
-        value={values[chartConfigOptionTypes.GIS_SHAPE_LAYER]}
+        header="GIS shape layer"
+        id="gisShapeLayer-dropdown"
+        label="select GIS shape layer source"
       />
     ),
-    validator: requiredValueForDropdown,
   },
   [chartConfigOptionTypes.GIS_REGION_ID]: {
-    component: ({ headers, handleConfigChange, errors, values }) => (
+    component: ({ headers, control, errors }) => (
       <ChartConfigDropdown
         headers={headers}
         id="gis-region-id"
         label="select region id"
         title="GIS Region Id"
-        handleConfigChange={handleConfigChange}
+        control={control}
         configKey={chartConfigOptionTypes.GIS_REGION_ID}
         error={errors[chartConfigOptionTypes.GIS_REGION_ID]}
-        value={values[chartConfigOptionTypes.GIS_REGION_ID]}
       />
     ),
-    validator: requiredValueForDropdown,
   },
   [chartConfigOptionTypes.GIS_MEASURE]: {
-    component: ({ headers, handleConfigChange, errors, values }) => (
+    component: ({ headers, control, errors }) => (
       <ChartConfigDropdown
+        control={control}
         headers={headers}
         id="gis-measure"
         label="select measure"
         title="GIS Measure"
-        handleConfigChange={handleConfigChange}
         configKey={chartConfigOptionTypes.GIS_MEASURE}
         error={errors[chartConfigOptionTypes.GIS_MEASURE]}
-        value={values[chartConfigOptionTypes.GIS_MEASURE]}
       />
     ),
-    validator: requiredValueForDropdown,
   },
   [chartConfigOptionTypes.SLIDER_CONFIG]: {
-    component: ({ headers, handleConfigChange, errors, values, handleError }) => (
+    component: ({ headers, control, watch, register, errors }) => (
       <TimeSliderConfig
+        control={control}
+        watch={watch}
+        register={register}
         headers={headers}
-        handleConfigChange={handleConfigChange}
         configKey={chartConfigOptionTypes.SLIDER_CONFIG}
-        error={errors[chartConfigOptionTypes.SLIDER_CONFIG]}
-        value={values[chartConfigOptionTypes.SLIDER_CONFIG]}
-        handleError={handleError}
+        errors={errors[chartConfigOptionTypes.SLIDER_CONFIG]}
       />
     ),
   },
 };
 
-function createConfigOptionValidationSchema(configOptions) {
-  const configOptionValidationSchema = {};
-  configOptions.forEach((configOption) => {
-    configOptionValidationSchema[configOption] = chartConfigOptions[configOption].validator;
-  });
-
-  return configOptionValidationSchema;
-}
-export { createConfigOptionValidationSchema };
 export default chartConfigOptions;

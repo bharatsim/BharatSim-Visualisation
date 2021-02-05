@@ -4,13 +4,24 @@ import PropTypes from 'prop-types';
 import { Box, Typography } from '@material-ui/core';
 import { api } from '../../../utils/api';
 import { convertObjectArrayToOptionStructure } from '../../../utils/helper';
-import Dropdown from '../../../uiComponent/Dropdown';
 import { projectLayoutContext } from '../../../contexts/projectLayoutContext';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import NoDataSetPresentMessage from '../../configureDataset/NoDatatSetPresentMessage';
+import ControlledDropDown from '../../../uiComponent/ControlledDropdown';
 
-function DatasourceSelector({ handleDataSourceChange, value, error, disabled  }) {
+function DatasourceSelector({
+  name,
+  control,
+  disabled,
+  defaultValue,
+  filterDatasource,
+  error,
+  noDataSourcePresentMessage,
+  header,
+  label,
+  id,
+}) {
   const { selectedDashboardMetadata, projectMetadata } = useContext(projectLayoutContext);
   const { _id: selectedDashboardId } = selectedDashboardMetadata;
   const {
@@ -30,16 +41,20 @@ function DatasourceSelector({ handleDataSourceChange, value, error, disabled  })
     startLoader();
     api
       .getDatasources(selectedDashboardId)
-      .then((resData) => {
+      .then(({ dataSources }) => {
         stopLoaderAfterSuccess();
-        setFetchedDatasources(resData);
+        if (filterDatasource) {
+          const filteredDatasources = dataSources.filter(filterDatasource);
+          setFetchedDatasources(filteredDatasources);
+        }
+        setFetchedDatasources(dataSources);
       })
       .catch(() => {
         stopLoaderAfterError('Unable to fetch data sources');
       });
   }
 
-  const dataSources = fetchedDatasources ? fetchedDatasources.dataSources : [];
+  const dataSources = fetchedDatasources || [];
 
   const isDataSourcePresent = dataSources.length > 0;
 
@@ -58,21 +73,26 @@ function DatasourceSelector({ handleDataSourceChange, value, error, disabled  })
       {isDataSourcePresent ? (
         <>
           <Box mb={2}>
-            <Typography variant="subtitle2"> Data Source </Typography>
+            <Typography variant="subtitle2">{header}</Typography>
           </Box>
-          <Dropdown
+          <ControlledDropDown
             options={convertObjectArrayToOptionStructure(dataSources, 'name', '_id')}
-            onChange={handleDataSourceChange}
-            id="dropdown-dataSources"
-            label="select data source"
-            error={error}
-            value={value}
+            id={id}
+            label={label}
             disabled={disabled}
+            name={name}
+            control={control}
+            validations={{ required: 'Required' }}
+            defaultValue={defaultValue}
+            error={error}
           />
         </>
       ) : (
         <Box>
-          <NoDataSetPresentMessage projectMetadataId={projectMetadata.id} />
+          <NoDataSetPresentMessage
+            projectMetadataId={projectMetadata.id}
+            message={noDataSourcePresentMessage}
+          />
         </Box>
       )}
     </LoaderOrError>
@@ -80,16 +100,24 @@ function DatasourceSelector({ handleDataSourceChange, value, error, disabled  })
 }
 
 DatasourceSelector.defaultProps = {
-  error: '',
-  value: '',
   disabled: false,
+  defaultValue: '',
+  filterDatasource: null,
+  noDataSourcePresentMessage: '',
+  error: {},
 };
 
 DatasourceSelector.propTypes = {
-  handleDataSourceChange: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  value: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  header: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  control: PropTypes.shape({}).isRequired,
   disabled: PropTypes.bool,
+  defaultValue: PropTypes.string,
+  filterDatasource: PropTypes.func,
+  noDataSourcePresentMessage: PropTypes.string,
+  error: PropTypes.shape({}),
 };
 
 export default DatasourceSelector;

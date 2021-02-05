@@ -15,13 +15,12 @@ exports[`<AntSwitch /> should match snapshot 1`] = `
     >
       <span
         aria-disabled="false"
-        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-9 MuiSwitch-switchBase WithStyles(ForwardRef(Switch))-switchBase-5 MuiSwitch-colorSecondary PrivateSwitchBase-checked-10 Mui-checked WithStyles(ForwardRef(Switch))-checked-8"
+        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-9 MuiSwitch-switchBase WithStyles(ForwardRef(Switch))-switchBase-5 MuiSwitch-colorSecondary"
       >
         <span
           class="MuiIconButton-label"
         >
           <input
-            checked=""
             class="PrivateSwitchBase-input-12 MuiSwitch-input"
             type="checkbox"
             value=""

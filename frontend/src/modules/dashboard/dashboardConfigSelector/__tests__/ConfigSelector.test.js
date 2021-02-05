@@ -2,7 +2,6 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import ConfigSelector from '../ConfigSelector';
-import { selectDropDownOption } from '../../../../testUtil';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import { api } from '../../../../utils/api';
 
@@ -17,75 +16,68 @@ jest.mock('../../../../utils/api', () => ({
   },
 }));
 
+jest.mock('../../../../config/chartConfigOptions', () => ({
+  xAxis: {
+    component: () => <div>select x axis</div>,
+  },
+  yAxis: {
+    component: () => <div>select y axis</div>,
+  },
+}));
+
 describe('<ConfigSelector />', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   const ConfigSelectorWithTheme = withThemeProvider(ConfigSelector);
   it('should match snapshot for configs for line chart', async () => {
-    const handleConfigChangeMock = jest.fn();
     const { container, findByText } = render(
       <ConfigSelectorWithTheme
+        dataSourceId="datasourceID"
         chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        handleConfigChange={handleConfigChangeMock}
-        values={{}}
-        handleError={jest.fn()}
         resetValue={jest.fn()}
+        errors={{}}
+        isEditMode={false}
+        control={{}}
+        register={jest.fn()}
+        watch={jest.fn()}
       />,
     );
+
     await findByText('select x axis');
 
     expect(container).toMatchSnapshot();
   });
 
-  it('should update config on change of dropdown', async () => {
-    const handleConfigChangeMock = jest.fn();
-    const renderedComponent = render(
-      <ConfigSelectorWithTheme
-        chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        handleConfigChange={handleConfigChangeMock}
-        values={{}}
-        handleError={jest.fn()}
-        resetValue={jest.fn()}
-      />,
-    );
-    await renderedComponent.findByText('select x axis');
-
-    selectDropDownOption(renderedComponent, 'dropdown-x', 'column1');
-
-    expect(handleConfigChangeMock).toHaveBeenCalledWith('xAxis', 'column1');
-  });
-
   it('should call getCsvHeaders with data source id on render', async () => {
-    const handleConfigChangeMock = jest.fn();
     const renderedComponent = render(
       <ConfigSelectorWithTheme
+        dataSourceId="datasourceID"
         chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        handleConfigChange={handleConfigChangeMock}
-        values={{}}
-        handleError={jest.fn()}
         resetValue={jest.fn()}
+        errors={{}}
+        isEditMode={false}
+        control={{}}
+        register={jest.fn()}
+        watch={jest.fn()}
       />,
     );
     await renderedComponent.findByText('select x axis');
 
-    expect(api.getCsvHeaders).toHaveBeenCalledWith('dataSourceId');
+    expect(api.getCsvHeaders).toHaveBeenCalledWith('datasourceID');
   });
 
   it('should call getCsvHeaders with data source id on rerender for data source id change', async () => {
-    const handleConfigChangeMock = jest.fn();
     const { findByText, rerender } = render(
       <ConfigSelectorWithTheme
+        dataSourceId="datasourceID"
         chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        handleConfigChange={handleConfigChangeMock}
-        values={{}}
-        handleError={jest.fn()}
         resetValue={jest.fn()}
+        errors={{}}
+        isEditMode={false}
+        control={{}}
+        register={jest.fn()}
+        watch={jest.fn()}
       />,
     );
 
@@ -93,32 +85,34 @@ describe('<ConfigSelector />', () => {
 
     rerender(
       <ConfigSelectorWithTheme
+        dataSourceId="datasourceID2"
         chartType="lineChart"
-        dataSourceId="dataSourceId2"
-        errors={{}}
-        handleConfigChange={handleConfigChangeMock}
-        values={{}}
-        handleError={jest.fn()}
         resetValue={jest.fn()}
+        errors={{}}
+        isEditMode={false}
+        control={{}}
+        register={jest.fn()}
+        watch={jest.fn()}
       />,
     );
 
     await findByText('select x axis');
 
-    expect(api.getCsvHeaders).toHaveBeenCalledWith('dataSourceId2');
+    expect(api.getCsvHeaders).toHaveBeenLastCalledWith('datasourceID2');
   });
 
   it('should call resetValue for config of line chart', async () => {
     const resetValue = jest.fn();
     const { findByText, rerender } = render(
       <ConfigSelectorWithTheme
+        dataSourceId="datasourceID"
         chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        handleConfigChange={jest.fn()}
-        values={{}}
-        handleError={jest.fn()}
         resetValue={resetValue}
+        errors={{}}
+        isEditMode={false}
+        control={{}}
+        register={jest.fn()}
+        watch={jest.fn()}
       />,
     );
 
@@ -126,32 +120,33 @@ describe('<ConfigSelector />', () => {
 
     rerender(
       <ConfigSelectorWithTheme
+        dataSourceId="datasourceID2"
         chartType="lineChart"
-        dataSourceId="dataSourceId2"
+        resetValue={jest.fn()}
         errors={{}}
-        handleConfigChange={jest.fn()}
-        values={{}}
-        handleError={jest.fn()}
-        resetValue={resetValue}
+        isEditMode={false}
+        control={{}}
+        register={jest.fn()}
+        watch={jest.fn()}
       />,
     );
 
     await findByText('select x axis');
 
-    expect(api.getCsvHeaders).toHaveBeenCalledWith('dataSourceId2');
+    expect(resetValue).toHaveBeenCalledWith(['xAxis', 'yAxis']);
   });
 
   it('should show loader while fetching data', async () => {
-    const handleConfigChangeMock = jest.fn();
     const renderedComponent = render(
       <ConfigSelectorWithTheme
+        dataSourceId="datasourceID"
         chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        handleConfigChange={handleConfigChangeMock}
-        values={{}}
-        handleError={jest.fn()}
         resetValue={jest.fn()}
+        errors={{}}
+        isEditMode={false}
+        control={{}}
+        register={jest.fn()}
+        watch={jest.fn()}
       />,
     );
     const loaderComponent = document.getElementsByTagName('svg');
@@ -165,13 +160,14 @@ describe('<ConfigSelector />', () => {
     api.getCsvHeaders.mockRejectedValueOnce('error');
     const { findByText, getByText } = render(
       <ConfigSelectorWithTheme
+        dataSourceId="datasourceID"
         chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        handleConfigChange={jest.fn()}
-        values={{}}
-        handleError={jest.fn()}
         resetValue={jest.fn()}
+        errors={{}}
+        isEditMode={false}
+        control={{}}
+        register={jest.fn()}
+        watch={jest.fn()}
       />,
     );
 
@@ -184,13 +180,14 @@ describe('<ConfigSelector />', () => {
     api.getCsvHeaders.mockRejectedValueOnce('error');
     const { findByText, getByText } = render(
       <ConfigSelectorWithTheme
+        dataSourceId="datasourceID"
         chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        handleConfigChange={jest.fn()}
-        values={{}}
-        handleError={jest.fn()}
         resetValue={jest.fn()}
+        errors={{}}
+        isEditMode={false}
+        control={{}}
+        register={jest.fn()}
+        watch={jest.fn()}
       />,
     );
 

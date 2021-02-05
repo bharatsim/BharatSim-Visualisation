@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Box, fade, makeStyles, Typography } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import { Box, fade, makeStyles, Typography, Button } from '@material-ui/core';
+
+import { useFieldArray } from 'react-hook-form';
 import plusIcon from '../../assets/images/plus.svg';
 import deleteIcon from '../../assets/images/delete.svg';
-import Dropdown from '../../uiComponent/Dropdown';
-import { convertObjectArrayToOptionStructure } from '../../utils/helper';
 import IconButton from '../../uiComponent/IconButton';
+import { convertObjectArrayToOptionStructure } from '../../utils/helper';
+import ControlledDropDown from '../../uiComponent/ControlledDropdown';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -30,64 +31,32 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function YAxisChartConfig({ headers, handleConfigChange, configKey, value }) {
-  const initialSelectedValues = preFillValues();
-  const [selectedValues, setSelectedValues] = useState(initialSelectedValues);
-  const [axisCount, setAxisCount] = useState(Object.keys(initialSelectedValues).length);
+function YAxisChartConfig({ headers, control, configKey, errors }) {
   const classes = useStyles();
 
-  function isEqual(value1, value2) {
-    return value1.name === value2.name && value1.type === value2.type;
-  }
+  const { fields, remove, append } = useFieldArray({ control, name: configKey });
 
-  function preFillValues() {
-    if (Array.isArray(value)) {
-      return value
-        .map((v) => headers.find((h) => isEqual(h, v)))
-        .reduce((acc, v, i) => ({ ...acc, [`dropdown-y-${i}`]: v }), {});
-    }
-    return { 'dropdown-y-0': '' };
-  }
-  function handleYChange(id, selectedValue) {
-    setSelectedValues((prevState) => {
-      const newState = { ...prevState, [id]: selectedValue };
-      handleConfigChange(configKey, Object.values(newState));
-      return newState;
-    });
-  }
-
-  function addAxisField() {
-    setSelectedValues((prevState) => {
-      const newState = { ...prevState, [`dropdown-y-${axisCount}`]: '' };
-      handleConfigChange(configKey, Object.values(newState));
-      return newState;
-    });
-    setAxisCount((prevCount) => prevCount + 1);
-  }
-  function deleteAxisField(fieldId) {
-    setSelectedValues((prevState) => {
-      const newState = { ...prevState };
-      delete newState[fieldId];
-      handleConfigChange(configKey, Object.values(newState));
-      return newState;
-    });
-  }
+  useEffect(() => {
+    append({});
+  }, []);
 
   return (
     <>
       <Box mb={1} pl={2}>
-        <Typography variant="subtitle2"> Y-axis</Typography>
+        <Typography variant="subtitle2">Y-axis</Typography>
       </Box>
-      {Object.keys(selectedValues).map((key) => (
-        <Box className={classes.fieldContainer} key={key}>
-          <Dropdown
+      {fields.map((field, index) => (
+        <Box className={classes.fieldContainer} key={field.id}>
+          <ControlledDropDown
             options={convertObjectArrayToOptionStructure(headers, 'name')}
-            onChange={(selectedValue) => handleYChange(key, selectedValue)}
-            id={key}
+            id={`y-axis-dropdown-${index}`}
             label="select y axis"
-            value={selectedValues[key] || ''}
+            control={control}
+            name={`${configKey}.[${index}]`}
+            validations={{ required: 'Required' }}
+            error={errors[index] || {}}
           />
-          <IconButton onClick={() => deleteAxisField(key)} data-testid={`delete-button-${key}`}>
+          <IconButton onClick={() => remove(index)} data-testid={`delete-button-${index}`}>
             <img src={deleteIcon} alt="icon" />
           </IconButton>
         </Box>
@@ -97,7 +66,7 @@ function YAxisChartConfig({ headers, handleConfigChange, configKey, value }) {
           variant="contained"
           color="secondary"
           size="small"
-          onClick={addAxisField}
+          onClick={() => append({})}
           startIcon={<img src={plusIcon} alt="icon" />}
         >
           Add Metric
@@ -107,6 +76,10 @@ function YAxisChartConfig({ headers, handleConfigChange, configKey, value }) {
   );
 }
 
+YAxisChartConfig.defaultProps = {
+  errors: [],
+};
+
 YAxisChartConfig.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
@@ -114,17 +87,9 @@ YAxisChartConfig.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  handleConfigChange: PropTypes.func.isRequired,
+  errors: PropTypes.arrayOf(PropTypes.shape({})),
+  control: PropTypes.shape({}).isRequired,
   configKey: PropTypes.string.isRequired,
-  value: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }),
-  ),
 };
 
-YAxisChartConfig.defaultProps = {
-  value: undefined,
-};
 export default YAxisChartConfig;

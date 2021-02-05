@@ -1,6 +1,7 @@
-import { render, waitFor } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import DatasourceSelector from '../DatasourceSelector';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../../testUtil';
 import { api } from '../../../../utils/api';
@@ -17,63 +18,81 @@ jest.mock('../../../../utils/api', () => ({
   },
 }));
 
-describe('<DatasourceSelector />', () => {
-  const DatasourceSelectorWithProvider = withThemeProvider(
-    withRouter(withProjectLayout(DatasourceSelector)),
+const FormWithDatasourceSelector = ({ onSubmit, isEditMode, filter }) => {
+  const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
+  const props = {
+    headers: [
+      { name: 'a', type: 'number' },
+      { name: 'b', type: 'number' },
+      { name: 'c', type: 'number' },
+    ],
+    configKey: 'dataSource',
+  };
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <DatasourceSelector
+        disabled={isEditMode}
+        control={control}
+        name={props.configKey}
+        error={errors[props.configKey]}
+        header="Data Source"
+        id="dropdown-dataSources"
+        label="select data source"
+        filterDatasource={filter}
+      />
+      <button type="submit">submit</button>
+    </form>
   );
-  it('should match snapshot for datasource selector', async () => {
-    const { container, getByText } = render(
-      <DatasourceSelectorWithProvider handleDataSourceChange={jest.fn()} value="" error="" />,
-    );
+};
 
-    await waitFor(() => getByText('Data Source'));
-    expect(container).toMatchSnapshot();
+describe('<DatasourceSelector />', () => {
+  const DemoForm = withThemeProvider(withRouter(withProjectLayout(FormWithDatasourceSelector)));
+
+  it('should call on submit with datasource id', async () => {
+    const onSubmit = jest.fn();
+    const renderedComponent = render(<DemoForm onSubmit={onSubmit} isEditMode={false} />);
+    const { findByText } = renderedComponent;
+
+    await findByText('Data Source');
+
+    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource1');
+
+    await act(async () => {
+      fireEvent.click(renderedComponent.getByText('submit'));
+    });
+
+    expect(onSubmit).toHaveBeenCalledWith(
+      {
+        dataSource: 'id1',
+      },
+      expect.anything(),
+    );
   });
 
-  it('should handle datsource change on click of different datsource name', async () => {
-    const handleDataSourceChangeMock = jest.fn();
-    const renderedComponent = render(
-      <DatasourceSelectorWithProvider
-        handleDataSourceChange={handleDataSourceChangeMock}
-        value=""
-        error=""
-      />,
-    );
+  it('should make datasource disable when edit mode is on', async () => {
+    const renderedComponent = render(<DemoForm onSubmit={jest.fn()} isEditMode />);
+    const { findByText } = renderedComponent;
 
-    await waitFor(() => renderedComponent.getByText('Data Source'));
+    await findByText('Data Source');
 
-    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
-    expect(handleDataSourceChangeMock).toHaveBeenCalledWith('id2');
-  });
-
-  it('should not be able to change datsource when disable', async () => {
-    const handleDataSourceChangeMock = jest.fn();
-    const renderedComponent = render(
-      <DatasourceSelectorWithProvider
-        handleDataSourceChange={handleDataSourceChangeMock}
-        value=""
-        error=""
-        disabled
-      />,
-    );
-
-    await waitFor(() => renderedComponent.getByText('Data Source'));
-     const dropDown =  renderedComponent.getByTestId("dropdown-dataSources")
+    const dropDown = renderedComponent.getByTestId('dropdown-dataSources');
 
     expect(dropDown).toHaveClass('Mui-disabled');
   });
 
+  it('should call filter on dataSources if filer is present', async () => {
+    const filter = jest.fn();
+    const renderedComponent = render(<DemoForm onSubmit={jest.fn()} isEditMode filter={filter} />);
+    const { findByText } = renderedComponent;
+
+    await findByText('Data Source');
+
+    expect(filter).toHaveBeenCalled();
+  });
+
   it('should show loader while fetching data', async () => {
-    const handleConfigChangeMock = jest.fn();
-    const renderedComponent = render(
-      <DatasourceSelectorWithProvider
-        chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        handleDataSourceChange={handleConfigChangeMock}
-        values={{}}
-      />,
-    );
+    const renderedComponent = render(<DemoForm onSubmit={jest.fn()} isEditMode />);
+
     const loaderComponent = document.getElementsByTagName('svg');
 
     expect(loaderComponent).not.toBeNull();
@@ -83,15 +102,7 @@ describe('<DatasourceSelector />', () => {
 
   it('should show error if error occur while fetching data', async () => {
     api.getDatasources.mockRejectedValueOnce('error');
-    const { findByText, getByText } = render(
-      <DatasourceSelectorWithProvider
-        chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        handleDataSourceChange={jest.fn()}
-        values={{}}
-      />,
-    );
+    const { findByText, getByText } = render(<DemoForm onSubmit={jest.fn()} isEditMode />);
 
     await findByText('Unable to fetch data sources');
 
@@ -100,15 +111,7 @@ describe('<DatasourceSelector />', () => {
 
   it('should refetch data on click on retry button present on error banner', async () => {
     api.getDatasources.mockRejectedValueOnce('error');
-    const { findByText, getByText } = render(
-      <DatasourceSelectorWithProvider
-        chartType="lineChart"
-        dataSourceId="dataSourceId"
-        errors={{}}
-        handleDataSourceChange={jest.fn()}
-        values={{}}
-      />,
-    );
+    const { findByText, getByText } = render(<DemoForm onSubmit={jest.fn()} isEditMode />);
 
     await findByText('Unable to fetch data sources');
     const retryButton = getByText('Retry').closest('button');

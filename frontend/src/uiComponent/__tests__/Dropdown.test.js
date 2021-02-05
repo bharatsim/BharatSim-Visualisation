@@ -53,7 +53,7 @@ describe('<Dropdown />', () => {
     const optionOne = optionList.getByText(/Two/i);
     fireEvent.click(optionOne);
 
-    expect(props.onChange).toHaveBeenCalledWith('two');
+    expect(props.onChange).toHaveBeenCalled();
   });
 
   it('Should show error if error message is present', () => {

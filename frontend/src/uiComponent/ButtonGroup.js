@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
+import { ChildrenPropTypes } from '../commanPropTypes';
 
 const useStyles = makeStyles((theme) => ({
   buttonGroup: {
@@ -21,8 +21,7 @@ function ButtonGroup({ children }) {
 }
 
 ButtonGroup.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)])
-    .isRequired,
+  children: ChildrenPropTypes.isRequired,
 };
 
 export default ButtonGroup;

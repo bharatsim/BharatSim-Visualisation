@@ -109,6 +109,12 @@ function transformChoroplethData(ids, measure, timeMetrics, selectedTick) {
   return idMeasureMap;
 }
 
+const GISShapeLayerFileTypes = ['geojson', 'topojson', 'json'];
+
+function shapeFileFilter(dataSource) {
+  return GISShapeLayerFileTypes.includes(dataSource.fileType);
+}
+
 export {
   updateState,
   transformDataForHeatMap,
@@ -118,4 +124,5 @@ export {
   convertFileSizeToMB,
   getLatLngCenter,
   transformChoroplethData,
+  shapeFileFilter,
 };

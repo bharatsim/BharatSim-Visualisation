@@ -15,7 +15,9 @@ describe('Use form hook', () => {
   });
   describe('handleInputChange', () => {
     it('should set value without any error if age less than 80', () => {
-      act(() => renderedHook.current.handleInputChange('age', 79));
+      act(() => {
+        renderedHook.current.handleInputChange('age', 79);
+      });
 
       expect(renderedHook.current.values).toEqual({
         age: 79,
@@ -32,7 +34,9 @@ describe('Use form hook', () => {
     });
 
     it('should set value along with given error if age greater than 80', () => {
-      act(() => renderedHook.current.handleInputChange('age', 81));
+      act(() => {
+        renderedHook.current.handleInputChange('age', 81);
+      });
 
       expect(renderedHook.current.values).toEqual({
         age: 81,
@@ -45,14 +49,20 @@ describe('Use form hook', () => {
   });
   describe('shouldEnableSubmit', () => {
     it('should return true if no field has error', () => {
-      act(() => renderedHook.current.handleInputChange('age', 70));
-      act(() => renderedHook.current.handleInputChange('name', 'someone'));
+      act(() => {
+        renderedHook.current.handleInputChange('age', 70);
+      });
+      act(() => {
+        renderedHook.current.handleInputChange('name', 'someone');
+      });
 
       expect(renderedHook.current.shouldEnableSubmit()).toEqual(true);
     });
 
     it('should return false if any field has error while validation check', () => {
-      act(() => renderedHook.current.handleInputChange('age', 79));
+      act(() => {
+        renderedHook.current.handleInputChange('age', 79);
+      });
 
       act(() => {
         renderedHook.current.handleInputChange('name', 'vary very long name');
@@ -62,14 +72,33 @@ describe('Use form hook', () => {
     });
 
     it('should return false if any field has error', () => {
-      act(() => renderedHook.current.handleInputChange('age', 79));
-      act(() => renderedHook.current.handleError('name', 'error'));
+      act(() => {
+        renderedHook.current.handleInputChange('age', 79);
+      });
+      act(() => {
+        renderedHook.current.handleError('name', 'error');
+      });
 
       act(() => {
         renderedHook.current.handleInputChange('name', 'vary very long name');
       });
 
       expect(renderedHook.current.shouldEnableSubmit()).toEqual(false);
+    });
+
+    it('should reset value', () => {
+      act(() => {
+        renderedHook.current.handleInputChange('age', 79);
+      });
+      act(() => {
+        renderedHook.current.handleError('name', 'error');
+      });
+
+      act(() => {
+        renderedHook.current.resetValue('name');
+      });
+
+      expect(renderedHook.current.values.name).toEqual(undefined);
     });
   });
 });

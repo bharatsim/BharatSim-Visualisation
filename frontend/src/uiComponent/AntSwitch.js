@@ -5,11 +5,11 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
-const switchContainerStyles = makeStyles((theme) => ({
+const switchContainerStyles = makeStyles({
   container: {
     display: 'flex',
   },
-}));
+});
 
 const AntSwitchWithStyle = withStyles((theme) => ({
   root: {
@@ -45,22 +45,32 @@ const AntSwitchWithStyle = withStyles((theme) => ({
   checked: {},
 }))(Switch);
 
-function AntSwitch({ onChange, onLabel, offLabel, checked, dataTestid }) {
+function AntSwitch({ onLabel, offLabel, name, register, defaultValue, dataTestid }) {
   const switchContainerClasses = switchContainerStyles();
   return (
     <Box className={switchContainerClasses.container}>
       <Box mr={1}>{offLabel}</Box>
-      <AntSwitchWithStyle checked={checked} onChange={onChange} data-testid={dataTestid} />
+      <AntSwitchWithStyle
+        inputRef={register}
+        name={name}
+        defaultValue={defaultValue}
+        data-testid={dataTestid}
+      />
       <Box ml={1}>{onLabel}</Box>
     </Box>
   );
 }
 
+AntSwitch.defaultProps = {
+  defaultValue: false,
+};
+
 AntSwitch.propTypes = {
-  onChange: PropTypes.func.isRequired,
   onLabel: PropTypes.string.isRequired,
   offLabel: PropTypes.string.isRequired,
   dataTestid: PropTypes.string.isRequired,
-  checked: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  register: PropTypes.func.isRequired,
+  defaultValue: PropTypes.bool,
 };
 export default AntSwitch;

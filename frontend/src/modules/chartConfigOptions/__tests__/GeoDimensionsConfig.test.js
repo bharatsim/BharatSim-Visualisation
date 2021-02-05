@@ -1,75 +1,57 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
+import { useForm } from 'react-hook-form';
+import { fireEvent } from '@testing-library/dom';
 
 import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import GeoDimensionsConfig from '../GeoDimensionsConfig';
 
-describe('<GeoDimensionsConfig />', () => {
-  const GeoDimensionsWithTheme = withThemeProvider(GeoDimensionsConfig);
+const FormWithGeoDimensionsConfig = ({ onSubmit }) => {
+  const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
   const props = {
     headers: [
       { name: 'a', type: 'number' },
       { name: 'b', type: 'number' },
       { name: 'c', type: 'number' },
     ],
-    handleConfigChange: jest.fn(),
+
     configKey: 'geoDimensions',
-    handleError: jest.fn(),
-    value: undefined,
   };
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <GeoDimensionsConfig
+        control={control}
+        headers={props.headers}
+        configKey={props.configKey}
+        errors={errors[props.configKey]}
+      />
+      <button type="submit">submit</button>
+    </form>
+  );
+};
 
-  afterEach(()=>{
-    jest.clearAllMocks()
-  })
+describe('<GeoDimensionsConfig />', () => {
+  const DemoForm = withThemeProvider(FormWithGeoDimensionsConfig);
 
-  it('should match snapshot', () => {
-    const { container } = render(<GeoDimensionsWithTheme {...props} />);
-
-    expect(container).toMatchSnapshot();
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('should call handle error with error message if nothing is selected', () => {
-    render(<GeoDimensionsWithTheme {...props} />);
-
-    expect(props.handleError).toHaveBeenCalledWith('geoDimensions', 'error');
-  });
-
-  it('should not call handle error with error message when values are populated', () => {
-    render(<GeoDimensionsWithTheme {...props} value={{ latitude: 'a', longitude: 'b' }} />);
-
-    expect(props.handleError).not.toHaveBeenCalledWith('geoDimensions', 'error');
-  });
-
-  it('should call handle error with empty message if all metric are selected', () => {
-    const renderedContainer = render(<GeoDimensionsWithTheme {...props} />);
-
-    selectDropDownOption(renderedContainer, 'latitude', 'a');
+  it('should call on submit with selected lat and longs', async () => {
+    const onSubmit = jest.fn();
+    const renderedContainer = render(<DemoForm onSubmit={onSubmit} />);
 
     selectDropDownOption(renderedContainer, 'longitude', 'a');
+    selectDropDownOption(renderedContainer, 'latitude', 'b');
 
-    expect(props.handleError).toHaveBeenLastCalledWith('geoDimensions', '');
-  });
-
-  it('should call setConfig callback after value change for latitude', () => {
-    const renderedContainer = render(<GeoDimensionsWithTheme {...props} />);
-
-    selectDropDownOption(renderedContainer, 'latitude', 'a');
-
-    expect(props.handleConfigChange).toHaveBeenCalledWith('geoDimensions', {
-      latitude: 'a',
-      longitude: '',
+    await act(async () => {
+      fireEvent.click(renderedContainer.getByText('submit'));
     });
-  });
 
-  it('should call setConfig callback after value change for longitude', () => {
-    const renderedContainer = render(<GeoDimensionsWithTheme {...props} />);
-
-    selectDropDownOption(renderedContainer, 'longitude', 'a');
-
-    expect(props.handleConfigChange).toHaveBeenCalledWith('geoDimensions', {
-      longitude: 'a',
-      latitude: '',
-    });
+    expect(onSubmit).toHaveBeenCalledWith(
+      { geoDimensions: { latitude: 'b', longitude: 'a' } },
+      expect.anything(),
+    );
   });
 });
