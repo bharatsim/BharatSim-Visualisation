@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { GeoJSON, useMap } from 'react-leaflet';
 import MapBoundController from './MapBoundController';
@@ -52,13 +52,17 @@ function GeoJsonLayer({ data, measure, idName, measureName, scale, tick }) {
   );
 }
 
+GeoJsonLayer.defaultProps = {
+  tick: 0,
+};
+
 GeoJsonLayer.propTypes = {
   data: PropTypes.shape({}).isRequired,
   measure: PropTypes.shape({}).isRequired,
   idName: PropTypes.string.isRequired,
   measureName: PropTypes.string.isRequired,
   scale: PropTypes.shape({}).isRequired,
-  tick: PropTypes.number.isRequired,
+  tick: PropTypes.number,
 };
 
 export default GeoJsonLayer;

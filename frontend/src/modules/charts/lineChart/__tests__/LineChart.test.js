@@ -10,7 +10,7 @@ import withThemeProvider from '../../../../theme/withThemeProvider';
 jest.mock('../../../../utils/api', () => ({
   api: {
     getData: jest.fn().mockResolvedValue({
-      data: { data: { exposed: [2, 3], hour: [1, 2] } },
+      data: { data: { exposed: [2, 3], hour: [1, 2], hourNew: [1, 2] } },
     }),
   },
 }));
@@ -54,39 +54,33 @@ describe('LineChart', () => {
     expect(api.getData).toHaveBeenCalledWith('dataSource', ['hour', 'exposed']);
   });
 
-    it('should get data whenever column name are updated',  () => {
-        const config ={
-            dataSource: 'dataSource',
-            xAxis: 'hour',
-            yAxis: [{ type: 'number', name: 'exposed' }]
-        };
-        const configWithNewXaxis ={
-           ...config,
-            xAxis: 'newHour'
-        };
-        const configWithNewYaxis ={
-            ...config,
-            yAxis: [{ type: 'number', name: 'newExposed' }]
+  it('should get data whenever column name are updated', async () => {
+    const { rerender } = render(
+      <LineChartWithProvider
+        config={{
+          dataSource: 'dataSource',
+          xAxis: 'hour',
+          yAxis: [{ type: 'number', name: 'exposed' }],
+        }}
+      />,
+    );
 
-        };
-        [configWithNewXaxis, configWithNewYaxis].forEach((updatedConfig)=>{
-            jest.clearAllMocks()
-            const {rerender} = render(
-              <LineChartWithProvider
-                config={config}
-              />,
-            );
-            
-            expect(api.getData).toHaveBeenCalledWith('dataSource', ['hour', 'exposed']);
-            
-            rerender( <LineChartWithProvider
-              config={updatedConfig}
-            />)
-            expect(api.getData).toHaveBeenCalledWith('dataSource',[updatedConfig.xAxis, ...updatedConfig.yAxis.map(y=>y.name)] );
+    await waitFor(() => document.getElementsByTagName('canvas'));
 
-        })
-        
-    });
+    rerender(
+      <LineChartWithProvider
+        config={{
+          dataSource: 'dataSource',
+          xAxis: 'hourNew',
+          yAxis: [{ type: 'number', name: 'exposed' }],
+        }}
+      />,
+    );
+
+    await waitFor(() => document.getElementsByTagName('canvas'));
+
+    expect(api.getData).toHaveBeenLastCalledWith('dataSource', ['hourNew', 'exposed']);
+  });
 
   it('should show loader while fetching data', async () => {
     render(

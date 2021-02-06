@@ -93,10 +93,10 @@ describe('Chart configuration wizard', () => {
       target: { value: 'chart name' },
     });
 
-    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    await selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
-    selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
-    selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
+    await selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
+    await selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 
     const applyButton = getByText('Apply');
 
@@ -128,10 +128,10 @@ describe('Chart configuration wizard', () => {
     fireEvent.click(lineChartOption);
     await findByText('Data Source');
 
-    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    await selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
-    selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
-    selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
+    await selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
+    await selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 
     const applyButton = getByText('Apply');
 
@@ -162,9 +162,9 @@ describe('Chart configuration wizard', () => {
     fireEvent.click(lineChartOption);
     await findByText('Data Source');
 
-    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    await selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
-    selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
+    await selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
 
     const applyButton = getByText('Apply').closest('button');
 

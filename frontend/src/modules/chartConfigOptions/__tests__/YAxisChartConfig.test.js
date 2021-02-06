@@ -7,23 +7,24 @@ import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import YAxisChartConfig from '../YAxisChartConfig';
 
-const FormWithYAxisChartConfigConfig = ({ onSubmit }) => {
+const headers = [
+  { name: 'a', type: 'number' },
+  { name: 'b', type: 'number' },
+  { name: 'c', type: 'number' },
+];
+
+const TestForm = ({ onSubmit }) => {
   const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
-  const props = {
-    headers: [
-      { name: 'a', type: 'number' },
-      { name: 'b', type: 'number' },
-      { name: 'c', type: 'number' },
-    ],
-    configKey: 'yAxis',
-  };
+
+  const configKey = 'yAxis';
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <YAxisChartConfig
         control={control}
-        configKey={props.configKey}
-        headers={props.headers}
-        errors={errors[props.configKey]}
+        configKey={configKey}
+        headers={headers}
+        errors={errors[configKey]}
       />
       <button type="submit">submit</button>
     </form>
@@ -31,7 +32,7 @@ const FormWithYAxisChartConfigConfig = ({ onSubmit }) => {
 };
 
 describe('<YAxisConfig />', () => {
-  const DemoForm = withThemeProvider(FormWithYAxisChartConfigConfig);
+  const FormForYAxisConfig = withThemeProvider(TestForm);
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -39,14 +40,14 @@ describe('<YAxisConfig />', () => {
 
   it('should call on submit with y axis filedArray config', async () => {
     const onSubmit = jest.fn();
-    const renderedContainer = render(<DemoForm onSubmit={onSubmit} />);
+    const renderedContainer = render(<FormForYAxisConfig onSubmit={onSubmit} />);
     const { getByText } = renderedContainer;
 
     const addFieldButton = getByText('Add Metric');
     fireEvent.click(addFieldButton);
 
-    selectDropDownOption(renderedContainer, 'y-axis-dropdown-0', 'a');
-    selectDropDownOption(renderedContainer, 'y-axis-dropdown-1', 'b');
+    await selectDropDownOption(renderedContainer, 'y-axis-dropdown-0', 'a');
+    await selectDropDownOption(renderedContainer, 'y-axis-dropdown-1', 'b');
 
     await act(async () => {
       fireEvent.click(renderedContainer.getByText('submit'));
@@ -65,7 +66,7 @@ describe('<YAxisConfig />', () => {
 
   it('should add y axis field on click of add metric button', () => {
     const onSubmit = jest.fn();
-    const { getByText, queryByTestId } = render(<DemoForm onSubmit={onSubmit} />);
+    const { getByText, queryByTestId } = render(<FormForYAxisConfig onSubmit={onSubmit} />);
 
     const addFieldButton = getByText('Add Metric');
 
@@ -78,7 +79,9 @@ describe('<YAxisConfig />', () => {
 
   it('should delete y axis field on click of delete button', () => {
     const onSubmit = jest.fn();
-    const { getByText, queryByTestId, getByTestId } = render(<DemoForm onSubmit={onSubmit} />);
+    const { getByText, queryByTestId, getByTestId } = render(
+      <FormForYAxisConfig onSubmit={onSubmit} />,
+    );
 
     const addFieldButton = getByText('Add Metric');
 

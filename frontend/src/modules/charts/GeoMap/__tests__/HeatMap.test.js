@@ -1,15 +1,15 @@
 import React from 'react';
-import {fireEvent} from '@testing-library/dom';
-import {render} from '@testing-library/react';
+import { fireEvent } from '@testing-library/dom';
+import { render } from '@testing-library/react';
 import HeatMap from '../HeatMap';
 import 'leaflet/dist/leaflet.css';
-import {api} from '../../../../utils/api';
+import { api } from '../../../../utils/api';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 
 jest.mock('../../../../utils/api', () => ({
   api: {
     getData: jest.fn().mockResolvedValue({
-      data: { lat: [2, 3], long: [1, 2], dataPoints: [2, 3] },
+      data: { lat: [2, 3], long: [1, 2], dataPoints: [2, 3], latNew: [2, 3] },
     }),
   },
 }));
@@ -99,37 +99,33 @@ describe('HeatMap', () => {
     expect(getByText('Unable to fetch data')).toBeInTheDocument();
   });
 
-    it('should fetch data when rerenderd with different values ', () => {
-        const config = {
-            dataSource: 'test.csv',
-            geoDimensions: {latitude: 'lat', longitude: 'long'},
-            geoMetricSeries: 'dataPoints'
-        };
-        const configWithNewLat = {...config, geoDimensions: {latitude: 'newLat', longitude: 'long'}};
-        const configWithNewLong = {...config, geoDimensions: {latitude: 'lat', longitude: 'newLong'}};
-        const configWithNewSeries = {...config, geoMetricSeries: 'newDataPoint'};
+  it('should fetch data when rerenderd with different values ', async () => {
+    const { findByTestId, rerender } = render(
+      <HeatMapWithProvider
+        config={{
+          dataSource: 'test.csv',
+          geoDimensions: { latitude: 'lat', longitude: 'long' },
+          geoMetricSeries: 'dataPoints',
+        }}
+      />,
+    );
 
-        [configWithNewLat, configWithNewLong, configWithNewSeries].forEach((updateConfig) => {
-            jest.clearAllMocks();
+    await findByTestId('map-container');
 
-            const {rerender} = render(
-              <HeatMapWithProvider
-                config={config}
-              />,
-            );
-            expect(api.getData).toHaveBeenLastCalledWith('test.csv', ['lat', 'long', 'dataPoints']);
+    rerender(
+      <HeatMapWithProvider
+        config={{
+          dataSource: 'test.csv',
+          geoDimensions: { latitude: 'latNew', longitude: 'long' },
+          geoMetricSeries: 'dataPoints',
+        }}
+      />,
+    );
 
-            rerender(<HeatMapWithProvider
-              config={updateConfig}
-            />)
+    await findByTestId('map-container');
 
-
-            const {latitude, longitude} = updateConfig.geoDimensions
-            expect(api.getData).toHaveBeenLastCalledWith('test.csv', [latitude, longitude, updateConfig.geoMetricSeries]);
-
-        })
-
-    });
+    expect(api.getData).toHaveBeenLastCalledWith('test.csv', ['latNew', 'long', 'dataPoints']);
+  });
 
   it('should call fetch data on click of retry button', async () => {
     api.getData.mockRejectedValueOnce('error');

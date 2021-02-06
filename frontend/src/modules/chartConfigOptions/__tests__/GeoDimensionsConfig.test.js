@@ -7,7 +7,7 @@ import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import GeoDimensionsConfig from '../GeoDimensionsConfig';
 
-const FormWithGeoDimensionsConfig = ({ onSubmit }) => {
+const TestForm = ({ onSubmit }) => {
   const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
   const props = {
     headers: [
@@ -32,7 +32,7 @@ const FormWithGeoDimensionsConfig = ({ onSubmit }) => {
 };
 
 describe('<GeoDimensionsConfig />', () => {
-  const DemoForm = withThemeProvider(FormWithGeoDimensionsConfig);
+  const FormForGeoDimensionsConfig = withThemeProvider(TestForm);
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -40,10 +40,10 @@ describe('<GeoDimensionsConfig />', () => {
 
   it('should call on submit with selected lat and longs', async () => {
     const onSubmit = jest.fn();
-    const renderedContainer = render(<DemoForm onSubmit={onSubmit} />);
+    const renderedContainer = render(<FormForGeoDimensionsConfig onSubmit={onSubmit} />);
 
-    selectDropDownOption(renderedContainer, 'longitude', 'a');
-    selectDropDownOption(renderedContainer, 'latitude', 'b');
+    await selectDropDownOption(renderedContainer, 'longitude', 'a');
+    await selectDropDownOption(renderedContainer, 'latitude', 'b');
 
     await act(async () => {
       fireEvent.click(renderedContainer.getByText('submit'));

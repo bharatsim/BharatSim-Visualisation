@@ -7,7 +7,7 @@ import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import TimeSliderConfig from '../TimeSliderConfig';
 
-const FormWithTimeSliderConfig = ({ onSubmit }) => {
+const TestForm = ({ onSubmit }) => {
   const { control, errors, handleSubmit, register, watch } = useForm({ mode: 'onChange' });
   const props = {
     headers: [
@@ -33,7 +33,7 @@ const FormWithTimeSliderConfig = ({ onSubmit }) => {
 };
 
 describe('<TimeSliderConfig />', () => {
-  const DemoForm = withThemeProvider(FormWithTimeSliderConfig);
+  const FormForTimeSliderConfig = withThemeProvider(TestForm);
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -41,14 +41,14 @@ describe('<TimeSliderConfig />', () => {
 
   it('should call on submit with time slider configs', async () => {
     const onSubmit = jest.fn();
-    const renderedContainer = render(<DemoForm onSubmit={onSubmit} />);
+    const renderedContainer = render(<FormForTimeSliderConfig onSubmit={onSubmit} />);
     const { getByRole, findByTestId } = renderedContainer;
     getByRole('checkbox').click();
     fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
 
     await findByTestId('timeMetrics');
 
-    selectDropDownOption(renderedContainer, 'timeMetrics', 'a');
+    await selectDropDownOption(renderedContainer, 'timeMetrics', 'a');
 
     await act(async () => {
       fireEvent.click(renderedContainer.getByText('submit'));
@@ -62,7 +62,7 @@ describe('<TimeSliderConfig />', () => {
 
   it('should show time slider config if toggle is on', async () => {
     const onSubmit = jest.fn();
-    const renderedContainer = render(<DemoForm onSubmit={onSubmit} />);
+    const renderedContainer = render(<FormForTimeSliderConfig onSubmit={onSubmit} />);
     const { getByRole, findByTestId, getByTestId } = renderedContainer;
     getByRole('checkbox').click();
     fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
@@ -74,7 +74,7 @@ describe('<TimeSliderConfig />', () => {
 
   it('should not show time slider config if toggle is off', async () => {
     const onSubmit = jest.fn();
-    const renderedContainer = render(<DemoForm onSubmit={onSubmit} />);
+    const renderedContainer = render(<FormForTimeSliderConfig onSubmit={onSubmit} />);
     const { queryByTestId } = renderedContainer;
 
     expect(queryByTestId('timeMetrics')).not.toBeInTheDocument();

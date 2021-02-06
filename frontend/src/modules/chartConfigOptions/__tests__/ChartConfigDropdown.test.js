@@ -6,7 +6,7 @@ import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import ChartConfigDropdown from '../ChartConfigDropdown';
 
-const FormWithChartConfigDropdown = ({ onSubmit }) => {
+const TestForm = ({ onSubmit }) => {
   const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
   const props = {
     id: 'gis-measure',
@@ -28,12 +28,12 @@ const FormWithChartConfigDropdown = ({ onSubmit }) => {
 };
 
 describe('<ChartConfigDropdown />', () => {
-  const DemoForm = withThemeProvider(FormWithChartConfigDropdown);
+  const FormForChartConfigDropdown = withThemeProvider(TestForm);
   it('should call setConfig callback after value change', async () => {
     const onSubmit = jest.fn();
-    const renderedContainer = render(<DemoForm onSubmit={onSubmit} />);
+    const renderedContainer = render(<FormForChartConfigDropdown onSubmit={onSubmit} />);
 
-    selectDropDownOption(renderedContainer, 'gis-measure', 'a');
+    await selectDropDownOption(renderedContainer, 'gis-measure', 'a');
 
     await act(async () => {
       fireEvent.click(renderedContainer.getByText('submit'));

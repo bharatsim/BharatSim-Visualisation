@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import Dashboard from '../Dashboard';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import {
@@ -56,8 +56,6 @@ jest.mock('../../../utils/api', () => ({
   },
 }));
 
-const flushPromises = () => new Promise(setImmediate);
-
 describe('<Dashboard />', () => {
   const DashboardWithProviders = withRouter(withThemeProvider(withProjectLayout(Dashboard)));
   beforeAll(() => {
@@ -82,18 +80,16 @@ describe('<Dashboard />', () => {
     fireEvent.input(chartNameInput, {
       target: { value: 'chart name' },
     });
-    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    await selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
-    selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
-    selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
+    await selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
+    await selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 
     const applyButton = getByText('Apply');
 
-    await flushPromises();
+    expect(applyButton).not.toBeDisabled();
 
-    await act(async () => expect(applyButton).not.toBeDisabled());
-
-    await act(async () => fireEvent.click(applyButton));
+    fireEvent.click(applyButton);
   };
 
   it('should add dashboard name to dashboard component', async () => {
@@ -152,7 +148,7 @@ describe('<Dashboard />', () => {
 
     await findByText('Saving...');
     jest.runAllImmediates();
-    await flushPromises();
+
     const lineChart = getByText('LINE CHART');
 
     await findByText('Last Saved', { exact: false });
@@ -183,7 +179,7 @@ describe('<Dashboard />', () => {
 
     await findByText('Saving...');
     jest.runAllImmediates();
-    await flushPromises();
+
     await findByText('Last Saved', { exact: false });
 
     expect(queryByText('chart name')).not.toBeInTheDocument();
@@ -198,7 +194,6 @@ describe('<Dashboard />', () => {
     await findByText('dashboard1');
 
     await addChart(renderedComponent);
-    await flushPromises();
 
     await findByText('Unable to save the dashboard');
 

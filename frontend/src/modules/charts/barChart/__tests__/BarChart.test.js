@@ -10,7 +10,7 @@ import { withRouter } from '../../../../testUtil';
 jest.mock('../../../../utils/api', () => ({
   api: {
     getData: jest.fn().mockResolvedValue({
-      data: { data: { exposed: [2, 3], hour: [1, 2] } },
+      data: { data: { exposed: [2, 3], hour: [1, 2], hourNew: [1, 2] } },
     }),
   },
 }));
@@ -32,6 +32,34 @@ describe('BarChart', () => {
     await waitFor(() => document.getElementsByTagName('canvas'));
 
     expect(container).toMatchSnapshot();
+  });
+
+  it('should get data whenever column name are updated', async () => {
+    const { rerender } = render(
+      <BarChartWithProvider
+        config={{
+          dataSource: 'dataSource',
+          xAxis: 'hour',
+          yAxis: [{ type: 'number', name: 'exposed' }],
+        }}
+      />,
+    );
+
+    await waitFor(() => document.getElementsByTagName('canvas'));
+
+    rerender(
+      <BarChartWithProvider
+        config={{
+          dataSource: 'dataSource',
+          xAxis: 'hourNew',
+          yAxis: [{ type: 'number', name: 'exposed' }],
+        }}
+      />,
+    );
+
+    await waitFor(() => document.getElementsByTagName('canvas'));
+
+    expect(api.getData).toHaveBeenLastCalledWith('dataSource', ['hourNew', 'exposed']);
   });
 
   it('should call get data api for given data column and datasource', async () => {

@@ -1,13 +1,43 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
+import { useForm } from 'react-hook-form';
+import { fireEvent } from '@testing-library/dom';
 import AntSwitch from '../AntSwitch';
 
-describe('<AntSwitch />', () => {
-  it('should match snapshot', () => {
-    const { container } = render(
-      <AntSwitch onChange={jest.fn()} checked offLabel="OFF" onLabel="ON" />,
-    );
+const FormWithAntSwitch = ({ onSubmit }) => {
+  const { register, handleSubmit } = useForm({ mode: 'onChange' });
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <AntSwitch
+        register={register}
+        name="switch"
+        dataTestid="switch"
+        offLabel="on"
+        onLabel="off"
+        defaultValue={false}
+      />
+      <button type="submit">submit</button>
+    </form>
+  );
+};
 
-    expect(container).toMatchSnapshot();
+describe('<AntSwitch />', () => {
+  it('should call on submit with ant switch value', async () => {
+    const onSubmit = jest.fn();
+    const { getByRole, getByText } = render(<FormWithAntSwitch onSubmit={onSubmit} />);
+
+    getByRole('checkbox').click();
+    fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
+
+    await act(async () => {
+      fireEvent.click(getByText('submit'));
+    });
+
+    expect(onSubmit).toHaveBeenCalledWith(
+      {
+        switch: true,
+      },
+      expect.anything(),
+    );
   });
 });

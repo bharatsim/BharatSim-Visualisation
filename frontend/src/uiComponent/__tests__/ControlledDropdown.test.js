@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import withThemeProvider from '../../theme/withThemeProvider';
 import ControlledDropDown from '../ControlledDropdown';
 
-const FormWithControlledDropdown = ({ onSubmit, validations }) => {
+const TestForm = ({ onSubmit, validations }) => {
   const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
   const options = [
     { value: 'one', displayName: 'one' },
@@ -29,11 +29,11 @@ const FormWithControlledDropdown = ({ onSubmit, validations }) => {
 };
 
 describe('<ControlledDropDown  />', () => {
-  const DemoForm = withThemeProvider(FormWithControlledDropdown);
+  const FormForControlledDropdown = withThemeProvider(TestForm);
 
   it('Should create a dropdown with provided options', () => {
     const { getAllByRole } = render(
-      <DemoForm onSubmit={jest.fn()} validations={{ required: true }} />,
+      <FormForControlledDropdown onSubmit={jest.fn()} validations={{ required: true }} />,
     );
 
     const button = getAllByRole('button')[0];
@@ -44,7 +44,7 @@ describe('<ControlledDropDown  />', () => {
 
   it('Should show error if error message is present', async () => {
     const { getByText } = render(
-      <DemoForm onSubmit={jest.fn()} validations={{ required: 'Required' }} />,
+      <FormForControlledDropdown onSubmit={jest.fn()} validations={{ required: 'Required' }} />,
     );
 
     await act(async () => {
@@ -56,7 +56,7 @@ describe('<ControlledDropDown  />', () => {
 
   it('Should show empty error if error message is not present  with validation ', async () => {
     const { queryByText, getByText, getByTestId } = render(
-      <DemoForm onSubmit={jest.fn()} validations={{ required: true }} />,
+      <FormForControlledDropdown onSubmit={jest.fn()} validations={{ required: true }} />,
     );
 
     await act(async () => {

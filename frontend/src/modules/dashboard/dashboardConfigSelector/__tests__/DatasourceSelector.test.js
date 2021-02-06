@@ -18,7 +18,7 @@ jest.mock('../../../../utils/api', () => ({
   },
 }));
 
-const FormWithDatasourceSelector = ({ onSubmit, isEditMode, filter }) => {
+const TestForm = ({ onSubmit, isEditMode, filter }) => {
   const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
   const props = {
     headers: [
@@ -46,16 +46,18 @@ const FormWithDatasourceSelector = ({ onSubmit, isEditMode, filter }) => {
 };
 
 describe('<DatasourceSelector />', () => {
-  const DemoForm = withThemeProvider(withRouter(withProjectLayout(FormWithDatasourceSelector)));
+  const FormForDatasourceSelector = withThemeProvider(withRouter(withProjectLayout(TestForm)));
 
   it('should call on submit with datasource id', async () => {
     const onSubmit = jest.fn();
-    const renderedComponent = render(<DemoForm onSubmit={onSubmit} isEditMode={false} />);
+    const renderedComponent = render(
+      <FormForDatasourceSelector onSubmit={onSubmit} isEditMode={false} />,
+    );
     const { findByText } = renderedComponent;
 
     await findByText('Data Source');
 
-    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource1');
+    await selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource1');
 
     await act(async () => {
       fireEvent.click(renderedComponent.getByText('submit'));
@@ -70,7 +72,7 @@ describe('<DatasourceSelector />', () => {
   });
 
   it('should make datasource disable when edit mode is on', async () => {
-    const renderedComponent = render(<DemoForm onSubmit={jest.fn()} isEditMode />);
+    const renderedComponent = render(<FormForDatasourceSelector onSubmit={jest.fn()} isEditMode />);
     const { findByText } = renderedComponent;
 
     await findByText('Data Source');
@@ -82,7 +84,9 @@ describe('<DatasourceSelector />', () => {
 
   it('should call filter on dataSources if filer is present', async () => {
     const filter = jest.fn();
-    const renderedComponent = render(<DemoForm onSubmit={jest.fn()} isEditMode filter={filter} />);
+    const renderedComponent = render(
+      <FormForDatasourceSelector onSubmit={jest.fn()} isEditMode filter={filter} />,
+    );
     const { findByText } = renderedComponent;
 
     await findByText('Data Source');
@@ -91,7 +95,7 @@ describe('<DatasourceSelector />', () => {
   });
 
   it('should show loader while fetching data', async () => {
-    const renderedComponent = render(<DemoForm onSubmit={jest.fn()} isEditMode />);
+    const renderedComponent = render(<FormForDatasourceSelector onSubmit={jest.fn()} isEditMode />);
 
     const loaderComponent = document.getElementsByTagName('svg');
 
@@ -102,7 +106,9 @@ describe('<DatasourceSelector />', () => {
 
   it('should show error if error occur while fetching data', async () => {
     api.getDatasources.mockRejectedValueOnce('error');
-    const { findByText, getByText } = render(<DemoForm onSubmit={jest.fn()} isEditMode />);
+    const { findByText, getByText } = render(
+      <FormForDatasourceSelector onSubmit={jest.fn()} isEditMode />,
+    );
 
     await findByText('Unable to fetch data sources');
 
@@ -111,7 +117,9 @@ describe('<DatasourceSelector />', () => {
 
   it('should refetch data on click on retry button present on error banner', async () => {
     api.getDatasources.mockRejectedValueOnce('error');
-    const { findByText, getByText } = render(<DemoForm onSubmit={jest.fn()} isEditMode />);
+    const { findByText, getByText } = render(
+      <FormForDatasourceSelector onSubmit={jest.fn()} isEditMode />,
+    );
 
     await findByText('Unable to fetch data sources');
     const retryButton = getByText('Retry').closest('button');
