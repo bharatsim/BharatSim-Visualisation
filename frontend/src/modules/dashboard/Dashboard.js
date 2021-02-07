@@ -45,11 +45,12 @@ function Dashboard() {
   const { isOpen, closeModal, openModal } = useModal();
   const { selectedDashboardMetadata, projectMetadata } = useContext(projectLayoutContext);
   const { name: dashboardName, _id: dashboardId } = selectedDashboardMetadata;
-  const dashboard = useSelector((state) => state.dashboards.dashboards[dashboardId]);
 
+  const dashboard = useSelector((state) => state.dashboards.dashboards[dashboardId]);
   const autoSaveStatus = useSelector((state) => state.dashboards.autoSaveStatus[dashboardId]);
-  const { layout = [], charts = [], count: chartsCount = 0 } = dashboard || {};
   const dispatch = useDispatch();
+
+  const { layout = [], charts = [], count: chartsCount = 0 } = dashboard || {};
   const [dataSources, setDataSources] = useState(null);
   const [chartToEdit, setChartToEdit] = useState(null);
   const history = useHistory();

@@ -63,7 +63,6 @@ describe('<Dashboard />', () => {
   });
   afterEach(() => {
     jest.clearAllMocks();
-    jest.clearAllTimers();
   });
 
   const addChart = async (renderedComponent) => {
@@ -108,14 +107,6 @@ describe('<Dashboard />', () => {
     expect(api.getDashboard).toBeCalledTimes(1);
   });
 
-  it('should return empty component when failed to fetch dashboard', async () => {
-    api.getDashboard.mockResolvedValueOnce(undefined);
-
-    const { container } = render(<DashboardWithProviders />);
-
-    expect(container).toMatchInlineSnapshot(`<div />`);
-  });
-
   it('should open side wizard on click of add chart from header', async () => {
     const { getByText, getByTestId, findByText } = render(<DashboardWithProviders />);
 
@@ -136,74 +127,6 @@ describe('<Dashboard />', () => {
     fireEvent.click(addChartButton);
 
     expect(getByText('Chart Configuration Wizard')).toBeInTheDocument();
-  });
-
-  it('should add chart and auto save', async () => {
-    const renderedComponent = render(<DashboardWithProviders />);
-    const { getByText, findByText } = renderedComponent;
-
-    await findByText('dashboard1');
-
-    await addChart(renderedComponent);
-
-    await findByText('Saving...');
-    jest.runAllImmediates();
-
-    const lineChart = getByText('LINE CHART');
-
-    await findByText('Last Saved', { exact: false });
-    expect(lineChart).toBeInTheDocument();
-    expect(api.saveDashboard).toBeCalled();
-  });
-
-  it('should edit chart and auto save', async () => {
-    const renderedComponent = render(<DashboardWithProviders />);
-    const { queryByText, getByText, findByText, getByTestId, getByLabelText } = renderedComponent;
-
-    await findByText('dashboard1');
-
-    await addChart(renderedComponent);
-    await findByText('Last Saved', { exact: false });
-
-    expect(queryByText('chart name')).toBeInTheDocument();
-
-    fireEvent.click(getByTestId('widget-menu'));
-    fireEvent.click(getByText('Configure Chart'));
-
-    const chartNameInput = getByLabelText('Add chart name');
-    fireEvent.change(chartNameInput, {
-      target: { value: 'edited chart name' },
-    });
-    const applyButton = getByText('Apply');
-    fireEvent.click(applyButton);
-
-    await findByText('Saving...');
-    jest.runAllImmediates();
-
-    await findByText('Last Saved', { exact: false });
-
-    expect(queryByText('chart name')).not.toBeInTheDocument();
-    expect(queryByText('edited chart name')).toBeInTheDocument();
-    expect(api.saveDashboard).toBeCalled();
-  });
-
-  it('should show error if any while saving the dashboard', async () => {
-    const renderedComponent = render(<DashboardWithProviders />);
-    api.saveDashboard.mockRejectedValueOnce('Error');
-    const { getByText, findByText } = renderedComponent;
-    await findByText('dashboard1');
-
-    await addChart(renderedComponent);
-
-    await findByText('Unable to save the dashboard');
-
-    expect(getByText('Unable to save the dashboard')).toBeInTheDocument();
-
-    const retry = getByText('Retry');
-    fireEvent.click(retry);
-    await findByText('Last Saved', { exact: false });
-
-    expect(getByText('Last Saved', { exact: false })).toBeInTheDocument();
   });
 
   it('should close modal on click of close icon', async () => {
@@ -240,22 +163,101 @@ describe('<Dashboard />', () => {
     expect(mockHistoryPush).toHaveBeenCalledWith('/projects/1/configure-dataset');
   });
 
-  it('should delete the widget and autoSave', async () => {
-    const renderedComponent = render(<DashboardWithProviders />);
-    const { getByText, findByText, getByTestId, queryByText } = renderedComponent;
-    await findByText('dashboard1');
-    await addChart(renderedComponent);
-    await findByText('Last Saved', { exact: false });
+  describe('auto save', () => {
+    it('should add chart and auto save', async () => {
+      const renderedComponent = render(<DashboardWithProviders />);
+      const { getByText, findByText } = renderedComponent;
 
-    expect(getByText('LINE CHART')).toBeInTheDocument();
+      await findByText('dashboard1');
 
-    fireEvent.click(getByTestId('widget-menu'));
-    fireEvent.click(getByText('Delete Chart'));
-    fireEvent.click(getByTestId('delete-chart-confirm'));
+      await addChart(renderedComponent);
 
-    await findByText('Saving...');
-    jest.runAllImmediates();
-    await findByText('Last Saved', { exact: false });
-    expect(queryByText('LINE CHART')).not.toBeInTheDocument();
+      jest.runAllImmediates();
+
+      await findByText('Saving...');
+
+      expect(getByText('LINE CHART')).toBeInTheDocument();
+
+      await findByText('Last Saved', { exact: false });
+
+      expect(api.saveDashboard).toHaveBeenCalled();
+    });
+
+    it('should edit chart and auto save', async () => {
+      const renderedComponent = render(<DashboardWithProviders />);
+      const { queryByText, getByText, findByText, getByTestId, getByLabelText } = renderedComponent;
+
+      await findByText('dashboard1');
+
+      await addChart(renderedComponent);
+
+      await findByText('LINE CHART');
+
+      jest.runAllImmediates();
+
+      await findByText('Last Saved', { exact: false });
+
+      expect(queryByText('chart name')).toBeInTheDocument();
+
+      fireEvent.click(getByTestId('widget-menu'));
+      fireEvent.click(getByText('Configure Chart'));
+      const chartNameInput = getByLabelText('Add chart name');
+      fireEvent.change(chartNameInput, {
+        target: { value: 'edited chart name' },
+      });
+      const applyButton = getByText('Apply');
+      fireEvent.click(applyButton);
+
+      await findByText('LINE CHART');
+
+      jest.runAllImmediates();
+
+      await findByText('Last Saved', { exact: false });
+
+      expect(queryByText('chart name')).not.toBeInTheDocument();
+      expect(queryByText('edited chart name')).toBeInTheDocument();
+      expect(api.saveDashboard).toBeCalled();
+    });
+
+    it('should show error if any while saving the dashboard', async () => {
+      const renderedComponent = render(<DashboardWithProviders />);
+      api.saveDashboard.mockRejectedValueOnce('Error');
+      const { getByText, findByText } = renderedComponent;
+      await findByText('dashboard1');
+
+      await addChart(renderedComponent);
+
+      await findByText('LINE CHART');
+
+      jest.runAllImmediates();
+
+      await findByText('Unable to save the dashboard');
+      expect(getByText('Unable to save the dashboard')).toBeInTheDocument();
+
+      const retry = getByText('Retry');
+      fireEvent.click(retry);
+      await findByText('Last Saved', { exact: false });
+
+      expect(getByText('Last Saved', { exact: false })).toBeInTheDocument();
+    });
+
+    it('should delete the widget and autoSave', async () => {
+      const renderedComponent = render(<DashboardWithProviders />);
+      const { getByText, findByText, getByTestId, queryByText } = renderedComponent;
+      await findByText('dashboard1');
+      await addChart(renderedComponent);
+      await findByText('Last Saved', { exact: false });
+
+      expect(getByText('LINE CHART')).toBeInTheDocument();
+
+      fireEvent.click(getByTestId('widget-menu'));
+      fireEvent.click(getByText('Delete Chart'));
+      fireEvent.click(getByTestId('delete-chart-confirm'));
+
+      jest.runAllImmediates();
+
+      await findByText('Last Saved', { exact: false });
+      expect(queryByText('LINE CHART')).not.toBeInTheDocument();
+    });
   });
 });
