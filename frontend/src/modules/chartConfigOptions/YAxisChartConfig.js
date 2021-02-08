@@ -31,13 +31,15 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function YAxisChartConfig({ headers, control, configKey, errors }) {
+function YAxisChartConfig({ headers, control, configKey, errors, isEditMode }) {
   const classes = useStyles();
 
   const { fields, remove, append } = useFieldArray({ control, name: configKey });
 
   useEffect(() => {
-    append({});
+    if (!isEditMode) {
+      append({});
+    }
   }, []);
 
   return (
@@ -48,11 +50,11 @@ function YAxisChartConfig({ headers, control, configKey, errors }) {
       {fields.map((field, index) => (
         <Box className={classes.fieldContainer} key={field.id}>
           <ControlledDropDown
-            options={convertObjectArrayToOptionStructure(headers, 'name')}
+            options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
             id={`y-axis-dropdown-${index}`}
             label="select y axis"
             control={control}
-            name={`${configKey}.[${index}]`}
+            name={`${configKey}.[${index}].name`}
             validations={{ required: 'Required' }}
             error={errors[index] || {}}
           />
@@ -78,6 +80,7 @@ function YAxisChartConfig({ headers, control, configKey, errors }) {
 
 YAxisChartConfig.defaultProps = {
   errors: [],
+  isEditMode: false,
 };
 
 YAxisChartConfig.propTypes = {
@@ -90,6 +93,7 @@ YAxisChartConfig.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.shape({})),
   control: PropTypes.shape({}).isRequired,
   configKey: PropTypes.string.isRequired,
+  isEditMode: PropTypes.bool,
 };
 
 export default YAxisChartConfig;

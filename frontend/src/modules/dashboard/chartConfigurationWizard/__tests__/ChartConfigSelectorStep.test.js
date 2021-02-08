@@ -35,26 +35,7 @@ describe('chart config selector', () => {
     await findByText('Data Source');
     expect(container).toMatchSnapshot();
   });
-
-  it('should match snapshot in edit moed', async () => {
-    const existingConfig = {
-      chartName: "chart1",
-    dataSource: "id1",
-    xAxis: "column1",
-    yAxis:[{name:"column2", type:"number"}]
-
-  }
-    const { container, findByText } = render(
-      <ChartConfigSelectorStepWithTheme
-        existingConfig={existingConfig}
-        chartType="lineChart"
-        onApply={jest.fn()}
-        backToChartType={jest.fn()}
-      />,
-    );
-    await findByText('Data Source');
-    expect(container).toMatchSnapshot();
-  });
+  
 
   it('should call back to chart type selector', async () => {
     const backToChartType = jest.fn();

@@ -5,17 +5,10 @@ import { fireEvent } from '@testing-library/dom';
 import AntSwitch from '../AntSwitch';
 
 const FormWithAntSwitch = ({ onSubmit }) => {
-  const { register, handleSubmit } = useForm({ mode: 'onChange' });
+  const { control, handleSubmit } = useForm({ mode: 'onChange' });
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <AntSwitch
-        register={register}
-        name="switch"
-        dataTestid="switch"
-        offLabel="on"
-        onLabel="off"
-        defaultValue={false}
-      />
+      <AntSwitch control={control} name="switch" dataTestid="switch" offLabel="on" onLabel="off" />
       <button type="submit">submit</button>
     </form>
   );

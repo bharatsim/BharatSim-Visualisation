@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Line } from 'react-chartjs-2';
 import { lineChartOptions } from '../chartStyleConfig';
@@ -36,7 +36,10 @@ function LineChart({ config }) {
     fetchData();
   }, [xColumn, ...yColumns]);
 
-  const transformedData = trasformDataForChart(fetchedData, xColumn, yColumns);
+  const transformedData = useMemo(
+    () => (fetchedData ? trasformDataForChart(fetchedData, xColumn, yColumns) : {}),
+    [fetchedData],
+  );
 
   const onErrorAction = {
     name: 'Retry',

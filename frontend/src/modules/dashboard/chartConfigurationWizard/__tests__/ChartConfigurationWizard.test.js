@@ -3,6 +3,7 @@ import { act, fireEvent, render } from '@testing-library/react';
 import ChartConfigurationWizard from '../ChartConfigurationWizard';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../../testUtil';
+import { within } from '@testing-library/dom';
 
 jest.mock('../../../../utils/api', () => ({
   api: {
@@ -29,39 +30,36 @@ describe('Chart configuration wizard', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  it('should match snapshot', () => {
-    render(<ComponentWithProvider closeModal={jest.fn()} isOpen onApply={jest.fn()} />);
+  it('should match snapshot in edit mode', async () => {
+    const existingChart = {
+      chartType: 'lineChart',
+      config: {
+        chartName: 'line chart with config',
+        dataSource: 'id1',
+        xAxis: 'column1',
+        yAxis: [{ name: 'column2' }],
+      },
+      layout: { i: 'widget-3', x: 6, y: null, w: 6, h: 2 },
+    };
+    const { findByText, getByLabelText, getByTestId } = render(
+      <ComponentWithProvider
+        chart={existingChart}
+        closeModal={jest.fn()}
+        isOpen
+        onApply={jest.fn()}
+      />,
+    );
 
-    const sideBarWizard = document.querySelector('.MuiDrawer-root');
+    await findByText('Data Source');
+    expect(getByLabelText('Add chart name')).toHaveValue('line chart with config');
 
-    expect(sideBarWizard).toMatchSnapshot();
+    await findByText('select x axis');
+    const xAxisDropdown = within(getByTestId('x-axis-dropdown'))
+    const yAxisDropdown = within(getByTestId('y-axis-dropdown-0'))
+
+    expect(xAxisDropdown.getByRole('button')).toHaveTextContent('column1');
+    expect(yAxisDropdown.getByRole('button')).toHaveTextContent('column2');
   });
-  // TODO
-  // it('should match snapshot in edit mode', async () => {
-  //   const existingChart = {
-  //     chartType: 'lineChart',
-  //     config: {
-  //       chartName: 'chart1',
-  //       dataSource: 'id1',
-  //       xAxis: 'column1',
-  //       yAxis: [{ name: 'column2', type: 'number' }],
-  //     },
-  //     layout: { i: 'widget-3', x: 6, y: null, w: 6, h: 2 },
-  //   };
-  //   const { findByText } = render(
-  //     <ComponentWithProvider
-  //       chart={existingChart}
-  //       closeModal={jest.fn()}
-  //       isOpen
-  //       onApply={jest.fn()}
-  //     />,
-  //   );
-  //   await findByText('Data Source');
-  //
-  //   const sideBarWizard = document.querySelector('.MuiDrawer-root');
-  //
-  //   expect(sideBarWizard).toMatchSnapshot();
-  // });
 
   it('should select chart and go to next step of configure chart', async () => {
     const { findByText, getByText, getByTestId } = render(
@@ -112,7 +110,7 @@ describe('Chart configuration wizard', () => {
       chartName: 'chart name',
       dataSource: 'id2',
       xAxis: 'column1',
-      yAxis: [{ name: 'column2', type: 'number' }],
+      yAxis: [{ name: 'column2'}],
     });
   });
 
@@ -147,7 +145,7 @@ describe('Chart configuration wizard', () => {
       chartName: 'Untitled Chart',
       dataSource: 'id2',
       xAxis: 'column1',
-      yAxis: [{ name: 'column2', type: 'number' }],
+      yAxis: [{ name: 'column2' }],
     });
   });
   it('should disable apply button if any config is not selected', async () => {

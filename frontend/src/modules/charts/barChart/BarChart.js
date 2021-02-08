@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 import { getYaxisNames, trasformDataForChart } from '../utils';
@@ -37,7 +37,10 @@ function BarChart({ config }) {
     fetchData();
   }, [xColumn, ...yColumns]);
 
-  const transformedData = trasformDataForChart(fetchedData, xColumn, yColumns);
+  const transformedData = useMemo(
+    () => (fetchedData ? trasformDataForChart(fetchedData, xColumn, yColumns) : {}),
+    [fetchedData],
+  );
 
   const onErrorAction = {
     name: 'Retry',

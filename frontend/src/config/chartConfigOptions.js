@@ -23,13 +23,14 @@ const chartConfigOptions = {
     ),
   },
   [chartConfigOptionTypes.Y_AXIS]: {
-    component: ({ headers, control, errors }) => (
+    component: ({ headers, control, errors, isEditMode }) => (
       <YAxisChartConfig
         headers={headers}
         handleConfigChange={headers}
         configKey={chartConfigOptionTypes.Y_AXIS}
         errors={errors[chartConfigOptionTypes.Y_AXIS]}
         control={control}
+        isEditMode={isEditMode}
       />
     ),
   },
@@ -101,7 +102,7 @@ const chartConfigOptions = {
     ),
   },
   [chartConfigOptionTypes.SLIDER_CONFIG]: {
-    component: ({ headers, control, watch, register, errors }) => (
+    component: ({ headers, control, watch, register, errors, getValues }) => (
       <TimeSliderConfig
         control={control}
         watch={watch}
@@ -109,6 +110,7 @@ const chartConfigOptions = {
         headers={headers}
         configKey={chartConfigOptionTypes.SLIDER_CONFIG}
         errors={errors[chartConfigOptionTypes.SLIDER_CONFIG]}
+        getValues={getValues}
       />
     ),
   },

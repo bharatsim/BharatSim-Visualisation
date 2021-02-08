@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function TimeSliderConfig({ headers, configKey, control, register, watch, errors }) {
+function TimeSliderConfig({ headers, configKey, control, watch, errors }) {
   const classes = useStyles();
   const showSliderConfig = watch(`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`);
 
@@ -34,7 +34,7 @@ function TimeSliderConfig({ headers, configKey, control, register, watch, errors
         <Box ml={2}>
           <AntSwitch
             dataTestid="toggle-time-slider"
-            register={register}
+            control={control}
             name={`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`}
             onLabel="Yes"
             offLabel="No"
@@ -78,7 +78,6 @@ TimeSliderConfig.propTypes = {
     [timeSliderConfig.TIME_METRICS]: PropTypes.shape({}),
   }),
   control: PropTypes.shape({}).isRequired,
-  register: PropTypes.func.isRequired,
   watch: PropTypes.func.isRequired,
 };
 

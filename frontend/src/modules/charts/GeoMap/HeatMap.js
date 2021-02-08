@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,12 +37,17 @@ function HeatMap({ config }) {
 
   useEffect(() => {
     fetchData();
-  }, [latitude,longitude, geoMetricSeries]);
+  }, [latitude, longitude, geoMetricSeries]);
 
-  const locationPoints = transformDataForHeatMap(fetchedData, latitude, longitude, geoMetricSeries);
+  const locationPoints = useMemo(
+    () => transformDataForHeatMap(fetchedData, latitude, longitude, geoMetricSeries),
+    [fetchedData],
+  );
+
   const center = getLatLngCenter(locationPoints);
 
-  const maxOfGeoMatrixSeries = fetchedData && fetchedData[geoMetricSeries] ? Math.max(...fetchedData[geoMetricSeries]) : 1;
+  const maxOfGeoMatrixSeries =
+    fetchedData && fetchedData[geoMetricSeries] ? Math.max(...fetchedData[geoMetricSeries]) : 1;
 
   async function fetchData() {
     startLoader();

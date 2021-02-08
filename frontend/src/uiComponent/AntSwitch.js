@@ -4,6 +4,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import { useController } from 'react-hook-form';
 
 const switchContainerStyles = makeStyles({
   container: {
@@ -45,15 +46,19 @@ const AntSwitchWithStyle = withStyles((theme) => ({
   checked: {},
 }))(Switch);
 
-function AntSwitch({ onLabel, offLabel, name, register, defaultValue, dataTestid }) {
+function AntSwitch({ onLabel, offLabel, name, control, dataTestid }) {
   const switchContainerClasses = switchContainerStyles();
+  const {
+    field: { ref, onChange, value },
+  } = useController({ name, control, defaultValue: false });
+
   return (
     <Box className={switchContainerClasses.container}>
       <Box mr={1}>{offLabel}</Box>
       <AntSwitchWithStyle
-        inputRef={register}
-        name={name}
-        defaultValue={defaultValue}
+        inputRef={ref}
+        onChange={(e) => onChange(e.target.checked)}
+        checked={value}
         data-testid={dataTestid}
       />
       <Box ml={1}>{onLabel}</Box>
@@ -61,16 +66,11 @@ function AntSwitch({ onLabel, offLabel, name, register, defaultValue, dataTestid
   );
 }
 
-AntSwitch.defaultProps = {
-  defaultValue: false,
-};
-
 AntSwitch.propTypes = {
   onLabel: PropTypes.string.isRequired,
   offLabel: PropTypes.string.isRequired,
   dataTestid: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  register: PropTypes.func.isRequired,
-  defaultValue: PropTypes.bool,
+  control: PropTypes.shape({}).isRequired,
 };
 export default AntSwitch;

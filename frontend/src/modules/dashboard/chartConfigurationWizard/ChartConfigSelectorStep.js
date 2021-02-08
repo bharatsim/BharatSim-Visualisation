@@ -4,12 +4,12 @@ import { useForm as useReactForm } from 'react-hook-form';
 import {
   Box,
   Button,
-  Tabs,
-  Typography,
   Divider,
-  Tab,
   makeStyles,
+  Tab,
+  Tabs,
   TextField,
+  Typography,
 } from '@material-ui/core';
 
 import DatasourceSelector from '../dashboardConfigSelector/DatasourceSelector';
@@ -46,18 +46,9 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
   const [selectedTab] = React.useState(0);
   const classes = useStyles();
   const chartName = existingConfig[CHART_NAME_KEY] || 'Untitled Chart';
-  const reactForm = useReactForm({ mode: 'onChange' });
-  const {
-    register,
-    handleSubmit,
-    errors,
-    getValues,
-    control,
-    watch,
-    setValue,
-    formState,
-  } = reactForm;
-  const watchShowOtherConfig = watch(DATASOURCE_SELECTOR_KEY, undefined);
+  const reactForm = useReactForm({ mode: 'onChange', defaultValues: existingConfig });
+  const { register, handleSubmit, errors, control, watch, setValue, formState } = reactForm;
+  const selectedDatasource = watch(DATASOURCE_SELECTOR_KEY, undefined);
 
   function isEditMode() {
     return Object.keys(existingConfig).length !== 0;
@@ -106,12 +97,12 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
               label="select data source"
             />
           </Box>
-          {watchShowOtherConfig && (
+          {selectedDatasource && (
             <>
               <Divider />
               <Box pt={6}>
                 <ConfigSelector
-                  dataSourceId={getValues(DATASOURCE_SELECTOR_KEY)}
+                  dataSourceId={selectedDatasource}
                   isEditMode={isEditMode()}
                   errors={errors}
                   chartType={chartType}

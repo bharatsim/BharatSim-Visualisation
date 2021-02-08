@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { act, render } from '@testing-library/react';
 import { useForm } from 'react-hook-form';
 import { fireEvent } from '@testing-library/dom';
@@ -13,10 +13,18 @@ const headers = [
   { name: 'c', type: 'number' },
 ];
 
-const TestForm = ({ onSubmit }) => {
-  const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
+const TestForm = ({ onSubmit, isEditMode }) => {
+  const { control, errors, handleSubmit, reset } = useForm({ mode: 'onChange' });
 
   const configKey = 'yAxis';
+
+  useEffect(() => {
+    if (isEditMode) {
+      reset({
+        yAxis: [{ name: 'b' }, { name: 'c' }],
+      });
+    }
+  }, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -25,6 +33,7 @@ const TestForm = ({ onSubmit }) => {
         configKey={configKey}
         headers={headers}
         errors={errors[configKey]}
+        isEditMode={isEditMode}
       />
       <button type="submit">submit</button>
     </form>
@@ -36,6 +45,15 @@ describe('<YAxisConfig />', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('should not add extra dropbox if form is in edit mode', async () => {
+    const onSubmit = jest.fn();
+    const renderedContainer = render(<FormForYAxisConfig onSubmit={onSubmit} isEditMode />);
+    const { getAllByText } = renderedContainer;
+    const yAxisDropdown = getAllByText('select y axis');
+
+    expect(yAxisDropdown.length).toBe(2);
   });
 
   it('should call on submit with y axis filedArray config', async () => {
@@ -56,8 +74,8 @@ describe('<YAxisConfig />', () => {
     expect(onSubmit).toHaveBeenCalledWith(
       {
         yAxis: [
-          { name: 'a', type: 'number' },
-          { name: 'b', type: 'number' },
+          { name: 'a'},
+          { name: 'b'},
         ],
       },
       expect.anything(),
