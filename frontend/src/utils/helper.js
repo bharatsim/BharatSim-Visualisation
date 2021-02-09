@@ -35,9 +35,28 @@ function debounce(fn, delay) {
   };
 }
 
-function transformDataForHeatMap(data, latitude, longitude, geoMetricSeries) {
+function transformDataForHeatMap(
+  data,
+  latitude,
+  longitude,
+  geoMetricSeries,
+  timeMetrics,
+  selectedStep,
+) {
   const transformedData = [];
   if (!data || !data[latitude] || !data[longitude] || !data[geoMetricSeries]) {
+    return transformedData;
+  }
+  if (timeMetrics) {
+    data[latitude].forEach((_, index) => {
+      if (data[timeMetrics][index] === selectedStep) {
+        transformedData.push([
+          data[latitude][index],
+          data[longitude][index],
+          data[geoMetricSeries][index],
+        ]);
+      }
+    });
     return transformedData;
   }
 

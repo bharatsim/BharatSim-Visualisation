@@ -100,6 +100,19 @@ describe('Helpers', () => {
         expect(actualData).toEqual([]);
       });
     });
+    it('should give transform data for heatmap with time metric', () => {
+      const data = {
+        lat: [1, 2, 3, 4],
+        lan: [4, 5, 6, 7],
+        geoMetric: [2, 3, 5, 7],
+        time: [1, 1, 1, 2],
+      };
+      const expectedData = [[4, 7, 7]];
+
+      const actualData = transformDataForHeatMap(data, 'lat', 'lan', 'geoMetric', 'time', 2);
+
+      expect(actualData).toEqual(expectedData);
+    });
   });
 
   describe('Debouncing', () => {

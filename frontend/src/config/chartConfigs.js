@@ -32,6 +32,7 @@ const chartConfigs = {
     configOptions: [
       chartConfigOptionTypes.GEO_DIMENSIONS,
       chartConfigOptionTypes.GEO_METRIC_SERIES,
+      chartConfigOptionTypes.SLIDER_CONFIG,
     ],
   },
   [chartTypes.CHOROPLETH_MAP]: {

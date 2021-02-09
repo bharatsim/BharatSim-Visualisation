@@ -161,7 +161,7 @@ describe('Choropleth', () => {
     expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected']);
   });
 
-  it('should call fetch data on render with time Metrics if time metric is present ', async () => {
+  it('should call fetch data on render with time Metrics if time metric is present', async () => {
     api.getData.mockImplementation((data) => {
       if (data === 'test.csv')
         return Promise.resolve({

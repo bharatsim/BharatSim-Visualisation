@@ -2,7 +2,6 @@ import React from 'react';
 import { act, fireEvent, render as rtlRender } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 import { useSelector } from 'react-redux';
-
 import Dashboard from '../Dashboard';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import {
@@ -12,6 +11,7 @@ import {
   withRouter,
 } from '../../../testUtil';
 import { api } from '../../../utils/api';
+import { ProjectLayoutProvider } from '../../../contexts/projectLayoutContext';
 
 jest.mock('../../charts/lineChart/LineChart', () => () => (
   <>
@@ -91,10 +91,10 @@ const initialDashboardState = {
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
-    ...jest.requireActual('react-redux'),
-    useDispatch: jest.fn(() => mockDispatch),
-    useSelector: jest.fn().mockImplementation((selector) => selector(mockState)),
-  }));
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(() => mockDispatch),
+  useSelector: jest.fn().mockImplementation((selector) => selector(mockState)),
+}));
 
 describe('<Dashboard />', () => {
   const DashboardWithProviders = withRouter(withThemeProvider(withProjectLayout(Dashboard)));
@@ -152,6 +152,32 @@ describe('<Dashboard />', () => {
     rerender(<DashboardWithProviders />);
 
     expect(mockDispatch).toHaveBeenCalledWith({ type: 'FETCH_DASHBOARD', id: 'id1' });
+  });
+
+  it('should fetch dashboard only when dashboard id is present', async () => {
+    const DashboardWithCustomProviders = withRouter(
+      withThemeProvider(() => (
+        <ProjectLayoutProvider
+          value={{
+            projectMetadata: {
+              id: '1',
+              name: 'project1',
+            },
+            selectedDashboardMetadata: {},
+            addDashboard: jest.fn(),
+            deleteDashboard: jest.fn(),
+          }}
+        >
+          <Dashboard />
+        </ProjectLayoutProvider>
+      )),
+    );
+
+    render(<DashboardWithCustomProviders />);
+
+    await act(async () => {
+      expect(api.getDashboard).not.toHaveBeenCalled();
+    });
   });
 
   it('should open side wizard on click of add chart from header', async () => {

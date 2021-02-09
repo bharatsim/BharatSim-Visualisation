@@ -9,6 +9,9 @@ exports[`HeatMap should create a heatmap component 1`] = `
       class="makeStyles-fullWidthHeight-1"
       data-testid="map-container"
     >
+      <div
+        class="MuiBox-root MuiBox-root-5"
+      />
       MapContainer
       TileLayer
       HeatMapLayer

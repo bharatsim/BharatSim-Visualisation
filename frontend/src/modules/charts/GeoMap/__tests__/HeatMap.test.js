@@ -9,7 +9,14 @@ import withThemeProvider from '../../../../theme/withThemeProvider';
 jest.mock('../../../../utils/api', () => ({
   api: {
     getData: jest.fn().mockResolvedValue({
-      data: { lat: [2, 3], long: [1, 2], dataPoints: [2, 3], latNew: [2, 3] },
+      data: {
+        lat: [2, 3],
+        long: [1, 2],
+        dataPoints: [2, 3],
+        latNew: [2, 3],
+        time: [1, 1],
+        time2: [1, 1],
+      },
     }),
   },
 }));
@@ -73,6 +80,7 @@ describe('HeatMap', () => {
           dataSource: 'test.csv',
           geoDimensions: { latitude: 'lat', longitude: 'long' },
           geoMetricSeries: 'dataPoints',
+          sliderConfig: {},
         }}
       />,
     );
@@ -90,6 +98,7 @@ describe('HeatMap', () => {
           dataSource: 'test.csv',
           geoDimensions: { latitude: 'lat', longitude: 'long' },
           geoMetricSeries: 'dataPoints',
+          sliderConfig: {},
         }}
       />,
     );
@@ -106,6 +115,7 @@ describe('HeatMap', () => {
           dataSource: 'test.csv',
           geoDimensions: { latitude: 'lat', longitude: 'long' },
           geoMetricSeries: 'dataPoints',
+          sliderConfig: {},
         }}
       />,
     );
@@ -118,6 +128,7 @@ describe('HeatMap', () => {
           dataSource: 'test.csv',
           geoDimensions: { latitude: 'latNew', longitude: 'long' },
           geoMetricSeries: 'dataPoints',
+          sliderConfig: {},
         }}
       />,
     );
@@ -135,6 +146,7 @@ describe('HeatMap', () => {
           dataSource: 'test.csv',
           geoDimensions: { latitude: 'lat', longitude: 'long' },
           geoMetricSeries: 'dataPoints',
+          sliderConfig: {},
         }}
       />,
     );
@@ -148,5 +160,53 @@ describe('HeatMap', () => {
     await findByTestId('map-container');
 
     expect(api.getData).toHaveBeenLastCalledWith('test.csv', ['lat', 'long', 'dataPoints']);
+  });
+  it('should call fetch data on render with time Metrics if time metric is present', async () => {
+    const { findByTestId } = render(
+      <HeatMapWithProvider
+        config={{
+          dataSource: 'test.csv',
+          geoDimensions: { latitude: 'lat', longitude: 'long' },
+          geoMetricSeries: 'dataPoints',
+          sliderConfig: { timeMetrics: 'time' },
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+
+    expect(api.getData).toHaveBeenLastCalledWith('test.csv', ['lat', 'long', 'dataPoints', 'time']);
+  });
+  it('should rerender heatmap on change of config', async () => {
+    const { findByTestId, rerender } = render(
+      <HeatMapWithProvider
+        config={{
+          dataSource: 'test.csv',
+          geoDimensions: { latitude: 'lat', longitude: 'long' },
+          geoMetricSeries: 'dataPoints',
+          sliderConfig: { timeMetrics: 'time' },
+        }}
+      />,
+    );
+    await findByTestId('map-container');
+    expect(api.getData).toHaveBeenLastCalledWith('test.csv', ['lat', 'long', 'dataPoints', 'time']);
+
+    rerender(
+      <HeatMapWithProvider
+        config={{
+          dataSource: 'test.csv',
+          geoDimensions: { latitude: 'latNew', longitude: 'long' },
+          geoMetricSeries: 'dataPoints',
+          sliderConfig: { timeMetrics: 'time2' },
+        }}
+      />,
+    );
+    await findByTestId('map-container');
+    expect(api.getData).toHaveBeenLastCalledWith('test.csv', [
+      'latNew',
+      'long',
+      'dataPoints',
+      'time2',
+    ]);
   });
 });
