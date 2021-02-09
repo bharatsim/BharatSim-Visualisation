@@ -18,6 +18,7 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.6/main' >> /etc/apk/repositori
 RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.6/community' >> /etc/apk/repositories
 RUN apk update
 RUN apk add mongodb=3.4.4-r0
+RUN adduser -D -u 1021 go
 
 RUN mkdir visualisation
 #COPY . /visualisation
@@ -28,3 +29,4 @@ WORKDIR /visualisation
 
 #add variables
 ENV MONGOMS_SYSTEM_BINARY=/usr/bin/mongod
+USER go
