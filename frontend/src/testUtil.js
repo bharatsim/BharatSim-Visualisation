@@ -18,6 +18,16 @@ export async function selectDropDownOption(container, dropDownId, optionId) {
   });
 }
 
+export function syncSelectDropDownOption(container, dropDownId, optionId) {
+  const dropDown = container.getByTestId(dropDownId);
+  fireEvent.mouseDown(within(dropDown).getByRole('button'));
+  const options = within(
+    within(document.getElementById(`menu-${dropDownId}`)).getByRole('listbox'),
+  );
+
+  fireEvent.click(options.getByTestId(`${dropDownId}-${optionId}`));
+}
+
 export function withRouter(WrappedComponent) {
   const history = createMemoryHistory();
   return (props) => (

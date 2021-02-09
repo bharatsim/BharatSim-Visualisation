@@ -1,5 +1,5 @@
-import { runSaga } from 'redux-saga';
-import { debounce, fork, takeLatest } from 'redux-saga/effects';
+import { call, debounce, fork, put, takeLatest } from 'redux-saga/effects';
+import sagaHelper from 'redux-saga-testing';
 import dashboardSaga, {
   autoSave,
   dashboardLoadSaga,
@@ -11,11 +11,9 @@ import {
   autoSaveComplete,
   autoSaveError,
   autoSaveStarted,
-  DASHBOARD_LOADED,
+  dashboardLoaded,
   FETCH_DASHBOARD,
-  fetchDashboard as fetchAction,
   UPDATE_DASHBOARD,
-  updateDashboard as updateAction,
 } from '../actions';
 import { api } from '../../../utils/api';
 import { AUTOSAVE_DEBOUNCE_TIME } from '../constants';
@@ -30,71 +28,122 @@ jest.mock('../../../utils/api', () => ({
     }),
   },
 }));
+
 describe('dashboard saga', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  it('should register load and update dashboard', () => {
-    const rootSaga = dashboardSaga();
-    expect(rootSaga.next().value).toEqual(fork(dashboardLoadSaga));
-    expect(rootSaga.next().value).toEqual(fork(dashboardUpdateSaga));
+
+  describe('register  load and update dashboard saga', () => {
+    const it = sagaHelper(dashboardSaga());
+
+    it('should fork dashboard load saga', (result) => {
+      expect(result).toEqual(fork(dashboardLoadSaga));
+    });
+
+    it('should fork dashboard update saga', (result) => {
+      expect(result).toEqual(fork(dashboardUpdateSaga));
+    });
+
+    it('and then nothing', (result) => {
+      expect(result).toBeUndefined();
+    });
   });
 
-  it('should load dashboard', async () => {
-    const dispatched = [];
-    const loadSaga = dashboardLoadSaga();
-    expect(loadSaga.next().value).toEqual(takeLatest(FETCH_DASHBOARD, fetchDashboard));
-    await runSaga(
-      { dispatch: (action) => dispatched.push(action) },
-      fetchDashboard,
-      fetchAction('id'),
-    ).toPromise();
+  describe('dashboard update saga', () => {
+    const it = sagaHelper(dashboardUpdateSaga());
 
-    expect(dispatched).toEqual([
-      {
-        type: DASHBOARD_LOADED,
-        payload: {
-          dashboard: { name: 'datasource1', _id: 'id' },
-        },
-      },
-    ]);
-    expect(api.getDashboard).toHaveBeenCalledWith('id');
+    it('should take latest of update dashboard and call save saga', (result) => {
+      expect(result).toEqual(takeLatest(UPDATE_DASHBOARD, autoSave));
+    });
+
+    it('should debounce save and call save dashboard saga', (result) => {
+      expect(result).toEqual(debounce(AUTOSAVE_DEBOUNCE_TIME, UPDATE_DASHBOARD, saveDashboard));
+    });
+
+    it('and then nothing', (result) => {
+      expect(result).toBeUndefined();
+    });
   });
 
-  it('should save dashboard', async () => {
-    const dispatched = [];
-    const updateSaga = dashboardUpdateSaga();
-    expect(updateSaga.next().value).toEqual(takeLatest(UPDATE_DASHBOARD, autoSave));
-    expect(updateSaga.next().value).toEqual(
-      debounce(AUTOSAVE_DEBOUNCE_TIME, UPDATE_DASHBOARD, saveDashboard),
-    );
+  describe('dashboard load saga', () => {
+    const it = sagaHelper(dashboardLoadSaga());
 
-    await runSaga(
-      { dispatch: (action) => dispatched.push(action) },
-      autoSave,
-      updateAction({ dashboardId: 'id' }),
-    ).toPromise();
-    await runSaga(
-      { dispatch: (action) => dispatched.push(action) },
-      saveDashboard,
-      updateAction({ dashboardId: 'id' }),
-    ).toPromise();
+    it('should take latest of fetch dashboard and call fetch dashboard saga', (result) => {
+      expect(result).toEqual(takeLatest(FETCH_DASHBOARD, fetchDashboard));
+    });
 
-    expect(dispatched).toEqual([autoSaveStarted('id'), autoSaveComplete('id')]);
-    expect(api.saveDashboard).toHaveBeenCalledWith({ dashboardId: 'id' });
-    expect(api.saveDashboard).toHaveBeenCalledWith({ dashboardId: 'id' });
+    it('and then nothing', (result) => {
+      expect(result).toBeUndefined();
+    });
   });
 
-  it('should handle error on save dashboard', async () => {
+  describe('should start auto save', () => {
+    const action = { payload: { dashboard: { dashboardId: 'id' } } };
+    const it = sagaHelper(autoSave(action));
+
+    it('should have put auto save started', (result) => {
+      expect(result).toEqual(put(autoSaveStarted('id')));
+    });
+
+    it('and then nothing', (result) => {
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('should load dashboard', () => {
+    const action = { id: 'dashboardId' };
+    const it = sagaHelper(fetchDashboard(action));
+
+    it('should have called fetch dashboard api', (result) => {
+      expect(result).toEqual(call(api.getDashboard, 'dashboardId'));
+
+      return { dashboardId: 'dashboard' };
+    });
+
+    it('and then trigger an action load data in redux', (result) => {
+      expect(result).toEqual(put(dashboardLoaded({ dashboardId: 'dashboard' })));
+    });
+
+    it('and then nothing', (result) => {
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('should save dashboard', () => {
+    const dashboard = { dashboard: { dashboardId: 'id' } };
+    const it = sagaHelper(saveDashboard({ payload: dashboard }));
+
+    it('should have called save dashboard api', (result) => {
+      expect(result).toEqual(call(api.saveDashboard, { dashboardId: 'id' }));
+    });
+
+    it('and then trigger an action  to complete auto save', (result) => {
+      expect(result).toEqual(put(autoSaveComplete('id')));
+    });
+
+    it('and then nothing', (result) => {
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('should handle error while saving dashboard', () => {
     api.saveDashboard.mockImplementation(() => Promise.reject('error'));
-    const dispatched = [];
-    await runSaga(
-      { dispatch: (action) => dispatched.push(action) },
-      saveDashboard,
-      updateAction({ dashboardId: 'id' }),
-    ).toPromise();
+    const dashboard = { dashboard: { dashboardId: 'id' } };
+    const it = sagaHelper(saveDashboard({ payload: dashboard }));
 
-    expect(dispatched).toEqual([autoSaveError('id')]);
-    expect(api.saveDashboard).toHaveBeenCalledWith({ dashboardId: 'id' });
+    it('should have called save dashboard api', (result) => {
+      expect(result).toEqual(call(api.saveDashboard, { dashboardId: 'id' }));
+
+      return new Error('Something went wrong');
+    });
+
+    it('and then trigger an action to handle error during auto save', (result) => {
+      expect(result).toEqual(put(autoSaveError('id')));
+    });
+
+    it('and then nothing', (result) => {
+      expect(result).toBeUndefined();
+    });
   });
 });
