@@ -100,7 +100,7 @@ describe('<Dashboard />', () => {
   const DashboardWithProviders = withRouter(withThemeProvider(withProjectLayout(Dashboard)));
   beforeAll(() => {
     jest.useFakeTimers();
-    // jest.setTimeout(15000)
+    jest.setTimeout(10000);
   });
   afterEach(() => {
     jest.clearAllTimers();
@@ -313,6 +313,46 @@ describe('<Dashboard />', () => {
       await findByText('dashboard1');
 
       expect(getByText('Unable to save the dashboard')).toBeInTheDocument();
+    });
+    it('should show saving state while saving the dashboard', async () => {
+      const mockNewState = {
+        dashboards: {
+          autoSaveStatus: { id1: { saving: true, error: false, lastSaved: null } },
+          dashboards: { id1: initialDashboardState },
+        },
+      };
+      useSelector.mockImplementation((selector) => selector(mockNewState));
+
+      const renderedComponent = render(<DashboardWithProviders />);
+      const { getByText, findByText } = renderedComponent;
+
+      await findByText('dashboard1');
+
+      expect(getByText('Saving...')).toBeInTheDocument();
+    });
+    it('should call retry action on click of retry button if  any error while saving the dashboard', async () => {
+      const mockNewState = {
+        dashboards: {
+          autoSaveStatus: { id1: { saving: false, error: true, lastSaved: new Date() } },
+          dashboards: { id1: initialDashboardState },
+        },
+      };
+      useSelector.mockImplementation((selector) => selector(mockNewState));
+
+      const renderedComponent = render(<DashboardWithProviders />);
+      const { getByText, findByText } = renderedComponent;
+
+      await findByText('dashboard1');
+
+      expect(getByText('Unable to save the dashboard')).toBeInTheDocument();
+
+      const retryButton = getByText('Retry');
+      fireEvent.click(retryButton);
+
+      expect(mockDispatch).toHaveBeenLastCalledWith({
+        type: 'UPDATE_DASHBOARD',
+        payload: { dashboard: { ...initialDashboardState } },
+      });
     });
 
     it('should delete the widget and autoSave', async () => {
