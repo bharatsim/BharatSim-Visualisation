@@ -12,7 +12,7 @@ global.mockPropsCapture = (props) => {
         actualValue = `function ${key}`;
         break;
       case 'object':
-        actualValue = value.toString();
+        actualValue = JSON.stringify(value);
         break;
       default:
         actualValue = value;

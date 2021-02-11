@@ -168,7 +168,7 @@ describe('HeatMap', () => {
           dataSource: 'test.csv',
           geoDimensions: { latitude: 'lat', longitude: 'long' },
           geoMetricSeries: 'dataPoints',
-          sliderConfig: { timeMetrics: 'time' },
+          sliderConfig: { timeMetrics: 'time', strategy: 'defaultIntervals' },
         }}
       />,
     );
@@ -184,7 +184,7 @@ describe('HeatMap', () => {
           dataSource: 'test.csv',
           geoDimensions: { latitude: 'lat', longitude: 'long' },
           geoMetricSeries: 'dataPoints',
-          sliderConfig: { timeMetrics: 'time' },
+          sliderConfig: { timeMetrics: 'time', strategy: 'defaultIntervals' },
         }}
       />,
     );
@@ -197,7 +197,7 @@ describe('HeatMap', () => {
           dataSource: 'test.csv',
           geoDimensions: { latitude: 'latNew', longitude: 'long' },
           geoMetricSeries: 'dataPoints',
-          sliderConfig: { timeMetrics: 'time2' },
+          sliderConfig: { timeMetrics: 'time2', strategy: 'defaultIntervals' },
         }}
       />,
     );

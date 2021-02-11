@@ -31,7 +31,7 @@ function HeatMap({ config }) {
     sliderConfig,
   } = config;
   const { timeMetrics } = sliderConfig;
-  const [timeSliderValue, setTimeSliderValue] = useState(2);
+  const [timeSliderValue, setTimeSliderValue] = useState(0);
 
   const classes = useStyles();
   const [fetchedData, setFetchedData] = useState();
@@ -87,7 +87,6 @@ function HeatMap({ config }) {
       setTimeSliderValue(Math.min(...fetchedData[timeMetrics]));
     }
   }, [fetchedData]);
-
   const onErrorAction = {
     name: 'Retry',
     onClick: fetchData,
@@ -101,13 +100,11 @@ function HeatMap({ config }) {
             {timeMetrics && fetchedData && fetchedData[timeMetrics] && (
               <Box>
                 <TimeSlider
-                  defaultValue={Math.min(...fetchedData[timeMetrics])}
-                  maxValue={Math.max(...fetchedData[timeMetrics])}
-                  minValue={Math.min(...fetchedData[timeMetrics])}
-                  step={1}
+                  data={fetchedData[timeMetrics]}
                   setTimeSliderValue={setTimeSliderValue}
                   title={timeMetrics}
                   timeSliderValue={timeSliderValue}
+                  sliderConfig={sliderConfig}
                 />
               </Box>
             )}
@@ -144,7 +141,11 @@ HeatMap.propTypes = {
     geoDimensions: PropTypes.shape({ latitude: PropTypes.string, longitude: PropTypes.string })
       .isRequired,
     geoMetricSeries: PropTypes.string.isRequired,
-    sliderConfig: PropTypes.shape({ timeMetrics: PropTypes.string }).isRequired,
+    sliderConfig: PropTypes.shape({
+      timeMetrics: PropTypes.string,
+      strategy: PropTypes.string,
+      stepSize: PropTypes.number,
+    }).isRequired,
   }).isRequired,
 };
 

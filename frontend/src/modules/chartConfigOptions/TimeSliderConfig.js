@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
-import { timeSliderConfig } from '../../constants/sliderConfigs';
+import { timeIntervalStrategies, timeSliderConfig } from '../../constants/sliderConfigs';
 import AntSwitch from '../../uiComponent/AntSwitch';
 import ControlledDropDown from '../../uiComponent/ControlledDropdown';
+import UncontrolledInputTextField from '../../uiComponent/UncontrolledInputField';
+import RadioButtons from '../../uiComponent/RadioButtons';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -16,6 +18,10 @@ const useStyles = makeStyles((theme) => {
         marginRight: theme.spacing(12),
       },
     },
+    timeFieldContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
     headerContainer: {
       display: 'flex',
       alignItems: 'center',
@@ -23,9 +29,10 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function TimeSliderConfig({ headers, configKey, control, watch, errors }) {
+function TimeSliderConfig({ headers, configKey, control, watch, errors, register }) {
   const classes = useStyles();
   const showSliderConfig = watch(`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`);
+  const selectedIntervalStrategy = watch(`${configKey}.${timeSliderConfig.STRATEGY}`);
 
   return (
     <Box>
@@ -42,21 +49,60 @@ function TimeSliderConfig({ headers, configKey, control, watch, errors }) {
         </Box>
       </Box>
       {showSliderConfig && (
-        <Box className={classes.fieldContainer}>
-          <Box>
-            <Typography variant="body1">Time</Typography>
-            <ControlledDropDown
-              options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
-              id="timeMetrics"
-              key="dropdown-timeMetrics"
-              label="select Time Metrics"
-              control={control}
-              validations={{ required: 'Required' }}
-              name={`${configKey}.${timeSliderConfig.TIME_METRICS}`}
-              error={errors[timeSliderConfig.TIME_METRICS]}
-            />
+        <>
+          <Box className={classes.fieldContainer}>
+            <Box>
+              <Typography variant="body1">Time</Typography>
+              <ControlledDropDown
+                options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
+                id="timeMetrics"
+                key="dropdown-timeMetrics"
+                label="select Time Metrics"
+                control={control}
+                validations={{ required: 'Required' }}
+                name={`${configKey}.${timeSliderConfig.TIME_METRICS}`}
+                error={errors[timeSliderConfig.TIME_METRICS]}
+              />
+            </Box>
           </Box>
-        </Box>
+          <Box className={[classes.fieldContainer, classes.timeFieldContainer].join(' ')}>
+            <Box>
+              <Typography variant="body1">Time Interval</Typography>
+              <RadioButtons
+                defaultValue={timeIntervalStrategies.DEFAULT_INTERVALS}
+                control={control}
+                name={`${configKey}.${timeSliderConfig.STRATEGY}`}
+                options={[
+                  {
+                    value: timeIntervalStrategies.DEFAULT_INTERVALS,
+                    label: 'Use predefined internal',
+                  },
+                  {
+                    value: timeIntervalStrategies.STEP_SIZE,
+                    label: 'Specify step size',
+                  },
+                ]}
+              />
+            </Box>
+            <Box>
+              {selectedIntervalStrategy === 'stepSize' && (
+                <UncontrolledInputTextField
+                  type="number"
+                  defaultValue={1}
+                  name={`${configKey}.${timeSliderConfig.STEP_SIZE}`}
+                  register={register}
+                  error={errors[timeSliderConfig.STEP_SIZE]}
+                  label="select step size"
+                  dataTestid="stepsize-input-box"
+                  validations={{
+                    required: 'Required',
+                    min: { value: 1, message: 'step size should not be less than 1' },
+                  }}
+                />
+              )}
+            </Box>
+          </Box>
+        </>
       )}
     </Box>
   );
@@ -79,6 +125,7 @@ TimeSliderConfig.propTypes = {
   }),
   control: PropTypes.shape({}).isRequired,
   watch: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
 };
 
 export default TimeSliderConfig;

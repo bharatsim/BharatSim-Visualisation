@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
+import { timeIntervalStrategies } from '../constants/sliderConfigs';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,51 +11,87 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function getUniqueTimeMarks(data, minValue, maxValue) {
+  const uniqueValues = [...new Set(data)];
+  return uniqueValues.map((timeValue) => {
+    if ([minValue, maxValue].includes(timeValue)) {
+      return { value: timeValue, label: timeValue === minValue ? minValue : maxValue };
+    }
+    return { value: timeValue };
+  });
+}
+
+function getMarksForContinuesValue(min, max, stepSize) {
+  const numberedStepSize = Number(stepSize);
+  const values = [
+    { value: min, label: min },
+    { value: max, label: max },
+  ];
+  for (let value = min + numberedStepSize; value < max; value += numberedStepSize) {
+    values.push({ value });
+  }
+  return values;
+}
+
 export default function TimeSlider({
-  defaultValue,
-  maxValue,
-  step,
-  minValue,
+  data,
   setTimeSliderValue,
   title,
   timeSliderValue,
-  dataTestId,
+  sliderConfig,
 }) {
   const classes = useStyles();
+
+  const { strategy, stepSize } = sliderConfig;
+
+  const { marks, min, max } = useMemo(() => {
+    const maxValue = Math.max(...data);
+    const minValue = Math.min(...data);
+
+    if (strategy === timeIntervalStrategies.DEFAULT_INTERVALS) {
+      const uniqueMarks = getUniqueTimeMarks(data, minValue, maxValue);
+      return { marks: uniqueMarks, min: minValue, max: maxValue };
+    }
+    const marksValue = getMarksForContinuesValue(minValue, maxValue, stepSize);
+
+    return {
+      min: minValue,
+      max: maxValue,
+      marks: marksValue,
+    };
+  }, [data, strategy, stepSize]);
 
   function onChange(e, value) {
     setTimeSliderValue(value);
   }
 
+  useEffect(() => {
+    setTimeSliderValue(min);
+  }, [min]);
+
   return (
     <div className={classes.root}>
       <Typography variant="body2">{`${title} ${timeSliderValue}`}</Typography>
       <Slider
-        defaultValue={defaultValue}
+        defaultValue={min}
         aria-labelledby="Time Slider"
-        step={step}
-        marks
+        step={null}
+        marks={marks}
         onChange={onChange}
-        min={minValue}
-        max={maxValue}
+        min={min}
+        max={max}
         valueLabelDisplay="auto"
-        data-testid={dataTestId}
       />
     </div>
   );
 }
-
-TimeSlider.defaultProps = {
-  dataTestId: '',
-};
-
 TimeSlider.propTypes = {
-  defaultValue: PropTypes.number.isRequired,
-  maxValue: PropTypes.number.isRequired,
-  step: PropTypes.number.isRequired,
-  minValue: PropTypes.number.isRequired,
   setTimeSliderValue: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   timeSliderValue: PropTypes.number.isRequired,
-  dataTestId: PropTypes.string,
+  sliderConfig: PropTypes.shape({
+    strategy: PropTypes.string.isRequired,
+    stepSize: PropTypes.number,
+  }).isRequired,
+  data: PropTypes.arrayOf(PropTypes.number).isRequired,
 };

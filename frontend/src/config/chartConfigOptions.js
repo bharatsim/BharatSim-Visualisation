@@ -102,7 +102,7 @@ const chartConfigOptions = {
     ),
   },
   [chartConfigOptionTypes.SLIDER_CONFIG]: {
-    component: ({ headers, control, watch, register, errors, getValues }) => (
+    component: ({ headers, control, watch, register, errors }) => (
       <TimeSliderConfig
         control={control}
         watch={watch}
@@ -110,7 +110,6 @@ const chartConfigOptions = {
         headers={headers}
         configKey={chartConfigOptionTypes.SLIDER_CONFIG}
         errors={errors[chartConfigOptionTypes.SLIDER_CONFIG]}
-        getValues={getValues}
       />
     ),
   },

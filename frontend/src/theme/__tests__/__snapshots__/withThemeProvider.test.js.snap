@@ -180,9 +180,55 @@ exports[`withThemeProvider HOC should match snapshot 1`] = `
         "minHeight": "unset !important"
       }
     },
+    "MuiSlider": {
+      "colorPrimary": {
+        "color": "#594ab7"
+      },
+      "track": {
+        "height": 4,
+        "borderRadius": 0,
+        "backgroundColor": "transparent"
+      },
+      "rail": {
+        "height": 4,
+        "borderRadius": 0,
+        "backgroundColor": "#61666b"
+      },
+      "mark": {
+        "height": 12,
+        "width": 1,
+        "marginTop": -4,
+        "backgroundColor": "#c5c7cb",
+        "border": 0
+      },
+      "markActive": {
+        "backgroundColor": "#c5c7cb",
+        "opacity": 1
+      },
+      "thumb": {
+        "height": 14,
+        "width": 14
+      }
+    },
     "MuiChip": {
       "outlinedSecondary": {
         "border": "1px solid #493C97"
+      }
+    },
+    "MuiRadio": {
+      "colorSecondary": {
+        "&$checked": {
+          "color": "#594ab7",
+          "&:hover": {
+            "backgroundColor": "rgba(89, 74, 183, 0.04)",
+            "@media (hover: none)": {
+              "backgroundColor": "transparent"
+            }
+          }
+        },
+        "&$disabled": {
+          "color": "rgba(0, 0, 0, 0.26)"
+        }
       }
     }
   },

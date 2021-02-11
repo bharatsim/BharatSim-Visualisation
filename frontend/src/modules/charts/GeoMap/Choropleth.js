@@ -112,13 +112,11 @@ function Choropleth({ config }) {
             {timeMetrics && data && data[timeMetrics] && (
               <Box>
                 <TimeSlider
-                  defaultValue={Math.min(...data[timeMetrics])}
-                  maxValue={Math.max(...data[timeMetrics])}
-                  minValue={Math.min(...data[timeMetrics])}
-                  step={1}
+                  data={data[timeMetrics]}
                   setTimeSliderValue={setTimeSliderValue}
                   title={timeMetrics}
                   timeSliderValue={timeSliderValue}
+                  sliderConfig={sliderConfig}
                 />
               </Box>
             )}
@@ -154,6 +152,8 @@ Choropleth.propTypes = {
     gisMeasure: PropTypes.string.isRequired,
     sliderConfig: PropTypes.shape({
       timeMetrics: PropTypes.string,
+      strategy: PropTypes.string,
+      stepSize: PropTypes.number,
     }).isRequired,
   }).isRequired,
 };

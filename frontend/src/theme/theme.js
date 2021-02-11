@@ -155,9 +155,59 @@ theme.overrides = {
       minHeight: 'unset !important',
     },
   },
+  MuiSlider: {
+    colorPrimary: {
+      color: theme.colors.primaryColorScale['500'],
+    },
+    track: {
+      height: theme.spacing(1),
+      borderRadius: 0,
+      backgroundColor: 'transparent',
+    },
+    rail: {
+      height: theme.spacing(1),
+      borderRadius: 0,
+
+      backgroundColor: theme.colors.grayScale['600'],
+    },
+    mark: {
+      height: theme.spacing(3),
+      width: theme.spacing(0.25),
+      marginTop: theme.spacing(-1),
+      backgroundColor: theme.colors.grayScale['200'],
+      border: 0,
+    },
+    markActive: {
+      backgroundColor: theme.colors.grayScale['200'],
+      opacity: 1,
+    },
+    thumb: {
+      height: theme.spacing(3.5),
+      width: theme.spacing(3.5),
+    },
+  },
   MuiChip: {
     outlinedSecondary: {
       border: `1px solid ${theme.colors.primaryColorScale['600']}`,
+    },
+  },
+  MuiRadio: {
+    colorSecondary: {
+      '&$checked': {
+        color: theme.colors.primaryColorScale['500'],
+        '&:hover': {
+          backgroundColor: fade(
+            theme.colors.primaryColorScale['500'],
+            theme.palette.action.hoverOpacity,
+          ),
+          '@media (hover: none)': {
+            backgroundColor: 'transparent',
+          },
+        },
+      },
+      '&$disabled': {
+        color: theme.palette.action.disabled,
+      },
     },
   },
 };

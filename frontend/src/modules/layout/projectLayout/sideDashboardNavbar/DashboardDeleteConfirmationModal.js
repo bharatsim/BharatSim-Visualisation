@@ -53,12 +53,7 @@ function DashboardDeleteConfirmationModal({
       </Box>
 
       <FormControl component="fieldset">
-        <RadioGroup
-          aria-label="gender"
-          name="gender1"
-          value={shouldDeleteDatasources}
-          onChange={handleRadioButtonChange}
-        >
+        <RadioGroup value={shouldDeleteDatasources} onChange={handleRadioButtonChange}>
           <Box mb={3}>
             <FormControlLabel
               value="Yes"

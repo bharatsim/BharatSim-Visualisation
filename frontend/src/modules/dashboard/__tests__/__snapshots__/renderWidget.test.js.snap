@@ -52,7 +52,7 @@ exports[`Create element should provide element with data-grid 1`] = `
         Chart:
         Linechart
         <span>
-          config = [object Object]
+          config = {"chartName":"title"}
         </span>
       </div>
     </div>

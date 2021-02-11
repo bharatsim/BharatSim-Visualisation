@@ -5,7 +5,7 @@ exports[`Render chart config should render chart config with provided props 1`] 
   <div>
     Line chart
     <span>
-      config = [object Object]
+      config = {"dataSource":"test","xAxis":"testA","yAxis":"testB"}
     </span>
   </div>
 </div>

@@ -179,6 +179,7 @@ describe('Choropleth', () => {
           gisMeasure: 'infected',
           sliderConfig: {
             timeMetrics: 'day',
+            strategy: 'defaultIntervals',
           },
         }}
       />,
@@ -213,6 +214,7 @@ describe('Choropleth', () => {
           gisMeasure: 'infected',
           sliderConfig: {
             timeMetrics: 'day',
+            strategy: 'defaultIntervals',
           },
         }}
       />,
@@ -230,6 +232,7 @@ describe('Choropleth', () => {
           gisMeasure: 'infected',
           sliderConfig: {
             timeMetrics: 'day',
+            strategy: 'defaultIntervals',
           },
         }}
       />,
@@ -278,7 +281,7 @@ describe('Choropleth', () => {
           gisShapeLayer: 'india.geojson',
           gisRegionId: 'regionId',
           gisMeasure: 'infected',
-          sliderConfig: {},
+          sliderConfig: { strategy: 'defaultIntervals', timeMetrics: 'day' },
         }}
       />,
     );

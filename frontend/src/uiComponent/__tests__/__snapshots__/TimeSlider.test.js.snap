@@ -8,14 +8,32 @@ exports[`<TimeSlider /> should match snapshot 1`] = `
     <p
       class="MuiTypography-root MuiTypography-body2"
     >
-      title 1
+      slider title 1
     </p>
-    <input
-      data-testid="time-slider"
-      max="5"
-      min="1"
-      type="range"
-    />
+    <div>
+      <pre>
+        defaultValue = 1
+        aria-labelledby = Time Slider
+        step = null
+        marks = [{"value":1,"label":1},{"value":5,"label":5},{"value":3}]
+        onChange = function onChange
+        min = 1
+        max = 5
+        valueLabelDisplay = auto
+      </pre>
+      <pre
+        data-testid="marks-container"
+      >
+        [{"value":1,"label":1},{"value":5,"label":5},{"value":3}]
+      </pre>
+      <input
+        aria-labelledby="Time Slider"
+        data-testid="time-slider"
+        max="5"
+        min="1"
+        value="1"
+      />
+    </div>
   </div>
 </div>
 `;
