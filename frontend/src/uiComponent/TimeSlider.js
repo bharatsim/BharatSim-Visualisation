@@ -1,15 +1,29 @@
 import React, { useEffect, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { timeIntervalStrategies } from '../constants/sliderConfigs';
+import ValueLabel from './ValueLabel';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
-    height: theme.spacing(15),
+    height: 'auto',
   },
-}));
+});
+
+function ValueLabelComponent({ children, open, value }) {
+  return (
+    <ValueLabel open={open} value={value}>
+      {children}
+    </ValueLabel>
+  );
+}
+
+ValueLabelComponent.propTypes = {
+  children: PropTypes.element.isRequired,
+  open: PropTypes.bool.isRequired,
+  value: PropTypes.string.isRequired,
+};
 
 function getUniqueTimeMarks(data, minValue, maxValue) {
   const uniqueValues = [...new Set(data)];
@@ -71,7 +85,6 @@ export default function TimeSlider({
 
   return (
     <div className={classes.root}>
-      <Typography variant="body2">{`${title} ${timeSliderValue}`}</Typography>
       <Slider
         defaultValue={min}
         aria-labelledby="Time Slider"
@@ -80,7 +93,10 @@ export default function TimeSlider({
         onChange={onChange}
         min={min}
         max={max}
-        valueLabelDisplay="auto"
+        value={timeSliderValue}
+        ValueLabelComponent={ValueLabelComponent}
+        valueLabelDisplay="on"
+        valueLabelFormat={() => `${title}: ${timeSliderValue}`}
       />
     </div>
   );

@@ -5,11 +5,6 @@ exports[`<TimeSlider /> should match snapshot 1`] = `
   <div
     class="makeStyles-root-1"
   >
-    <p
-      class="MuiTypography-root MuiTypography-body2"
-    >
-      slider title 1
-    </p>
     <div>
       <pre>
         defaultValue = 1
@@ -19,7 +14,10 @@ exports[`<TimeSlider /> should match snapshot 1`] = `
         onChange = function onChange
         min = 1
         max = 5
-        valueLabelDisplay = auto
+        value = 1
+        ValueLabelComponent = function ValueLabelComponent
+        valueLabelDisplay = on
+        valueLabelFormat = function valueLabelFormat
       </pre>
       <pre
         data-testid="marks-container"

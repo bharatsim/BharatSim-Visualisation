@@ -17,7 +17,7 @@ function getScaleColor(scale) {
 
 const useStyles = makeStyles((theme) => ({
   legend: {
-    height: theme.spacing(25),
+    height: theme.spacing(23),
     padding: theme.spacing(2, 1),
     background: fade(theme.palette.background.default, 0.8),
     borderRadius: theme.spacing(0.5),

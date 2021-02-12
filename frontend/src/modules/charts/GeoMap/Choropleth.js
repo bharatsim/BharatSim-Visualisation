@@ -16,7 +16,7 @@ import { transformChoroplethData } from '../../../utils/helper';
 const useStyles = makeStyles((theme) => ({
   fullWidthHeight: { height: '100%', width: '100%' },
   mapContainer: {
-    height: `calc(100% - ${theme.spacing(15)}px )`,
+    height: `calc(100% - ${theme.spacing(11.5)}px )`,
   },
 }));
 

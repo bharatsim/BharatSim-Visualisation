@@ -192,22 +192,52 @@ exports[`withThemeProvider HOC should match snapshot 1`] = `
       "rail": {
         "height": 4,
         "borderRadius": 0,
-        "backgroundColor": "#61666b"
+        "backgroundColor": "#D2CDEB"
       },
       "mark": {
-        "height": 12,
-        "width": 1,
-        "marginTop": -4,
+        "height": 8,
+        "width": 8,
+        "borderRadius": 4,
         "backgroundColor": "#c5c7cb",
-        "border": 0
+        "marginTop": -2,
+        "marginLeft": -4
       },
       "markActive": {
         "backgroundColor": "#c5c7cb",
         "opacity": 1
       },
       "thumb": {
-        "height": 14,
-        "width": 14
+        "height": 12,
+        "width": 12,
+        "marginTop": -4,
+        "marginLeft": -6
+      },
+      "marked": {
+        "marginBottom": 8,
+        "marginTop": 4
+      },
+      "markLabel": {
+        "fontFamily": "\\"Roboto\\", sans-serif",
+        "fontWeight": 400,
+        "fontSize": "0.75rem",
+        "lineHeight": 1,
+        "letterSpacing": "0.03333em",
+        "color": "rgba(52, 58, 64, 0.64)",
+        "top": 24
+      },
+      "valueLabel": {
+        "fontFamily": "\\"Roboto\\", sans-serif",
+        "fontWeight": 500,
+        "fontSize": "0.875rem",
+        "lineHeight": 1.57,
+        "letterSpacing": "0.00714em",
+        "color": "#594ab7",
+        "left": "calc(-50% + 12px)",
+        "top": -22,
+        "& *": {
+          "background": "transparent",
+          "color": "#594ab7"
+        }
       }
     },
     "MuiChip": {

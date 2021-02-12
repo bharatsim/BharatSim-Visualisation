@@ -167,23 +167,45 @@ theme.overrides = {
     rail: {
       height: theme.spacing(1),
       borderRadius: 0,
-
-      backgroundColor: theme.colors.grayScale['600'],
+      backgroundColor: theme.colors.primaryColorScale['100'],
     },
     mark: {
-      height: theme.spacing(3),
-      width: theme.spacing(0.25),
-      marginTop: theme.spacing(-1),
+      height: theme.spacing(2),
+      width: theme.spacing(2),
+      borderRadius: theme.spacing(1),
       backgroundColor: theme.colors.grayScale['200'],
-      border: 0,
+      marginTop: theme.spacing(-0.5),
+      marginLeft: theme.spacing(-1),
     },
     markActive: {
       backgroundColor: theme.colors.grayScale['200'],
       opacity: 1,
     },
     thumb: {
-      height: theme.spacing(3.5),
-      width: theme.spacing(3.5),
+      height: theme.spacing(3),
+      width: theme.spacing(3),
+      marginTop: theme.spacing(-1),
+      marginLeft: theme.spacing(-1.5),
+    },
+    marked: {
+      marginBottom: theme.spacing(2),
+      marginTop: theme.spacing(1),
+    },
+    markLabel: {
+      ...theme.typography.caption,
+      lineHeight: 1,
+      color: theme.palette.text.secondary,
+      top: 24,
+    },
+    valueLabel: {
+      ...theme.typography.subtitle2,
+      color: theme.colors.primaryColorScale[500],
+      left: 'calc(-50% + 12px)',
+      top: -22,
+      '& *': {
+        background: 'transparent',
+        color: theme.colors.primaryColorScale[500],
+      },
     },
   },
   MuiChip: {
