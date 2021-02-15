@@ -27,9 +27,10 @@ ValueLabelComponent.propTypes = {
 
 function getUniqueTimeMarks(data, minValue, maxValue) {
   const uniqueValues = [...new Set(data)];
-  return uniqueValues.map((timeValue) => {
+  const sortedArray = uniqueValues.sort((v1, v2) => v1 - v2);
+  return sortedArray.map((timeValue) => {
     if ([minValue, maxValue].includes(timeValue)) {
-      return { value: timeValue, label: timeValue === minValue ? minValue : maxValue };
+      return { value: timeValue, label: timeValue };
     }
     return { value: timeValue };
   });
@@ -37,13 +38,11 @@ function getUniqueTimeMarks(data, minValue, maxValue) {
 
 function getMarksForContinuesValue(min, max, stepSize) {
   const numberedStepSize = Number(stepSize);
-  const values = [
-    { value: min, label: min },
-    { value: max, label: max },
-  ];
+  const values = [{ value: min, label: min }];
   for (let value = min + numberedStepSize; value < max; value += numberedStepSize) {
     values.push({ value });
   }
+  values.push({ value: max, label: max });
   return values;
 }
 
@@ -81,7 +80,7 @@ export default function TimeSlider({
 
   useEffect(() => {
     setTimeSliderValue(min);
-  }, [min]);
+  }, [min, strategy, stepSize]);
 
   return (
     <div className={classes.root}>

@@ -67,7 +67,7 @@ describe('<TimeSlider />', () => {
       <pre
         data-testid="marks-container"
       >
-        [{"value":1,"label":1},{"value":5,"label":5},{"value":3}]
+        [{"value":1,"label":1},{"value":3},{"value":5,"label":5}]
       </pre>
     `);
   });
@@ -78,12 +78,12 @@ describe('<TimeSlider />', () => {
       const { getByTestId } = render(<TimeSlider {...{ ...defaultProps, data: [1, 2, 3, 4] }} />);
 
       expect(getByTestId('marks-container')).toMatchInlineSnapshot(`
-      <pre
-        data-testid="marks-container"
-      >
-        [{"value":1,"label":1},{"value":4,"label":4},{"value":3}]
-      </pre>
-    `);
+        <pre
+          data-testid="marks-container"
+        >
+          [{"value":1,"label":1},{"value":3},{"value":4,"label":4}]
+        </pre>
+      `);
     },
   );
 });
