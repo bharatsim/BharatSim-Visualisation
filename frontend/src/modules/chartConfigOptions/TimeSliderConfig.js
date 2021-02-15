@@ -75,7 +75,7 @@ function TimeSliderConfig({ headers, configKey, control, watch, errors, register
                 options={[
                   {
                     value: timeIntervalStrategies.DEFAULT_INTERVALS,
-                    label: 'Use predefined internal',
+                    label: 'Use predefined interval',
                   },
                   {
                     value: timeIntervalStrategies.STEP_SIZE,
