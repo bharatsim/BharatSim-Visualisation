@@ -6,8 +6,22 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import { useController } from 'react-hook-form';
 import Radio from '@material-ui/core/Radio';
 import PropTypes from 'prop-types';
+import { Box } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-function RadioButtons({ options, control, name, defaultValue }) {
+const useStyles = makeStyles(() => ({
+  vertical: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  horizontal: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+}));
+
+function RadioButtons({ options, control, name, defaultValue, vertical }) {
+  const classes = useStyles();
   const {
     field: { onChange, value },
   } = useController({
@@ -18,20 +32,27 @@ function RadioButtons({ options, control, name, defaultValue }) {
   return (
     <FormControl>
       <RadioGroup value={value} onChange={onChange}>
-        {options.map((option) => {
-          return (
-            <FormControlLabel
-              value={option.value}
-              control={<Radio />}
-              label={option.label}
-              key={`option-${option.value}`}
-            />
-          );
-        })}
+        <Box className={vertical ? classes.vertical : classes.horizontal}>
+          {options.map((option) => {
+            return (
+              <FormControlLabel
+                value={option.value}
+                control={<Radio />}
+                label={option.label}
+                key={`option-${option.value}`}
+                name={option.label}
+              />
+            );
+          })}
+        </Box>
       </RadioGroup>
     </FormControl>
   );
 }
+
+RadioButtons.defaultProps = {
+  vertical: false,
+};
 
 RadioButtons.propTypes = {
   options: PropTypes.arrayOf(
@@ -43,6 +64,7 @@ RadioButtons.propTypes = {
   control: PropTypes.shape({}).isRequired,
   name: PropTypes.string.isRequired,
   defaultValue: PropTypes.string.isRequired,
+  vertical: PropTypes.bool,
 };
 
 export default RadioButtons;

@@ -7,4 +7,5 @@ export const chartConfigOptionTypes = {
   GIS_REGION_ID: 'gisRegionId',
   GIS_MEASURE: 'gisMeasure',
   SLIDER_CONFIG: 'sliderConfig',
+  CHOROPLETH_CONFIG: 'choroplethConfig',
 };

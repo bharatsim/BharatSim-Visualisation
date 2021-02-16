@@ -17,6 +17,7 @@ function DatasourceSelector({
   defaultValue,
   filterDatasource,
   error,
+  helperText,
   noDataSourcePresentMessage,
   header,
   label,
@@ -85,6 +86,7 @@ function DatasourceSelector({
             validations={{ required: 'Required' }}
             defaultValue={defaultValue}
             error={error}
+            helperText={helperText}
           />
         </>
       ) : (
@@ -105,6 +107,7 @@ DatasourceSelector.defaultProps = {
   filterDatasource: null,
   noDataSourcePresentMessage: '',
   error: {},
+  helperText: '',
 };
 
 DatasourceSelector.propTypes = {
@@ -115,6 +118,7 @@ DatasourceSelector.propTypes = {
   control: PropTypes.shape({}).isRequired,
   disabled: PropTypes.bool,
   defaultValue: PropTypes.string,
+  helperText: PropTypes.string,
   filterDatasource: PropTypes.func,
   noDataSourcePresentMessage: PropTypes.string,
   error: PropTypes.shape({}),

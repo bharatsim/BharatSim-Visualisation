@@ -3,13 +3,13 @@
 exports[`<ControlledDropDown  /> Should create a dropdown with provided options 1`] = `
 <ul
   aria-labelledby="dropdown-label"
-  class="MuiList-root makeStyles-root-3 MuiMenu-list MuiList-padding"
+  class="MuiList-root makeStyles-root-4 MuiMenu-list MuiList-padding"
   role="listbox"
   tabindex="-1"
 >
   <li
     aria-disabled="false"
-    class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root makeStyles-root-4 MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button Mui-focusVisible Mui-focusVisible"
+    class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root makeStyles-root-5 MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button Mui-focusVisible Mui-focusVisible"
     data-testid="dropdown-one"
     data-value="one"
     id="dropdown-one"
@@ -23,7 +23,7 @@ exports[`<ControlledDropDown  /> Should create a dropdown with provided options 
   </li>
   <li
     aria-disabled="false"
-    class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root makeStyles-root-4 MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+    class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root makeStyles-root-5 MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
     data-testid="dropdown-two"
     data-value="two"
     id="dropdown-two"
@@ -37,7 +37,7 @@ exports[`<ControlledDropDown  /> Should create a dropdown with provided options 
   </li>
   <li
     aria-disabled="false"
-    class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root makeStyles-root-4 MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+    class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root makeStyles-root-5 MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
     data-testid="dropdown-three"
     data-value="three"
     id="dropdown-three"

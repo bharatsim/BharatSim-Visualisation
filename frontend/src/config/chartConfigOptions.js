@@ -7,6 +7,7 @@ import ChartConfigDropdown from '../modules/chartConfigOptions/ChartConfigDropdo
 import TimeSliderConfig from '../modules/chartConfigOptions/TimeSliderConfig';
 import DatasourceSelector from '../modules/dashboard/dashboardConfigSelector/DatasourceSelector';
 import { shapeFileFilter } from '../utils/helper';
+import ChoroplethConfigs from '../modules/chartConfigOptions/CholoroplethConfigs';
 
 const chartConfigOptions = {
   [chartConfigOptionTypes.X_AXIS]: {
@@ -110,6 +111,19 @@ const chartConfigOptions = {
         headers={headers}
         configKey={chartConfigOptionTypes.SLIDER_CONFIG}
         errors={errors[chartConfigOptionTypes.SLIDER_CONFIG]}
+      />
+    ),
+  },
+  [chartConfigOptionTypes.CHOROPLETH_CONFIG]: {
+    component: ({ headers, control, watch, register, errors, isEditMode }) => (
+      <ChoroplethConfigs
+        isEditMode={isEditMode}
+        control={control}
+        watch={watch}
+        register={register}
+        headers={headers}
+        configKey={chartConfigOptionTypes.CHOROPLETH_CONFIG}
+        errors={errors[chartConfigOptionTypes.CHOROPLETH_CONFIG]}
       />
     ),
   },

@@ -12,10 +12,13 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    minWidth: theme.spacing(80),
+    minWidth: theme.spacing(52),
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
+  },
+  helperText: {
+    marginLeft: 0,
   },
 }));
 
@@ -68,6 +71,7 @@ export default function Dropdown({
   value,
   onChange,
   multiple,
+  helperText,
   ...rest
 }) {
   const classes = useStyles();
@@ -90,7 +94,14 @@ export default function Dropdown({
       >
         {renderMenuItems(id, options, menuListItemClasses)}
       </Select>
-      {!!error && <FormHelperText error>{error}</FormHelperText>}
+      {!!helperText && (
+        <FormHelperText classes={{ root: classes.helperText }}>{helperText}</FormHelperText>
+      )}
+      {!!error && (
+        <FormHelperText error classes={{ root: classes.helperText }}>
+          {error}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 }
@@ -105,6 +116,7 @@ const valuePropType = PropTypes.oneOfType([
 Dropdown.defaultProps = {
   error: '',
   multiple: false,
+  helperText: '',
 };
 
 Dropdown.propTypes = {
@@ -117,6 +129,7 @@ Dropdown.propTypes = {
   ).isRequired,
   id: PropTypes.string.isRequired,
   error: PropTypes.string,
+  helperText: PropTypes.string,
   value: valuePropType.isRequired,
   onChange: PropTypes.func.isRequired,
   multiple: PropTypes.bool,

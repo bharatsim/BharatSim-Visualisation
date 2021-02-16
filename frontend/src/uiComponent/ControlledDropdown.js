@@ -14,6 +14,7 @@ function ControlledDropDown({
   disabled,
   error,
   defaultValue,
+  helperText,
 }) {
   const {
     field: { ref, onChange, value },
@@ -35,6 +36,7 @@ function ControlledDropDown({
       id={id}
       multiple={multiple}
       disabled={disabled}
+      helperText={helperText}
     />
   );
 }
@@ -45,6 +47,7 @@ ControlledDropDown.defaultProps = {
   multiple: false,
   disabled: false,
   validations: {},
+  helperText: '',
 };
 
 const valuePropType = PropTypes.oneOfType([
@@ -60,6 +63,7 @@ ControlledDropDown.propTypes = {
   validations: PropTypes.shape({}),
   label: PropTypes.string.isRequired,
   defaultValue: PropTypes.string,
+  helperText: PropTypes.string,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       value: valuePropType.isRequired,

@@ -24,7 +24,17 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function ChartConfigDropdown({ headers, configKey, error, control, label, title, id, border }) {
+function ChartConfigDropdown({
+  headers,
+  configKey,
+  error,
+  control,
+  label,
+  title,
+  id,
+  border,
+  disabled,
+}) {
   const classes = useStyles();
 
   return (
@@ -41,6 +51,8 @@ function ChartConfigDropdown({ headers, configKey, error, control, label, title,
           control={control}
           name={configKey}
           validations={{ required: 'Required' }}
+          disabled={disabled}
+          data-testid={id}
         />
       </Box>
     </Box>
@@ -50,6 +62,7 @@ function ChartConfigDropdown({ headers, configKey, error, control, label, title,
 ChartConfigDropdown.defaultProps = {
   error: {},
   border: true,
+  disabled: false,
 };
 
 ChartConfigDropdown.propTypes = {
@@ -66,6 +79,7 @@ ChartConfigDropdown.propTypes = {
   title: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   border: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 export default ChartConfigDropdown;
