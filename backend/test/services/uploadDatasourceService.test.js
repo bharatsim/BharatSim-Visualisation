@@ -5,6 +5,8 @@ const dataSourceMetadataRepository = require('../../src/repository/datasourceMet
 const dashboardDatasourceMapRepository = require('../../src/repository/dashboardDatasourceMapRepository');
 const dataSourceRepository = require('../../src/repository/datasourceRepository');
 const uploadDatasourceService = require('../../src/services/uploadDatasourceService');
+const datasourceService = require('../../src/services/datasourceService');
+
 const createModel = require('../../src/utils/modelCreator');
 
 const InvalidInputException = require('../../src/exceptions/InvalidInputException');
@@ -14,6 +16,7 @@ jest.mock('../../src/repository/datasourceMetadataRepository');
 jest.mock('../../src/repository/dashboardDatasourceMapRepository');
 jest.mock('../../src/repository/datasourceRepository');
 jest.mock('../../src/utils/modelCreator');
+jest.mock('../../src/services/datasourceService');
 jest.mock('../../src/utils/csvParser', () => ({
   validateAndParseCSV: jest.fn().mockReturnValue([
     { hour: 0, susceptible: 1 },
@@ -92,14 +95,77 @@ describe('upload datasource service', () => {
         {
           path: '/uploads/1223',
           originalname: 'test.json',
-          mimetype: 'text/csv',
           size: 12132,
           filename: 'fileId',
         },
-        { schema: '{ "hour": "number", "susceptible": "number" }', dashboardId: 'dashboardId' },
+        { dashboardId: 'dashboardId' },
       );
       expect(result).toEqual({ collectionId: 'collectionId' });
     });
+
+    it('should upload geoJson data in upload folder with properties as schema in metadata', async () => {
+      datasourceService.getJsonData.mockReturnValue({
+        data: {
+          type: 'featureCollection',
+          features: [{ properties: { name: 'propertyName', id: 'propertyId' } }],
+        },
+      });
+      dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
+
+      const result = await uploadDatasourceService.uploadFile(
+        {
+          path: '/uploads/1223',
+          originalname: 'test.geojson',
+          size: 12132,
+          filename: 'fileId',
+        },
+        { dashboardId: 'dashboardId' },
+      );
+      const expectedMetadata = {
+        dashboardId: 'dashboardId',
+        dataSourceSchema: {
+          id: 'string',
+          name: 'string',
+        },
+        fileId: 'fileId',
+        fileSize: 12132,
+        fileType: 'geojson',
+        name: 'test.geojson',
+      };
+      expect(result).toEqual({ collectionId: 'collectionId' });
+      expect(dataSourceMetadataRepository.insert).toHaveBeenCalledWith(expectedMetadata);
+    });
+    it('should upload geoJson data in upload folder with properties schema as {} if geojson is not proper', async () => {
+      datasourceService.getJsonData.mockReturnValue({
+        data: {
+          type: 'wrongGeojson',
+          features: [],
+        },
+      });
+
+      dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
+
+      const result = await uploadDatasourceService.uploadFile(
+        {
+          path: '/uploads/1223',
+          originalname: 'test.geojson',
+          size: 12132,
+          filename: 'fileId',
+        },
+        { dashboardId: 'dashboardId' },
+      );
+      const expectedMetadata = {
+        dashboardId: 'dashboardId',
+        dataSourceSchema: {},
+        fileId: 'fileId',
+        fileSize: 12132,
+        fileType: 'geojson',
+        name: 'test.geojson',
+      };
+      expect(result).toEqual({ collectionId: 'collectionId' });
+      expect(dataSourceMetadataRepository.insert).toHaveBeenCalledWith(expectedMetadata);
+    });
+
     it('should insert dashboard and datashource mapping in datasourceDashboardMap', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
       createModel.createModel.mockImplementation((id) => id);

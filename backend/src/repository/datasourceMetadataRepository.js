@@ -9,7 +9,7 @@ async function getDataSourceNames() {
 
 async function getDataSourceSchemaById(dataSourceId) {
   return DataSourceMetadata.findOne({ _id: dataSourceId }, { _id: 0 })
-    .select('dataSourceSchema')
+    .select(['dataSourceSchema', 'fileType'])
     .then((data) => {
       if (!data) {
         throw new DataSourceNotFoundException(dataSourceId);

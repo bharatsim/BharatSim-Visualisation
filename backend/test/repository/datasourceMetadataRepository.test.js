@@ -101,7 +101,7 @@ describe('Datasource metadata repository', () => {
   });
 
   describe('get DataSource Schema By Id', function () {
-    it('should return datasource schema for given datasource name', async () => {
+    it('should return datasource schema for given datasource name for csv', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
       const { _id: dataSourceId } = insertedMetadata[0];
       const schema = parseMongoDBResult(
@@ -113,6 +113,7 @@ describe('Datasource metadata repository', () => {
           hour: 'number',
           susceptible: 'number',
         },
+        fileType: 'csv',
       });
     });
 

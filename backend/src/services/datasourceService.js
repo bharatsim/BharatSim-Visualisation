@@ -92,4 +92,5 @@ async function bulkDeleteDatasource(datasourceIds) {
 module.exports = {
   getData,
   bulkDeleteDatasource,
+  getJsonData,
 };
