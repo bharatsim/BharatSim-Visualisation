@@ -6,15 +6,11 @@ import PropTypes from 'prop-types';
 import RadioButtons from '../../uiComponent/RadioButtons';
 import ChoroplethMapLayerConfig from './ChoroplethMapLayerConfigs';
 import ChoroplethMultiMapLayerConfig from './ChoroplethMultiMapLayerConfig';
+import { choroplethTypes } from '../../constants/geoMap';
 
 const choroplethConfigTypes = {
   CHOROPLETH_TYPE: 'choroplethType',
   MAP_LAYER_CONFIG: 'mapLayerConfig',
-};
-
-const choroplethTypes = {
-  SINGLE_LEVEL: 'singleLevel',
-  DRILL_DOWN: 'drillDown',
 };
 
 const useStyles = makeStyles({

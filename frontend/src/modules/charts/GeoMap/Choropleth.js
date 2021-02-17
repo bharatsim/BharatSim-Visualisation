@@ -12,6 +12,7 @@ import GeoJsonLayer from '../../../uiComponent/mapLayers/GeoJsonLayer';
 import ColorScaleLegend from '../../../uiComponent/mapLayers/ColorScaleLegend';
 import TimeSlider from '../../../uiComponent/TimeSlider';
 import { transformChoroplethData } from '../../../utils/helper';
+import { choroplethTypes } from '../../../constants/geoMap';
 
 const useStyles = makeStyles((theme) => ({
   fullWidthHeight: { height: '100%', width: '100%' },
@@ -23,12 +24,10 @@ const useStyles = makeStyles((theme) => ({
 const scale = { 0: '#FDF1D9', '0.5': '#F7C75C', 1: '#D3501E' };
 
 function Choropleth({ config }) {
-  const { dataSource, gisShapeLayer, gisRegionId, gisMeasure, sliderConfig } = config;
+  const classes = useStyles();
+  const { dataSource, gisMeasure, choroplethConfig, sliderConfig } = config;
+  const { choroplethType, mapLayerConfig } = choroplethConfig;
   const { timeMetrics } = sliderConfig;
-  const [data, setData] = useState();
-  const [timeSliderValue, setTimeSliderValue] = useState(1);
-  const [gisLayer, setGisLayer] = useState();
-
   const {
     loadingState,
     message,
@@ -37,60 +36,29 @@ function Choropleth({ config }) {
     stopLoaderAfterSuccess,
   } = useLoader();
 
+  const [drillDownLevel, setDrillDownLevel] = useState(0);
+  const [featureId, setFeatureId] = useState();
+  const [data, setData] = useState();
+  const [gisLayer, setGisLayer] = useState();
+  const [timeSliderValue, setTimeSliderValue] = useState(1);
+
+  const { mapLayer, mapLayerId, dataLayerId, referenceId } = mapLayerConfig[drillDownLevel];
+
   useEffect(() => {
     fetchAllData();
-  }, [dataSource, gisShapeLayer, gisRegionId, gisMeasure, timeMetrics]);
+  }, [dataLayerId, gisMeasure, timeMetrics, dataLayerId, drillDownLevel, referenceId]);
 
-  useEffect(() => {
-    if (data && data[timeMetrics]) {
-      setTimeSliderValue(Math.min(...data[timeMetrics]));
-    }
-  }, [data]);
-
-  async function fetchAllData() {
-    startLoader();
-    try {
-      await fetchData();
-      await fetchGisLayer();
-      stopLoaderAfterSuccess();
-    } catch (e) {
-      stopLoaderAfterError('Unable to fetch data');
-    }
+  function onClickOfFeature(event) {
+    const selectedFeature = event.target.feature.properties[mapLayerId];
+    setFeatureId(selectedFeature);
+    setDrillDownLevel((prevDrillDownLevel) => prevDrillDownLevel + 1);
   }
-
-  async function fetchData() {
-    const columns = [gisRegionId, gisMeasure];
-    if (timeMetrics) {
-      columns.push(timeMetrics);
-    }
-    return api
-      .getData(dataSource, columns)
-      .then(({ data: fetchedData }) => {
-        setData(fetchedData);
-      })
-      .catch((error) => {
-        throw error;
-      });
-  }
-
-  async function fetchGisLayer() {
-    return api
-      .getData(gisShapeLayer)
-      .then(({ data: fetchedGisLayer }) => {
-        setGisLayer(fetchedGisLayer);
-      })
-      .catch((error) => {
-        throw error;
-      });
-  }
-
-  const classes = useStyles();
 
   const idMeasureMap = useMemo(
     () =>
       data
         ? transformChoroplethData(
-            data[gisRegionId],
+            data[dataLayerId],
             data[gisMeasure],
             data[timeMetrics],
             timeSliderValue,
@@ -103,6 +71,10 @@ function Choropleth({ config }) {
     name: 'Retry',
     onClick: fetchAllData,
   };
+
+  const isDrillDown = choroplethType === choroplethTypes.DRILL_DOWN;
+  const shouldAddDrillDownCallback =
+    choroplethType === choroplethTypes.DRILL_DOWN && drillDownLevel < mapLayerConfig.length - 1;
 
   return (
     <div className={timeMetrics ? classes.mapContainer : classes.fullWidthHeight}>
@@ -127,12 +99,13 @@ function Choropleth({ config }) {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <GeoJsonLayer
-              data={gisLayer}
-              measure={idMeasureMap}
-              idName={gisRegionId}
+              mapLayer={gisLayer}
+              idDataMap={idMeasureMap}
+              mapLayerIdName={mapLayerId}
               measureName={gisMeasure}
               scale={scale}
               tick={timeSliderValue}
+              onClickOfFeature={shouldAddDrillDownCallback ? onClickOfFeature : null}
             />
             <ResizeController />
             <ScaleControl />
@@ -142,14 +115,82 @@ function Choropleth({ config }) {
       </LoaderOrError>
     </div>
   );
+
+  async function fetchAllData() {
+    startLoader();
+    try {
+      await fetchGisLayer();
+      if (isDrillDown) {
+        await fetchAggregatedData();
+        stopLoaderAfterSuccess();
+        return;
+      }
+      await fetchData();
+      stopLoaderAfterSuccess();
+    } catch (e) {
+      stopLoaderAfterError('Unable to fetch data');
+    }
+  }
+
+  async function fetchData() {
+    const columns = [dataLayerId, gisMeasure];
+    if (timeMetrics) {
+      columns.push(timeMetrics);
+    }
+    return api
+      .getData(dataSource, columns)
+      .then(({ data: fetchedData }) => {
+        setData(fetchedData);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  async function fetchAggregatedData() {
+    const groupBy = [dataLayerId];
+    const aggregations = { [gisMeasure]: 'sum' };
+    if (timeMetrics) {
+      groupBy.push(timeMetrics);
+    }
+    return api
+      .getAggregatedData(dataSource, groupBy, aggregations)
+      .then(({ data: fetchedData }) => {
+        setData(fetchedData);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  async function fetchGisLayer() {
+    const filter = drillDownLevel > 0 ? { propertyKey: referenceId, value: featureId } : null;
+    return api
+      .getAggregatedGeoJson(mapLayer, filter)
+      .then(({ data: fetchedGisLayer }) => {
+        setGisLayer(fetchedGisLayer);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
 }
 
 Choropleth.propTypes = {
   config: PropTypes.shape({
     dataSource: PropTypes.string.isRequired,
-    gisShapeLayer: PropTypes.string.isRequired,
-    gisRegionId: PropTypes.string.isRequired,
     gisMeasure: PropTypes.string.isRequired,
+    choroplethConfig: PropTypes.shape({
+      choroplethType: PropTypes.string,
+      mapLayerConfig: PropTypes.arrayOf(
+        PropTypes.shape({
+          mapLayer: PropTypes.string,
+          mapLayerId: PropTypes.string,
+          dataLayerId: PropTypes.string,
+          referenceId: PropTypes.string,
+        }),
+      ),
+    }).isRequired,
     sliderConfig: PropTypes.shape({
       timeMetrics: PropTypes.string,
       strategy: PropTypes.string,

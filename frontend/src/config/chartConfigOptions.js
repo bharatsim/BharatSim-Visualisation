@@ -96,7 +96,7 @@ const chartConfigOptions = {
         headers={headers}
         id="gis-measure"
         label="select measure"
-        title="GIS Measure"
+        title="Measure/Metrics"
         configKey={chartConfigOptionTypes.GIS_MEASURE}
         error={errors[chartConfigOptionTypes.GIS_MEASURE]}
       />

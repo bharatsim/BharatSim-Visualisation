@@ -246,4 +246,47 @@ describe('API', () => {
 
     expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });
+
+  it('should call get aggragated data with group by and column to aggregate aggregate', () => {
+    const expectedParameter = {
+      url: '/api/dataSources/id',
+      query: {
+        aggregationParams: { groupBy: ['column1'], aggregate: { column: 'sum' } },
+      },
+      isCustomErrorHandler: true,
+      isCustomLoader: true,
+    };
+
+    api.getAggregatedData('id', ['column1'], { column: 'sum' });
+
+    expect(fetchData).toHaveBeenCalledWith(expectedParameter);
+  });
+
+  it('should call get aggregated geojson without filter', () => {
+    const expectedParameter = {
+      url: '/api/dataSources/id',
+      query: undefined,
+      isCustomErrorHandler: true,
+      isCustomLoader: true,
+    };
+
+    api.getAggregatedGeoJson('id');
+
+    expect(fetchData).toHaveBeenCalledWith(expectedParameter);
+  });
+
+  it('should call get aggregated geojson with filter', () => {
+    const expectedParameter = {
+      url: '/api/dataSources/id',
+      query: {
+        aggregationParams: { filter: { propertyKey: 'key', value: 'value' } },
+      },
+      isCustomErrorHandler: true,
+      isCustomLoader: true,
+    };
+
+    api.getAggregatedGeoJson('id', { propertyKey: 'key', value: 'value' });
+
+    expect(fetchData).toHaveBeenCalledWith(expectedParameter);
+  });
 });

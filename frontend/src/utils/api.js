@@ -116,6 +116,22 @@ const api = {
       isCustomErrorHandler: true,
     }),
 
+  getAggregatedData: async (datasource, groupBy, aggregate) =>
+    fetchData({
+      url: serviceURL.getDataUrl(datasource),
+      query: { aggregationParams: { groupBy, aggregate } },
+      isCustomLoader: true,
+      isCustomErrorHandler: true,
+    }),
+
+  getAggregatedGeoJson: async (datasource, filter) =>
+    fetchData({
+      url: serviceURL.getDataUrl(datasource),
+      query: filter && { aggregationParams: { filter } },
+      isCustomLoader: true,
+      isCustomErrorHandler: true,
+    }),
+
   saveProject: async ({ id, ...data }) => {
     const requestObject = {
       url: serviceURL.PROJECT_URL,

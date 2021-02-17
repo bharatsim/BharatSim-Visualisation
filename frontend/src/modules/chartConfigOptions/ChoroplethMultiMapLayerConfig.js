@@ -71,6 +71,7 @@ function ChoroplethMultiMapLayerConfig({ control, configKey, errors, isEditMode,
             configKey={`${configKey}.[${index}]`}
             headers={headers}
             watch={watch}
+            shouldShowReferenceIdConfig={index !== 0}
           />
         </Box>
       ))}

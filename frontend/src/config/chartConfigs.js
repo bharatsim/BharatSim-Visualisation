@@ -41,9 +41,8 @@ const chartConfigs = {
     icon: heatMapIcon,
     chart: (chartProps) => <Choropleth {...chartProps} />,
     configOptions: [
-      chartConfigOptionTypes.GIS_SHAPE_LAYER,
-      chartConfigOptionTypes.GIS_REGION_ID,
       chartConfigOptionTypes.GIS_MEASURE,
+      chartConfigOptionTypes.CHOROPLETH_CONFIG,
       chartConfigOptionTypes.SLIDER_CONFIG,
     ],
   },

@@ -18,13 +18,20 @@ const useStyles = makeStyles((theme) => ({
 
 const choroplethConfigTypes = {
   MAP_LAYER: 'mapLayer',
-  CHOROPLETH_TYPE: 'choroplethType',
   MAP_LAYER_ID: 'mapLayerId',
   DATA_LAYER_ID: 'dataLayerId',
-  METRICS: 'metrics',
+  REFERENCE_ID: 'referenceId',
 };
 
-function ChoroplethMapLayerConfig({ headers, control, errors, isEditMode, configKey, watch }) {
+function ChoroplethMapLayerConfig({
+  headers,
+  control,
+  errors,
+  isEditMode,
+  configKey,
+  watch,
+  shouldShowReferenceIdConfig,
+}) {
   const classes = useStyles();
   const dataSourceId = watch(`${configKey}.${choroplethConfigTypes.MAP_LAYER}`);
 
@@ -104,6 +111,19 @@ function ChoroplethMapLayerConfig({ headers, control, errors, isEditMode, config
               error={errors[choroplethConfigTypes.MAP_LAYER_ID]}
             />
           </Box>
+          {shouldShowReferenceIdConfig && (
+            <HeadersSelector
+              label="select reference id"
+              headers={geoJsonProperties || []}
+              control={control}
+              id="reference id"
+              title="Above Map Layer Reference ID"
+              configKey={`${configKey}.${choroplethConfigTypes.REFERENCE_ID}`}
+              border={false}
+              disabled={!dataSourceId}
+              error={errors[choroplethConfigTypes.REFERENCE_ID]}
+            />
+          )}
         </Box>
       </LoaderOrError>
     </Box>
@@ -113,6 +133,7 @@ function ChoroplethMapLayerConfig({ headers, control, errors, isEditMode, config
 ChoroplethMapLayerConfig.defaultProps = {
   errors: {},
   isEditMode: false,
+  shouldShowReferenceIdConfig: false,
 };
 ChoroplethMapLayerConfig.propTypes = {
   headers: PropTypes.arrayOf(
@@ -125,6 +146,7 @@ ChoroplethMapLayerConfig.propTypes = {
   errors: PropTypes.shape({}),
   control: PropTypes.shape({}).isRequired,
   isEditMode: PropTypes.bool,
+  shouldShowReferenceIdConfig: PropTypes.bool,
   watch: PropTypes.func.isRequired,
 };
 

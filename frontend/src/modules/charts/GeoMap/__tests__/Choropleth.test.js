@@ -37,11 +37,9 @@ const mockGeoJson = {
 
 jest.mock('../../../../utils/api', () => ({
   api: {
-    getData: jest.fn().mockImplementation((data) => {
-      if (data === 'test.csv')
-        return Promise.resolve({ data: { regionId: [1, 2, 3], infected: [2, 4, 6] } });
-      return Promise.resolve({ data: mockGeoJson });
-    }),
+    getData: jest.fn().mockImplementation(() => Promise.resolve({ data: { regionId: [1, 2, 3], infected: [2, 4, 6] } })),
+    getAggregatedGeoJson: jest.fn().mockImplementation(() => Promise.resolve({ data: mockGeoJson })),
+    getAggregatedData: jest.fn().mockImplementation(() => Promise.resolve({ data: { regionId: [1, 2, 3], infected: [2, 4, 6] } })),
   },
 }));
 
@@ -87,9 +85,37 @@ jest.mock('../../../../uiComponent/mapLayers/ResizeController', () => (props) =>
 jest.mock('../../../../uiComponent/mapLayers/GeoJsonLayer', () => (props) => (
   <>
     GeoJsonLayer
+    <button
+      onClick={() => {
+        props.onClickOfFeature({ target: { feature: { properties: { mapLayerId1: 'region1' } } } });
+      }}
+    >
+      feature1
+    </button>
     {JSON.stringify(props)}
   </>
 ));
+
+const config = {
+  dataSource: 'test.csv',
+  gisMeasure: 'infected',
+  choroplethConfig: {
+    choroplethType: 'singleLevel',
+    mapLayerConfig: [
+      {
+        mapLayer: 'mapLayer.geoJson',
+        mapLayerId: 'mapLayerId1',
+        dataLayerId: 'regionId',
+        referenceId: '',
+      },
+    ],
+  },
+  sliderConfig: {
+    timeMetrics: 'timeTick',
+    strategy: 'defaultIntervals',
+    stepSize: 1,
+  },
+};
 
 describe('Choropleth', () => {
   beforeAll(() => {
@@ -110,10 +136,9 @@ describe('Choropleth', () => {
       <ChoroplethWithProvider
         config={{
           dataSource: 'test.csv',
-          gisShapeLayer: 'india.geojson',
-          gisRegionId: 'regionId',
           gisMeasure: 'infected',
-          sliderConfig: {},
+          choroplethConfig: config.choroplethConfig,
+          sliderConfig: config.sliderConfig,
         }}
       />,
     );
@@ -129,10 +154,9 @@ describe('Choropleth', () => {
       <ChoroplethWithProvider
         config={{
           dataSource: 'test.csv',
-          gisShapeLayer: 'india.geojson',
-          gisRegionId: 'regionId',
           gisMeasure: 'infected',
-          sliderConfig: {},
+          choroplethConfig: config.choroplethConfig,
+          sliderConfig: config.sliderConfig,
         }}
       />,
     );
@@ -147,9 +171,8 @@ describe('Choropleth', () => {
       <ChoroplethWithProvider
         config={{
           dataSource: 'test.csv',
-          gisShapeLayer: 'india.geojson',
-          gisRegionId: 'regionId',
           gisMeasure: 'infected',
+          choroplethConfig: config.choroplethConfig,
           sliderConfig: {},
         }}
       />,
@@ -157,38 +180,70 @@ describe('Choropleth', () => {
 
     await findByTestId('map-container');
 
-    expect(api.getData).toHaveBeenCalledWith('india.geojson');
+    expect(api.getAggregatedGeoJson).toHaveBeenCalledWith('mapLayer.geoJson', null);
     expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected']);
   });
 
-  it('should call fetch data on render with time Metrics if time metric is present', async () => {
-    api.getData.mockImplementation((data) => {
-      if (data === 'test.csv')
-        return Promise.resolve({
-          data: { regionId: [1, 2, 3], infected: [2, 4, 6], day: [1, 2, 3] },
-        });
-      return Promise.resolve({ data: mockGeoJson });
-    });
-
+  it('should call aggregated data with drill down choropleth', async () => {
     const { findByTestId } = render(
       <ChoroplethWithProvider
         config={{
           dataSource: 'test.csv',
-          gisShapeLayer: 'india.geojson',
-          gisRegionId: 'regionId',
           gisMeasure: 'infected',
-          sliderConfig: {
-            timeMetrics: 'day',
-            strategy: 'defaultIntervals',
-          },
+          choroplethConfig: config.choroplethConfig,
+          sliderConfig: {},
         }}
       />,
     );
 
     await findByTestId('map-container');
 
-    expect(api.getData).toHaveBeenCalledWith('india.geojson');
-    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected', 'day']);
+    expect(api.getAggregatedGeoJson).toHaveBeenCalledWith('mapLayer.geoJson', null);
+    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected']);
+  });
+
+  it('should call fetch data on render with time Metrics if time metric is present', async () => {
+    api.getData.mockImplementation(() => Promise.resolve({
+        data: { regionId: [1, 2, 3], infected: [2, 4, 6], timeTick: [1, 2, 3] },
+      }));
+
+    const { findByTestId } = render(
+      <ChoroplethWithProvider
+        config={{
+          dataSource: 'test.csv',
+          gisMeasure: 'infected',
+          choroplethConfig: config.choroplethConfig,
+          sliderConfig: config.sliderConfig,
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+
+    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected', 'timeTick']);
+  });
+
+  it('should call fetch data on render with time Metrics if time metric is present with aggregated data', async () => {
+    api.getAggregatedData.mockImplementation(() => Promise.resolve({
+        data: { regionId: [1, 2, 3], infected: [2, 4, 6], day: [1, 2, 3] },
+      }));
+
+    const { findByTestId } = render(
+      <ChoroplethWithProvider
+        config={{
+          dataSource: 'test.csv',
+          gisMeasure: 'infected',
+          choroplethConfig: { ...config.choroplethConfig, choroplethType: 'drillDown' },
+          sliderConfig: config.sliderConfig,
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+
+    expect(api.getAggregatedData).toHaveBeenCalledWith('test.csv', ['regionId', 'timeTick'], {
+      infected: 'sum',
+    });
   });
 
   it('should rerender when prop value changes', async () => {
@@ -199,7 +254,7 @@ describe('Choropleth', () => {
             regionId: [1, 2, 3],
             infected: [2, 4, 6],
             day: [1, 2, 3],
-            regionIdNew: [1, 2, 3],
+            infectedNew: [1, 2, 3],
           },
         });
       return Promise.resolve({ data: mockGeoJson });
@@ -209,38 +264,34 @@ describe('Choropleth', () => {
       <ChoroplethWithProvider
         config={{
           dataSource: 'test.csv',
-          gisShapeLayer: 'india.geojson',
-          gisRegionId: 'regionId',
           gisMeasure: 'infected',
-          sliderConfig: {
-            timeMetrics: 'day',
-            strategy: 'defaultIntervals',
-          },
+          choroplethConfig: config.choroplethConfig,
+          sliderConfig: config.sliderConfig,
         }}
       />,
     );
 
     await findByTestId('map-container');
-    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected', 'day']);
+    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected', 'timeTick']);
 
     rerender(
       <ChoroplethWithProvider
         config={{
           dataSource: 'test.csv',
-          gisShapeLayer: 'india.geojson',
-          gisRegionId: 'regionIdNew',
-          gisMeasure: 'infected',
-          sliderConfig: {
-            timeMetrics: 'day',
-            strategy: 'defaultIntervals',
-          },
+          gisMeasure: 'infectedNew',
+          choroplethConfig: config.choroplethConfig,
+          sliderConfig: config.sliderConfig,
         }}
       />,
     );
 
     await findByTestId('map-container');
 
-    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionIdNew', 'infected', 'day']);
+    expect(api.getData).toHaveBeenLastCalledWith('test.csv', [
+      'regionId',
+      'infectedNew',
+      'timeTick',
+    ]);
   });
 
   it('should call fetch data on click of retry button', async () => {
@@ -249,10 +300,9 @@ describe('Choropleth', () => {
       <ChoroplethWithProvider
         config={{
           dataSource: 'test.csv',
-          gisShapeLayer: 'india.geojson',
-          gisRegionId: 'regionId',
           gisMeasure: 'infected',
-          sliderConfig: {},
+          choroplethConfig: config.choroplethConfig,
+          sliderConfig: config.sliderConfig,
         }}
       />,
     );
@@ -265,23 +315,19 @@ describe('Choropleth', () => {
 
     await findByTestId('map-container');
 
-    expect(api.getData).toHaveBeenCalledWith('india.geojson');
-    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected']);
+    expect(api.getAggregatedGeoJson).toHaveBeenCalledWith('mapLayer.geoJson', null);
+    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected', 'timeTick']);
   });
 
   it('should show error if get data api fail to load for map layer', async () => {
-    api.getData.mockImplementation((data) => {
-      if (data === 'india.geojson') return Promise.reject('error');
-      return Promise.resolve({ data: { regionId: [1, 2, 3], infected: [2, 4, 6] } });
-    });
+    api.getAggregatedGeoJson.mockImplementation(() => Promise.reject('error'));
     const { findByText, getByText } = render(
       <ChoroplethWithProvider
         config={{
           dataSource: 'test.csv',
-          gisShapeLayer: 'india.geojson',
-          gisRegionId: 'regionId',
           gisMeasure: 'infected',
-          sliderConfig: { strategy: 'defaultIntervals', timeMetrics: 'day' },
+          choroplethConfig: config.choroplethConfig,
+          sliderConfig: config.sliderConfig,
         }}
       />,
     );
@@ -289,5 +335,79 @@ describe('Choropleth', () => {
     await findByText('Unable to fetch data');
 
     expect(getByText('Unable to fetch data')).toBeInTheDocument();
+  });
+
+  it('should show error if get data api fail to aggregated data', async () => {
+    api.getAggregatedData.mockImplementation(() => Promise.reject('error'));
+    api.getAggregatedGeoJson.mockImplementation(() => Promise.resolve({ data: mockGeoJson }));
+    const { findByText, getByText } = render(
+      <ChoroplethWithProvider
+        config={{
+          dataSource: 'test.csv',
+          gisMeasure: 'infected',
+          choroplethConfig: { ...config.choroplethConfig, choroplethType: 'drillDown' },
+          sliderConfig: config.sliderConfig,
+        }}
+      />,
+    );
+
+    await findByText('Unable to fetch data');
+
+    expect(getByText('Unable to fetch data')).toBeInTheDocument();
+  });
+
+  it('should call apis to fetch level2 data and mapLayer on click of feature', async () => {
+    api.getAggregatedGeoJson.mockImplementation(() => Promise.resolve({ data: mockGeoJson }));
+    api.getAggregatedData.mockImplementation(() => Promise.resolve({
+        data: { regionId: [1, 2, 3], infected: [2, 4, 6], regionId2: [1, 2, 3] },
+      }));
+
+    const choroplethConfig = {
+      choroplethType: 'drillDown',
+      mapLayerConfig: [
+        {
+          mapLayer: 'mapLayer.geoJson',
+          mapLayerId: 'mapLayerId1',
+          dataLayerId: 'regionId',
+          referenceId: '',
+        },
+        {
+          mapLayer: 'mapLayer2.geoJson',
+          mapLayerId: 'mapLayerId2',
+          dataLayerId: 'regionId2',
+          referenceId: 'mapLayerId1',
+        },
+      ],
+    };
+
+    const { getByText, findByTestId } = render(
+      <ChoroplethWithProvider
+        config={{
+          dataSource: 'test.csv',
+          gisMeasure: 'infected',
+          choroplethConfig,
+          sliderConfig: {},
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+
+    expect(api.getAggregatedData).toHaveBeenCalledWith('test.csv', ['regionId'], {
+      infected: 'sum',
+    });
+    expect(api.getAggregatedGeoJson).toHaveBeenCalledWith('mapLayer.geoJson', null);
+
+    fireEvent.click(getByText('feature1').closest('button'));
+
+    await findByTestId('map-container');
+
+    expect(api.getAggregatedData).toHaveBeenLastCalledWith('test.csv', ['regionId2'], {
+      infected: 'sum',
+    });
+    expect(api.getAggregatedGeoJson).toHaveBeenLastCalledWith('mapLayer2.geoJson', {
+      propertyKey: 'mapLayerId1',
+      value: 'region1',
+    });
   });
 });

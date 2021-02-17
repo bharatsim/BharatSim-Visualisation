@@ -29,7 +29,7 @@ const ComponentWithProvider = withProjectLayout(
   withRouter(withThemeProvider(ChoroplethMapLayerConfig)),
 );
 
-const TestForChoroplethMapLayerConfig = ({ onSubmit }) => {
+const TestForChoroplethMapLayerConfig = ({ onSubmit, shouldShowReferenceIdConfig }) => {
   const { control, errors, handleSubmit, watch } = useForm({ mode: 'onChange' });
   const props = {
     headers: [
@@ -39,6 +39,7 @@ const TestForChoroplethMapLayerConfig = ({ onSubmit }) => {
     ],
     configKey: 'mapLayerConfig',
     isEditMode: false,
+    shouldShowReferenceIdConfig: shouldShowReferenceIdConfig || false,
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -64,6 +65,17 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     expect(api.getCsvHeaders).toHaveBeenCalledWith('d_id1');
     expect(api.getDatasources).toHaveBeenCalledWith('id1');
+  });
+
+  it('should show reference id selected dropdown if shouldShowReferenceIdConfig is true', async () => {
+    const renderComponent = render(
+      <TestForChoroplethMapLayerConfig onSubmit={jest.fn()} shouldShowReferenceIdConfig />,
+    );
+    const { findByText, getByText } = renderComponent;
+
+    await findByText('select map layer');
+
+    expect(getByText('select reference id')).toBeInTheDocument();
   });
 
   it('should disable map layer id and data layer id if map layer is not selected', async () => {

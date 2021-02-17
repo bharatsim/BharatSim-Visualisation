@@ -45,9 +45,9 @@ describe('<ResizeController />', () => {
       <div style={{ height: `100%`, width: `100%` }} data-testid="map-container">
         <MapContainer style={{ height: `100%`, width: `100%` }} zoom={13} scrollWheelZoom={false}>
           <GeoJsonLayer
-            data={geoJson}
-            measure={{ 14: 22, 15: 123, 45: 13 }}
-            idName="AC_NO"
+            mapLayer={geoJson}
+            idDataMap={{ 14: 22, 15: 123, 45: 13 }}
+            mapLayerIdName="AC_NO"
             measureName="intensity"
             scale={{ 0: 'white', 1: 'red' }}
           />

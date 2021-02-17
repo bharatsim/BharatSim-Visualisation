@@ -12,11 +12,11 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(() => ({
   vertical: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   horizontal: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
   },
 }));
 
@@ -51,7 +51,7 @@ function RadioButtons({ options, control, name, defaultValue, vertical }) {
 }
 
 RadioButtons.defaultProps = {
-  vertical: false,
+  vertical: true,
 };
 
 RadioButtons.propTypes = {

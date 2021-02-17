@@ -89,8 +89,8 @@ describe('ChoroplethUtils', () => {
       0.5: 'blue',
       '1': 'red',
     };
-    const measure = { 1: 0, 2: 15, 3: 30 };
-    const getFeatureStyle = geoJSONStyle('id', measure, 30, scale);
+    const idDataMap = { 1: 0, 2: 15, 3: 30 };
+    const getFeatureStyle = geoJSONStyle(idDataMap, 'id', 30, scale);
     const feature1 = { properties: { id: 1 } };
     const feature2 = { properties: { id: 2 } };
     const feature3 = { properties: { id: 3 } };

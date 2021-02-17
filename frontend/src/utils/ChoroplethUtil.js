@@ -24,13 +24,13 @@ function zoomToFeature(map) {
   return (e) => map.fitBounds(e.target.getBounds());
 }
 
-function geoJSONStyle(idName, measures, maxOfMeasure, scale) {
+function geoJSONStyle(idDataMap, mapLayerIdName, maxOfMeasure, scale) {
   const colors = Object.keys(scale)
     .sort((v1, v2) => Number(v1) - Number(v2))
     .map((key) => scale[key]);
   const getColor = chroma.scale(colors);
   return (feature) => {
-    const gradientPercentage = measures[feature.properties[idName]] / maxOfMeasure;
+    const gradientPercentage = idDataMap[feature.properties[mapLayerIdName]] / maxOfMeasure;
     return {
       color: '#1f2021',
       weight: 1,
