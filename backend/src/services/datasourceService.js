@@ -28,6 +28,9 @@ async function getData(datasourceId, columns, aggregationParams) {
   if (!datasourceMetadata) {
     throw new DatasourceNotFoundException(datasourceId);
   }
+  if (datasourceMetadata.fileType === fileTypes.GEOJSON) {
+    return getGeojsonData(datasourceMetadata, aggregationParams);
+  }
   if (
     datasourceMetadata.fileType === fileTypes.JSON ||
     EXTENDED_JSON_TYPES.includes(datasourceMetadata.fileType)
@@ -38,6 +41,27 @@ async function getData(datasourceId, columns, aggregationParams) {
     return getCsvData(datasourceId, uniqueColumns, aggregationParams);
   }
   throw new DatasourceNotFoundException(datasourceMetadata.fileId);
+}
+
+function getGeojsonData(datasourceMetadata, aggregationParams) {
+  const filePath = `${FILE_UPLOAD_PATH}${datasourceMetadata.fileId}`;
+  if (!fs.existsSync(filePath)) {
+    throw new DatasourceNotFoundException(datasourceMetadata.fileId);
+  }
+  const data = fs.readFileSync(filePath, 'utf-8');
+  const parsedData = JSON.parse(data);
+  if (!aggregationParams) {
+    return { data: parsedData };
+  }
+  const {
+    filter: { propertyKey, value },
+  } = aggregationParams;
+  const { features } = parsedData;
+
+  parsedData.features = features.filter((feature) => {
+    return feature.properties[propertyKey] === value;
+  });
+  return { data: parsedData };
 }
 
 function getJsonData(datasourceMetadata) {

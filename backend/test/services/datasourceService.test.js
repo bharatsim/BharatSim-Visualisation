@@ -129,7 +129,7 @@ describe('datasourceService', () => {
       });
     },
   );
-  it('should fetch data from file server for given json or extended json file', async () => {
+  it('should fetch data from file server for given json file', async () => {
     fs.existsSync.mockReturnValueOnce(true);
     fs.readFileSync.mockReturnValueOnce(JSON.stringify([{ hour: 1 }, { hour: 2 }, { hour: 3 }]));
     dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
@@ -140,10 +140,87 @@ describe('datasourceService', () => {
     const data = await datasourceService.getData(dataSourceID);
     expect(data).toEqual({ data: [{ hour: 1 }, { hour: 2 }, { hour: 3 }] });
   });
-  it('should throw exception for datasource not found if file is present', async () => {
+  it('should fetch data from file server for given geojson', async () => {
+    fs.existsSync.mockReturnValueOnce(true);
+    fs.readFileSync.mockReturnValueOnce(
+      JSON.stringify({
+        type: 'featureCollection',
+        features: [
+          { properties: { id: 1, name: 'MH' } },
+          { properties: { id: 2, name: 'KA' } },
+          { properties: { id: 1, name: 'TN' } },
+        ],
+      }),
+    );
+
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+      fileType: 'geojson',
+      fileId: 'multerFileId',
+    });
+
+    const dataSourceID = 'model';
+    const data = await datasourceService.getData(dataSourceID);
+    expect(data).toEqual({
+      data: {
+        type: 'featureCollection',
+        features: [
+          { properties: { id: 1, name: 'MH' } },
+          { properties: { id: 2, name: 'KA' } },
+          { properties: { id: 1, name: 'TN' } },
+        ],
+      },
+    });
+  });
+
+  it('should fetch data from file server for given geojson file with filters', async () => {
+    fs.existsSync.mockReturnValueOnce(true);
+    fs.readFileSync.mockReturnValueOnce(
+      JSON.stringify({
+        type: 'featureCollection',
+        features: [
+          { properties: { id: 1, name: 'MH' } },
+          { properties: { id: 2, name: 'KA' } },
+          { properties: { id: 1, name: 'TN' } },
+        ],
+      }),
+    );
+
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+      fileType: 'geojson',
+      fileId: 'multerFileId',
+    });
+
+    const dataSourceID = 'model';
+    const data = await datasourceService.getData(dataSourceID, undefined, {
+      filter: {
+        propertyKey: 'name',
+        value: 'MH',
+      },
+    });
+
+    expect(data).toEqual({
+      data: {
+        type: 'featureCollection',
+        features: [{ properties: { id: 1, name: 'MH' } }],
+      },
+    });
+  });
+
+  it('should throw exception for datasource not found if file is not present', async () => {
     fs.existsSync.mockReturnValueOnce(false);
     dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
       fileType: 'json',
+      fileId: 'multerFileId',
+    });
+    const result = async () => {
+      await datasourceService.getData('dataSourceID');
+    };
+    await expect(result).rejects.toThrow(new DatasourceNotFoundException('multerFileId'));
+  });
+  it('should throw exception for datasource not found if geojson file is present', async () => {
+    fs.existsSync.mockReturnValueOnce(false);
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+      fileType: 'geojson',
       fileId: 'multerFileId',
     });
     const result = async () => {
