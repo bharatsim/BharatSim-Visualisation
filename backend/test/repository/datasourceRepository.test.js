@@ -7,6 +7,7 @@ const { Schema } = mongoose;
 const model = new Schema({
   hour: 'number',
   susceptible: 'number',
+  recovered: 'number',
 });
 const datasourceData = [
   {
@@ -20,6 +21,38 @@ const datasourceData = [
   {
     hour: 3,
     susceptible: 97,
+  },
+];
+const datasourceDataForAggregation = [
+  {
+    hour: 1,
+    susceptible: 5,
+    recovered: 3,
+  },
+  {
+    hour: 2,
+    susceptible: 2,
+    recovered: 2,
+  },
+  {
+    hour: 3,
+    susceptible: 3,
+    recovered: 10,
+  },
+  {
+    hour: 1,
+    susceptible: 2,
+    recovered: 12,
+  },
+  {
+    hour: 2,
+    susceptible: 3,
+    recovered: 10,
+  },
+  {
+    hour: 3,
+    susceptible: 4,
+    recovered: 20,
   },
 ];
 
@@ -50,6 +83,23 @@ describe('get Datasource name ', () => {
       { hour: 1, susceptible: 99 },
       { hour: 2, susceptible: 98 },
       { hour: 3, susceptible: 97 },
+    ]);
+  });
+  it('should return aggregated data based on aggregations params and given datasource model', async () => {
+    await DataSourceModel.insertMany(datasourceDataForAggregation);
+    const data = parseMongoDBResult(
+      await DataSourceRepository.getAggregatedData(DataSourceModel, {
+        groupBy: ['hour'],
+        aggregate: {
+          recovered: 'avg',
+          susceptible: 'sum',
+        },
+      }),
+    );
+    expect(data).toEqual([
+      { recovered: 15, susceptible: 7, hour: 3 },
+      { recovered: 6, susceptible: 5, hour: 2 },
+      { recovered: 7.5, susceptible: 7, hour: 1 },
     ]);
   });
 
@@ -95,9 +145,9 @@ describe('get Datasource name ', () => {
     const db = connection.db();
 
     const collectionList = await db
-        .listCollections()
-        .toArray()
-        .then((collections) => collections.map((collection) => collection.name));
+      .listCollections()
+      .toArray()
+      .then((collections) => collections.map((collection) => collection.name));
 
     expect(collectionList).toEqual(['metadataId2']);
   });

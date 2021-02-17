@@ -20,7 +20,7 @@ async function getDataSourceModel(datasourceId) {
   return modelCreator.createModel(datasourceId, dataSourceSchema.dataSourceSchema);
 }
 
-async function getData(datasourceId, columns) {
+async function getData(datasourceId, columns, aggregationParams) {
   const uniqueColumns = [...new Set(columns)];
   const datasourceMetadata = await dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId(
     datasourceId,
@@ -35,7 +35,7 @@ async function getData(datasourceId, columns) {
     return getJsonData(datasourceMetadata);
   }
   if (datasourceMetadata.fileType === fileTypes.CSV) {
-    return getCsvData(datasourceId, uniqueColumns);
+    return getCsvData(datasourceId, uniqueColumns, aggregationParams);
   }
   throw new DatasourceNotFoundException(datasourceMetadata.fileId);
 }
@@ -49,15 +49,29 @@ function getJsonData(datasourceMetadata) {
   throw new DatasourceNotFoundException(datasourceMetadata.fileId);
 }
 
-async function getCsvData(datasourceId, columns) {
+async function getCsvData(datasourceId, columns, aggregationParams) {
   const dataSourceModel = await getDataSourceModel(datasourceId);
-  const columnsMap = dbUtils.getProjectedColumns(columns);
-  const dataRecords = await dataSourceRepository.getData(dataSourceModel, columnsMap);
+  const columnsMap = dbUtils.getProjectedColumns([...columns]);
+  let allColumns = columns;
+  const dataRecords = await getDataRecord(aggregationParams, dataSourceModel, columnsMap);
+
+  if (aggregationParams) {
+    allColumns = [...aggregationParams.groupBy, ...Object.keys(aggregationParams.aggregate)];
+  }
+
   const data = dbUtils.changeRecordDimensionToArray(dataRecords);
-  if (columns.length > 0 && isNotProvidedDataHaveEqualColumns(data, columns)) {
+  if (allColumns.length > 0 && isNotProvidedDataHaveEqualColumns(data, allColumns)) {
     throw new ColumnsNotFoundException();
   }
+
   return { data };
+}
+
+async function getDataRecord(aggregationParams, dataSourceModel, columnsMap) {
+  if (aggregationParams) {
+    return dataSourceRepository.getAggregatedData(dataSourceModel, aggregationParams);
+  }
+  return dataSourceRepository.getData(dataSourceModel, columnsMap);
 }
 
 async function deleteCsvFiles(datasourceIds) {

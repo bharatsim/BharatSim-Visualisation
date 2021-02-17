@@ -42,10 +42,13 @@ router.post('/', async function (req, res) {
 });
 
 router.get('/:id', async function (req, res) {
-  const { columns } = req.query;
+  const { columns, aggregationParams } = req.query;
   const { id: datasourceId } = req.params;
+  const parseAggregationParams = aggregationParams
+    ? JSON.parse(aggregationParams)
+    : aggregationParams;
   datasourceService
-    .getData(datasourceId, columns)
+    .getData(datasourceId, columns, parseAggregationParams)
     .then((data) => res.json(data))
     .catch((err) => {
       if (err instanceof DataSourceNotFoundException) {

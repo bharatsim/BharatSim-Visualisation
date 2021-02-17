@@ -28,6 +28,47 @@ function changeRecordDimensionToArray(records) {
   }, {});
 }
 
+function getAggregateParam(aggregateColumns, aggregate) {
+  return aggregateColumns.reduce((acc, col) => {
+    const action = `$${aggregate[col]}`;
+    acc[col] = { [action]: `$${col}` };
+    return acc;
+  }, {});
+}
+
+function getGroupByParams(groupBy) {
+  return groupBy.reduce((acc, col) => {
+    acc[col] = `$${col}`;
+    return acc;
+  }, {});
+}
+
+function getProjectAggregateParam(aggregateColumns) {
+  return aggregateColumns.reduce((acc, col) => {
+    acc[col] = `$${col}`;
+    return acc;
+  }, {});
+}
+
+function getProjectGroupByParam(groupBy) {
+  return groupBy.reduce((acc, col) => {
+    acc[col] = `$_id.${col}`;
+    return acc;
+  }, {});
+}
+
+function transformAggregationParams(aggregationParams) {
+  const { groupBy, aggregate } = aggregationParams;
+  const aggregateColumns = Object.keys(aggregate);
+
+  const aggregateParam = getAggregateParam(aggregateColumns, aggregate);
+  const groupByParam = getGroupByParams(groupBy);
+  const projectAggregateParam = getProjectAggregateParam(aggregateColumns);
+  const projectGroupByParam = getProjectGroupByParam(groupBy);
+
+  return { aggregateParam, groupByParam, projectAggregateParam, projectGroupByParam };
+}
+
 function createSchema(row) {
   return Object.keys(row).reduce((acc, element) => {
     acc[element] = typeof row[element];
@@ -35,4 +76,10 @@ function createSchema(row) {
   }, {});
 }
 
-module.exports = { getProjectedColumns, changeRecordDimensionToArray, createSchema, parseDBObject };
+module.exports = {
+  getProjectedColumns,
+  changeRecordDimensionToArray,
+  createSchema,
+  parseDBObject,
+  transformAggregationParams,
+};

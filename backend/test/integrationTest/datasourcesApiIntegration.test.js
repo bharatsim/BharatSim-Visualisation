@@ -141,6 +141,18 @@ describe('Integration test', () => {
         .expect(200)
         .expect({ data: { susceptible: [1, 2, 3, 4, 5], hour: [0, 1, 2, 3, 4] } });
     });
+    it('should get data for requested aggregation params', async () => {
+      await request(app)
+        .get(`/datasources/${dataSourceId}`)
+        .query({
+          aggregationParams: JSON.stringify({
+            groupBy: ['hour'],
+            aggregate: { susceptible: 'sum' },
+          }),
+        })
+        .expect(200)
+        .expect({ data: { susceptible: [4, 3, 2, 5, 1], hour: [3, 2, 1, 4, 0] } });
+    });
 
     it('should throw error if data source not found', async () => {
       await request(app)

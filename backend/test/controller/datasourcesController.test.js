@@ -113,7 +113,7 @@ describe('api', () => {
         .get('/datasources/datasourceId')
         .expect(200)
         .expect({ data: { exposed: [2, 3], hour: [1, 2] } });
-      expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', undefined);
+      expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', undefined, undefined);
     });
 
     it('should get data for requested columns', async () => {
@@ -122,7 +122,24 @@ describe('api', () => {
         .query({ columns: ['expose', 'hour'] })
         .expect(200)
         .expect({ data: { exposed: [2, 3], hour: [1, 2] } });
-      expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', ['expose', 'hour']);
+      expect(datasourceService.getData).toHaveBeenCalledWith(
+        'datasourceId',
+        ['expose', 'hour'],
+        undefined,
+      );
+    });
+    it('should get data for requested aggregatedParams only', async () => {
+      await request(app)
+        .get('/datasources/datasourceId')
+        .query({
+          aggregationParams: JSON.stringify({ groupBy: ['hour'], aggregate: { exposed: 'sum' } }),
+        })
+        .expect(200)
+        .expect({ data: { exposed: [2, 3], hour: [1, 2] } });
+      expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', undefined, {
+        aggregate: { exposed: 'sum' },
+        groupBy: ['hour'],
+      });
     });
 
     it('should throw error if data source not found', async () => {
@@ -138,7 +155,11 @@ describe('api', () => {
           errorCode: 1002,
         });
 
-      expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', ['expose', 'hour']);
+      expect(datasourceService.getData).toHaveBeenCalledWith(
+        'datasourceId',
+        ['expose', 'hour'],
+        undefined,
+      );
     });
 
     it('should send error message for columns not found exception', async () => {
@@ -151,7 +172,11 @@ describe('api', () => {
         .expect(400)
         .expect({});
 
-      expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', ['exposeed', 'hour']);
+      expect(datasourceService.getData).toHaveBeenCalledWith(
+        'datasourceId',
+        ['exposeed', 'hour'],
+        undefined,
+      );
     });
 
     it('should throw error if any technical error occur', async () => {
@@ -163,7 +188,11 @@ describe('api', () => {
         .expect(500)
         .expect({ errorMessage: 'Technical error error', errorCode: 1003 });
 
-      expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', ['expose', 'hour']);
+      expect(datasourceService.getData).toHaveBeenCalledWith(
+        'datasourceId',
+        ['expose', 'hour'],
+        undefined,
+      );
     });
   });
 

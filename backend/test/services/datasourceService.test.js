@@ -66,6 +66,45 @@ describe('datasourceService', () => {
       data: { hour: [1, 2, 3] },
     });
   });
+  it('should should fetch data from database for given datasource name and aggregation params only ', async () => {
+    dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
+      dataSourceSchema: 'DataSourceSchema',
+    });
+
+    dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
+      fileType: 'csv',
+    });
+
+    dataSourceRepository.getAggregatedData.mockResolvedValue([
+      { hour: 1, susceptible: 5 },
+      {
+        hour: 2,
+        susceptible: 4,
+      },
+      { hour: 3, susceptible: 3 },
+    ]);
+
+    modelCreator.createModel.mockReturnValue('DataSourceModel');
+    const dataSourceID = 'model';
+    const aggregationParams = {
+      groupBy: ['hour'],
+      aggregate: {
+        susceptible: 'sum',
+      },
+    };
+
+    const data = await datasourceService.getData(dataSourceID, undefined, aggregationParams);
+
+    expect(dataSourceMetadataRepository.getDataSourceSchemaById).toHaveBeenCalledWith('model');
+    expect(dataSourceRepository.getAggregatedData).toHaveBeenCalledWith(
+      'DataSourceModel',
+      aggregationParams,
+    );
+    expect(modelCreator.createModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
+    expect(data).toEqual({
+      data: { hour: [1, 2, 3], susceptible: [5, 4, 3] },
+    });
+  });
   it(
     'should fetch data from database for give datasource name ' +
       'and selected columns only for same column name',
