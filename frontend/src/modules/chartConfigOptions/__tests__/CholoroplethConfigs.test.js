@@ -26,7 +26,7 @@ jest.mock('../../../utils/api', () => ({
 
 const ComponentWithProvider = withProjectLayout(withRouter(withThemeProvider(CholoroplethConfigs)));
 
-const TestForCholoroplethConfigs = ({ onSubmit }) => {
+const TestForCholoroplethConfigs = ({ onSubmit, isEditMode }) => {
   const { control, errors, handleSubmit, watch } = useForm({ mode: 'onChange' });
   const props = {
     headers: [
@@ -35,7 +35,7 @@ const TestForCholoroplethConfigs = ({ onSubmit }) => {
       { name: 'c', type: 'number' },
     ],
     configKey: 'choroplethConfig',
-    isEditMode: false,
+    isEditMode,
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -73,6 +73,18 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     await findByText('select map layer');
 
     expect(getByText('Drill down - Top Level')).toBeInTheDocument();
+  });
+
+  it('should disable radio buttons in edit config mode', async () => {
+    const renderComponent = render(<TestForCholoroplethConfigs onSubmit={jest.fn()} isEditMode />);
+    const { findByText, getByText } = renderComponent;
+
+    await findByText('select map layer');
+    const MultiLevelDrillDownOption = getByText('Multi level Drill down');
+    const SingleChoropleth = getByText('Single level');
+
+    expect(MultiLevelDrillDownOption).toHaveClass('Mui-disabled');
+    expect(SingleChoropleth).toHaveClass('Mui-disabled');
   });
 
   it('should call on submit with selected data', async () => {

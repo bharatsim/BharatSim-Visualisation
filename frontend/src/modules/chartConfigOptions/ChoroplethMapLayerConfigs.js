@@ -68,7 +68,6 @@ function ChoroplethMapLayerConfig({
           isEditMode={isEditMode}
           name={`${configKey}.${choroplethConfigTypes.MAP_LAYER}`}
           control={control}
-          disabled={isEditMode}
           filterDatasource={shapeFileFilter}
           noDataSourcePresentMessage="Before we can create any GIS visualization, we‘ll need some GIS layer data."
           error={errors[choroplethConfigTypes.MAP_LAYER]}

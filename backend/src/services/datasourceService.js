@@ -80,7 +80,9 @@ async function getCsvData(datasourceId, columns, aggregationParams) {
   const dataRecords = await getDataRecord(aggregationParams, dataSourceModel, columnsMap);
 
   if (aggregationParams) {
-    allColumns = [...aggregationParams.groupBy, ...Object.keys(aggregationParams.aggregate)];
+    allColumns = [
+      ...new Set([...aggregationParams.groupBy, ...Object.keys(aggregationParams.aggregate)]),
+    ];
   }
 
   const data = dbUtils.changeRecordDimensionToArray(dataRecords);

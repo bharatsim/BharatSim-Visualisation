@@ -29,7 +29,7 @@ const ComponentWithProvider = withProjectLayout(
   withRouter(withThemeProvider(ChoroplethMapLayerConfig)),
 );
 
-const TestForChoroplethMapLayerConfig = ({ onSubmit, shouldShowReferenceIdConfig }) => {
+const TestForChoroplethMapLayerConfig = ({ onSubmit, shouldShowReferenceIdConfig, isEditMode }) => {
   const { control, errors, handleSubmit, watch } = useForm({ mode: 'onChange' });
   const props = {
     headers: [
@@ -38,7 +38,7 @@ const TestForChoroplethMapLayerConfig = ({ onSubmit, shouldShowReferenceIdConfig
       { name: 'c', type: 'number' },
     ],
     configKey: 'mapLayerConfig',
-    isEditMode: false,
+    isEditMode,
     shouldShowReferenceIdConfig: shouldShowReferenceIdConfig || false,
   };
   return (
@@ -57,6 +57,19 @@ const TestForChoroplethMapLayerConfig = ({ onSubmit, shouldShowReferenceIdConfig
 describe('<ChoroplethMapLayerConfigs />', () => {
   it('should fetch data on change of map layer selection and data for map layer', async () => {
     const renderComponent = render(<TestForChoroplethMapLayerConfig onSubmit={jest.fn()} />);
+    const { findByText } = renderComponent;
+
+    await findByText('select map layer');
+
+    await selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
+
+    expect(api.getCsvHeaders).toHaveBeenCalledWith('d_id1');
+    expect(api.getDatasources).toHaveBeenCalledWith('id1');
+  });
+  it('should be able to edit map layer datasource in edit configuration', async () => {
+    const renderComponent = render(
+      <TestForChoroplethMapLayerConfig onSubmit={jest.fn()} isEditMode />,
+    );
     const { findByText } = renderComponent;
 
     await findByText('select map layer');

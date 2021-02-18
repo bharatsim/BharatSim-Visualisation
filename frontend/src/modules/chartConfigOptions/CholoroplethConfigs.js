@@ -36,6 +36,7 @@ function ChoroplethConfigs({ headers, watch, control, errors, isEditMode, config
             { value: choroplethTypes.DRILL_DOWN, label: 'Multi level Drill down' },
           ]}
           vertical={false}
+          disabled={isEditMode}
         />
       </Box>
       {choroplethType === choroplethTypes.DRILL_DOWN ? (

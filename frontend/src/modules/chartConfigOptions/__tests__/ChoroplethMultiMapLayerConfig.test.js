@@ -98,9 +98,27 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     expect(level2).toBeInTheDocument();
 
-    fireEvent.click(getByTestId('delete-level-1'));
+    fireEvent.click(getByTestId('delete-level-2'));
 
     expect(level2).not.toBeInTheDocument();
+  });
+  it('should only allow delete to be present on last level config', async () => {
+    const renderComponent = render(<TestForChoroplethMultiMapLayerConfig onSubmit={jest.fn()} />);
+    const { findByText, getByText, getByTestId, queryByTestId } = renderComponent;
+
+    fireEvent.click(getByText('Add Level'));
+    const level2 = await findByText('Drill down - Level 2');
+    expect(level2).toBeInTheDocument();
+
+    fireEvent.click(getByText('Add Level'));
+    const level3 = await findByText('Drill down - Level 3');
+    expect(level3).toBeInTheDocument();
+
+    const level2DeleteButton = queryByTestId('delete-level-2');
+    expect(level2DeleteButton).toBe(null);
+
+    fireEvent.click(getByTestId('delete-level-3'));
+    expect(level3).not.toBeInTheDocument();
   });
 
   it('should call on submit with selected data', async () => {

@@ -54,11 +54,11 @@ function ChoroplethMultiMapLayerConfig({ control, configKey, errors, isEditMode,
               {' '}
               {index === 0 ? 'Top Level' : `Level ${index + 1}`}
             </Typography>
-            {fields.length > 1 && (
+            {fields.length > 1 && index === fields.length - 1 && (
               <IconButton
                 onClick={() => remove(index)}
                 size="small"
-                data-testid={`delete-level-${index}`}
+                data-testid={`delete-level-${index + 1}`}
               >
                 <Delete />
               </IconButton>

@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function RadioButtons({ options, control, name, defaultValue, vertical }) {
+function RadioButtons({ options, control, name, defaultValue, vertical, disabled }) {
   const classes = useStyles();
   const {
     field: { onChange, value },
@@ -30,7 +30,7 @@ function RadioButtons({ options, control, name, defaultValue, vertical }) {
     defaultValue,
   });
   return (
-    <FormControl>
+    <FormControl disabled={disabled}>
       <RadioGroup value={value} onChange={onChange}>
         <Box className={vertical ? classes.vertical : classes.horizontal}>
           {options.map((option) => {
@@ -52,6 +52,7 @@ function RadioButtons({ options, control, name, defaultValue, vertical }) {
 
 RadioButtons.defaultProps = {
   vertical: true,
+  disabled: false,
 };
 
 RadioButtons.propTypes = {
@@ -65,6 +66,7 @@ RadioButtons.propTypes = {
   name: PropTypes.string.isRequired,
   defaultValue: PropTypes.string.isRequired,
   vertical: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 export default RadioButtons;
