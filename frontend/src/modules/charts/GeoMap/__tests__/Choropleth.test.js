@@ -256,9 +256,14 @@ describe('Choropleth', () => {
 
     await findByTestId('map-container');
 
-    expect(api.getAggregatedData).toHaveBeenCalledWith('test.csv', ['regionId', 'timeTick'], {
-      infected: 'sum',
-    });
+    expect(api.getAggregatedData).toHaveBeenCalledWith(
+      'test.csv',
+      ['regionId', 'timeTick'],
+      {
+        infected: 'sum',
+      },
+      null,
+    );
   });
 
   it('should show breadcrumbs when drill down map is selected', async () => {
@@ -370,9 +375,14 @@ describe('Choropleth', () => {
 
     await findByTestId('map-container');
 
-    expect(api.getAggregatedData).toHaveBeenCalledWith('test.csv', ['regionId'], {
-      infected: 'sum',
-    });
+    expect(api.getAggregatedData).toHaveBeenCalledWith(
+      'test.csv',
+      ['regionId'],
+      {
+        infected: 'sum',
+      },
+      null,
+    );
     expect(api.getAggregatedGeoJson).toHaveBeenCalledWith('mapLayer.geoJson', null);
   });
   it('should rerender when prop value changes', async () => {
@@ -524,18 +534,28 @@ describe('Choropleth', () => {
 
     await findByTestId('map-container');
 
-    expect(api.getAggregatedData).toHaveBeenCalledWith('test.csv', ['regionId'], {
-      infected: 'sum',
-    });
+    expect(api.getAggregatedData).toHaveBeenCalledWith(
+      'test.csv',
+      ['regionId'],
+      {
+        infected: 'sum',
+      },
+      null,
+    );
     expect(api.getAggregatedGeoJson).toHaveBeenCalledWith('mapLayer.geoJson', null);
 
     fireEvent.click(getByText('feature1').closest('button'));
 
     await findByTestId('map-container');
 
-    expect(api.getAggregatedData).toHaveBeenLastCalledWith('test.csv', ['regionId2'], {
-      infected: 'sum',
-    });
+    expect(api.getAggregatedData).toHaveBeenLastCalledWith(
+      'test.csv',
+      ['regionId2'],
+      {
+        infected: 'sum',
+      },
+      { propertyKey: 'regionId', value: 'region1' },
+    );
     expect(api.getAggregatedGeoJson).toHaveBeenLastCalledWith('mapLayer2.geoJson', {
       propertyKey: 'mapLayerId1',
       value: 'region1',

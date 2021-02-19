@@ -73,10 +73,7 @@ describe('<YAxisConfig />', () => {
 
     expect(onSubmit).toHaveBeenCalledWith(
       {
-        yAxis: [
-          { name: 'a'},
-          { name: 'b'},
-        ],
+        yAxis: [{ name: 'a' }, { name: 'b' }],
       },
       expect.anything(),
     );

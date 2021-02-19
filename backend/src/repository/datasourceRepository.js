@@ -12,7 +12,12 @@ async function getAggregatedData(datasourceModel, aggregationParams) {
     projectAggregateParam,
     projectGroupByParam,
   } = transformAggregationParams(aggregationParams);
+  const { filter } = aggregationParams;
+
   return datasourceModel.aggregate([
+    {
+      $match: filter ? { [filter.propertyKey]: filter.value } : {},
+    },
     {
       $group: {
         _id: groupByParam,

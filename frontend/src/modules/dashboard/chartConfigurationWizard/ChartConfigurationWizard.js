@@ -18,13 +18,13 @@ const useDrawerStyles = makeStyles((theme) => ({
 
 function ChartConfigurationWizard({ chart: chartToEdit, isOpen, closeModal, onApply }) {
   const drawerClasses = useDrawerStyles();
-  const initialStep = chartToEdit? 1: 0
-  const initialChartType = chartToEdit? chartToEdit.chartType: ''
+  const initialStep = chartToEdit ? 1 : 0;
+  const initialChartType = chartToEdit ? chartToEdit.chartType : '';
   const [activeStep, setActiveStep] = useState(initialStep);
   const [selectedChart, setSelectedChart] = useState(initialChartType);
 
-  const existingConfig =  chartToEdit ? chartToEdit.config: {}
-  const chartId = chartToEdit ? chartToEdit.layout.i : undefined
+  const existingConfig = chartToEdit ? chartToEdit.config : {};
+  const chartId = chartToEdit ? chartToEdit.layout.i : undefined;
 
   function goToNextStep() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -69,7 +69,7 @@ function ChartConfigurationWizard({ chart: chartToEdit, isOpen, closeModal, onAp
 ChartConfigurationWizard.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   chart: PropTypes.shape({
-    layout: PropTypes.shape({i: PropTypes.string.isRequired}).isRequired,
+    layout: PropTypes.shape({ i: PropTypes.string.isRequired }).isRequired,
     config: PropTypes.shape({}).isRequired,
     chartType: PropTypes.string.isRequired,
   }),
@@ -78,7 +78,7 @@ ChartConfigurationWizard.propTypes = {
 };
 
 ChartConfigurationWizard.defaultProps = {
-  chart: null
-}
+  chart: null,
+};
 
 export default ChartConfigurationWizard;

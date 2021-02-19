@@ -1,81 +1,246 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<ColorScale /> should create color scale with min max value 1`] = `
+<div>
+  <div
+    class="makeStyles-legend-16"
+  >
+    <p
+      class="MuiTypography-root makeStyles-title-20 MuiTypography-body2"
+    >
+      infected
+    </p>
+    <div
+      class="makeStyles-scaleContainer-15"
+    >
+      <div
+        class="makeStyles-colorScale-17 makeStyles-colorScale-21"
+      />
+      <div
+        class="makeStyles-labelScale-18"
+      >
+        <div
+          class="makeStyles-label-19"
+          style="top: calc(100% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            100
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-19"
+          style="top: calc(0% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            300
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-19"
+          style="top: calc(60% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            40%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-19"
+          style="top: calc(40% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            60%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-19"
+          style="top: calc(30.000000000000004% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            70%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-19"
+          style="top: calc(19.999999999999996% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            80%
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<ColorScale /> should disable percentage scale labels for disablePercentageScale 1`] = `
+<div>
+  <div
+    class="makeStyles-legend-23"
+  >
+    <p
+      class="MuiTypography-root makeStyles-title-27 MuiTypography-body2"
+    >
+      infected
+    </p>
+    <div
+      class="makeStyles-scaleContainer-22"
+    >
+      <div
+        class="makeStyles-colorScale-24 makeStyles-colorScale-28"
+      />
+      <div
+        class="makeStyles-labelScale-25"
+      >
+        <div
+          class="makeStyles-label-26"
+          style="top: calc(100% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            100
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-26"
+          style="top: calc(0% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            300
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-26"
+          style="top: calc(60% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          />
+        </div>
+        <div
+          class="makeStyles-label-26"
+          style="top: calc(40% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          />
+        </div>
+        <div
+          class="makeStyles-label-26"
+          style="top: calc(30.000000000000004% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          />
+        </div>
+        <div
+          class="makeStyles-label-26"
+          style="top: calc(19.999999999999996% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`<ColorScale /> should match snapshot 1`] = `
 <div>
   <div
-    class="makeStyles-legend-1"
+    class="makeStyles-legend-2"
   >
+    <p
+      class="MuiTypography-root makeStyles-title-6 MuiTypography-body2"
+    >
+      titleText
+    </p>
     <div
-      class="makeStyles-colorScale-2 makeStyles-colorScale-5"
-    />
-    <div
-      class="makeStyles-labelScale-3"
+      class="makeStyles-scaleContainer-1"
     >
       <div
-        class="makeStyles-label-4"
-        style="top: calc(100% - 10px);"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
-        >
-          0
-          %
-        </p>
-      </div>
+        class="makeStyles-colorScale-3 makeStyles-colorScale-7"
+      />
       <div
-        class="makeStyles-label-4"
-        style="top: calc(0% - 10px);"
+        class="makeStyles-labelScale-4"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
+        <div
+          class="makeStyles-label-5"
+          style="top: calc(100% - 10px);"
         >
-          100
-          %
-        </p>
-      </div>
-      <div
-        class="makeStyles-label-4"
-        style="top: calc(60% - 10px);"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            0%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-5"
+          style="top: calc(0% - 10px);"
         >
-          40
-          %
-        </p>
-      </div>
-      <div
-        class="makeStyles-label-4"
-        style="top: calc(40% - 10px);"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            100%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-5"
+          style="top: calc(60% - 10px);"
         >
-          60
-          %
-        </p>
-      </div>
-      <div
-        class="makeStyles-label-4"
-        style="top: calc(30.000000000000004% - 10px);"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            40%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-5"
+          style="top: calc(40% - 10px);"
         >
-          70
-          %
-        </p>
-      </div>
-      <div
-        class="makeStyles-label-4"
-        style="top: calc(19.999999999999996% - 10px);"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            60%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-5"
+          style="top: calc(30.000000000000004% - 10px);"
         >
-          80
-          %
-        </p>
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            70%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-5"
+          style="top: calc(19.999999999999996% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            80%
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -85,79 +250,82 @@ exports[`<ColorScale /> should match snapshot 1`] = `
 exports[`<ColorScale /> should match snapshot without 0.0 as scale 1`] = `
 <div>
   <div
-    class="makeStyles-legend-6"
+    class="makeStyles-legend-9"
   >
+    <p
+      class="MuiTypography-root makeStyles-title-13 MuiTypography-body2"
+    >
+      infected
+    </p>
     <div
-      class="makeStyles-colorScale-7 makeStyles-colorScale-10"
-    />
-    <div
-      class="makeStyles-labelScale-8"
+      class="makeStyles-scaleContainer-8"
     >
       <div
-        class="makeStyles-label-9"
-        style="top: calc(100% - 10px);"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
-        >
-          0
-          %
-        </p>
-      </div>
+        class="makeStyles-colorScale-10 makeStyles-colorScale-14"
+      />
       <div
-        class="makeStyles-label-9"
-        style="top: calc(0% - 10px);"
+        class="makeStyles-labelScale-11"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
+        <div
+          class="makeStyles-label-12"
+          style="top: calc(100% - 10px);"
         >
-          100
-          %
-        </p>
-      </div>
-      <div
-        class="makeStyles-label-9"
-        style="top: calc(60% - 10px);"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            0%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-12"
+          style="top: calc(0% - 10px);"
         >
-          40
-          %
-        </p>
-      </div>
-      <div
-        class="makeStyles-label-9"
-        style="top: calc(40% - 10px);"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            100%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-12"
+          style="top: calc(60% - 10px);"
         >
-          60
-          %
-        </p>
-      </div>
-      <div
-        class="makeStyles-label-9"
-        style="top: calc(30.000000000000004% - 10px);"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            40%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-12"
+          style="top: calc(40% - 10px);"
         >
-          70
-          %
-        </p>
-      </div>
-      <div
-        class="makeStyles-label-9"
-        style="top: calc(19.999999999999996% - 10px);"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2"
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            60%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-12"
+          style="top: calc(30.000000000000004% - 10px);"
         >
-          80
-          %
-        </p>
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            70%
+          </p>
+        </div>
+        <div
+          class="makeStyles-label-12"
+          style="top: calc(19.999999999999996% - 10px);"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            80%
+          </p>
+        </div>
       </div>
     </div>
   </div>

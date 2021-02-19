@@ -4,14 +4,22 @@ import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 import LegendScale from './ColorScale';
 
-const Legend = ({ scale }) => {
+const Legend = ({ scale, title, min, max, disablePercentageScale }) => {
   const map = useMap();
   useEffect(() => {
     const legend = L.control({ position: 'bottomright' });
 
     legend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
-      const asd = <LegendScale scale={scale} />;
+      const asd = (
+        <LegendScale
+          scale={scale}
+          title={title}
+          min={min}
+          max={max}
+          disablePercentageScale={disablePercentageScale}
+        />
+      );
       ReactDOM.render(asd, div);
       return div;
     };

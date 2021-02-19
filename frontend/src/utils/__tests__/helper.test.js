@@ -2,6 +2,7 @@ import {
   convertObjectArrayToOptionStructure,
   convertStringArrayToOptions,
   debounce,
+  formatToUnits,
   getLatLngCenter,
   shapeFileFilter,
   transformChoroplethData,
@@ -191,6 +192,20 @@ describe('Helpers', () => {
       const actualData = transformChoroplethData(ids, measure, timeMetric, timeSlider);
 
       expect(actualData).toEqual(expectedData);
+    });
+  });
+  describe('formatToUnits', () => {
+    it('should format 1000 to 1k', () => {
+      expect(formatToUnits(1000)).toEqual('1K');
+    });
+    it('should format 1000000 to 1M', () => {
+      expect(formatToUnits(1000000)).toEqual('1M');
+    });
+    it('should format 1000000000 to 1M', () => {
+      expect(formatToUnits(1000000000)).toEqual('1B');
+    });
+    it('should format 10023 to 10.023k with 3 as  precision', () => {
+      expect(formatToUnits(10023, 3)).toEqual('10.023K');
     });
   });
 

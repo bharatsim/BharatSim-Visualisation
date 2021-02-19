@@ -87,6 +87,9 @@ function Choropleth({ config }) {
   const shouldAddDrillDownCallback =
     choroplethType === choroplethTypes.DRILL_DOWN && drillDownLevel < mapLayerConfig.length - 1;
 
+  const maxValue = data && Math.max(...data[gisMeasure]);
+  const minValue = data && Math.min(...data[gisMeasure]);
+
   const breadcrumbsItems = Object.keys(levelFeatureMap)
     .sort()
     .slice(0, drillDownLevel + 1)
@@ -141,11 +144,19 @@ function Choropleth({ config }) {
               scale={scale}
               tick={timeSliderValue}
               onClickOfFeature={shouldAddDrillDownCallback ? onClickOfFeature : null}
+              minOfMeasure={minValue}
+              maxOfMeasure={maxValue}
             />
             <ResizeController />
             <ScaleControl />
-            <ColorScaleLegend scale={scale} />
             <ZoomControl position="bottomleft" />
+            <ColorScaleLegend
+              scale={scale}
+              min={minValue}
+              max={maxValue}
+              title={gisMeasure}
+              disablePercentageScale
+            />
           </MapContainer>
         </div>
       </LoaderOrError>
@@ -184,13 +195,18 @@ function Choropleth({ config }) {
   }
 
   async function fetchAggregatedData() {
+    const { dataLayerId: parentDatalayerId } =
+      drillDownLevel > 0 ? mapLayerConfig[drillDownLevel - 1] : {};
+    const filter = drillDownLevel > 0 ? { propertyKey: parentDatalayerId, value: featureId } : null;
     const groupBy = [dataLayerId];
     const aggregations = { [gisMeasure]: 'sum' };
+
     if (timeMetrics) {
       groupBy.push(timeMetrics);
     }
+
     return api
-      .getAggregatedData(dataSource, groupBy, aggregations)
+      .getAggregatedData(dataSource, groupBy, aggregations, filter)
       .then(({ data: fetchedData }) => {
         setData(fetchedData);
       })

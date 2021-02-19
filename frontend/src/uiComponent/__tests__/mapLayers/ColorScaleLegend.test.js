@@ -17,7 +17,7 @@ describe('<ColorScaleLegend />', () => {
     const { container } = render(
       <div style={{ height: `100%`, width: `100%` }} data-testid="map-container">
         <MapContainer style={{ height: `100%`, width: `100%` }} zoom={13} scrollWheelZoom={false}>
-          <ColorScaleLegend scale={scale} />
+          <ColorScaleLegend scale={scale} title="Infected" />
         </MapContainer>
       </div>,
     );

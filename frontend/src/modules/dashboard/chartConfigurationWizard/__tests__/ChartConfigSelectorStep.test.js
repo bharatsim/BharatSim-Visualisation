@@ -35,7 +35,6 @@ describe('chart config selector', () => {
     await findByText('Data Source');
     expect(container).toMatchSnapshot();
   });
-  
 
   it('should call back to chart type selector', async () => {
     const backToChartType = jest.fn();

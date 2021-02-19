@@ -116,10 +116,10 @@ const api = {
       isCustomErrorHandler: true,
     }),
 
-  getAggregatedData: async (datasource, groupBy, aggregate) =>
+  getAggregatedData: async (datasource, groupBy, aggregate, filter) =>
     fetchData({
       url: serviceURL.getDataUrl(datasource),
-      query: { aggregationParams: { groupBy, aggregate } },
+      query: { aggregationParams: { groupBy, aggregate, filter } },
       isCustomLoader: true,
       isCustomErrorHandler: true,
     }),

@@ -134,6 +134,15 @@ function shapeFileFilter(dataSource) {
   return GISShapeLayerFileTypes.includes(dataSource.fileType);
 }
 
+function formatToUnits(number, precision = 0) {
+  const abbrev = ['', 'K', 'M', 'B', 'T'];
+  const unrangifiedOrder = Math.floor(Math.log10(Math.abs(number)) / 3);
+  const order = Math.max(0, Math.min(unrangifiedOrder, abbrev.length - 1));
+  const suffix = abbrev[order];
+
+  return (number / 10 ** (order * 3)).toFixed(precision) + suffix;
+}
+
 export {
   updateState,
   transformDataForHeatMap,
@@ -144,4 +153,5 @@ export {
   getLatLngCenter,
   transformChoroplethData,
   shapeFileFilter,
+  formatToUnits,
 };

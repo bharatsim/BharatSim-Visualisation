@@ -102,6 +102,20 @@ describe('get Datasource name ', () => {
       { recovered: 7.5, susceptible: 7, hour: 1 },
     ]);
   });
+  it('should return aggregated and filtered  data based on aggregations params and given datasource model', async () => {
+    await DataSourceModel.insertMany(datasourceDataForAggregation);
+    const data = parseMongoDBResult(
+      await DataSourceRepository.getAggregatedData(DataSourceModel, {
+        groupBy: ['hour'],
+        aggregate: {
+          recovered: 'avg',
+          susceptible: 'sum',
+        },
+        filter: { propertyKey: 'hour', value: 3 },
+      }),
+    );
+    expect(data).toEqual([{ recovered: 15, susceptible: 7, hour: 3 }]);
+  });
 
   it('should return all data for given datasource model and selected fields', async () => {
     await DataSourceModel.insertMany(datasourceData);

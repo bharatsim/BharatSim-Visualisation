@@ -1,9 +1,9 @@
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
+import { within } from '@testing-library/dom';
 import ChartConfigurationWizard from '../ChartConfigurationWizard';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../../testUtil';
-import { within } from '@testing-library/dom';
 
 jest.mock('../../../../utils/api', () => ({
   api: {
@@ -54,8 +54,8 @@ describe('Chart configuration wizard', () => {
     expect(getByLabelText('Add chart name')).toHaveValue('line chart with config');
 
     await findByText('select x axis');
-    const xAxisDropdown = within(getByTestId('x-axis-dropdown'))
-    const yAxisDropdown = within(getByTestId('y-axis-dropdown-0'))
+    const xAxisDropdown = within(getByTestId('x-axis-dropdown'));
+    const yAxisDropdown = within(getByTestId('y-axis-dropdown-0'));
 
     expect(xAxisDropdown.getByRole('button')).toHaveTextContent('column1');
     expect(yAxisDropdown.getByRole('button')).toHaveTextContent('column2');
@@ -110,7 +110,7 @@ describe('Chart configuration wizard', () => {
       chartName: 'chart name',
       dataSource: 'id2',
       xAxis: 'column1',
-      yAxis: [{ name: 'column2'}],
+      yAxis: [{ name: 'column2' }],
     });
   });
 

@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Widget({ title, onDelete, onEdit,children }) {
+function Widget({ title, onDelete, onEdit, children }) {
   const classes = useStyles();
 
   return (

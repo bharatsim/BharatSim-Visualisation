@@ -27,8 +27,8 @@ describe('Create element', () => {
           config: { chartName: 'title' },
         },
         'dashboardId',
-          jest.fn(),
-          jest.fn()
+        jest.fn(),
+        jest.fn(),
       ),
     );
 

@@ -76,79 +76,82 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
             class="info legend leaflet-control"
           >
             <div
-              class="makeStyles-legend-1"
+              class="makeStyles-legend-2"
             >
+              <p
+                class="MuiTypography-root makeStyles-title-6 MuiTypography-body2"
+              >
+                Infected
+              </p>
               <div
-                class="makeStyles-colorScale-2 makeStyles-colorScale-5"
-              />
-              <div
-                class="makeStyles-labelScale-3"
+                class="makeStyles-scaleContainer-1"
               >
                 <div
-                  class="makeStyles-label-4"
-                  style="top: calc(100% - 10px);"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2"
-                  >
-                    0
-                    %
-                  </p>
-                </div>
+                  class="makeStyles-colorScale-3 makeStyles-colorScale-7"
+                />
                 <div
-                  class="makeStyles-label-4"
-                  style="top: calc(0% - 10px);"
+                  class="makeStyles-labelScale-4"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2"
+                  <div
+                    class="makeStyles-label-5"
+                    style="top: calc(100% - 10px);"
                   >
-                    100
-                    %
-                  </p>
-                </div>
-                <div
-                  class="makeStyles-label-4"
-                  style="top: calc(60% - 10px);"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2"
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      0%
+                    </p>
+                  </div>
+                  <div
+                    class="makeStyles-label-5"
+                    style="top: calc(0% - 10px);"
                   >
-                    40
-                    %
-                  </p>
-                </div>
-                <div
-                  class="makeStyles-label-4"
-                  style="top: calc(40% - 10px);"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2"
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      100%
+                    </p>
+                  </div>
+                  <div
+                    class="makeStyles-label-5"
+                    style="top: calc(60% - 10px);"
                   >
-                    60
-                    %
-                  </p>
-                </div>
-                <div
-                  class="makeStyles-label-4"
-                  style="top: calc(30.000000000000004% - 10px);"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2"
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      40%
+                    </p>
+                  </div>
+                  <div
+                    class="makeStyles-label-5"
+                    style="top: calc(40% - 10px);"
                   >
-                    70
-                    %
-                  </p>
-                </div>
-                <div
-                  class="makeStyles-label-4"
-                  style="top: calc(19.999999999999996% - 10px);"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2"
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      60%
+                    </p>
+                  </div>
+                  <div
+                    class="makeStyles-label-5"
+                    style="top: calc(30.000000000000004% - 10px);"
                   >
-                    80
-                    %
-                  </p>
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      70%
+                    </p>
+                  </div>
+                  <div
+                    class="makeStyles-label-5"
+                    style="top: calc(19.999999999999996% - 10px);"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      80%
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

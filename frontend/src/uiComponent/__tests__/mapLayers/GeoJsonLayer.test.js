@@ -50,6 +50,8 @@ describe('<ResizeController />', () => {
             mapLayerIdName="AC_NO"
             measureName="intensity"
             scale={{ 0: 'white', 1: 'red' }}
+            maxOfMeasure={100}
+            minOfMeasure={1}
           />
         </MapContainer>
       </div>,

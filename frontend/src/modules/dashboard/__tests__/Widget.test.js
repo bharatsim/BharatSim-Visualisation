@@ -7,7 +7,7 @@ describe('<Widget />', () => {
   const WidgetWithProvider = withThemeProvider(Widget);
   it('should match snapshot', async () => {
     const { container } = render(
-      <WidgetWithProvider title="Line Chart" onDelete={() => {}} onEdit={()=>{}}>
+      <WidgetWithProvider title="Line Chart" onDelete={() => {}} onEdit={() => {}}>
         Line Chart
       </WidgetWithProvider>,
     );
@@ -18,7 +18,7 @@ describe('<Widget />', () => {
   it('should delete widget', () => {
     const onDeleteMock = jest.fn();
     const { getByTestId, getByText } = render(
-      <WidgetWithProvider title="Line Chart" onDelete={onDeleteMock} onEdit={()=>{}}>
+      <WidgetWithProvider title="Line Chart" onDelete={onDeleteMock} onEdit={() => {}}>
         Line Chart
       </WidgetWithProvider>,
     );
@@ -46,7 +46,7 @@ describe('<Widget />', () => {
     const onDeleteMock = jest.fn();
 
     const { getByTestId, getByText } = render(
-      <WidgetWithProvider title="Line Chart" onDelete={onDeleteMock} onEdit={()=>{}}>
+      <WidgetWithProvider title="Line Chart" onDelete={onDeleteMock} onEdit={() => {}}>
         Line Chart
       </WidgetWithProvider>,
     );
