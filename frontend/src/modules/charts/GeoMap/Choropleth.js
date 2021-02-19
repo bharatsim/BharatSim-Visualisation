@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { MapContainer, ScaleControl, TileLayer } from 'react-leaflet';
+import { MapContainer, ScaleControl, TileLayer, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Box from '@material-ui/core/Box';
 import ResizeController from '../../../uiComponent/mapLayers/ResizeController';
@@ -13,11 +13,20 @@ import ColorScaleLegend from '../../../uiComponent/mapLayers/ColorScaleLegend';
 import TimeSlider from '../../../uiComponent/TimeSlider';
 import { transformChoroplethData } from '../../../utils/helper';
 import { choroplethTypes } from '../../../constants/geoMap';
+import DrillDownNavBreadcrumbs from '../../../uiComponent/DrillDownNavBreadcrumbs';
 
 const useStyles = makeStyles((theme) => ({
   fullWidthHeight: { height: '100%', width: '100%' },
   mapContainer: {
     height: `calc(100% - ${theme.spacing(11.5)}px )`,
+  },
+  breadcrumbContainer: {
+    position: 'absolute',
+    backgroundColor: theme.colors.grayScale['50'],
+    zIndex: 100000,
+    margin: theme.spacing(2),
+    borderRadius: theme.spacing(1),
+    padding: theme.spacing(0, 2),
   },
 }));
 
@@ -38,6 +47,7 @@ function Choropleth({ config }) {
 
   const [drillDownLevel, setDrillDownLevel] = useState(0);
   const [featureId, setFeatureId] = useState();
+  const [levelFeatureMap, setLevelFeatureMap] = useState({ 0: undefined });
   const [data, setData] = useState();
   const [gisLayer, setGisLayer] = useState();
   const [timeSliderValue, setTimeSliderValue] = useState(1);
@@ -52,6 +62,7 @@ function Choropleth({ config }) {
     const selectedFeature = event.target.feature.properties[mapLayerId];
     setFeatureId(selectedFeature);
     setDrillDownLevel((prevDrillDownLevel) => prevDrillDownLevel + 1);
+    setLevelFeatureMap((prevMap) => ({ ...prevMap, [drillDownLevel + 1]: selectedFeature }));
   }
 
   const idMeasureMap = useMemo(
@@ -76,6 +87,20 @@ function Choropleth({ config }) {
   const shouldAddDrillDownCallback =
     choroplethType === choroplethTypes.DRILL_DOWN && drillDownLevel < mapLayerConfig.length - 1;
 
+  const breadcrumbsItems = Object.keys(levelFeatureMap)
+    .sort()
+    .slice(0, drillDownLevel + 1)
+    .map((key, index) => {
+      return {
+        label: index === 0 ? 'Top Level' : `Level ${index + 1}`,
+        onClick: () => {
+          const levelFeatureId = levelFeatureMap[key];
+          setDrillDownLevel(index);
+          setFeatureId(levelFeatureId);
+        },
+      };
+    });
+
   return (
     <div className={timeMetrics ? classes.mapContainer : classes.fullWidthHeight}>
       <LoaderOrError loadingState={loadingState} message={message} errorAction={onErrorAction}>
@@ -93,7 +118,17 @@ function Choropleth({ config }) {
               </Box>
             )}
           </Box>
-          <MapContainer className={classes.fullWidthHeight} zoom={8} preferCanvas>
+          <MapContainer
+            className={classes.fullWidthHeight}
+            zoom={8}
+            preferCanvas
+            zoomControl={false}
+          >
+            {isDrillDown && (
+              <Box className={classes.breadcrumbContainer}>
+                <DrillDownNavBreadcrumbs items={breadcrumbsItems} />
+              </Box>
+            )}
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -110,6 +145,7 @@ function Choropleth({ config }) {
             <ResizeController />
             <ScaleControl />
             <ColorScaleLegend scale={scale} />
+            <ZoomControl position="bottomleft" />
           </MapContainer>
         </div>
       </LoaderOrError>

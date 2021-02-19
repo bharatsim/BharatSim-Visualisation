@@ -232,6 +232,21 @@ theme.overrides = {
       },
     },
   },
+  MuiBreadcrumbs: {
+    root: {
+      color: theme.palette.info.dark,
+    },
+    separator: {
+      marginLeft: 0,
+      marginRight: 0,
+      color: theme.colors.primaryColorScale['500'],
+    },
+    li: {
+      height: theme.spacing(6),
+      display: 'flex',
+      alignItems: 'center',
+    },
+  },
 };
 
 export default theme;

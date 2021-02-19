@@ -37,9 +37,19 @@ const mockGeoJson = {
 
 jest.mock('../../../../utils/api', () => ({
   api: {
-    getData: jest.fn().mockImplementation(() => Promise.resolve({ data: { regionId: [1, 2, 3], infected: [2, 4, 6] } })),
-    getAggregatedGeoJson: jest.fn().mockImplementation(() => Promise.resolve({ data: mockGeoJson })),
-    getAggregatedData: jest.fn().mockImplementation(() => Promise.resolve({ data: { regionId: [1, 2, 3], infected: [2, 4, 6] } })),
+    getData: jest
+      .fn()
+      .mockImplementation(() =>
+        Promise.resolve({ data: { regionId: [1, 2, 3], infected: [2, 4, 6] } }),
+      ),
+    getAggregatedGeoJson: jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ data: mockGeoJson })),
+    getAggregatedData: jest
+      .fn()
+      .mockImplementation(() =>
+        Promise.resolve({ data: { regionId: [1, 2, 3], infected: [2, 4, 6] } }),
+      ),
   },
 }));
 
@@ -52,6 +62,7 @@ jest.mock('react-leaflet', () => ({
   ),
   TileLayer: () => <>TileLayer</>,
   ScaleControl: () => <>ScaleControl</>,
+  ZoomControl: () => <>ZoomControl</>,
 }));
 
 jest.mock('../../../../uiComponent/mapLayers/HeatMapLayer', () => (props) => (
@@ -203,9 +214,11 @@ describe('Choropleth', () => {
   });
 
   it('should call fetch data on render with time Metrics if time metric is present', async () => {
-    api.getData.mockImplementation(() => Promise.resolve({
+    api.getData.mockImplementation(() =>
+      Promise.resolve({
         data: { regionId: [1, 2, 3], infected: [2, 4, 6], timeTick: [1, 2, 3] },
-      }));
+      }),
+    );
 
     const { findByTestId } = render(
       <ChoroplethWithProvider
@@ -224,9 +237,11 @@ describe('Choropleth', () => {
   });
 
   it('should call fetch data on render with time Metrics if time metric is present with aggregated data', async () => {
-    api.getAggregatedData.mockImplementation(() => Promise.resolve({
+    api.getAggregatedData.mockImplementation(() =>
+      Promise.resolve({
         data: { regionId: [1, 2, 3], infected: [2, 4, 6], day: [1, 2, 3] },
-      }));
+      }),
+    );
 
     const { findByTestId } = render(
       <ChoroplethWithProvider
@@ -246,6 +261,120 @@ describe('Choropleth', () => {
     });
   });
 
+  it('should show breadcrumbs when drill down map is selected', async () => {
+    const { findByTestId, getByText } = render(
+      <ChoroplethWithProvider
+        config={{
+          dataSource: 'test.csv',
+          gisMeasure: 'infected',
+          choroplethConfig: { ...config.choroplethConfig, choroplethType: 'drillDown' },
+          sliderConfig: config.sliderConfig,
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+
+    expect(getByText('Top Level')).toBeInTheDocument();
+  });
+
+  it('should show breadcrumbs for Top level and  level 2', async () => {
+    api.getAggregatedGeoJson.mockImplementation(() => Promise.resolve({ data: mockGeoJson }));
+    api.getAggregatedData.mockImplementation(() =>
+      Promise.resolve({
+        data: { regionId: [1, 2, 3], infected: [2, 4, 6], regionId2: [1, 2, 3] },
+      }),
+    );
+    const choroplethConfig = {
+      choroplethType: 'drillDown',
+      mapLayerConfig: [
+        {
+          mapLayer: 'mapLayer.geoJson',
+          mapLayerId: 'mapLayerId1',
+          dataLayerId: 'regionId',
+          referenceId: '',
+        },
+        {
+          mapLayer: 'mapLayer2.geoJson',
+          mapLayerId: 'mapLayerId2',
+          dataLayerId: 'regionId2',
+          referenceId: 'mapLayerId1',
+        },
+      ],
+    };
+
+    const { getByText, findByTestId } = render(
+      <ChoroplethWithProvider
+        config={{
+          dataSource: 'test.csv',
+          gisMeasure: 'infected',
+          choroplethConfig,
+          sliderConfig: {},
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+
+    fireEvent.click(getByText('feature1').closest('button'));
+
+    await findByTestId('map-container');
+
+    expect(getByText('Top Level')).toBeInTheDocument();
+    expect(getByText('Level 2')).toBeInTheDocument();
+  });
+
+  it('should fetch top level data on click of Top level breadcrumb label', async () => {
+    api.getAggregatedGeoJson.mockImplementation(() => Promise.resolve({ data: mockGeoJson }));
+    api.getAggregatedData.mockImplementation(() =>
+      Promise.resolve({
+        data: { regionId: [1, 2, 3], infected: [2, 4, 6], regionId2: [1, 2, 3] },
+      }),
+    );
+    const choroplethConfig = {
+      choroplethType: 'drillDown',
+      mapLayerConfig: [
+        {
+          mapLayer: 'mapLayer.geoJson',
+          mapLayerId: 'mapLayerId1',
+          dataLayerId: 'regionId',
+          referenceId: '',
+        },
+        {
+          mapLayer: 'mapLayer2.geoJson',
+          mapLayerId: 'mapLayerId2',
+          dataLayerId: 'regionId2',
+          referenceId: 'mapLayerId1',
+        },
+      ],
+    };
+
+    const { getByText, findByTestId } = render(
+      <ChoroplethWithProvider
+        config={{
+          dataSource: 'test.csv',
+          gisMeasure: 'infected',
+          choroplethConfig,
+          sliderConfig: {},
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+
+    fireEvent.click(getByText('feature1').closest('button'));
+
+    await findByTestId('map-container');
+    const topLevelButton = getByText('Top Level').closest('button');
+    fireEvent.click(topLevelButton);
+
+    await findByTestId('map-container');
+
+    expect(api.getAggregatedData).toHaveBeenCalledWith('test.csv', ['regionId'], {
+      infected: 'sum',
+    });
+    expect(api.getAggregatedGeoJson).toHaveBeenCalledWith('mapLayer.geoJson', null);
+  });
   it('should rerender when prop value changes', async () => {
     api.getData.mockImplementation((data) => {
       if (data === 'test.csv')
@@ -358,9 +487,11 @@ describe('Choropleth', () => {
 
   it('should call apis to fetch level2 data and mapLayer on click of feature', async () => {
     api.getAggregatedGeoJson.mockImplementation(() => Promise.resolve({ data: mockGeoJson }));
-    api.getAggregatedData.mockImplementation(() => Promise.resolve({
+    api.getAggregatedData.mockImplementation(() =>
+      Promise.resolve({
         data: { regionId: [1, 2, 3], infected: [2, 4, 6], regionId2: [1, 2, 3] },
-      }));
+      }),
+    );
 
     const choroplethConfig = {
       choroplethType: 'drillDown',

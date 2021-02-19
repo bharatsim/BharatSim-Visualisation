@@ -10,7 +10,7 @@ exports[`Choropleth should create a choropleth component 1`] = `
       data-testid="map-container"
     >
       <div
-        class="MuiBox-root MuiBox-root-5"
+        class="MuiBox-root MuiBox-root-6"
       />
       MapContainer
       TileLayer
@@ -24,6 +24,7 @@ exports[`Choropleth should create a choropleth component 1`] = `
       ScaleControl
       ColorScaleLegend
       {"scale":{"0":"#FDF1D9","1":"#D3501E","0.5":"#F7C75C"}}
+      ZoomControl
     </div>
   </div>
 </div>

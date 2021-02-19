@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DrillDownNavBreadcrumbs /> should match snapshot 1`] = `
+<div>
+  <nav
+    aria-label="breadcrumb"
+    class="MuiTypography-root MuiBreadcrumbs-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    style="z-index: 23;"
+  >
+    <ol
+      class="MuiBreadcrumbs-ol"
+    >
+      <li
+        class="MuiBreadcrumbs-li"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text WithStyles(ForwardRef(Button))-text-1 MuiButton-textSizeSmall MuiButton-sizeSmall"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            top level
+          </span>
+        </button>
+      </li>
+      <li
+        aria-hidden="true"
+        class="MuiBreadcrumbs-separator"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+          />
+        </svg>
+      </li>
+      <li
+        class="MuiBreadcrumbs-li"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text WithStyles(ForwardRef(Button))-text-1 MuiButton-textSizeSmall MuiButton-sizeSmall"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            level 2
+          </span>
+        </button>
+      </li>
+      <li
+        aria-hidden="true"
+        class="MuiBreadcrumbs-separator"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+          />
+        </svg>
+      </li>
+      <li
+        class="MuiBreadcrumbs-li"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle2 WithStyles(ForwardRef(Typography))-subtitle2-2"
+        >
+          level 3
+        </h6>
+      </li>
+    </ol>
+  </nav>
+</div>
+`;
+
+exports[`<DrillDownNavBreadcrumbs /> should not create button for last element 1`] = `
+<li
+  class="MuiBreadcrumbs-li"
+>
+  <h6
+    class="MuiTypography-root MuiTypography-subtitle2 WithStyles(ForwardRef(Typography))-subtitle2-4"
+  >
+    level 3
+  </h6>
+</li>
+`;

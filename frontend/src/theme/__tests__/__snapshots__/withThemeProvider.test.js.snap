@@ -260,6 +260,21 @@ exports[`withThemeProvider HOC should match snapshot 1`] = `
           "color": "rgba(0, 0, 0, 0.26)"
         }
       }
+    },
+    "MuiBreadcrumbs": {
+      "root": {
+        "color": "#70D2FF"
+      },
+      "separator": {
+        "marginLeft": 0,
+        "marginRight": 0,
+        "color": "#594ab7"
+      },
+      "li": {
+        "height": 24,
+        "display": "flex",
+        "alignItems": "center"
+      }
     }
   },
   "palette": {
