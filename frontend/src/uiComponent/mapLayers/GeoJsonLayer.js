@@ -9,16 +9,16 @@ import {
   zoomToFeature,
 } from '../../utils/ChoroplethUtil';
 
-function renderToolTip(feature, idDataMap, measureName, mapLayerIdName, maxOfMeasure) {
+function renderToolTip(feature, idDataMap, measureName, mapLayerIdName, sumOfValues) {
   const measureValue = idDataMap[feature.properties[mapLayerIdName]];
-  const measureValueInPercentile = ((measureValue / maxOfMeasure) * 100).toFixed(2);
+  const measureValueInPercentage = ((measureValue / sumOfValues) * 100).toFixed(2);
   return `
       <div>
          <h5 style='margin:0;text-align: center'>
             ${mapLayerIdName}: ${feature.properties[mapLayerIdName]}
          </h5>
          <span>${measureName}: ${measureValue}</span><br />          
-         <span>${measureName} in % of max: ${measureValueInPercentile}%</span>          
+         <span>${measureValueInPercentage}% of total ${measureName}</span>  
       </div>
     `;
 }
@@ -35,7 +35,9 @@ function GeoJsonLayer({
   const map = useMap();
   const geoJSONRef = useRef();
 
-  const maxOfMeasure = Math.max(...Object.values(idDataMap));
+  const sumOfValues = Object.values(idDataMap).reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+  );
 
   function onEachFeature(feature, layer) {
     const popupContent = renderToolTip(
@@ -43,7 +45,7 @@ function GeoJsonLayer({
       idDataMap,
       measureName,
       mapLayerIdName,
-      maxOfMeasure,
+      sumOfValues,
     );
     layer.bindTooltip(popupContent);
     layer.on({
@@ -53,7 +55,7 @@ function GeoJsonLayer({
     });
   }
 
-  const getGeoJsonStyle = geoJSONStyle(idDataMap, mapLayerIdName, maxOfMeasure, scale);
+  const getGeoJsonStyle = geoJSONStyle(idDataMap, mapLayerIdName, sumOfValues, scale);
   return (
     <>
       <GeoJSON
