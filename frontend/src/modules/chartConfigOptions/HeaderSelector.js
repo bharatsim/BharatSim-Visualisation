@@ -37,11 +37,12 @@ function HeaderSelector({
   border,
   disabled,
   helperText,
+  defaultValue,
 }) {
   const classes = useStyles();
   const { errors, control, setValue, defaultValues } = useFormContext();
   const error = errors[configKey] || {};
-  const defaultValue = defaultValues[configKey] || '';
+  const initialValue = defaultValue || defaultValues[configKey] || '';
   return (
     <Box>
       <Box mb={1} pl={2}>
@@ -62,7 +63,7 @@ function HeaderSelector({
           disabled={disabled}
           data-testid={id}
           setValue={setValue}
-          defaultValue={defaultValue}
+          defaultValue={initialValue}
         />
       </Box>
     </Box>
@@ -73,6 +74,7 @@ HeaderSelector.defaultProps = {
   border: true,
   disabled: false,
   helperText: '',
+  defaultValue: '',
 };
 
 HeaderSelector.propTypes = {
@@ -86,6 +88,7 @@ HeaderSelector.propTypes = {
   label: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
   border: PropTypes.bool,
   disabled: PropTypes.bool,
   helperText: PropTypes.string,

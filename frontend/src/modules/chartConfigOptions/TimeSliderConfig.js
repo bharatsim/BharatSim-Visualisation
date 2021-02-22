@@ -33,8 +33,16 @@ const useStyles = makeStyles((theme) => {
 
 function TimeSliderConfig({ headers, configKey }) {
   const classes = useStyles();
-  const { errors: formErrors, control, watch, register, setValue } = useFormContext();
+  const {
+    errors: formErrors,
+    control,
+    watch,
+    register,
+    setValue,
+    defaultValues: formDefaultValues,
+  } = useFormContext();
   const errors = formErrors[configKey] || { [timeSliderConfig.TIME_METRICS]: {} };
+  const defaultValues = formDefaultValues[configKey] || {};
 
   const showSliderConfig = watch(`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`);
   const selectedIntervalStrategy = watch(`${configKey}.${timeSliderConfig.STRATEGY}`);
@@ -68,6 +76,7 @@ function TimeSliderConfig({ headers, configKey }) {
                 name={`${configKey}.${timeSliderConfig.TIME_METRICS}`}
                 error={errors[timeSliderConfig.TIME_METRICS]}
                 setValue={setValue}
+                defaultValue={defaultValues[timeSliderConfig.TIME_METRICS]}
               />
             </Box>
           </Box>

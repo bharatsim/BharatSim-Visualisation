@@ -14,6 +14,7 @@ import TimeSlider from '../../../uiComponent/TimeSlider';
 import { transformChoroplethData } from '../../../utils/helper';
 import { choroplethTypes } from '../../../constants/geoMap';
 import DrillDownNavBreadcrumbs from '../../../uiComponent/DrillDownNavBreadcrumbs';
+import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
 
 const useStyles = makeStyles((theme) => ({
   fullWidthHeight: { height: '100%', width: '100%' },
@@ -53,6 +54,11 @@ function Choropleth({ config }) {
   const [timeSliderValue, setTimeSliderValue] = useState(1);
 
   const { mapLayer, mapLayerId, dataLayerId, referenceId } = mapLayerConfig[drillDownLevel];
+
+  const mapLayerConfigDep = useDeepCompareMemoize(mapLayerConfig);
+  useEffect(() => {
+    setDrillDownLevel(0);
+  }, [mapLayerConfigDep]);
 
   useEffect(() => {
     fetchAllData();

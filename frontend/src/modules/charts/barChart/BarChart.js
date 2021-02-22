@@ -5,6 +5,7 @@ import { getYaxisNames, trasformDataForChart } from '../utils';
 import { api } from '../../../utils/api';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
+import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
 
 const options = { maintainAspectRatio: false, responsive: true };
 
@@ -19,6 +20,8 @@ function BarChart({ config }) {
     stopLoaderAfterError,
     stopLoaderAfterSuccess,
   } = useLoader();
+
+  const yAxisDeps = useDeepCompareMemoize(yAxis);
 
   async function fetchData() {
     startLoader();
@@ -35,7 +38,7 @@ function BarChart({ config }) {
 
   useEffect(() => {
     fetchData();
-  }, [xColumn, ...yColumns]);
+  }, [xColumn, yAxisDeps]);
 
   const transformedData = useMemo(
     () => (fetchedData ? trasformDataForChart(fetchedData, xColumn, yColumns) : {}),

@@ -46,7 +46,7 @@ function ChoroplethConfigs({ headers, configKey }) {
   const errors = formErrors[configKey] || { mapLayerConfig: [] };
   const defaultValues = formDefaultValues[configKey] || emptyFormFieldValue;
   const choroplethType = watch(`${configKey}.${choroplethConfigTypes.CHOROPLETH_TYPE}`);
-
+  console.log(defaultValues[choroplethConfigTypes.MAP_LAYER_CONFIG][0]);
   return (
     <Box>
       <Box pl={2} className={classes.radioButtonContainer}>
@@ -71,7 +71,7 @@ function ChoroplethConfigs({ headers, configKey }) {
           configKey={`${configKey}.${choroplethConfigTypes.MAP_LAYER_CONFIG}`}
           control={control}
           setValue={setValue}
-          defultValues={defaultValues[choroplethConfigTypes.MAP_LAYER_CONFIG]}
+          defaultValues={defaultValues[choroplethConfigTypes.MAP_LAYER_CONFIG]}
         />
       ) : (
         <ChoroplethMapLayerConfig
@@ -81,7 +81,7 @@ function ChoroplethConfigs({ headers, configKey }) {
           configKey={`${configKey}.${choroplethConfigTypes.MAP_LAYER_CONFIG}.[0]`}
           headers={headers}
           watch={watch}
-          defultValues={defaultValues[choroplethConfigTypes.MAP_LAYER_CONFIG][0]}
+          defaultValues={defaultValues[choroplethConfigTypes.MAP_LAYER_CONFIG][0]}
         />
       )}
     </Box>

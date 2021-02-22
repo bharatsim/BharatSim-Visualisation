@@ -6,6 +6,7 @@ import { api } from '../../../utils/api';
 import { getYaxisNames, trasformDataForChart } from '../utils';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
+import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
 
 function LineChart({ config }) {
   const { xAxis: xColumn, yAxis, dataSource } = config;
@@ -32,9 +33,11 @@ function LineChart({ config }) {
       });
   }
 
+  const yAxisDeps = useDeepCompareMemoize(yAxis);
+
   useEffect(() => {
     fetchData();
-  }, [xColumn, ...yColumns]);
+  }, [xColumn, yAxisDeps]);
 
   const transformedData = useMemo(
     () => (fetchedData ? trasformDataForChart(fetchedData, xColumn, yColumns) : {}),
