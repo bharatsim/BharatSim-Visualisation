@@ -29,7 +29,7 @@ const ComponentWithProvider = withProjectLayout(
   withRouter(withThemeProvider(ChoroplethMapLayerConfig)),
 );
 
-const TestForChoroplethMapLayerConfig = ({ onSubmit, shouldShowReferenceIdConfig, isEditMode }) => {
+const TestForChoroplethMapLayerConfig = ({ onSubmit, shouldShowReferenceIdConfig, isEditMode,levelIndex }) => {
   const form = useForm({ mode: 'onChange' });
   const { control, errors, handleSubmit, watch } = form;
   const props = {
@@ -41,6 +41,7 @@ const TestForChoroplethMapLayerConfig = ({ onSubmit, shouldShowReferenceIdConfig
     configKey: 'mapLayerConfig',
     isEditMode,
     shouldShowReferenceIdConfig: shouldShowReferenceIdConfig || false,
+    levelIndex: levelIndex || 0,
   };
   const methods = { ...form, defaultValues: {}, isEditMode };
   return (
@@ -93,6 +94,21 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     await findByText('select map layer');
 
     expect(getByText('select reference id')).toBeInTheDocument();
+  });
+
+  it('should show reference id selected dropdown with title Reference ID for Level 2', async () => {
+    const renderComponent = render(
+      <TestForChoroplethMapLayerConfig
+        onSubmit={jest.fn()}
+        shouldShowReferenceIdConfig
+        levelIndex={2}
+      />,
+    );
+    const { findByText, getByText } = renderComponent;
+
+    await findByText('select map layer');
+
+    expect(getByText('Reference ID for Level 2')).toBeInTheDocument();
   });
 
   it('should disable map layer id and data layer id if map layer is not selected', async () => {

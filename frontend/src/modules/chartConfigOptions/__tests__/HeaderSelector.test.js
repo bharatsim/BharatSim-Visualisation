@@ -4,7 +4,7 @@ import { act, render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import ChartConfigDropdown from '../ChartConfigDropdown';
+import HeaderSelector from '../HeaderSelector';
 
 const TestForm = ({ onSubmit }) => {
   const form = useForm({ mode: 'onChange' });
@@ -24,14 +24,14 @@ const TestForm = ({ onSubmit }) => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ChartConfigDropdown {...props} />
+        <HeaderSelector {...props} />
         <button type="submit">submit</button>
       </form>
     </FormProvider>
   );
 };
 
-describe('<ChartConfigDropdown />', () => {
+describe('<HeaderSelector />', () => {
   const FormForChartConfigDropdown = withThemeProvider(TestForm);
   it('should call setConfig callback after value change', async () => {
     const onSubmit = jest.fn();

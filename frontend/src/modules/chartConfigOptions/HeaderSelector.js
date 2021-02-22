@@ -22,10 +22,22 @@ const useStyles = makeStyles((theme) => {
       border: '1px solid',
       borderRadius: theme.spacing(1),
     },
+    caption: {
+      color: theme.palette.text.secondary,
+    },
   };
 });
 
-function ChartConfigDropdown({ headers, configKey, label, title, id, border, disabled }) {
+function HeaderSelector({
+  headers,
+  configKey,
+  label,
+  title,
+  id,
+  border,
+  disabled,
+  helperText,
+}) {
   const classes = useStyles();
   const { errors, control, setValue, defaultValues } = useFormContext();
   const error = errors[configKey] || {};
@@ -34,6 +46,9 @@ function ChartConfigDropdown({ headers, configKey, label, title, id, border, dis
     <Box>
       <Box mb={1} pl={2}>
         <Typography variant="subtitle2">{title}</Typography>
+        <Typography variant="caption" classes={{ caption: classes.caption }}>
+          {helperText}
+        </Typography>
       </Box>
       <Box className={`${classes.fieldContainer} ${border ? classes.border : ''}`}>
         <ControlledDropDown
@@ -54,12 +69,13 @@ function ChartConfigDropdown({ headers, configKey, label, title, id, border, dis
   );
 }
 
-ChartConfigDropdown.defaultProps = {
+HeaderSelector.defaultProps = {
   border: true,
   disabled: false,
+  helperText: '',
 };
 
-ChartConfigDropdown.propTypes = {
+HeaderSelector.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -72,6 +88,7 @@ ChartConfigDropdown.propTypes = {
   id: PropTypes.string.isRequired,
   border: PropTypes.bool,
   disabled: PropTypes.bool,
+  helperText: PropTypes.string,
 };
 
-export default ChartConfigDropdown;
+export default HeaderSelector;

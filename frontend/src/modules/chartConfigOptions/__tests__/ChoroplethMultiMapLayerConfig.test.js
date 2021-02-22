@@ -63,7 +63,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    expect(getByText('Drill down - Top Level')).toBeInTheDocument();
+    expect(getByText('Drill down - Level 1 (Top Level)')).toBeInTheDocument();
   });
 
   it('should not add level if edit mode is on', async () => {

@@ -3,15 +3,15 @@ import React from 'react';
 import YAxisChartConfig from '../modules/chartConfigOptions/YAxisChartConfig';
 import { chartConfigOptionTypes } from '../constants/chartConfigOptionTypes';
 import GeoDimensionsConfig from '../modules/chartConfigOptions/GeoDimensionsConfig';
-import ChartConfigDropdown from '../modules/chartConfigOptions/ChartConfigDropdown';
+import HeaderSelector from '../modules/chartConfigOptions/HeaderSelector';
 import TimeSliderConfig from '../modules/chartConfigOptions/TimeSliderConfig';
-import ChoroplethConfigs from '../modules/chartConfigOptions/CholoroplethConfigs';
+import ChoroplethConfigs from '../modules/chartConfigOptions/ChoroplethConfigs';
 import MapLayerSelector from '../modules/chartConfigOptions/MapLayerSelector';
 
 const chartConfigOptions = {
   [chartConfigOptionTypes.X_AXIS]: {
     component: ({ headers }) => (
-      <ChartConfigDropdown
+      <HeaderSelector
         headers={headers}
         id="x-axis-dropdown"
         label="select x axis"
@@ -38,7 +38,7 @@ const chartConfigOptions = {
 
   [chartConfigOptionTypes.GEO_METRIC_SERIES]: {
     component: ({ headers }) => (
-      <ChartConfigDropdown
+      <HeaderSelector
         headers={headers}
         id="dropdown-geo-metric-series"
         label="select metric"
@@ -52,7 +52,7 @@ const chartConfigOptions = {
   },
   [chartConfigOptionTypes.GIS_REGION_ID]: {
     component: ({ headers }) => (
-      <ChartConfigDropdown
+      <HeaderSelector
         headers={headers}
         id="gis-region-id"
         label="select region id"
@@ -63,7 +63,7 @@ const chartConfigOptions = {
   },
   [chartConfigOptionTypes.GIS_MEASURE]: {
     component: ({ headers }) => (
-      <ChartConfigDropdown
+      <HeaderSelector
         headers={headers}
         id="gis-measure"
         label="select measure"

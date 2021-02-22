@@ -5,7 +5,7 @@ import { fireEvent } from '@testing-library/dom';
 import { api } from '../../../utils/api';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import CholoroplethConfigs from '../CholoroplethConfigs';
+import ChoroplethConfigs from '../ChoroplethConfigs';
 
 jest.mock('../../../utils/api', () => ({
   api: {
@@ -24,9 +24,9 @@ jest.mock('../../../utils/api', () => ({
   },
 }));
 
-const ComponentWithProvider = withProjectLayout(withRouter(withThemeProvider(CholoroplethConfigs)));
+const ComponentWithProvider = withProjectLayout(withRouter(withThemeProvider(ChoroplethConfigs)));
 
-const TestForChoroplethConfigs = ({ onSubmit, isEditMode }) => {
+const TestForChoroplethConfigs = ({ onSubmit, isEditMode,leveIndex }) => {
   const form = useForm({ mode: 'onChange' });
   const { handleSubmit } = form;
   const props = {
@@ -37,6 +37,7 @@ const TestForChoroplethConfigs = ({ onSubmit, isEditMode }) => {
     ],
     configKey: 'choroplethConfig',
     isEditMode,
+    leveIndex,
   };
   const method = { ...form, isEditMode, defaultValues: {} };
   return (
@@ -56,10 +57,10 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    expect(queryByText('Drill down - Top Level')).toBeNull();
+    expect(queryByText('Drill down - Level 1 (Top Level)')).toBeNull();
   });
 
-  it('should show drilldown choropleth config on switch to drill down', async () => {
+  it('should show drill down choropleth config on switch to drill down', async () => {
     const renderComponent = render(<TestForChoroplethConfigs onSubmit={jest.fn()} />);
     const { findByText, getByText, getAllByRole } = renderComponent;
 
@@ -71,7 +72,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    expect(getByText('Drill down - Top Level')).toBeInTheDocument();
+    expect(getByText('Drill down - Level 1 (Top Level)')).toBeInTheDocument();
   });
 
   it('should disable radio buttons in edit config mode', async () => {

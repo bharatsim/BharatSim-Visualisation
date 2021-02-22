@@ -280,7 +280,7 @@ describe('Choropleth', () => {
 
     await findByTestId('map-container');
 
-    expect(getByText('Top Level')).toBeInTheDocument();
+    expect(getByText('Level 1')).toBeInTheDocument();
   });
 
   it('should show breadcrumbs for Top level and  level 2', async () => {
@@ -325,7 +325,7 @@ describe('Choropleth', () => {
 
     await findByTestId('map-container');
 
-    expect(getByText('Top Level')).toBeInTheDocument();
+    expect(getByText('Level 1')).toBeInTheDocument();
     expect(getByText('Level 2')).toBeInTheDocument();
   });
 
@@ -370,7 +370,7 @@ describe('Choropleth', () => {
     fireEvent.click(getByText('feature1').closest('button'));
 
     await findByTestId('map-container');
-    const topLevelButton = getByText('Top Level').closest('button');
+    const topLevelButton = getByText('Level 1').closest('button');
     fireEvent.click(topLevelButton);
 
     await findByTestId('map-container');

@@ -4,7 +4,7 @@ import { Box, makeStyles, Typography } from '@material-ui/core';
 import { useFormContext } from 'react-hook-form';
 
 import { geoDimensionsField } from '../../constants/geoMap';
-import ChartConfigDropdown from './ChartConfigDropdown';
+import HeaderSelector from './HeaderSelector';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -30,7 +30,7 @@ function GeoDimensionsConfig({ headers, configKey }) {
         <Typography variant="subtitle2">Geo Dimension</Typography>
       </Box>
       <Box className={classes.fieldContainer}>
-        <ChartConfigDropdown
+        <HeaderSelector
           id="latitude"
           key="dropdown-latitude"
           label="select latitude"
@@ -41,7 +41,7 @@ function GeoDimensionsConfig({ headers, configKey }) {
           error={errors[geoDimensionsField.LAT]}
           border={false}
         />
-        <ChartConfigDropdown
+        <HeaderSelector
           id="longitude"
           label="select longitude"
           key="dropdown-longitude"

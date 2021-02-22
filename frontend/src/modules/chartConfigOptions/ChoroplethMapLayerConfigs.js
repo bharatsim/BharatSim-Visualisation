@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import DatasourceSelector from '../dashboard/dashboardConfigSelector/DatasourceSelector';
 import { shapeFileFilter } from '../../utils/helper';
-import HeadersSelector from './ChartConfigDropdown';
+import HeadersSelector from './HeaderSelector';
 import LoaderOrError from '../loaderOrError/LoaderOrError';
 import { api } from '../../utils/api';
 import useLoader, { loaderStates } from '../../hook/useLoader';
@@ -31,6 +31,7 @@ function ChoroplethMapLayerConfig({
   configKey,
   watch,
   shouldShowReferenceIdConfig,
+  levelIndex,
   defaultValues,
 }) {
   const classes = useStyles();
@@ -118,11 +119,12 @@ function ChoroplethMapLayerConfig({
               headers={geoJsonProperties || []}
               control={control}
               id="reference id"
-              title="Above Map Layer Reference ID"
+              title={`Reference ID for Level ${levelIndex}`}
               configKey={`${configKey}.${choroplethConfigTypes.REFERENCE_ID}`}
               border={false}
               disabled={!dataSourceId}
               error={errors[choroplethConfigTypes.REFERENCE_ID]}
+              helperText="Select the field to link the current drill down level with the preceding level."
               defaultValue={defaultValues[choroplethConfigTypes.REFERENCE_ID]}
             />
           )}
@@ -142,6 +144,7 @@ ChoroplethMapLayerConfig.defaultProps = {
     dataLayerId: '',
     referenceId: '',
   },
+  levelIndex: undefined,
 };
 
 ChoroplethMapLayerConfig.propTypes = {
@@ -158,6 +161,7 @@ ChoroplethMapLayerConfig.propTypes = {
   isEditMode: PropTypes.bool,
   shouldShowReferenceIdConfig: PropTypes.bool,
   watch: PropTypes.func.isRequired,
+  levelIndex: PropTypes.number,
 };
 
 export default ChoroplethMapLayerConfig;

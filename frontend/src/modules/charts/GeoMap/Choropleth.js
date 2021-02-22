@@ -95,7 +95,7 @@ function Choropleth({ config }) {
     .slice(0, drillDownLevel + 1)
     .map((key, index) => {
       return {
-        label: index === 0 ? 'Top Level' : `Level ${index + 1}`,
+        label: `Level ${index + 1}`,
         onClick: () => {
           const levelFeatureId = levelFeatureMap[key];
           setDrillDownLevel(index);

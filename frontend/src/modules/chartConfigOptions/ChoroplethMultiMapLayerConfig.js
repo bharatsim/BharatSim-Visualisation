@@ -46,36 +46,39 @@ function ChoroplethMultiMapLayerConfig({ control, configKey, errors, isEditMode,
 
   return (
     <>
-      {fields.map((field, index) => (
-        <Box className={classes.configContainer} key={field.id}>
-          <Box p={2} className={classes.configHeaderContainer}>
-            <Typography variant="subtitle2">
-              Drill down - 
-              {' '}
-              {index === 0 ? 'Top Level' : `Level ${index + 1}`}
-            </Typography>
-            {fields.length > 1 && index === fields.length - 1 && (
-              <IconButton
-                onClick={() => remove(index)}
-                size="small"
-                data-testid={`delete-level-${index + 1}`}
-              >
-                <Delete />
-              </IconButton>
-            )}
+      {fields.map((field, index) => {
+        const levelIndex = index + 1;
+        return (
+          <Box className={classes.configContainer} key={field.id}>
+            <Box p={2} className={classes.configHeaderContainer}>
+              <Typography variant="subtitle2">
+                Drill down -
+                {' '}
+                {index === 0 ? 'Level 1 (Top Level)' : `Level ${levelIndex}`}
+              </Typography>
+              {fields.length > 1 && index === fields.length - 1 && (
+                <IconButton
+                  onClick={() => remove(index)}
+                  size="small"
+                  data-testid={`delete-level-${levelIndex}`}
+                >
+                  <Delete />
+                </IconButton>
+              )}
+            </Box>
+            <ChoroplethMapLayerConfig
+              control={control}
+              isEditMode={isEditMode}
+              errors={errors[index]}
+              configKey={`${configKey}.[${index}]`}
+              headers={headers}
+              watch={watch}
+              shouldShowReferenceIdConfig={index !== 0}
+              levelIndex={index}
+            defaultValues={field} />
           </Box>
-          <ChoroplethMapLayerConfig
-            control={control}
-            isEditMode={isEditMode}
-            errors={errors[index]}
-            configKey={`${configKey}.[${index}]`}
-            headers={headers}
-            watch={watch}
-            shouldShowReferenceIdConfig={index !== 0}
-            defaultValues={field}
-          />
-        </Box>
-      ))}
+        );
+      })}
       <Box className={classes.addLevelButtonContainer}>
         <Button
           variant="contained"
