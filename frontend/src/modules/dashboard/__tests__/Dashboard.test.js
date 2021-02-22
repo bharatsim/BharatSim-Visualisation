@@ -280,6 +280,7 @@ describe('<Dashboard />', () => {
       });
 
       const applyButton = getByText('Apply').closest('button');
+
       await waitFor(() => expect(applyButton).not.toBeDisabled());
 
       await act(async () => {

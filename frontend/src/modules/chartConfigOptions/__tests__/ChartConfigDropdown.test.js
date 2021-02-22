@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { act, render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import { selectDropDownOption } from '../../../testUtil';
@@ -7,7 +7,8 @@ import withThemeProvider from '../../../theme/withThemeProvider';
 import ChartConfigDropdown from '../ChartConfigDropdown';
 
 const TestForm = ({ onSubmit }) => {
-  const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
+  const form = useForm({ mode: 'onChange' });
+  const { handleSubmit } = form;
   const props = {
     id: 'gis-measure',
     label: 'select measure',
@@ -19,11 +20,14 @@ const TestForm = ({ onSubmit }) => {
     ],
     configKey: 'gisMeasure',
   };
+  const methods = { ...form, defaultValues: {} };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <ChartConfigDropdown {...props} control={control} error={errors[props.configKey]} />
-      <button type="submit">submit</button>
-    </form>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <ChartConfigDropdown {...props} />
+        <button type="submit">submit</button>
+      </form>
+    </FormProvider>
   );
 };
 

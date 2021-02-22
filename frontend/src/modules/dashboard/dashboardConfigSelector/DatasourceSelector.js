@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { useFormContext } from 'react-hook-form';
 import { Box, Typography } from '@material-ui/core';
+
 import { api } from '../../../utils/api';
 import { convertObjectArrayToOptionStructure } from '../../../utils/helper';
 import { projectLayoutContext } from '../../../contexts/projectLayoutContext';
@@ -12,11 +14,9 @@ import ControlledDropDown from '../../../uiComponent/ControlledDropdown';
 
 function DatasourceSelector({
   name,
-  control,
   disabled,
   defaultValue,
   filterDatasource,
-  error,
   helperText,
   noDataSourcePresentMessage,
   header,
@@ -24,6 +24,8 @@ function DatasourceSelector({
   id,
 }) {
   const { selectedDashboardMetadata, projectMetadata } = useContext(projectLayoutContext);
+  const { control, setValue, errors } = useFormContext();
+  const error = errors[name] || {};
   const { _id: selectedDashboardId } = selectedDashboardMetadata;
   const {
     startLoader,
@@ -87,6 +89,7 @@ function DatasourceSelector({
             defaultValue={defaultValue}
             error={error}
             helperText={helperText}
+            setValue={setValue}
           />
         </>
       ) : (
@@ -102,12 +105,11 @@ function DatasourceSelector({
 }
 
 DatasourceSelector.defaultProps = {
-  disabled: false,
   defaultValue: '',
   filterDatasource: null,
   noDataSourcePresentMessage: '',
-  error: {},
   helperText: '',
+  disabled: false,
 };
 
 DatasourceSelector.propTypes = {
@@ -115,13 +117,11 @@ DatasourceSelector.propTypes = {
   header: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  control: PropTypes.shape({}).isRequired,
   disabled: PropTypes.bool,
   defaultValue: PropTypes.string,
   helperText: PropTypes.string,
   filterDatasource: PropTypes.func,
   noDataSourcePresentMessage: PropTypes.string,
-  error: PropTypes.shape({}),
 };
 
 export default DatasourceSelector;

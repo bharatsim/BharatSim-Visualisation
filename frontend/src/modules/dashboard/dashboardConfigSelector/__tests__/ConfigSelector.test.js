@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { fireEvent } from '@testing-library/dom';
 import ConfigSelector from '../ConfigSelector';
 import withThemeProvider from '../../../../theme/withThemeProvider';
@@ -25,22 +26,45 @@ jest.mock('../../../../config/chartConfigOptions', () => ({
   },
 }));
 
+const ConfigSelectorWithProvider = withThemeProvider(ConfigSelector);
+
+const TestForConfigSelector = ({ onSubmit, isEditMode, chartType, resetValue, dataSourceId }) => {
+  const form = useForm({ mode: 'onChange', defaultValues: { dataSource: dataSourceId } });
+  const { handleSubmit, reset } = form;
+
+  useEffect(() => {
+    reset({ dataSource: dataSourceId });
+  }, [dataSourceId]);
+
+  const methods = {
+    ...form,
+    defaultValues: { dataSource: dataSourceId },
+    isEditMode,
+    resetValue,
+    chartType,
+  };
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <ConfigSelectorWithProvider />
+        <button type="submit">submit</button>
+      </form>
+    </FormProvider>
+  );
+};
+
 describe('<ConfigSelector />', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  const ConfigSelectorWithTheme = withThemeProvider(ConfigSelector);
+
   it('should match snapshot for configs for line chart', async () => {
     const { container, findByText } = render(
-      <ConfigSelectorWithTheme
+      <TestForConfigSelector
         dataSourceId="datasourceID"
         chartType="lineChart"
         resetValue={jest.fn()}
-        errors={{}}
         isEditMode={false}
-        control={{}}
-        register={jest.fn()}
-        watch={jest.fn()}
       />,
     );
 
@@ -51,7 +75,7 @@ describe('<ConfigSelector />', () => {
 
   it('should call getCsvHeaders with data source id on render', async () => {
     const renderedComponent = render(
-      <ConfigSelectorWithTheme
+      <TestForConfigSelector
         dataSourceId="datasourceID"
         chartType="lineChart"
         resetValue={jest.fn()}
@@ -69,30 +93,22 @@ describe('<ConfigSelector />', () => {
 
   it('should call getCsvHeaders with data source id on rerender for data source id change', async () => {
     const { findByText, rerender } = render(
-      <ConfigSelectorWithTheme
+      <TestForConfigSelector
         dataSourceId="datasourceID"
         chartType="lineChart"
         resetValue={jest.fn()}
-        errors={{}}
         isEditMode={false}
-        control={{}}
-        register={jest.fn()}
-        watch={jest.fn()}
       />,
     );
 
     await findByText('select x axis');
 
     rerender(
-      <ConfigSelectorWithTheme
+      <TestForConfigSelector
         dataSourceId="datasourceID2"
         chartType="lineChart"
         resetValue={jest.fn()}
-        errors={{}}
         isEditMode={false}
-        control={{}}
-        register={jest.fn()}
-        watch={jest.fn()}
       />,
     );
 
@@ -104,7 +120,7 @@ describe('<ConfigSelector />', () => {
   it('should call resetValue for config of line chart', async () => {
     const resetValue = jest.fn();
     const { findByText, rerender } = render(
-      <ConfigSelectorWithTheme
+      <TestForConfigSelector
         dataSourceId="datasourceID"
         chartType="lineChart"
         resetValue={resetValue}
@@ -119,7 +135,7 @@ describe('<ConfigSelector />', () => {
     await findByText('select x axis');
 
     rerender(
-      <ConfigSelectorWithTheme
+      <TestForConfigSelector
         dataSourceId="datasourceID2"
         chartType="lineChart"
         resetValue={jest.fn()}
@@ -138,7 +154,7 @@ describe('<ConfigSelector />', () => {
 
   it('should show loader while fetching data', async () => {
     const renderedComponent = render(
-      <ConfigSelectorWithTheme
+      <TestForConfigSelector
         dataSourceId="datasourceID"
         chartType="lineChart"
         resetValue={jest.fn()}
@@ -159,7 +175,7 @@ describe('<ConfigSelector />', () => {
   it('should show error if error occur while fetching data', async () => {
     api.getCsvHeaders.mockRejectedValueOnce('error');
     const { findByText, getByText } = render(
-      <ConfigSelectorWithTheme
+      <TestForConfigSelector
         dataSourceId="datasourceID"
         chartType="lineChart"
         resetValue={jest.fn()}
@@ -179,7 +195,7 @@ describe('<ConfigSelector />', () => {
   it('should refetch data on click on retry button present on error banner', async () => {
     api.getCsvHeaders.mockRejectedValueOnce('error');
     const { findByText, getByText } = render(
-      <ConfigSelectorWithTheme
+      <TestForConfigSelector
         dataSourceId="datasourceID"
         chartType="lineChart"
         resetValue={jest.fn()}

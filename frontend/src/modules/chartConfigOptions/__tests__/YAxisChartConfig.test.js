@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { act, render } from '@testing-library/react';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { fireEvent } from '@testing-library/dom';
 
 import { selectDropDownOption } from '../../../testUtil';
@@ -14,7 +14,8 @@ const headers = [
 ];
 
 const TestForm = ({ onSubmit, isEditMode }) => {
-  const { control, errors, handleSubmit, reset } = useForm({ mode: 'onChange' });
+  const form = useForm({ mode: 'onChange' });
+  const { handleSubmit, reset } = form;
 
   const configKey = 'yAxis';
 
@@ -25,18 +26,14 @@ const TestForm = ({ onSubmit, isEditMode }) => {
       });
     }
   }, []);
-
+  const methods = { ...form, isEditMode, defaultValues: {} };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <YAxisChartConfig
-        control={control}
-        configKey={configKey}
-        headers={headers}
-        errors={errors[configKey]}
-        isEditMode={isEditMode}
-      />
-      <button type="submit">submit</button>
-    </form>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <YAxisChartConfig configKey={configKey} headers={headers} isEditMode={isEditMode} />
+        <button type="submit">submit</button>
+      </form>
+    </FormProvider>
   );
 };
 

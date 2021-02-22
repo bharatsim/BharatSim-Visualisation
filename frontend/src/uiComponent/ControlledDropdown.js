@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useController } from 'react-hook-form';
 import Dropdown from './Dropdown';
@@ -15,6 +15,7 @@ function ControlledDropDown({
   error,
   defaultValue,
   helperText,
+  setValue,
 }) {
   const {
     field: { ref, onChange, value },
@@ -24,6 +25,10 @@ function ControlledDropDown({
     rules: validations,
     defaultValue,
   });
+
+  useEffect(() => {
+    setValue(name, defaultValue);
+  }, []);
 
   return (
     <Dropdown
@@ -71,6 +76,7 @@ ControlledDropDown.propTypes = {
     }),
   ).isRequired,
   id: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
   error: PropTypes.shape({
     type: PropTypes.string,
     message: PropTypes.string,

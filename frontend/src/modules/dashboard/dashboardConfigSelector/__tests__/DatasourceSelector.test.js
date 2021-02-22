@@ -1,7 +1,7 @@
 import { act, render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import DatasourceSelector from '../DatasourceSelector';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../../testUtil';
 import { api } from '../../../../utils/api';
@@ -19,7 +19,8 @@ jest.mock('../../../../utils/api', () => ({
 }));
 
 const TestForm = ({ onSubmit, isEditMode, filter }) => {
-  const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
+  const form = useForm({ mode: 'onChange' });
+  const { control, errors, handleSubmit } = form;
   const props = {
     headers: [
       { name: 'a', type: 'number' },
@@ -28,20 +29,23 @@ const TestForm = ({ onSubmit, isEditMode, filter }) => {
     ],
     configKey: 'dataSource',
   };
+  const methods = { ...form, isEditMode };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <DatasourceSelector
-        disabled={isEditMode}
-        control={control}
-        name={props.configKey}
-        error={errors[props.configKey]}
-        header="Data Source"
-        id="dropdown-dataSources"
-        label="select data source"
-        filterDatasource={filter}
-      />
-      <button type="submit">submit</button>
-    </form>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <DatasourceSelector
+          disabled={isEditMode}
+          control={control}
+          name={props.configKey}
+          error={errors[props.configKey]}
+          header="Data Source"
+          id="dropdown-dataSources"
+          label="select data source"
+          filterDatasource={filter}
+        />
+        <button type="submit">submit</button>
+      </form>
+    </FormProvider>
   );
 };
 

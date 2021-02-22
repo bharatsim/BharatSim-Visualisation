@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Box, fade, makeStyles, Typography } from '@material-ui/core';
+import { useFormContext } from 'react-hook-form';
+
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
 import ControlledDropDown from '../../uiComponent/ControlledDropdown';
 
@@ -24,19 +25,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function ChartConfigDropdown({
-  headers,
-  configKey,
-  error,
-  control,
-  label,
-  title,
-  id,
-  border,
-  disabled,
-}) {
+function ChartConfigDropdown({ headers, configKey, label, title, id, border, disabled }) {
   const classes = useStyles();
-
+  const { errors, control, setValue, defaultValues } = useFormContext();
+  const error = errors[configKey] || {};
+  const defaultValue = defaultValues[configKey] || '';
   return (
     <Box>
       <Box mb={1} pl={2}>
@@ -53,6 +46,8 @@ function ChartConfigDropdown({
           validations={{ required: 'Required' }}
           disabled={disabled}
           data-testid={id}
+          setValue={setValue}
+          defaultValue={defaultValue}
         />
       </Box>
     </Box>
@@ -60,7 +55,6 @@ function ChartConfigDropdown({
 }
 
 ChartConfigDropdown.defaultProps = {
-  error: {},
   border: true,
   disabled: false,
 };
@@ -73,8 +67,6 @@ ChartConfigDropdown.propTypes = {
     }),
   ).isRequired,
   configKey: PropTypes.string.isRequired,
-  error: PropTypes.shape({}),
-  control: PropTypes.shape({}).isRequired,
   label: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,

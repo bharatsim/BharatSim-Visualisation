@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
+import { useFormContext } from 'react-hook-form';
+
 import chartConfigs from '../../../config/chartConfigs';
 import { api } from '../../../utils/api';
 import chartConfigOptions from '../../../config/chartConfigOptions';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
+import { chartConfigOptionTypes } from '../../../constants/chartConfigOptionTypes';
 
-function ConfigSelector({
-  dataSourceId,
-  chartType,
-  errors,
-  resetValue,
-  isEditMode,
-  control,
-  register,
-  watch,
-}) {
+function ConfigSelector() {
   const [fetchedCsvHeaders, setFetchedCsvHeaders] = useState();
+  const { chartType, resetValue, watch } = useFormContext();
+  const dataSourceId = watch(chartConfigOptionTypes.DATASOURCE, undefined);
 
   const {
     startLoader,
@@ -47,7 +42,7 @@ function ConfigSelector({
   }
 
   const { headers } = fetchedCsvHeaders || {};
-  const chartConfigProps = { headers, register, control, watch, errors, isEditMode };
+  const chartConfigProps = { headers };
   const configOptionsKeysForSelectedChart = chartConfigs[chartType].configOptions;
   function isLastConfigOption(configs, index) {
     return configs.length - index === 1;
@@ -80,16 +75,5 @@ function ConfigSelector({
     </LoaderOrError>
   );
 }
-
-ConfigSelector.propTypes = {
-  dataSourceId: PropTypes.string.isRequired,
-  chartType: PropTypes.string.isRequired,
-  resetValue: PropTypes.func.isRequired,
-  errors: PropTypes.shape({}).isRequired,
-  isEditMode: PropTypes.bool.isRequired,
-  control: PropTypes.shape({}).isRequired,
-  register: PropTypes.func.isRequired,
-  watch: PropTypes.func.isRequired,
-};
 
 export default ConfigSelector;

@@ -8,4 +8,6 @@ export const chartConfigOptionTypes = {
   GIS_MEASURE: 'gisMeasure',
   SLIDER_CONFIG: 'sliderConfig',
   CHOROPLETH_CONFIG: 'choroplethConfig',
+  DATASOURCE: 'dataSource',
+  CHART_NAME: 'chartName',
 };

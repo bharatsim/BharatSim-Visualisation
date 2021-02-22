@@ -128,7 +128,7 @@ function transformChoroplethData(ids, measure, timeMetrics, selectedTick) {
   return idMeasureMap;
 }
 
-const GISShapeLayerFileTypes = ['geojson', 'topojson', 'json'];
+const GISShapeLayerFileTypes = ['geojson'];
 
 function shapeFileFilter(dataSource) {
   return GISShapeLayerFileTypes.includes(dataSource.fileType);

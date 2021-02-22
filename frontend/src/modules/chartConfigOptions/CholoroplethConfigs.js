@@ -1,8 +1,9 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
+
 import RadioButtons from '../../uiComponent/RadioButtons';
 import ChoroplethMapLayerConfig from './ChoroplethMapLayerConfigs';
 import ChoroplethMultiMapLayerConfig from './ChoroplethMultiMapLayerConfig';
@@ -20,8 +21,30 @@ const useStyles = makeStyles({
   },
 });
 
-function ChoroplethConfigs({ headers, watch, control, errors, isEditMode, configKey }) {
+const emptyFormFieldValue = {
+  [choroplethConfigTypes.CHOROPLETH_TYPE]: choroplethTypes.SINGLE_LEVEL,
+  [choroplethConfigTypes.MAP_LAYER_CONFIG]: [
+    {
+      mapLayer: '',
+      mapLayerId: '',
+      dataLayerId: '',
+      referenceId: '',
+    },
+  ],
+};
+
+function ChoroplethConfigs({ headers, configKey }) {
   const classes = useStyles();
+  const {
+    control,
+    watch,
+    errors: formErrors,
+    isEditMode,
+    setValue,
+    defaultValues: formDefaultValues,
+  } = useFormContext();
+  const errors = formErrors[configKey] || { mapLayerConfig: [] };
+  const defaultValues = formDefaultValues[configKey] || emptyFormFieldValue;
   const choroplethType = watch(`${configKey}.${choroplethConfigTypes.CHOROPLETH_TYPE}`);
 
   return (
@@ -47,6 +70,8 @@ function ChoroplethConfigs({ headers, watch, control, errors, isEditMode, config
           headers={headers}
           configKey={`${configKey}.${choroplethConfigTypes.MAP_LAYER_CONFIG}`}
           control={control}
+          setValue={setValue}
+          defultValues={defaultValues[choroplethConfigTypes.MAP_LAYER_CONFIG]}
         />
       ) : (
         <ChoroplethMapLayerConfig
@@ -56,16 +81,12 @@ function ChoroplethConfigs({ headers, watch, control, errors, isEditMode, config
           configKey={`${configKey}.${choroplethConfigTypes.MAP_LAYER_CONFIG}.[0]`}
           headers={headers}
           watch={watch}
+          defultValues={defaultValues[choroplethConfigTypes.MAP_LAYER_CONFIG][0]}
         />
       )}
     </Box>
   );
 }
-
-ChoroplethConfigs.defaultProps = {
-  errors: { mapLayerConfig: [] },
-  isEditMode: false,
-};
 
 ChoroplethConfigs.propTypes = {
   headers: PropTypes.arrayOf(
@@ -75,10 +96,6 @@ ChoroplethConfigs.propTypes = {
     }),
   ).isRequired,
   configKey: PropTypes.string.isRequired,
-  errors: PropTypes.shape({}),
-  control: PropTypes.shape({}).isRequired,
-  isEditMode: PropTypes.bool,
-  watch: PropTypes.func.isRequired,
 };
 
 export default ChoroplethConfigs;

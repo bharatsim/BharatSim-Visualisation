@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render } from '@testing-library/react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { fireEvent } from '@testing-library/dom';
 
 import { selectDropDownOption } from '../../../testUtil';
@@ -8,7 +8,8 @@ import withThemeProvider from '../../../theme/withThemeProvider';
 import GeoDimensionsConfig from '../GeoDimensionsConfig';
 
 const TestForm = ({ onSubmit }) => {
-  const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
+  const form = useForm({ mode: 'onChange' });
+  const { handleSubmit } = form;
   const props = {
     headers: [
       { name: 'a', type: 'number' },
@@ -18,16 +19,14 @@ const TestForm = ({ onSubmit }) => {
 
     configKey: 'geoDimensions',
   };
+  const methods = { ...form, defaultValues: {} };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <GeoDimensionsConfig
-        control={control}
-        headers={props.headers}
-        configKey={props.configKey}
-        errors={errors[props.configKey]}
-      />
-      <button type="submit">submit</button>
-    </form>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <GeoDimensionsConfig headers={props.headers} configKey={props.configKey} />
+        <button type="submit">submit</button>
+      </form>
+    </FormProvider>
   );
 };
 

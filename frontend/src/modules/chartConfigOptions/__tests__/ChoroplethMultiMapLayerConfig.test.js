@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render } from '@testing-library/react';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { fireEvent } from '@testing-library/dom';
 import { api } from '../../../utils/api';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../testUtil';
@@ -29,7 +29,8 @@ const ComponentWithProvider = withProjectLayout(
 );
 
 const TestForChoroplethMultiMapLayerConfig = ({ onSubmit, isEditMode }) => {
-  const { control, errors, handleSubmit, watch } = useForm({ mode: 'onChange' });
+  const form = useForm({ mode: 'onChange' });
+  const { control, errors, handleSubmit, watch } = form;
   const props = {
     headers: [
       { name: 'a', type: 'number' },
@@ -39,16 +40,19 @@ const TestForChoroplethMultiMapLayerConfig = ({ onSubmit, isEditMode }) => {
     configKey: 'mapLayerConfig',
     isEditMode: isEditMode || false,
   };
+  const methods = { ...form, isEditMode, defaultValues: {} };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <ComponentWithProvider
-        {...props}
-        control={control}
-        error={errors[props.configKey]}
-        watch={watch}
-      />
-      <button type="submit">submit</button>
-    </form>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <ComponentWithProvider
+          {...props}
+          control={control}
+          error={errors[props.configKey]}
+          watch={watch}
+        />
+        <button type="submit">submit</button>
+      </form>
+    </FormProvider>
   );
 };
 

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Box, makeStyles, Typography } from '@material-ui/core';
+import { useFormContext } from 'react-hook-form';
+
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
 import { timeIntervalStrategies, timeSliderConfig } from '../../constants/sliderConfigs';
 import AntSwitch from '../../uiComponent/AntSwitch';
@@ -29,8 +31,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function TimeSliderConfig({ headers, configKey, control, watch, errors, register }) {
+function TimeSliderConfig({ headers, configKey }) {
   const classes = useStyles();
+  const { errors: formErrors, control, watch, register, setValue } = useFormContext();
+  const errors = formErrors[configKey] || { [timeSliderConfig.TIME_METRICS]: {} };
+
   const showSliderConfig = watch(`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`);
   const selectedIntervalStrategy = watch(`${configKey}.${timeSliderConfig.STRATEGY}`);
 
@@ -62,6 +67,7 @@ function TimeSliderConfig({ headers, configKey, control, watch, errors, register
                 validations={{ required: 'Required' }}
                 name={`${configKey}.${timeSliderConfig.TIME_METRICS}`}
                 error={errors[timeSliderConfig.TIME_METRICS]}
+                setValue={setValue}
               />
             </Box>
           </Box>
@@ -108,10 +114,6 @@ function TimeSliderConfig({ headers, configKey, control, watch, errors, register
   );
 }
 
-TimeSliderConfig.defaultProps = {
-  errors: { [timeSliderConfig.TIME_METRICS]: {} },
-};
-
 TimeSliderConfig.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
@@ -120,12 +122,6 @@ TimeSliderConfig.propTypes = {
     }),
   ).isRequired,
   configKey: PropTypes.string.isRequired,
-  errors: PropTypes.shape({
-    [timeSliderConfig.TIME_METRICS]: PropTypes.shape({}),
-  }),
-  control: PropTypes.shape({}).isRequired,
-  watch: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired,
 };
 
 export default TimeSliderConfig;

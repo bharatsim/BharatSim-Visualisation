@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useForm as useReactForm } from 'react-hook-form';
+import { useForm as useReactForm, FormProvider } from 'react-hook-form';
 import {
   Box,
   Button,
@@ -16,9 +16,7 @@ import DatasourceSelector from '../dashboardConfigSelector/DatasourceSelector';
 import ConfigSelector from '../dashboardConfigSelector/ConfigSelector';
 import ButtonGroup from '../../../uiComponent/ButtonGroup';
 import { useFooterStyles } from './styles';
-
-const DATASOURCE_SELECTOR_KEY = 'dataSource';
-const CHART_NAME_KEY = 'chartName';
+import { chartConfigOptionTypes } from '../../../constants/chartConfigOptionTypes';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -45,10 +43,10 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
   const footerClasses = useFooterStyles();
   const [selectedTab] = React.useState(0);
   const classes = useStyles();
-  const chartName = existingConfig[CHART_NAME_KEY] || 'Untitled Chart';
+  const chartName = existingConfig[chartConfigOptionTypes.CHART_NAME] || 'Untitled Chart';
   const reactForm = useReactForm({ mode: 'onChange', defaultValues: existingConfig });
-  const { register, handleSubmit, errors, control, watch, setValue, formState } = reactForm;
-  const selectedDatasource = watch(DATASOURCE_SELECTOR_KEY, undefined);
+  const { register, handleSubmit, watch, setValue, formState } = reactForm;
+  const selectedDatasource = watch(chartConfigOptionTypes.DATASOURCE, undefined);
 
   function isEditMode() {
     return Object.keys(existingConfig).length !== 0;
@@ -62,81 +60,80 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
     keys.forEach((key) => setValue(key, undefined));
   }
 
+  const methods = {
+    ...reactForm,
+    resetValue,
+    isEditMode: isEditMode(),
+    chartType,
+    defaultValues: existingConfig,
+  };
   return (
     <Box>
-      <form onSubmit={handleSubmit(onApplyClick)}>
-        <Box className={classes.tabContainer}>
-          <Tabs value={selectedTab} indicatorColor="primary" aria-label="disabled tabs example">
-            <Tab label="Data" classes={{ root: classes.tabRoot }} />
-          </Tabs>
-        </Box>
-        <Box className={classes.container}>
-          <Box px={2} pb={6}>
-            <Box mb={2}>
-              <Typography variant="subtitle2">Chart Name</Typography>
-            </Box>
-            <TextField
-              id={CHART_NAME_KEY}
-              data-testid={CHART_NAME_KEY}
-              label="Add chart name"
-              variant="filled"
-              classes={{ root: classes.textFieldRoot }}
-              inputProps={{ name: CHART_NAME_KEY, defaultValue: chartName }}
-              inputRef={register({ required: true })}
-            />
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onApplyClick)}>
+          <Box className={classes.tabContainer}>
+            <Tabs value={selectedTab} indicatorColor="primary" aria-label="disabled tabs example">
+              <Tab label="Data" classes={{ root: classes.tabRoot }} />
+            </Tabs>
           </Box>
-          <Divider />
-          <Box px={2} py={6}>
-            <DatasourceSelector
-              disabled={isEditMode()}
-              control={control}
-              name={DATASOURCE_SELECTOR_KEY}
-              error={errors[DATASOURCE_SELECTOR_KEY]}
-              header="Data Source"
-              id="dropdown-dataSources"
-              label="select data source"
-            />
-          </Box>
-          {selectedDatasource && (
-            <>
-              <Divider />
-              <Box pt={6}>
-                <ConfigSelector
-                  dataSourceId={selectedDatasource}
-                  isEditMode={isEditMode()}
-                  errors={errors}
-                  chartType={chartType}
-                  register={register}
-                  control={control}
-                  watch={watch}
-                  resetValue={resetValue}
-                />
+          <Box className={classes.container}>
+            <Box px={2} pb={6}>
+              <Box mb={2}>
+                <Typography variant="subtitle2">Chart Name</Typography>
               </Box>
-            </>
-          )}
-          <Box className={footerClasses.footer}>
+              <TextField
+                id={chartConfigOptionTypes.CHART_NAME}
+                data-testid={chartConfigOptionTypes.CHART_NAME}
+                label="Add chart name"
+                variant="filled"
+                classes={{ root: classes.textFieldRoot }}
+                inputProps={{ name: chartConfigOptionTypes.CHART_NAME, defaultValue: chartName }}
+                inputRef={register({ required: true })}
+              />
+            </Box>
             <Divider />
-            <Box mt={3} display="flex" justifyContent="flex-end">
-              <ButtonGroup>
-                {!isEditMode() && (
-                  <Button variant="text" size="small" onClick={backToChartType}>
-                    Back to chart type
+            <Box px={2} py={6}>
+              <DatasourceSelector
+                disabled={isEditMode()}
+                name={chartConfigOptionTypes.DATASOURCE}
+                header="Data Source"
+                id="dropdown-dataSources"
+                label="select data source"
+                defaultValue={existingConfig[chartConfigOptionTypes.DATASOURCE]}
+              />
+            </Box>
+            {selectedDatasource && (
+              <>
+                <Divider />
+                <Box pt={6}>
+                  <ConfigSelector />
+                </Box>
+              </>
+            )}
+            <Box className={footerClasses.footer}>
+              <Divider />
+              <Box mt={3} display="flex" justifyContent="flex-end">
+                <ButtonGroup>
+                  {!isEditMode() && (
+                    <Button variant="text" size="small" onClick={backToChartType}>
+                      Back to chart type
+                    </Button>
+                  )}
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    disabled={!formState.isValid}
+                  >
+                    Apply
                   </Button>
-                )}
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  disabled={!formState.isValid}
-                >
-                  Apply
-                </Button>
-              </ButtonGroup>
+                </ButtonGroup>
+              </Box>
             </Box>
           </Box>
-        </Box>
-      </form>
+        </form>
+      </FormProvider>
     </Box>
   );
 }

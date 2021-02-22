@@ -1,6 +1,7 @@
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 import { within } from '@testing-library/dom';
+
 import ChartConfigurationWizard from '../ChartConfigurationWizard';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../../testUtil';

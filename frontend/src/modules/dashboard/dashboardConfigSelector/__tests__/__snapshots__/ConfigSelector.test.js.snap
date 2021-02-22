@@ -2,33 +2,40 @@
 
 exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`] = `
 <div>
-  <div>
-    <div
-      class="MuiBox-root MuiBox-root-3"
-    >
+  <form>
+    <div>
       <div
-        class="MuiBox-root MuiBox-root-4"
+        class="MuiBox-root MuiBox-root-3"
       >
-        <div>
-          select x axis
+        <div
+          class="MuiBox-root MuiBox-root-4"
+        >
+          <div>
+            select x axis
+          </div>
         </div>
+        <hr
+          class="MuiDivider-root"
+        />
       </div>
-      <hr
-        class="MuiDivider-root"
-      />
-    </div>
-    <div
-      class="MuiBox-root MuiBox-root-5"
-    >
       <div
-        class="MuiBox-root MuiBox-root-6"
+        class="MuiBox-root MuiBox-root-5"
       >
-        <div>
-          select y axis
+        <div
+          class="MuiBox-root MuiBox-root-6"
+        >
+          <div>
+            select y axis
+          </div>
         </div>
+        
       </div>
-      
     </div>
-  </div>
+    <button
+      type="submit"
+    >
+      submit
+    </button>
+  </form>
 </div>
 `;

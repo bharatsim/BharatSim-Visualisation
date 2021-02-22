@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Box, fade, makeStyles, Typography, Button } from '@material-ui/core';
+import { Box, Button, fade, makeStyles, Typography } from '@material-ui/core';
 
-import { useFieldArray } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import plusIcon from '../../assets/images/plus.svg';
 import deleteIcon from '../../assets/images/delete.svg';
 import IconButton from '../../uiComponent/IconButton';
@@ -31,14 +31,15 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function YAxisChartConfig({ headers, control, configKey, errors, isEditMode }) {
+function YAxisChartConfig({ headers, configKey }) {
   const classes = useStyles();
-
+  const { errors: formErrors, control, isEditMode, setValue } = useFormContext();
+  const errors = formErrors[configKey] || [];
   const { fields, remove, append } = useFieldArray({ control, name: configKey });
 
   useEffect(() => {
     if (!isEditMode) {
-      append({});
+      append({ name: '' });
     }
   }, []);
 
@@ -57,6 +58,8 @@ function YAxisChartConfig({ headers, control, configKey, errors, isEditMode }) {
             name={`${configKey}.[${index}].name`}
             validations={{ required: 'Required' }}
             error={errors[index] || {}}
+            setValue={setValue}
+            defaultValue={field.name}
           />
           <IconButton onClick={() => remove(index)} data-testid={`delete-button-${index}`}>
             <img src={deleteIcon} alt="icon" />
@@ -68,7 +71,7 @@ function YAxisChartConfig({ headers, control, configKey, errors, isEditMode }) {
           variant="contained"
           color="secondary"
           size="small"
-          onClick={() => append({})}
+          onClick={() => append({ name: '' })}
           startIcon={<img src={plusIcon} alt="icon" />}
         >
           Add Metric
@@ -78,11 +81,6 @@ function YAxisChartConfig({ headers, control, configKey, errors, isEditMode }) {
   );
 }
 
-YAxisChartConfig.defaultProps = {
-  errors: [],
-  isEditMode: false,
-};
-
 YAxisChartConfig.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
@@ -90,10 +88,7 @@ YAxisChartConfig.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  errors: PropTypes.arrayOf(PropTypes.shape({})),
-  control: PropTypes.shape({}).isRequired,
   configKey: PropTypes.string.isRequired,
-  isEditMode: PropTypes.bool,
 };
 
 export default YAxisChartConfig;

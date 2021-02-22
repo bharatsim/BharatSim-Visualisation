@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Box, makeStyles, Typography } from '@material-ui/core';
+import { useFormContext } from 'react-hook-form';
+
 import { geoDimensionsField } from '../../constants/geoMap';
 import ChartConfigDropdown from './ChartConfigDropdown';
 
@@ -16,9 +17,13 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function GeoDimensionsConfig({ headers, configKey, control, errors }) {
+function GeoDimensionsConfig({ headers, configKey }) {
   const classes = useStyles();
-
+  const { errors: formErrors, control } = useFormContext();
+  const errors = formErrors[configKey] || {
+    [geoDimensionsField.LON]: {},
+    [geoDimensionsField.LAT]: {},
+  };
   return (
     <Box>
       <Box mb={1} pl={2}>
@@ -52,13 +57,6 @@ function GeoDimensionsConfig({ headers, configKey, control, errors }) {
   );
 }
 
-GeoDimensionsConfig.defaultProps = {
-  errors: {
-    [geoDimensionsField.LON]: {},
-    [geoDimensionsField.LAT]: {},
-  },
-};
-
 GeoDimensionsConfig.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
@@ -66,8 +64,6 @@ GeoDimensionsConfig.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  control: PropTypes.shape({}).isRequired,
-  errors: PropTypes.shape({}),
   configKey: PropTypes.string.isRequired,
 };
 

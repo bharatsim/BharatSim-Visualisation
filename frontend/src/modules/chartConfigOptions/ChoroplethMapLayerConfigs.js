@@ -31,6 +31,7 @@ function ChoroplethMapLayerConfig({
   configKey,
   watch,
   shouldShowReferenceIdConfig,
+  defaultValues,
 }) {
   const classes = useStyles();
   const dataSourceId = watch(`${configKey}.${choroplethConfigTypes.MAP_LAYER}`);
@@ -65,16 +66,15 @@ function ChoroplethMapLayerConfig({
     <Box>
       <Box pl={2} pb={4} pt={1}>
         <DatasourceSelector
-          isEditMode={isEditMode}
+          disable={isEditMode}
           name={`${configKey}.${choroplethConfigTypes.MAP_LAYER}`}
-          control={control}
           filterDatasource={shapeFileFilter}
           noDataSourcePresentMessage="Before we can create any GIS visualization, we‘ll need some GIS layer data."
-          error={errors[choroplethConfigTypes.MAP_LAYER]}
           header="Map Layer"
           id="gisMapLayer-dropdown"
           label="select map layer"
           helperText="file format: GeoJson, topojson"
+          defaultValue={defaultValues[choroplethConfigTypes.MAP_LAYER]}
         />
       </Box>
       <LoaderOrError message={message} loadingState={loadingState} fullWidth>
@@ -96,6 +96,7 @@ function ChoroplethMapLayerConfig({
               border={false}
               disabled={!dataSourceId}
               error={errors[choroplethConfigTypes.MAP_LAYER_ID]}
+              defaultValue={defaultValues[choroplethConfigTypes.MAP_LAYER_ID]}
             />
             <Box pt={13}>=</Box>
             <HeadersSelector
@@ -107,7 +108,8 @@ function ChoroplethMapLayerConfig({
               configKey={`${configKey}.${choroplethConfigTypes.DATA_LAYER_ID}`}
               border={false}
               disabled={!dataSourceId}
-              error={errors[choroplethConfigTypes.MAP_LAYER_ID]}
+              error={errors[choroplethConfigTypes.DATA_LAYER_ID]}
+              defaultValue={defaultValues[choroplethConfigTypes.DATA_LAYER_ID]}
             />
           </Box>
           {shouldShowReferenceIdConfig && (
@@ -121,6 +123,7 @@ function ChoroplethMapLayerConfig({
               border={false}
               disabled={!dataSourceId}
               error={errors[choroplethConfigTypes.REFERENCE_ID]}
+              defaultValue={defaultValues[choroplethConfigTypes.REFERENCE_ID]}
             />
           )}
         </Box>
@@ -133,7 +136,14 @@ ChoroplethMapLayerConfig.defaultProps = {
   errors: {},
   isEditMode: false,
   shouldShowReferenceIdConfig: false,
+  defaultValues: {
+    mapLayer: '',
+    mapLayerId: '',
+    dataLayerId: '',
+    referenceId: '',
+  },
 };
+
 ChoroplethMapLayerConfig.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
@@ -143,6 +153,7 @@ ChoroplethMapLayerConfig.propTypes = {
   ).isRequired,
   configKey: PropTypes.string.isRequired,
   errors: PropTypes.shape({}),
+  defaultValues: PropTypes.shape({}),
   control: PropTypes.shape({}).isRequired,
   isEditMode: PropTypes.bool,
   shouldShowReferenceIdConfig: PropTypes.bool,

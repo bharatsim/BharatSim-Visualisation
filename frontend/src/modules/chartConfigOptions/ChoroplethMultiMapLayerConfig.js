@@ -72,6 +72,7 @@ function ChoroplethMultiMapLayerConfig({ control, configKey, errors, isEditMode,
             headers={headers}
             watch={watch}
             shouldShowReferenceIdConfig={index !== 0}
+            defaultValues={field}
           />
         </Box>
       ))}
@@ -80,7 +81,9 @@ function ChoroplethMultiMapLayerConfig({ control, configKey, errors, isEditMode,
           variant="contained"
           color="secondary"
           size="small"
-          onClick={() => append({})}
+          onClick={() => {
+            append({ mapLayer: '', mapLayerId: '', dataLayerId: '', referenceId: '' });
+          }}
           startIcon={<img src={plusIcon} alt="icon" />}
         >
           Add Level

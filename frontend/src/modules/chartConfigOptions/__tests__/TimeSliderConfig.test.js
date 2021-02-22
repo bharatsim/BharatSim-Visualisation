@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render } from '@testing-library/react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { fireEvent } from '@testing-library/dom';
 
 import { selectDropDownOption } from '../../../testUtil';
@@ -8,7 +8,8 @@ import withThemeProvider from '../../../theme/withThemeProvider';
 import TimeSliderConfig from '../TimeSliderConfig';
 
 const TestForm = ({ onSubmit }) => {
-  const { control, errors, handleSubmit, register, watch } = useForm({ mode: 'onChange' });
+  const form = useForm({ mode: 'onChange' });
+  const { handleSubmit } = form;
   const props = {
     headers: [
       { name: 'a', type: 'number' },
@@ -17,18 +18,14 @@ const TestForm = ({ onSubmit }) => {
     ],
     configKey: 'sliderConfig',
   };
+  const method = { ...form, defaultValues: {} };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <TimeSliderConfig
-        control={control}
-        register={register}
-        watch={watch}
-        configKey={props.configKey}
-        headers={props.headers}
-        errors={errors[props.configKey]}
-      />
-      <button type="submit">submit</button>
-    </form>
+    <FormProvider {...method}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <TimeSliderConfig configKey={props.configKey} headers={props.headers} />
+        <button type="submit">submit</button>
+      </form>
+    </FormProvider>
   );
 };
 

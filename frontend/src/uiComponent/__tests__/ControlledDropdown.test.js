@@ -5,7 +5,7 @@ import withThemeProvider from '../../theme/withThemeProvider';
 import ControlledDropDown from '../ControlledDropdown';
 
 const TestForm = ({ onSubmit, validations }) => {
-  const { control, errors, handleSubmit } = useForm({ mode: 'onChange' });
+  const { control, errors, handleSubmit, setValue } = useForm({ mode: 'onChange' });
   const options = [
     { value: 'one', displayName: 'one' },
     { value: 'two', displayName: 'two' },
@@ -15,6 +15,7 @@ const TestForm = ({ onSubmit, validations }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <ControlledDropDown
+        setValue={setValue}
         label="select value"
         id="dropdown"
         control={control}

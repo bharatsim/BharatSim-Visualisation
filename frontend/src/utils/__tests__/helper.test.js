@@ -218,7 +218,7 @@ describe('Helpers', () => {
     });
 
     it('should return true if file is shape file ', () => {
-      const file = { name: 'csv file', fileType: 'json' };
+      const file = { name: 'csv file', fileType: 'geojson' };
       const isShapeFile = shapeFileFilter(file);
 
       expect(isShapeFile).toEqual(true);
