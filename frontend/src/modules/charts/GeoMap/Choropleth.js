@@ -93,8 +93,8 @@ function Choropleth({ config }) {
   const shouldAddDrillDownCallback =
     choroplethType === choroplethTypes.DRILL_DOWN && drillDownLevel < mapLayerConfig.length - 1;
 
-  const maxValue = data && Math.max(...data[gisMeasure]);
-  const minValue = data && Math.min(...data[gisMeasure]);
+  const maxValue = data && data[gisMeasure] && Math.max(...data[gisMeasure]);
+  const minValue = data && data[gisMeasure] && Math.min(...data[gisMeasure]);
 
   const breadcrumbsItems = Object.keys(levelFeatureMap)
     .sort()
@@ -156,13 +156,7 @@ function Choropleth({ config }) {
             <ResizeController />
             <ScaleControl />
             <ZoomControl position="bottomleft" />
-            <ColorScaleLegend
-              scale={scale}
-              min={minValue}
-              max={maxValue}
-              title={gisMeasure}
-              disablePercentageScale
-            />
+            <ColorScaleLegend scale={scale} min={minValue} max={maxValue} title={gisMeasure} />
           </MapContainer>
         </div>
       </LoaderOrError>

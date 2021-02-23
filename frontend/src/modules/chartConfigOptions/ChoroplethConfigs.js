@@ -43,10 +43,11 @@ function ChoroplethConfigs({ headers, configKey }) {
     setValue,
     defaultValues: formDefaultValues,
   } = useFormContext();
+
   const errors = formErrors[configKey] || { mapLayerConfig: [] };
   const defaultValues = formDefaultValues[configKey] || emptyFormFieldValue;
   const choroplethType = watch(`${configKey}.${choroplethConfigTypes.CHOROPLETH_TYPE}`);
-  console.log(defaultValues[choroplethConfigTypes.MAP_LAYER_CONFIG][0]);
+
   return (
     <Box>
       <Box pl={2} className={classes.radioButtonContainer}>

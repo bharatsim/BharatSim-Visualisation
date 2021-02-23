@@ -19,11 +19,12 @@ const useStyles = makeStyles((theme) => {
 
 function GeoDimensionsConfig({ headers, configKey }) {
   const classes = useStyles();
-  const { errors: formErrors, control } = useFormContext();
+  const { errors: formErrors, control, defaultValues: formDefaultValues } = useFormContext();
   const errors = formErrors[configKey] || {
     [geoDimensionsField.LON]: {},
     [geoDimensionsField.LAT]: {},
   };
+  const defaultValues = formDefaultValues[configKey] || {};
   return (
     <Box>
       <Box mb={1} pl={2}>
@@ -39,6 +40,7 @@ function GeoDimensionsConfig({ headers, configKey }) {
           headers={headers}
           configKey={`${configKey}.${geoDimensionsField.LAT}`}
           error={errors[geoDimensionsField.LAT]}
+          defaultValue={defaultValues[geoDimensionsField.LAT]}
           border={false}
         />
         <HeaderSelector
@@ -49,6 +51,7 @@ function GeoDimensionsConfig({ headers, configKey }) {
           control={control}
           headers={headers}
           configKey={`${configKey}.${geoDimensionsField.LON}`}
+          defaultValue={defaultValues[geoDimensionsField.LON]}
           error={errors[geoDimensionsField.LON]}
           border={false}
         />

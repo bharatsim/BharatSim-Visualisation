@@ -24,7 +24,7 @@ exports[`Choropleth should create a choropleth component 1`] = `
       ScaleControl
       ZoomControl
       ColorScaleLegend
-      {"scale":{"0":"#FDF1D9","1":"#D3501E","0.5":"#F7C75C"},"min":2,"max":6,"title":"infected","disablePercentageScale":true}
+      {"scale":{"0":"#FDF1D9","1":"#D3501E","0.5":"#F7C75C"},"min":2,"max":6,"title":"infected"}
     </div>
   </div>
 </div>
