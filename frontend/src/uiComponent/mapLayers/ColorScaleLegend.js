@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
-import LegendScale from './ColorScale';
+import LegendScale from './LegendScale';
 
 const Legend = ({ scale, title, min, max, disablePercentageScale }) => {
   const map = useMap();

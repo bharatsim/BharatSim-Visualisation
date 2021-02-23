@@ -17,7 +17,7 @@ exports[`HeatMap should create a heatmap component 1`] = `
       HeatMapLayer
       {"points":[[2,1,2],[3,2,3]],"options":{"max":3,"radius":25,"minOpacity":0.3,"gradient":{"1":"#F37943","0.2":"#88C1F7","0.4":"#1E3FD8","0.6":"#21C694","0.8":"#F7C75C"}}}
       ColorScaleLegend
-      {"scale":{"1":"#F37943","0.2":"#88C1F7","0.4":"#1E3FD8","0.6":"#21C694","0.8":"#F7C75C"}}
+      {"scale":{"1":"#F37943","0.2":"#88C1F7","0.4":"#1E3FD8","0.6":"#21C694","0.8":"#F7C75C"},"title":"dataPoints"}
       Resize controller
       {}
       ViewAndZoomLayer

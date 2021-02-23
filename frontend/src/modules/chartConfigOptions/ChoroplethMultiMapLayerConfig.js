@@ -52,7 +52,7 @@ function ChoroplethMultiMapLayerConfig({ control, configKey, errors, isEditMode,
           <Box className={classes.configContainer} key={field.id}>
             <Box p={2} className={classes.configHeaderContainer}>
               <Typography variant="subtitle2">
-                Drill down - 
+                Drill Down - 
                 {' '}
                 {index === 0 ? 'Level 1 (Top Level)' : `Level ${levelIndex}`}
               </Typography>

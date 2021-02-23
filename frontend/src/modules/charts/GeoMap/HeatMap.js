@@ -124,7 +124,7 @@ function HeatMap({ config }) {
               }}
               key={timeSliderValue}
             />
-            <ColorScaleLegend scale={scale} />
+            <ColorScaleLegend scale={scale} title={geoMetricSeries} />
             <ResizeController />
             <ViewController center={center} />
             <ScaleControl />

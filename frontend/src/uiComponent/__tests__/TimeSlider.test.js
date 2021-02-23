@@ -3,6 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import TimeSlider from '../TimeSlider';
+import withThemeProvider from '../../theme/withThemeProvider';
 
 const defaultProps = {
   setTimeSliderValue: jest.fn(),
@@ -33,14 +34,16 @@ jest.mock('@material-ui/core/Slider', () => (props) => {
     </div>
   );
 });
+
+const TimeSliderWithProvider = withThemeProvider(TimeSlider);
 describe('<TimeSlider />', () => {
   it('should match snapshot', () => {
-    const { container } = render(<TimeSlider {...defaultProps} />);
+    const { container } = render(<TimeSliderWithProvider {...defaultProps} />);
     expect(container).toMatchSnapshot();
   });
 
   it('should call setTimeSliderValue with current slider value', () => {
-    const { getByTestId } = render(<TimeSlider {...defaultProps} />);
+    const { getByTestId } = render(<TimeSliderWithProvider {...defaultProps} />);
 
     const slider = getByTestId('time-slider');
 
@@ -50,7 +53,7 @@ describe('<TimeSlider />', () => {
   });
   it('should create marks for all intervals with defaultInterval strategy', () => {
     const updatedConfig = { ...defaultProps, sliderConfig: { strategy: 'defaultIntervals' } };
-    const { getByTestId } = render(<TimeSlider {...updatedConfig} />);
+    const { getByTestId } = render(<TimeSliderWithProvider {...updatedConfig} />);
 
     expect(getByTestId('marks-container')).toMatchInlineSnapshot(`
       <pre
@@ -61,7 +64,7 @@ describe('<TimeSlider />', () => {
     `);
   });
   it('should create stepped marks for intervals with stepSize strategy', () => {
-    const { getByTestId } = render(<TimeSlider {...defaultProps} />);
+    const { getByTestId } = render(<TimeSliderWithProvider {...defaultProps} />);
 
     expect(getByTestId('marks-container')).toMatchInlineSnapshot(`
       <pre
@@ -75,7 +78,9 @@ describe('<TimeSlider />', () => {
     'should create stepped marks for intervals with stepSize strategy and add last ' +
       'marker even if its not i interval cycle',
     () => {
-      const { getByTestId } = render(<TimeSlider {...{ ...defaultProps, data: [1, 2, 3, 4] }} />);
+      const { getByTestId } = render(
+        <TimeSliderWithProvider {...{ ...defaultProps, data: [1, 2, 3, 4] }} />,
+      );
 
       expect(getByTestId('marks-container')).toMatchInlineSnapshot(`
         <pre

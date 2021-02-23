@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ColorScale from '../../mapLayers/ColorScale';
+import ColorScale from '../../mapLayers/LegendScale';
 
 describe('<ColorScale />', () => {
   const scale = {

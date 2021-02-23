@@ -114,19 +114,21 @@ function ChoroplethMapLayerConfig({
             />
           </Box>
           {shouldShowReferenceIdConfig && (
-            <HeadersSelector
-              label="select reference id"
-              headers={geoJsonProperties || []}
-              control={control}
-              id="reference id"
-              title={`Reference ID for Level ${levelIndex}`}
-              configKey={`${configKey}.${choroplethConfigTypes.REFERENCE_ID}`}
-              border={false}
-              disabled={!dataSourceId}
-              error={errors[choroplethConfigTypes.REFERENCE_ID]}
-              helperText="Select the field to link the current drill down level with the preceding level."
-              defaultValue={defaultValues[choroplethConfigTypes.REFERENCE_ID]}
-            />
+            <Box pt={2}>
+              <HeadersSelector
+                label="select reference id"
+                headers={geoJsonProperties || []}
+                control={control}
+                id="reference id"
+                title={`Reference ID for Level ${levelIndex}`}
+                configKey={`${configKey}.${choroplethConfigTypes.REFERENCE_ID}`}
+                border={false}
+                disabled={!dataSourceId}
+                error={errors[choroplethConfigTypes.REFERENCE_ID]}
+                helperText="Select the field to link the current drill down level with the preceding level."
+                defaultValue={defaultValues[choroplethConfigTypes.REFERENCE_ID]}
+              />
+            </Box>
           )}
         </Box>
       </LoaderOrError>

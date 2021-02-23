@@ -1,29 +1,22 @@
 import React, { useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-import PropTypes from 'prop-types';
+import { Box, Typography } from '@material-ui/core';
 import { timeIntervalStrategies } from '../constants/sliderConfigs';
-import ValueLabel from './ValueLabel';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: 'auto',
   },
-});
-
-function ValueLabelComponent({ children, open, value }) {
-  return (
-    <ValueLabel open={open} value={value}>
-      {children}
-    </ValueLabel>
-  );
-}
-
-ValueLabelComponent.propTypes = {
-  children: PropTypes.element.isRequired,
-  open: PropTypes.bool.isRequired,
-  value: PropTypes.string.isRequired,
-};
+  title: {
+    color: theme.colors.primaryColorScale[500],
+    ...theme.typography.subtitle2,
+    lineHeight: 1.2,
+    textTransform: 'capitalize',
+    marginLeft: theme.spacing(-2),
+  },
+}));
 
 function getUniqueTimeMarks(data, minValue, maxValue) {
   const uniqueValues = [...new Set(data)];
@@ -84,6 +77,9 @@ export default function TimeSlider({
 
   return (
     <div className={classes.root}>
+      <Box>
+        <Typography className={classes.title}>{`${title}: ${timeSliderValue}`}</Typography>
+      </Box>
       <Slider
         defaultValue={min}
         aria-labelledby="Time Slider"
@@ -93,9 +89,7 @@ export default function TimeSlider({
         min={min}
         max={max}
         value={timeSliderValue}
-        ValueLabelComponent={ValueLabelComponent}
-        valueLabelDisplay="on"
-        valueLabelFormat={() => `${title}: ${timeSliderValue}`}
+        valueLabelDisplay="off"
       />
     </div>
   );

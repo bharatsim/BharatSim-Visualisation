@@ -11,13 +11,14 @@ const useStyles = makeStyles((theme) => {
     fieldContainer: {
       display: 'flex',
       justifyContent: 'space-between',
-      padding: theme.spacing(2),
+      padding: theme.spacing(0, 2, 2),
       marginBottom: theme.spacing(4),
       '&:last-child': {
         marginBottom: 0,
       },
     },
     border: {
+      padding: theme.spacing(2),
       borderColor: fade(theme.colors.primaryColorScale['500'], 0.24),
       border: '1px solid',
       borderRadius: theme.spacing(1),

@@ -56,14 +56,14 @@ const TestForChoroplethMultiMapLayerConfig = ({ onSubmit, isEditMode }) => {
   );
 };
 
-describe('<ChoroplethMapLayerConfigs />', () => {
+describe('<ChoroplethMultiMapLayerConfigs />', () => {
   it('should show header for multiple config i.e for first on  Top Level, for  second Level 2', async () => {
     const renderComponent = render(<TestForChoroplethMultiMapLayerConfig onSubmit={jest.fn()} />);
     const { getByText, findByText } = renderComponent;
 
     await findByText('select map layer');
 
-    expect(getByText('Drill down - Level 1 (Top Level)')).toBeInTheDocument();
+    expect(getByText('Drill Down - Level 1 (Top Level)')).toBeInTheDocument();
   });
 
   it('should not add level if edit mode is on', async () => {
@@ -72,7 +72,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     );
     const { queryByText } = renderComponent;
 
-    expect(queryByText('Drill down - Top Level')).toBeNull();
+    expect(queryByText('Drill Down - Top Level')).toBeNull();
   });
 
   it('should add another level on click of add level button', async () => {
@@ -85,7 +85,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    expect(getByText('Drill down - Level 2')).toBeInTheDocument();
+    expect(getByText('Drill Down - Level 2')).toBeInTheDocument();
   });
 
   it('should delete level2 on click of delete level button', async () => {
@@ -98,7 +98,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    const level2 = getByText('Drill down - Level 2');
+    const level2 = getByText('Drill Down - Level 2');
 
     expect(level2).toBeInTheDocument();
 
@@ -111,11 +111,11 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     const { findByText, getByText, getByTestId, queryByTestId } = renderComponent;
 
     fireEvent.click(getByText('Add Level'));
-    const level2 = await findByText('Drill down - Level 2');
+    const level2 = await findByText('Drill Down - Level 2');
     expect(level2).toBeInTheDocument();
 
     fireEvent.click(getByText('Add Level'));
-    const level3 = await findByText('Drill down - Level 3');
+    const level3 = await findByText('Drill Down - Level 3');
     expect(level3).toBeInTheDocument();
 
     const level2DeleteButton = queryByTestId('delete-level-2');

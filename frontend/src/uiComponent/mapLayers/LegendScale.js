@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { fade, Typography } from '@material-ui/core';
 import { formatToUnits } from '../../utils/helper';
 
-const HALF_OF_SCALE_LABEL_POINT_SIZE = '10px';
+const HALF_OF_SCALE_LABEL_POINT_SIZE = 10;
 
 function isZeroPresentAsKey(object) {
   return Object.keys(object).find((key) => Number(key) === 0);
@@ -51,6 +51,10 @@ const useStyles = makeStyles((theme) => ({
       overflow: 'visible',
     },
   },
+  legendTick: {
+    fontSize: theme.spacing(1.5),
+    lineHeight: 1.7,
+  },
 }));
 
 function getLegendLabels(scalePoint, min, max, disablePercentageScale) {
@@ -65,6 +69,19 @@ function getLegendLabels(scalePoint, min, max, disablePercentageScale) {
     return '';
   }
   return `${label}%`;
+}
+
+function calculatePositionOfTick(scalePoint) {
+  const reversePosition = 1 - scalePoint;
+  if (reversePosition === 0) {
+    const extraSpace = HALF_OF_SCALE_LABEL_POINT_SIZE / 2;
+    return `calc(${(1 - scalePoint) * 100}% - ${extraSpace}px)`;
+  }
+  if (reversePosition === 1) {
+    const extraSpace = HALF_OF_SCALE_LABEL_POINT_SIZE + HALF_OF_SCALE_LABEL_POINT_SIZE / 2;
+    return `calc(${(1 - scalePoint) * 100}% - ${extraSpace}px)`;
+  }
+  return `calc(${(1 - scalePoint) * 100}% - ${HALF_OF_SCALE_LABEL_POINT_SIZE}px)`;
 }
 
 function LegendScale({ scale, title, min, max, disablePercentageScale }) {
@@ -84,11 +101,11 @@ function LegendScale({ scale, title, min, max, disablePercentageScale }) {
             <div
               key={scalePoint}
               style={{
-                top: `calc(${(1 - scalePoint) * 100}% - ${HALF_OF_SCALE_LABEL_POINT_SIZE})`,
+                top: calculatePositionOfTick(scalePoint),
               }}
               className={classes.label}
             >
-              <Typography variant="body2">
+              <Typography variant="body2" className={classes.legendTick}>
                 {getLegendLabels(scalePoint, min, max, disablePercentageScale)}
               </Typography>
             </div>

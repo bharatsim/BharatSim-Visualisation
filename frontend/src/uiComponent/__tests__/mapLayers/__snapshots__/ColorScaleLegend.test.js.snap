@@ -87,27 +87,27 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
                 class="makeStyles-scaleContainer-1"
               >
                 <div
-                  class="makeStyles-colorScale-3 makeStyles-colorScale-7"
+                  class="makeStyles-colorScale-3 makeStyles-colorScale-8"
                 />
                 <div
                   class="makeStyles-labelScale-4"
                 >
                   <div
                     class="makeStyles-label-5"
-                    style="top: calc(100% - 10px);"
+                    style="top: calc(100% - 15px);"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
                     >
                       0%
                     </p>
                   </div>
                   <div
                     class="makeStyles-label-5"
-                    style="top: calc(0% - 10px);"
+                    style="top: calc(0% - 5px);"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
                     >
                       100%
                     </p>
@@ -117,7 +117,7 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
                     style="top: calc(60% - 10px);"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
                     >
                       40%
                     </p>
@@ -127,7 +127,7 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
                     style="top: calc(40% - 10px);"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
                     >
                       60%
                     </p>
@@ -137,7 +137,7 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
                     style="top: calc(30.000000000000004% - 10px);"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
                     >
                       70%
                     </p>
@@ -147,7 +147,7 @@ exports[`<ColorScaleLegend /> should match snapshot 1`] = `
                     style="top: calc(19.999999999999996% - 10px);"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
                     >
                       80%
                     </p>

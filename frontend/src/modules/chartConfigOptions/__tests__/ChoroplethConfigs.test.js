@@ -26,7 +26,7 @@ jest.mock('../../../utils/api', () => ({
 
 const ComponentWithProvider = withProjectLayout(withRouter(withThemeProvider(ChoroplethConfigs)));
 
-const TestForChoroplethConfigs = ({ onSubmit, isEditMode,leveIndex }) => {
+const TestForChoroplethConfigs = ({ onSubmit, isEditMode, leveIndex }) => {
   const form = useForm({ mode: 'onChange' });
   const { handleSubmit } = form;
   const props = {
@@ -50,7 +50,7 @@ const TestForChoroplethConfigs = ({ onSubmit, isEditMode,leveIndex }) => {
   );
 };
 
-describe('<ChoroplethMapLayerConfigs />', () => {
+describe('<ChoroplethConfigs />', () => {
   it('should show single choropleth config by default', async () => {
     const renderComponent = render(<TestForChoroplethConfigs onSubmit={jest.fn()} />);
     const { findByText, queryByText } = renderComponent;
@@ -72,7 +72,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    expect(getByText('Drill down - Level 1 (Top Level)')).toBeInTheDocument();
+    expect(getByText('Drill Down - Level 1 (Top Level)')).toBeInTheDocument();
   });
 
   it('should disable radio buttons in edit config mode', async () => {

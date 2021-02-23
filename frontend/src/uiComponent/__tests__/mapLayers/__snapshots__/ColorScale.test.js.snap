@@ -3,78 +3,78 @@
 exports[`<ColorScale /> should create color scale with min max value 1`] = `
 <div>
   <div
-    class="makeStyles-legend-16"
+    class="makeStyles-legend-18"
   >
     <p
-      class="MuiTypography-root makeStyles-title-20 MuiTypography-body2"
+      class="MuiTypography-root makeStyles-title-22 MuiTypography-body2"
     >
       infected
     </p>
     <div
-      class="makeStyles-scaleContainer-15"
+      class="makeStyles-scaleContainer-17"
     >
       <div
-        class="makeStyles-colorScale-17 makeStyles-colorScale-21"
+        class="makeStyles-colorScale-19 makeStyles-colorScale-24"
       />
       <div
-        class="makeStyles-labelScale-18"
+        class="makeStyles-labelScale-20"
       >
         <div
-          class="makeStyles-label-19"
-          style="top: calc(100% - 10px);"
+          class="makeStyles-label-21"
+          style="top: calc(100% - 15px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-23 MuiTypography-body2"
           >
             100
           </p>
         </div>
         <div
-          class="makeStyles-label-19"
-          style="top: calc(0% - 10px);"
+          class="makeStyles-label-21"
+          style="top: calc(0% - 5px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-23 MuiTypography-body2"
           >
             300
           </p>
         </div>
         <div
-          class="makeStyles-label-19"
+          class="makeStyles-label-21"
           style="top: calc(60% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-23 MuiTypography-body2"
           >
             40%
           </p>
         </div>
         <div
-          class="makeStyles-label-19"
+          class="makeStyles-label-21"
           style="top: calc(40% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-23 MuiTypography-body2"
           >
             60%
           </p>
         </div>
         <div
-          class="makeStyles-label-19"
+          class="makeStyles-label-21"
           style="top: calc(30.000000000000004% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-23 MuiTypography-body2"
           >
             70%
           </p>
         </div>
         <div
-          class="makeStyles-label-19"
+          class="makeStyles-label-21"
           style="top: calc(19.999999999999996% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-23 MuiTypography-body2"
           >
             80%
           </p>
@@ -88,72 +88,72 @@ exports[`<ColorScale /> should create color scale with min max value 1`] = `
 exports[`<ColorScale /> should disable percentage scale labels for disablePercentageScale 1`] = `
 <div>
   <div
-    class="makeStyles-legend-23"
+    class="makeStyles-legend-26"
   >
     <p
-      class="MuiTypography-root makeStyles-title-27 MuiTypography-body2"
+      class="MuiTypography-root makeStyles-title-30 MuiTypography-body2"
     >
       infected
     </p>
     <div
-      class="makeStyles-scaleContainer-22"
+      class="makeStyles-scaleContainer-25"
     >
       <div
-        class="makeStyles-colorScale-24 makeStyles-colorScale-28"
+        class="makeStyles-colorScale-27 makeStyles-colorScale-32"
       />
       <div
-        class="makeStyles-labelScale-25"
+        class="makeStyles-labelScale-28"
       >
         <div
-          class="makeStyles-label-26"
-          style="top: calc(100% - 10px);"
+          class="makeStyles-label-29"
+          style="top: calc(100% - 15px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-31 MuiTypography-body2"
           >
             100
           </p>
         </div>
         <div
-          class="makeStyles-label-26"
-          style="top: calc(0% - 10px);"
+          class="makeStyles-label-29"
+          style="top: calc(0% - 5px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-31 MuiTypography-body2"
           >
             300
           </p>
         </div>
         <div
-          class="makeStyles-label-26"
+          class="makeStyles-label-29"
           style="top: calc(60% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-31 MuiTypography-body2"
           />
         </div>
         <div
-          class="makeStyles-label-26"
+          class="makeStyles-label-29"
           style="top: calc(40% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-31 MuiTypography-body2"
           />
         </div>
         <div
-          class="makeStyles-label-26"
+          class="makeStyles-label-29"
           style="top: calc(30.000000000000004% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-31 MuiTypography-body2"
           />
         </div>
         <div
-          class="makeStyles-label-26"
+          class="makeStyles-label-29"
           style="top: calc(19.999999999999996% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-31 MuiTypography-body2"
           />
         </div>
       </div>
@@ -176,27 +176,27 @@ exports[`<ColorScale /> should match snapshot 1`] = `
       class="makeStyles-scaleContainer-1"
     >
       <div
-        class="makeStyles-colorScale-3 makeStyles-colorScale-7"
+        class="makeStyles-colorScale-3 makeStyles-colorScale-8"
       />
       <div
         class="makeStyles-labelScale-4"
       >
         <div
           class="makeStyles-label-5"
-          style="top: calc(100% - 10px);"
+          style="top: calc(100% - 15px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
           >
             0%
           </p>
         </div>
         <div
           class="makeStyles-label-5"
-          style="top: calc(0% - 10px);"
+          style="top: calc(0% - 5px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
           >
             100%
           </p>
@@ -206,7 +206,7 @@ exports[`<ColorScale /> should match snapshot 1`] = `
           style="top: calc(60% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
           >
             40%
           </p>
@@ -216,7 +216,7 @@ exports[`<ColorScale /> should match snapshot 1`] = `
           style="top: calc(40% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
           >
             60%
           </p>
@@ -226,7 +226,7 @@ exports[`<ColorScale /> should match snapshot 1`] = `
           style="top: calc(30.000000000000004% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
           >
             70%
           </p>
@@ -236,7 +236,7 @@ exports[`<ColorScale /> should match snapshot 1`] = `
           style="top: calc(19.999999999999996% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-7 MuiTypography-body2"
           >
             80%
           </p>
@@ -250,78 +250,78 @@ exports[`<ColorScale /> should match snapshot 1`] = `
 exports[`<ColorScale /> should match snapshot without 0.0 as scale 1`] = `
 <div>
   <div
-    class="makeStyles-legend-9"
+    class="makeStyles-legend-10"
   >
     <p
-      class="MuiTypography-root makeStyles-title-13 MuiTypography-body2"
+      class="MuiTypography-root makeStyles-title-14 MuiTypography-body2"
     >
       infected
     </p>
     <div
-      class="makeStyles-scaleContainer-8"
+      class="makeStyles-scaleContainer-9"
     >
       <div
-        class="makeStyles-colorScale-10 makeStyles-colorScale-14"
+        class="makeStyles-colorScale-11 makeStyles-colorScale-16"
       />
       <div
-        class="makeStyles-labelScale-11"
+        class="makeStyles-labelScale-12"
       >
         <div
-          class="makeStyles-label-12"
-          style="top: calc(100% - 10px);"
+          class="makeStyles-label-13"
+          style="top: calc(100% - 15px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-15 MuiTypography-body2"
           >
             0%
           </p>
         </div>
         <div
-          class="makeStyles-label-12"
-          style="top: calc(0% - 10px);"
+          class="makeStyles-label-13"
+          style="top: calc(0% - 5px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-15 MuiTypography-body2"
           >
             100%
           </p>
         </div>
         <div
-          class="makeStyles-label-12"
+          class="makeStyles-label-13"
           style="top: calc(60% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-15 MuiTypography-body2"
           >
             40%
           </p>
         </div>
         <div
-          class="makeStyles-label-12"
+          class="makeStyles-label-13"
           style="top: calc(40% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-15 MuiTypography-body2"
           >
             60%
           </p>
         </div>
         <div
-          class="makeStyles-label-12"
+          class="makeStyles-label-13"
           style="top: calc(30.000000000000004% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-15 MuiTypography-body2"
           >
             70%
           </p>
         </div>
         <div
-          class="makeStyles-label-12"
+          class="makeStyles-label-13"
           style="top: calc(19.999999999999996% - 10px);"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root makeStyles-legendTick-15 MuiTypography-body2"
           >
             80%
           </p>

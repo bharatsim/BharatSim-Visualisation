@@ -156,6 +156,9 @@ theme.overrides = {
     },
   },
   MuiSlider: {
+    root: {
+      padding: theme.spacing(0),
+    },
     colorPrimary: {
       color: theme.colors.primaryColorScale['500'],
     },
@@ -188,14 +191,14 @@ theme.overrides = {
       marginLeft: theme.spacing(-1.5),
     },
     marked: {
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacing(4.5),
       marginTop: theme.spacing(1),
     },
     markLabel: {
       ...theme.typography.caption,
       lineHeight: 1,
       color: theme.palette.text.secondary,
-      top: 24,
+      top: 10,
     },
     valueLabel: {
       ...theme.typography.subtitle2,
