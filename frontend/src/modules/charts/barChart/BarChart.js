@@ -1,13 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getYaxisNames, trasformDataForChart } from '../utils';
+import Plot from 'react-plotly.js';
+import { getYaxisNames } from '../utils';
 import { api } from '../../../utils/api';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
-
-const options = { maintainAspectRatio: false, responsive: true };
+import { plotlyChartLayoutConfig, plotlyConfigOptions } from '../chartStyleConfig';
 
 function BarChart({ config }) {
   const { xAxis: xColumn, yAxis, dataSource } = config;
@@ -40,19 +39,36 @@ function BarChart({ config }) {
     fetchData();
   }, [xColumn, yAxisDeps]);
 
-  const transformedData = useMemo(
-    () => (fetchedData ? trasformDataForChart(fetchedData, xColumn, yColumns) : {}),
-    [fetchedData],
-  );
-
   const onErrorAction = {
     name: 'Retry',
     onClick: fetchData,
   };
-
+  function createData(rawData) {
+    return yColumns.map((yCol) => {
+      return {
+        x: rawData[xColumn],
+        y: rawData[yCol],
+        type: 'bar',
+        name: yCol,
+        line: { shape: 'spline' },
+        showspikes: true,
+        scale: 'log',
+      };
+    });
+  }
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
-      <Bar data={transformedData} options={options} />
+      <div style={{ width: '100%', height: '100%', padding: 0 }}>
+        {fetchedData && (
+          <Plot
+            layout={plotlyChartLayoutConfig(xColumn)}
+            data={createData(fetchedData.data)}
+            useResizeHandler
+            style={{ width: '100%', height: '100%' }}
+            config={plotlyConfigOptions}
+          />
+        )}
+      </div>
     </LoaderOrError>
   );
 }

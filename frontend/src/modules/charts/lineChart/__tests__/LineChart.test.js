@@ -10,10 +10,18 @@ import withThemeProvider from '../../../../theme/withThemeProvider';
 jest.mock('../../../../utils/api', () => ({
   api: {
     getData: jest.fn().mockResolvedValue({
-      data: { data: { exposed: [2, 3], hour: [1, 2], hourNew: [1, 2] } },
+      data: { exposed: [2, 3], hour: [1, 2], hourNew: [1, 2] },
     }),
   },
 }));
+
+jest.mock('react-plotly.js', () => (props) => (
+  <div>
+    <span>line chart</span>
+    {/* eslint-disable-next-line no-undef */}
+    <pre>{mockPropsCapture(props)}</pre>
+  </div>
+));
 
 describe('LineChart', () => {
   afterEach(() => {
@@ -23,7 +31,7 @@ describe('LineChart', () => {
   const LineChartWithProvider = withThemeProvider(withRouter(LineChart));
 
   it('should create a line chart with single yaxis <LineChart /> component', async () => {
-    const { container } = render(
+    const { container, findByText } = render(
       <LineChartWithProvider
         config={{
           dataSource: 'dataSource',
@@ -33,13 +41,13 @@ describe('LineChart', () => {
       />,
     );
 
-    await waitFor(() => document.getElementsByTagName('canvas'));
+    await findByText('line chart');
 
     expect(container).toMatchSnapshot();
   });
 
   it('should call get data api for given data column and datasource', async () => {
-    render(
+    const { findByText } = render(
       <LineChartWithProvider
         config={{
           dataSource: 'dataSource',
@@ -49,13 +57,13 @@ describe('LineChart', () => {
       />,
     );
 
-    await waitFor(() => document.getElementsByTagName('canvas'));
+    await findByText('line chart');
 
     expect(api.getData).toHaveBeenCalledWith('dataSource', ['hour', 'exposed']);
   });
 
   it('should get data whenever column name are updated', async () => {
-    const { rerender } = render(
+    const { rerender, findByText } = render(
       <LineChartWithProvider
         config={{
           dataSource: 'dataSource',
@@ -65,7 +73,7 @@ describe('LineChart', () => {
       />,
     );
 
-    await waitFor(() => document.getElementsByTagName('canvas'));
+    await findByText('line chart');
 
     rerender(
       <LineChartWithProvider
@@ -77,7 +85,7 @@ describe('LineChart', () => {
       />,
     );
 
-    await waitFor(() => document.getElementsByTagName('canvas'));
+    await findByText('line chart');
 
     expect(api.getData).toHaveBeenLastCalledWith('dataSource', ['hourNew', 'exposed']);
   });

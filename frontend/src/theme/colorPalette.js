@@ -92,5 +92,6 @@ const muiColorPalette = {
     default: '#fafafa',
   },
 };
+const chartColors = ['#88C1F7', '#1E3FD8', '#A85DA0', '#F37943', '#21C694', '#F7C75C'];
 
-export { muiColorPalette, colors };
+export { muiColorPalette, colors, chartColors };

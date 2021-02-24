@@ -1,17 +1,4 @@
-const colors = [
-  '#4dc9f6',
-  '#f67019',
-  '#f53794',
-  '#537bc4',
-  '#acc236',
-  '#166a8f',
-  '#00a950',
-  '#58595b',
-  '#8549ba',
-];
-function getColor(index) {
-  return colors[index % colors.length];
-}
+import { chartColors } from '../../theme/colorPalette';
 
 const chartStyleConfig = {
   fill: false,
@@ -21,33 +8,47 @@ const chartStyleConfig = {
   pointHitRadius: 10,
 };
 
-const lineChartOptions = {
-  maintainAspectRatio: false,
-  responsive: true,
-  animation: {
-    duration: 0, // general animation time
-  },
-  hover: {
-    animationDuration: 0, // duration of animations when hovering an item
-  },
-  responsiveAnimationDuration: 0,
-  elements: {
-    line: {
-      tension: 0, // disables bezier curves
-    },
-  },
-  scales: {
-    yAxes: [
-      {
-        id: 'first-y-axis',
-        type: 'linear',
-        ticks: {
-          sampleSize: 10,
-          min: 0,
-        },
-      },
-    ],
-  },
+const plotlyConfigOptions = {
+  modeBarButtonsToRemove: ['select2d', 'lasso2d', 'toImage'],
+  displaylogo: false,
 };
 
-export { chartStyleConfig, getColor, lineChartOptions };
+function plotlyChartLayoutConfig(xColumn) {
+  return {
+    legend: {
+      x: 0.5,
+      y: -0.2,
+      orientation: 'h',
+      margin: { l: 0, r: 0, b: 0, t: 0 },
+      xanchor: 'center',
+    },
+    colorway: chartColors,
+    autosize: true,
+    margin: {
+      l: 50,
+      r: 0,
+      b: 50,
+      t: 20,
+    },
+    xaxis: {
+      title: { text: xColumn, standoff: 10 },
+      // rangemode: 'tozero',
+      showline: true,
+      tickwidth: 1,
+      tick0: 0,
+      automargin: false,
+      autotypenumbers: 'strict',
+    },
+    yaxis: {
+      title: { standoff: 10 },
+      // rangemode: 'tozero',
+      ticklabelposition: 'outside',
+      showline: true,
+      tickwidth: 1,
+      tick0: 0,
+      automargin: false,
+    },
+  };
+}
+
+export { chartStyleConfig, plotlyChartLayoutConfig, plotlyConfigOptions };

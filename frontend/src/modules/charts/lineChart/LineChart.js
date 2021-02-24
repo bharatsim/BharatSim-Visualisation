@@ -1,12 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Line } from 'react-chartjs-2';
-import { lineChartOptions } from '../chartStyleConfig';
+import Plot from 'react-plotly.js';
+import sizeMe from 'react-sizeme';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+
 import { api } from '../../../utils/api';
-import { getYaxisNames, trasformDataForChart } from '../utils';
+import { getYaxisNames } from '../utils';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
+import { plotlyChartLayoutConfig, plotlyConfigOptions } from '../chartStyleConfig';
 
 function LineChart({ config }) {
   const { xAxis: xColumn, yAxis, dataSource } = config;
@@ -39,19 +43,38 @@ function LineChart({ config }) {
     fetchData();
   }, [xColumn, yAxisDeps]);
 
-  const transformedData = useMemo(
-    () => (fetchedData ? trasformDataForChart(fetchedData, xColumn, yColumns) : {}),
-    [fetchedData],
-  );
-
   const onErrorAction = {
     name: 'Retry',
     onClick: fetchData,
   };
 
+  function createData(rawData) {
+    return yColumns.map((yCol) => {
+      return {
+        x: rawData[xColumn],
+        y: rawData[yCol],
+        type: 'scatter',
+        name: yCol,
+        mode: 'lines+markers',
+        showspikes: true,
+        scale: 'log',
+      };
+    });
+  }
+
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
-      <Line data={transformedData} options={lineChartOptions} />
+      <div style={{ width: '100%', height: '100%', padding: 0 }}>
+        {fetchedData && (
+          <Plot
+            layout={plotlyChartLayoutConfig(xColumn, fetchedData.data)}
+            data={createData(fetchedData.data)}
+            useResizeHandler
+            style={{ width: '100%', height: '100%' }}
+            config={plotlyConfigOptions}
+          />
+        )}
+      </div>
     </LoaderOrError>
   );
 }
@@ -68,4 +91,4 @@ LineChart.propTypes = {
   }).isRequired,
 };
 
-export default React.memo(LineChart);
+export default sizeMe({ monitorHeight: true })(LineChart);

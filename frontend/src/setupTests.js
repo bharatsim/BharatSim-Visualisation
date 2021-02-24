@@ -20,3 +20,4 @@ global.mockPropsCapture = (props) => {
     return `${key} = ${actualValue}`;
   });
 };
+global.URL.createObjectURL = jest.fn();

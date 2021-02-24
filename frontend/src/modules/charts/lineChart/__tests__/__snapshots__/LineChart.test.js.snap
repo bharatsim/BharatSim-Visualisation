@@ -2,11 +2,21 @@
 
 exports[`LineChart should create a line chart with single yaxis <LineChart /> component 1`] = `
 <div>
-  <canvas
-    class="chartjs-render-monitor"
-    height="0"
-    style="display: block;"
-    width="0"
-  />
+  <div
+    style="width: 100%; height: 100%; padding: 0px;"
+  >
+    <div>
+      <span>
+        line chart
+      </span>
+      <pre>
+        layout = {"legend":{"x":0.5,"y":-0.2,"orientation":"h","margin":{"l":0,"r":0,"b":0,"t":0},"xanchor":"center"},"colorway":["#88C1F7","#1E3FD8","#A85DA0","#F37943","#21C694","#F7C75C"],"autosize":true,"margin":{"l":50,"r":0,"b":50,"t":20},"xaxis":{"title":{"text":"hour","standoff":10},"showline":true,"tickwidth":1,"tick0":0,"automargin":false,"autotypenumbers":"strict"},"yaxis":{"title":{"standoff":10},"ticklabelposition":"outside","showline":true,"tickwidth":1,"tick0":0,"automargin":false}}
+        data = [{"x":[1,2],"y":[2,3],"type":"scatter","name":"exposed","mode":"lines+markers","showspikes":true,"scale":"log"}]
+        useResizeHandler = true
+        style = {"width":"100%","height":"100%"}
+        config = {"modeBarButtonsToRemove":["select2d","lasso2d","toImage"],"displaylogo":false}
+      </pre>
+    </div>
+  </div>
 </div>
 `;

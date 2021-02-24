@@ -10,16 +10,24 @@ import { withRouter } from '../../../../testUtil';
 jest.mock('../../../../utils/api', () => ({
   api: {
     getData: jest.fn().mockResolvedValue({
-      data: { data: { exposed: [2, 3], hour: [1, 2], hourNew: [1, 2] } },
+      data: { exposed: [2, 3], hour: [1, 2], hourNew: [1, 2] },
     }),
   },
 }));
+
+jest.mock('react-plotly.js', () => (props) => (
+  <div>
+    <span>bar chart</span>
+    {/* eslint-disable-next-line no-undef */}
+    <pre>{mockPropsCapture(props)}</pre>
+  </div>
+));
 
 describe('BarChart', () => {
   const BarChartWithProvider = withThemeProvider(withRouter(BarChart));
 
   it('should have fetched text in <BarChart /> component', async () => {
-    const { container } = render(
+    const { container, findByText } = render(
       <BarChartWithProvider
         config={{
           dataSource: 'dataSource',
@@ -29,13 +37,13 @@ describe('BarChart', () => {
       />,
     );
 
-    await waitFor(() => document.getElementsByTagName('canvas'));
+    await findByText('bar chart');
 
     expect(container).toMatchSnapshot();
   });
 
   it('should get data whenever column name are updated', async () => {
-    const { rerender } = render(
+    const { rerender, findByText } = render(
       <BarChartWithProvider
         config={{
           dataSource: 'dataSource',
@@ -45,7 +53,7 @@ describe('BarChart', () => {
       />,
     );
 
-    await waitFor(() => document.getElementsByTagName('canvas'));
+    await findByText('bar chart');
 
     rerender(
       <BarChartWithProvider
@@ -57,13 +65,13 @@ describe('BarChart', () => {
       />,
     );
 
-    await waitFor(() => document.getElementsByTagName('canvas'));
+    await findByText('bar chart');
 
     expect(api.getData).toHaveBeenLastCalledWith('dataSource', ['hourNew', 'exposed']);
   });
 
   it('should call get data api for given data column and datasource', async () => {
-    render(
+    const { findByText } = render(
       <BarChartWithProvider
         config={{
           dataSource: 'dataSource',
@@ -73,7 +81,7 @@ describe('BarChart', () => {
       />,
     );
 
-    await waitFor(() => document.getElementsByTagName('canvas'));
+    await findByText('bar chart');
 
     expect(api.getData).toHaveBeenCalledWith('dataSource', ['hour', 'exposed']);
   });
