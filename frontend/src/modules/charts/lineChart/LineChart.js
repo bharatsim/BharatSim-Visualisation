@@ -10,7 +10,14 @@ import { getYaxisNames } from '../utils';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
-import { plotlyChartLayoutConfig, plotlyConfigOptions } from '../chartStyleConfig';
+import {
+  plotlyChartLayoutConfig,
+  plotlyConfigOptions,
+  tooltip,
+  line,
+  marker,
+} from '../chartStyleConfig';
+import { chartColorsPallet } from '../../../theme/colorPalette';
 
 function LineChart({ config }) {
   const { xAxis: xColumn, yAxis, dataSource } = config;
@@ -49,15 +56,18 @@ function LineChart({ config }) {
   };
 
   function createData(rawData) {
-    return yColumns.map((yCol) => {
+    return yColumns.map((yCol, index) => {
+      const color = chartColorsPallet[1][index];
       return {
         x: rawData[xColumn],
         y: rawData[yCol],
         type: 'scatter',
         name: yCol,
+        line,
+        marker,
         mode: 'lines+markers',
         showspikes: true,
-        scale: 'log',
+        ...tooltip(color),
       };
     });
   }

@@ -6,7 +6,8 @@ import { api } from '../../../utils/api';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
-import { plotlyChartLayoutConfig, plotlyConfigOptions } from '../chartStyleConfig';
+import { plotlyChartLayoutConfig, plotlyConfigOptions, tooltip } from '../chartStyleConfig';
+import { chartColorsPallet } from '../../../theme/colorPalette';
 
 function BarChart({ config }) {
   const { xAxis: xColumn, yAxis, dataSource } = config;
@@ -44,7 +45,8 @@ function BarChart({ config }) {
     onClick: fetchData,
   };
   function createData(rawData) {
-    return yColumns.map((yCol) => {
+    return yColumns.map((yCol, index) => {
+      const color = chartColorsPallet[1][index];
       return {
         x: rawData[xColumn],
         y: rawData[yCol],
@@ -53,6 +55,7 @@ function BarChart({ config }) {
         line: { shape: 'spline' },
         showspikes: true,
         scale: 'log',
+        ...tooltip(color),
       };
     });
   }

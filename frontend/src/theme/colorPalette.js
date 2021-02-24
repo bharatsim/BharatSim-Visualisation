@@ -92,6 +92,20 @@ const muiColorPalette = {
     default: '#fafafa',
   },
 };
-const chartColors = ['#88C1F7', '#1E3FD8', '#A85DA0', '#F37943', '#21C694', '#F7C75C'];
+const chartColorsPallet = [
+  ['#88C1F7', '#1E3FD8', '#A85DA0', '#F37943', '#21C694', '#F7C75C'],
+  ['#EC3237', '#FAA847', '#21C694', '#1E3FD8', '#C962BE', '#62CEFF'],
+  [
+    '#4dc9f6',
+    '#f67019',
+    '#f53794',
+    '#537bc4',
+    '#acc236',
+    '#166a8f',
+    '#00a950',
+    '#58595b',
+    '#8549ba',
+  ],
+];
 
-export { muiColorPalette, colors, chartColors };
+export { muiColorPalette, colors, chartColorsPallet };
