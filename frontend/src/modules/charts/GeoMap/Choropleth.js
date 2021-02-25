@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const scale = { 0: '#FDF1D9', '0.5': '#F7C75C', 1: '#D3501E' };
+const scale = { 0: '#FDF1D9', '0.5': '#FAA847', 1: '#EC3237' };
 
 function Choropleth({ config }) {
   const classes = useStyles();
