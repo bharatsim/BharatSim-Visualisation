@@ -68,6 +68,12 @@ function LineChart({ config }) {
         mode: 'lines+markers',
         showspikes: true,
         ...tooltip(color),
+        transforms: [
+          {
+            type: 'sort',
+            target: 'x',
+          },
+        ],
       };
     });
   }

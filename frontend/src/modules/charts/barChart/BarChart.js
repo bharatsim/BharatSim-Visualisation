@@ -56,6 +56,12 @@ function BarChart({ config }) {
         showspikes: true,
         scale: 'log',
         ...tooltip(color),
+        transforms: [
+          {
+            type: 'sort',
+            target: 'x',
+          },
+        ],
       };
     });
   }
