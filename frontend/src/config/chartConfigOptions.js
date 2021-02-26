@@ -7,17 +7,12 @@ import HeaderSelector from '../modules/chartConfigOptions/HeaderSelector';
 import TimeSliderConfig from '../modules/chartConfigOptions/TimeSliderConfig';
 import ChoroplethConfigs from '../modules/chartConfigOptions/ChoroplethConfigs';
 import MapLayerSelector from '../modules/chartConfigOptions/MapLayerSelector';
+import XAxisConfig from '../modules/chartConfigOptions/XAxisConfig';
 
 const chartConfigOptions = {
   [chartConfigOptionTypes.X_AXIS]: {
     component: ({ headers }) => (
-      <HeaderSelector
-        headers={headers}
-        id="x-axis-dropdown"
-        label="select x axis"
-        title="X-axis"
-        configKey={chartConfigOptionTypes.X_AXIS}
-      />
+      <XAxisConfig headers={headers} configKey={chartConfigOptionTypes.X_AXIS} />
     ),
   },
   [chartConfigOptionTypes.Y_AXIS]: {

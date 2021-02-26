@@ -67,7 +67,10 @@ const initialDashboardState = {
       config: {
         chartName: 'chart name',
         dataSource: 'id2',
-        xAxis: 'column1',
+        xAxis: {
+          columnName: 'column1',
+          type: '-',
+        },
         yAxis: [
           {
             name: 'column2',

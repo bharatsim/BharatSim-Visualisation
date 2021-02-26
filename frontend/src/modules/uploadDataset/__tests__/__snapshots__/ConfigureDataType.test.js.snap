@@ -59,6 +59,8 @@ exports[`<ConfigureDatatype /> should match snapshot for csv file preview 1`] = 
         class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
       >
         * File preview for first 100 rows
+        <br />
+        * Only YYYY-mm-dd HH:MM:SS.sss date format is supported
       </h6>
     </div>
   </div>

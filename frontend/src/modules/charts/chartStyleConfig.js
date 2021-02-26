@@ -50,7 +50,7 @@ const axisStyles = {
   zerolinewidth: 0.5,
 };
 
-function plotlyChartLayoutConfig(xColumn) {
+function plotlyChartLayoutConfig(xColumn, xAxisType) {
   return {
     legend: {
       x: 0.5,
@@ -74,10 +74,10 @@ function plotlyChartLayoutConfig(xColumn) {
     },
     font,
     xaxis: {
+      type: xAxisType,
       title: { text: xColumn, standoff: 8, font: { ...font, weight: 700, size: 14 } },
       showline: true,
       tickwidth: 1,
-      tick0: 0,
       automargin: false,
       autotypenumbers: 'strict',
       ...axisStyles,
@@ -87,7 +87,6 @@ function plotlyChartLayoutConfig(xColumn) {
       ticklabelposition: 'outside',
       showline: true,
       tickwidth: 1,
-      tick0: 0,
       automargin: false,
       ...axisStyles,
     },

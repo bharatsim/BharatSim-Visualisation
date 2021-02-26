@@ -35,7 +35,7 @@ describe('LineChart', () => {
       <LineChartWithProvider
         config={{
           dataSource: 'dataSource',
-          xAxis: 'hour',
+          xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
       />,
@@ -51,7 +51,7 @@ describe('LineChart', () => {
       <LineChartWithProvider
         config={{
           dataSource: 'dataSource',
-          xAxis: 'hour',
+          xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
       />,
@@ -67,7 +67,7 @@ describe('LineChart', () => {
       <LineChartWithProvider
         config={{
           dataSource: 'dataSource',
-          xAxis: 'hour',
+          xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
       />,
@@ -79,7 +79,7 @@ describe('LineChart', () => {
       <LineChartWithProvider
         config={{
           dataSource: 'dataSource',
-          xAxis: 'hourNew',
+          xAxis: { columnName: 'hourNew', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
       />,
@@ -95,7 +95,7 @@ describe('LineChart', () => {
       <LineChartWithProvider
         config={{
           dataSource: 'dataSource',
-          xAxis: 'hour',
+          xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
       />,
@@ -113,7 +113,7 @@ describe('LineChart', () => {
       <LineChartWithProvider
         config={{
           dataSource: 'dataSource',
-          xAxis: 'hour',
+          xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
       />,
@@ -130,7 +130,7 @@ describe('LineChart', () => {
       <LineChartWithProvider
         config={{
           dataSource: 'dataSource',
-          xAxis: 'hour',
+          xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
       />,

@@ -10,7 +10,8 @@ import { plotlyChartLayoutConfig, plotlyConfigOptions, tooltip } from '../chartS
 import { chartColorsPallet } from '../../../theme/colorPalette';
 
 function BarChart({ config }) {
-  const { xAxis: xColumn, yAxis, dataSource } = config;
+  const { xAxis, yAxis, dataSource } = config;
+  const { columnName: xColumn, type: xAxisType } = xAxis;
   const yColumns = getYaxisNames(yAxis);
   const [fetchedData, setFetchedData] = useState();
   const {
@@ -70,7 +71,7 @@ function BarChart({ config }) {
       <div style={{ width: '100%', height: '100%', padding: 0 }}>
         {fetchedData && (
           <Plot
-            layout={plotlyChartLayoutConfig(xColumn)}
+            layout={plotlyChartLayoutConfig(xColumn, xAxisType)}
             data={createData(fetchedData.data)}
             useResizeHandler
             style={{ width: '100%', height: '100%' }}
@@ -85,7 +86,10 @@ function BarChart({ config }) {
 BarChart.propTypes = {
   config: PropTypes.shape({
     dataSource: PropTypes.string.isRequired,
-    xAxis: PropTypes.string.isRequired,
+    xAxis: PropTypes.shape({
+      columnName: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    }).isRequired,
     yAxis: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,

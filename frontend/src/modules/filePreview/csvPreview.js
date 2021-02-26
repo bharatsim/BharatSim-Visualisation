@@ -38,6 +38,8 @@ export default function CsvPreview({ schema, previewData, selectedFile }) {
       />
       <Typography variant="subtitle2" color="textSecondary">
         * File preview for first 100 rows
+        <br />
+        * Only YYYY-mm-dd HH:MM:SS.sss date format is supported
       </Typography>
     </Box>
   );

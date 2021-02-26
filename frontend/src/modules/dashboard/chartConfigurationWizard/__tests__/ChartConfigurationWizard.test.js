@@ -37,7 +37,7 @@ describe('Chart configuration wizard', () => {
       config: {
         chartName: 'line chart with config',
         dataSource: 'id1',
-        xAxis: 'column1',
+        xAxis: { columnName: 'column1', type: '-' },
         yAxis: [{ name: 'column2' }],
       },
       layout: { i: 'widget-3', x: 6, y: null, w: 6, h: 2 },
@@ -110,7 +110,10 @@ describe('Chart configuration wizard', () => {
     expect(mockOnApply).toHaveBeenCalledWith(undefined, 'lineChart', {
       chartName: 'chart name',
       dataSource: 'id2',
-      xAxis: 'column1',
+      xAxis: {
+        columnName: 'column1',
+        type: '-',
+      },
       yAxis: [{ name: 'column2' }],
     });
   });
@@ -145,7 +148,10 @@ describe('Chart configuration wizard', () => {
     expect(onApplyMock).toHaveBeenCalledWith(undefined, 'lineChart', {
       chartName: 'Untitled Chart',
       dataSource: 'id2',
-      xAxis: 'column1',
+      xAxis: {
+        columnName: 'column1',
+        type: '-',
+      },
       yAxis: [{ name: 'column2' }],
     });
   });
