@@ -353,5 +353,91 @@ describe('datasourceService', () => {
       const result = await datasourceService.bulkDeleteDatasource(['dashboardId']);
       expect(result).toEqual({ deletedCount: 1 });
     });
+
+    it('should delete csv datasource along with metadata', async () => {
+      dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValue({
+        _id: 'datasource1',
+        fileType: 'csv',
+      });
+      await datasourceService.deleteDatasource('datasource1');
+
+      expect(dataSourceRepository.deleteDatasource).toHaveBeenCalledWith('datasource1');
+      expect(fs.rmdirSync).not.toHaveBeenCalled();
+      expect(
+        dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping,
+      ).toHaveBeenCalledWith('datasource1');
+      expect(dataSourceMetadataRepository.deleteDatasourceMetadata).toHaveBeenCalledWith(
+        'datasource1',
+      );
+    });
+
+    it('should delete geojson datasource along with metadata', async () => {
+      dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValue({
+        _id: 'datasource1',
+        fileType: 'geojson',
+        fileId: 'datasource1',
+      });
+      await datasourceService.deleteDatasource('datasource1');
+
+      expect(fs.rmdirSync).toHaveBeenCalledWith('./uploads/datasource1', { recursive: true });
+      expect(dataSourceRepository.deleteDatasource).not.toHaveBeenCalled();
+      expect(
+        dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping,
+      ).toHaveBeenCalledWith('datasource1');
+      expect(dataSourceMetadataRepository.deleteDatasourceMetadata).toHaveBeenCalledWith(
+        'datasource1',
+      );
+    });
+
+    it('should delete json datasource along with metadata', async () => {
+      dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValue({
+        _id: 'datasource1',
+        fileType: 'json',
+        fileId: 'datasource1',
+      });
+      await datasourceService.deleteDatasource('datasource1');
+
+      expect(dataSourceRepository.deleteDatasource).not.toHaveBeenCalled();
+      expect(fs.rmdirSync).toHaveBeenCalledWith('./uploads/datasource1', { recursive: true });
+      expect(
+        dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping,
+      ).toHaveBeenCalledWith('datasource1');
+      expect(dataSourceMetadataRepository.deleteDatasourceMetadata).toHaveBeenCalledWith(
+        'datasource1',
+      );
+    });
+
+    it('should delete mapping and metadata if filetype is not csv, json or geojson', async () => {
+      dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValue({
+        _id: 'datasource1',
+        fileType: 'text',
+        fileId: 'datasource1',
+      });
+      await datasourceService.deleteDatasource('datasource1');
+
+      expect(dataSourceRepository.deleteDatasource).not.toHaveBeenCalled();
+      expect(fs.rmdirSync).not.toHaveBeenCalledWith();
+      expect(
+        dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping,
+      ).toHaveBeenCalledWith('datasource1');
+      expect(dataSourceMetadataRepository.deleteDatasourceMetadata).toHaveBeenCalledWith(
+        'datasource1',
+      );
+    });
+
+    it('should return an error if datasource is not present', async () => {
+      dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValue(null);
+
+      const result = async () => {
+        await datasourceService.deleteDatasource('datasource1');
+      };
+
+      await expect(result).rejects.toThrow(new DatasourceNotFoundException('datasource1'));
+      expect(dataSourceRepository.deleteDatasource).not.toHaveBeenCalled();
+      expect(
+        dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping,
+      ).not.toHaveBeenCalled();
+      expect(dataSourceMetadataRepository.deleteDatasourceMetadata).not.toHaveBeenCalled();
+    });
   });
 });

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const dataSourceRepository = require('../repository/datasourceRepository');
+const dashboardDatasourceMapRepository = require('../repository/dashboardDatasourceMapRepository');
 const dataSourceMetadataRepository = require('../repository/datasourceMetadataRepository');
 const modelCreator = require('../utils/modelCreator');
 const dbUtils = require('../utils/dbUtils');
@@ -111,15 +112,19 @@ async function deleteCsvFiles(datasourceIds) {
   return dataSourceRepository.bulkDeleteCsv(csvMetadataIds);
 }
 
+function deleteJsonFileFromFileSystem(fileId) {
+  if (fs.existsSync(`${FILE_UPLOAD_PATH}${fileId}`)) {
+    fs.rmdirSync(`${FILE_UPLOAD_PATH}${fileId}`, { recursive: true });
+  }
+}
+
 async function deleteJsonFiles(datasourceIds) {
   const datasourcesMetadata = await dataSourceMetadataRepository.filterDatasourceIds(
     datasourceIds,
     { fileType: { $in: ['json', ...EXTENDED_JSON_TYPES] } },
   );
   datasourcesMetadata.forEach(({ fileId }) => {
-    if (fs.existsSync(`${FILE_UPLOAD_PATH}${fileId}`)) {
-      fs.rmdirSync(`${FILE_UPLOAD_PATH}${fileId}`, { recursive: true });
-    }
+    deleteJsonFileFromFileSystem(fileId);
   });
 }
 
@@ -129,8 +134,31 @@ async function bulkDeleteDatasource(datasourceIds) {
   return { deletedCount: datasourceIds.length };
 }
 
+async function deleteDatasource(id) {
+  const datasourceMetadata = await dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId(
+    id,
+  );
+
+  if (!datasourceMetadata) {
+    throw new DatasourceNotFoundException(id);
+  }
+
+  if (datasourceMetadata.fileType === fileTypes.CSV) {
+    await dataSourceRepository.deleteDatasource(id);
+  } else if (
+    datasourceMetadata.fileType === fileTypes.GEOJSON ||
+    datasourceMetadata.fileType === fileTypes.JSON
+  ) {
+    await deleteJsonFileFromFileSystem(datasourceMetadata.fileId);
+  }
+
+  await dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping(id);
+  await dataSourceMetadataRepository.deleteDatasourceMetadata(id);
+}
+
 module.exports = {
   getData,
   bulkDeleteDatasource,
   getJsonData,
+  deleteDatasource,
 };

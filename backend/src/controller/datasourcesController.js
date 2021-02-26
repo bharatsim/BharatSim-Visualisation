@@ -90,4 +90,21 @@ router.delete('/', async function (req, res) {
       }
     });
 });
+
+router.delete('/:id', async function (req, res) {
+  const { id: datasourceId } = req.params;
+  datasourceService
+    .deleteDatasource(datasourceId)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      if (err instanceof DataSourceNotFoundException) {
+        sendClientError(err, res, 404);
+      } else {
+        sendServerError(err, res);
+      }
+    });
+});
+
 module.exports = router;

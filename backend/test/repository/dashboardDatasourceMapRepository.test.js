@@ -14,7 +14,7 @@ describe('dashboardDatasourceMapRepository', () => {
   afterAll(async () => {
     await dbHandler.closeDatabase();
   });
-  describe('insertDatasourceDashboardMap',  () => {
+  describe('insertDatasourceDashboardMap', () => {
     it('insert datasource and dashboard id map in collection', async () => {
       const dashboardId = '5fd084fe0fbe24c086935aca';
       const datasourceId = '5fd084fe0fbe24c086935acb';
@@ -39,7 +39,9 @@ describe('dashboardDatasourceMapRepository', () => {
       ]);
 
       const result = parseMongoDBResult(
-        await dashboardDatasourceMapRepository.getDatasourceIdsForDashboard('5fd084fe0fbe24c086935aca'),
+        await dashboardDatasourceMapRepository.getDatasourceIdsForDashboard(
+          '5fd084fe0fbe24c086935aca',
+        ),
       );
 
       expect(result).toEqual([
@@ -60,9 +62,29 @@ describe('dashboardDatasourceMapRepository', () => {
 
       await dashboardDatasourceMapRepository.deleteDatasourceMapping('5fd084fe0fbe24c086935aca');
 
+      const foundData = parseMongoDBResult(
+        await DatasourceDashboardMap.find(
+          { datasourceId: '5fd084fe0fbe24c086935aca' },
+          { __v: 0, _id: 0 },
+        ),
+      );
+
+      expect(foundData).toEqual([]);
+    });
+
+    it('should delete the mapping given the dataSourceId', async () => {
+      await DatasourceDashboardMap.insertMany([
+        { datasourceId: '5fd084fe0fbe24c086935acb', dashboardId: '5fd084fe0fbe24c086935aca' },
+        { datasourceId: '5fd084fe0fbe24c086935acc', dashboardId: '5fd084fe0fbe24c086935aca' },
+        { datasourceId: '5fd084fe0fbe24c086935acd', dashboardId: '5fd084fe0fbe24c086935acf' },
+      ]);
+
+      await dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping(
+        '5fd084fe0fbe24c086935acb',
+      );
 
       const foundData = parseMongoDBResult(
-        await DatasourceDashboardMap.find({ datasourceId:'5fd084fe0fbe24c086935aca' }, { __v: 0, _id: 0 }),
+        await DatasourceDashboardMap.find({ datasourceId: '5fd084fe0fbe24c086935acb' }),
       );
 
       expect(foundData).toEqual([]);

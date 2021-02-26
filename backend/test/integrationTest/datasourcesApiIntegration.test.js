@@ -329,4 +329,60 @@ describe('Integration test', () => {
       expect(isMappedDatasourceCollectionPresent).toEqual(false);
     });
   });
+
+  it('should delete specific datasource ', async() => {
+
+    async function checkMetadataExists(dataSourceId) {
+      return parseDBObject(
+        await DataSourceMetaData.find({
+          _id: { $in: [dataSourceId] },
+        }),
+      );
+    }
+
+    async function checkIfMappingExists(db, dataSourceId) {
+      return await db
+        .listCollections()
+        .toArray()
+        .then((collections) =>
+          collections.some((collection) =>
+            [dataSourceId.toString()].includes(collection.name),
+          ),
+        );
+    }
+
+
+    insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
+    const { _id: dataSourceId1 } = insertedMetadata[0];
+    const { _id: dataSourceId2 } = insertedMetadata[1];
+    await DatasourceDashboardMap.insertMany([
+      {
+        dashboardId: '313233343536373839303131',
+        datasourceId: dataSourceId1,
+      },
+      {
+        dashboardId: '313233343536373839303131',
+        datasourceId: dataSourceId2,
+      },
+    ]);
+    const db = connection.db();
+    await db.collection(dataSourceId1.toString()).insertMany(model1Data);
+    await db.collection(dataSourceId2.toString()).insertMany(model1Data);
+
+    await request(app)
+      .delete('/datasources/'+dataSourceId1)
+      .expect(200)
+      .expect({});
+    const foundMetadata1 = await checkMetadataExists(dataSourceId1);
+    expect(foundMetadata1).toEqual([]);
+
+    const foundMetadata2 = await checkMetadataExists(dataSourceId2);
+    expect(foundMetadata2.length).toBeGreaterThan(0);
+
+    const isMappedDatasourceCollectionPresent1 = await checkIfMappingExists(db, dataSourceId1);
+    expect(isMappedDatasourceCollectionPresent1).toEqual(false);
+
+    const isMappedDatasourceCollectionPresent2 = await checkIfMappingExists(db, dataSourceId2);
+    expect(isMappedDatasourceCollectionPresent2).toEqual(true);
+  });
 });

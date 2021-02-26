@@ -165,4 +165,20 @@ describe('get Datasource name ', () => {
 
     expect(collectionList).toEqual(['metadataId2']);
   });
+
+  it('should delete dataSource for given id', async () => {
+    await DataSourceRepository.bulkInsert('metadataId1', datasourceData);
+    const result = await DataSourceRepository.deleteDatasource('metadataId1');
+
+    expect(result).toEqual(true);
+
+    const db = connection.db();
+
+    const collectionList = await db
+      .listCollections()
+      .toArray()
+      .then((collections) => collections.map((collection) => collection.name));
+
+    expect(collectionList).toEqual([]);
+  });
 });

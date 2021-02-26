@@ -55,10 +55,18 @@ async function bulkDeleteCsv(datasourceIds) {
   return bulkDeleteDataSources(datasourceIds);
 }
 
+async function deleteDatasource(dataSourceId) {
+  const connection = mongoService.getConnection();
+  const db = await connection.db();
+
+  return db.dropCollection(dataSourceId);
+}
+
 module.exports = {
   getData,
   insert,
   bulkInsert,
   bulkDeleteCsv,
   getAggregatedData,
+  deleteDatasource,
 };

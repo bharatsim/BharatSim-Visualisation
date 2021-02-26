@@ -336,4 +336,33 @@ describe('api', () => {
         .expect({ errorMessage: 'Not found - error', errorCode: 1014 });
     });
   });
+
+  describe('delete datasource with id', () => {
+    it('should delete datasource for given id ', async () => {
+      datasourceService.deleteDatasource.mockResolvedValue({});
+      await request(app).delete('/datasources/1').expect(200);
+
+      expect(datasourceService.deleteDatasource).toHaveBeenCalledWith('1');
+    });
+
+    it('should throw technical error if error occurs while deleting', async () => {
+      datasourceService.deleteDatasource.mockRejectedValueOnce(new Error());
+
+      await request(app)
+        .delete('/datasources/1')
+        .expect(500)
+        .expect({ errorMessage: 'Technical error ', errorCode: 1003 });
+    });
+
+    it('should throw not found exception if id is not present', async () => {
+      datasourceService.deleteDatasource.mockRejectedValueOnce(
+        new DataSourceNotFoundException('123'),
+      );
+
+      await request(app)
+        .delete('/datasources/123')
+        .expect(404)
+        .expect({ errorMessage: 'datasource with id 123 not found', errorCode: 1002 });
+    });
+  });
 });
