@@ -1,7 +1,7 @@
 const { getProjectedColumns } = require('../utils/dbUtils');
 const InvalidInputException = require('../exceptions/InvalidInputException');
 const { deleteDatasourceMapping } = require('../repository/dashboardDatasourceMapRepository');
-const { insert, update, getAll, getOne, deleteOne } = require('../repository/dashboardRepository');
+const dashboardRepository = require('../repository/dashboardRepository');
 const {
   updateDashboardInvalidInput,
   insertDashboardInvalidInput,
@@ -9,7 +9,7 @@ const {
 
 async function updateDashboard(dashboardId, dashboardConfigs) {
   try {
-    await update(dashboardId, dashboardConfigs);
+    await dashboardRepository.update(dashboardId, dashboardConfigs);
   } catch (e) {
     throw new InvalidInputException(
       updateDashboardInvalidInput.errorMessage,
@@ -20,7 +20,7 @@ async function updateDashboard(dashboardId, dashboardConfigs) {
 
 async function insertDashboard(dashboardConfigs) {
   try {
-    const { _id } = await insert(dashboardConfigs);
+    const { _id } = await dashboardRepository.insert(dashboardConfigs);
     return { dashboardId: _id };
   } catch (e) {
     throw new InvalidInputException(
@@ -41,17 +41,22 @@ async function saveDashboard(dashboardData) {
 
 async function getAllDashboards(filters, columns) {
   const projectedColumns = getProjectedColumns(columns);
-  const dashboards = await getAll(filters, projectedColumns);
+  const dashboards = await dashboardRepository.getAll(filters, projectedColumns);
   return { dashboards };
 }
 
 async function getDashboard(dashboardId) {
-  const dashboard = await getOne(dashboardId);
+  const dashboard = await dashboardRepository.getOne(dashboardId);
   return { dashboard };
 }
 
+async function getCount(filters) {
+  const count = await dashboardRepository.getCount(filters);
+  return { count };
+}
+
 async function deleteDashboardAndMapping(dashboardId) {
-  const { deletedCount } = await deleteOne(dashboardId);
+  const { deletedCount } = await dashboardRepository.deleteOne(dashboardId);
   const { deletedCount: mappingDeletedCount } = await deleteDatasourceMapping(dashboardId);
   return { deletedCount, mappingDeletedCount };
 }
@@ -70,6 +75,7 @@ module.exports = {
   insertDashboard,
   getAllDashboards,
   getDashboard,
+  getCount,
   deleteDashboardAndMapping,
   deleteDashboardsAndMappingWithProjectId,
 };

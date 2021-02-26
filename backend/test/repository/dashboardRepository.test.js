@@ -145,4 +145,13 @@ describe('DashboardRepository', function () {
       ok: 1,
     });
   });
+
+  it('should get count of widgets for given filter', async () => {
+    await DashboardRepository.insert(dashboard);
+
+    const queryObject = {"charts.dataSource": "datasource"};
+
+    const count = await DashboardRepository.getCount(queryObject);
+    expect(count).toEqual(1)
+  });
 });

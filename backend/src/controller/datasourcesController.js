@@ -3,6 +3,7 @@ const router = require('express').Router();
 const datasourceMetadataService = require('../services/datasourceMetadataService.js');
 const datasourceService = require('../services/datasourceService.js');
 const uploadDatasourceService = require('../services/uploadDatasourceService.js');
+const dashboardService = require('../services/dashboardService');
 const DataSourceNotFoundException = require('../exceptions/DatasourceNotFoundException');
 const ColumnsNotFoundException = require('../exceptions/ColumnsNotFoundException');
 const { sendServerError, sendClientError } = require('../exceptions/exceptionUtils');
@@ -72,6 +73,18 @@ router.get('/:id/headers', function (req, res) {
       } else {
         sendServerError(err, res);
       }
+    });
+});
+
+router.get('/:id/dashboard_count', function (req, res) {
+  const { id: datasourceId } = req.params;
+  const queryObject = { 'charts.config.dataSource': datasourceId };
+
+  dashboardService
+    .getCount(queryObject)
+    .then((count) => res.json(count))
+    .catch((err) => {
+      sendServerError(err, res);
     });
 });
 

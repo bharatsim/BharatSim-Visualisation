@@ -17,6 +17,10 @@ async function getOne(dashboardId) {
   return DashboardModel.findOne({ _id: dashboardId }, { __v: 0 });
 }
 
+async function getCount(filter) {
+  return await DashboardModel.countDocuments(filter);
+}
+
 async function deleteOne(dashboardId) {
   return DashboardModel.deleteOne({ _id: dashboardId }, { __v: 0 });
 }
@@ -26,5 +30,6 @@ module.exports = {
   update,
   getAll,
   getOne,
+  getCount,
   deleteOne,
 };
