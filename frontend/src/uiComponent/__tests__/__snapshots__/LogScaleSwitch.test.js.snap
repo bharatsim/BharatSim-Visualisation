@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LogScaleSwitch /> should match snapshot 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-4 makeStyles-switchContainer-1"
+  >
+    <label
+      class="MuiFormControlLabel-root"
+    >
+      <span
+        class="MuiSwitch-root MuiSwitch-sizeSmall"
+      >
+        <span
+          aria-disabled="false"
+          class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-8 MuiSwitch-switchBase WithStyles(ForwardRef(Switch))-switchBase-5 MuiSwitch-colorSecondary"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <input
+              class="PrivateSwitchBase-input-11 MuiSwitch-input"
+              name="Log"
+              type="checkbox"
+              value=""
+            />
+            <span
+              class="MuiSwitch-thumb"
+            />
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </span>
+        <span
+          class="MuiSwitch-track WithStyles(ForwardRef(Switch))-track-7"
+        />
+      </span>
+      <span
+        class="MuiTypography-root MuiFormControlLabel-label makeStyles-uncheckedLabel-3 MuiTypography-body1"
+      >
+        Log Scale
+      </span>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`<LogScaleSwitch /> should match snapshot with checked switch 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-15 makeStyles-switchContainer-12"
+  >
+    <label
+      class="MuiFormControlLabel-root"
+    >
+      <span
+        class="MuiSwitch-root MuiSwitch-sizeSmall"
+      >
+        <span
+          aria-disabled="false"
+          class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiSwitch-switchBase WithStyles(ForwardRef(Switch))-switchBase-16 MuiSwitch-colorSecondary PrivateSwitchBase-checked-20 Mui-checked WithStyles(ForwardRef(Switch))-checked-17"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <input
+              checked=""
+              class="PrivateSwitchBase-input-22 MuiSwitch-input"
+              name="Log"
+              type="checkbox"
+              value=""
+            />
+            <span
+              class="MuiSwitch-thumb"
+            />
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </span>
+        <span
+          class="MuiSwitch-track WithStyles(ForwardRef(Switch))-track-18"
+        />
+      </span>
+      <span
+        class="MuiTypography-root MuiFormControlLabel-label makeStyles-checkedLabel-13 MuiTypography-body1"
+      >
+        Log Scale
+      </span>
+    </label>
+  </div>
+</div>
+`;

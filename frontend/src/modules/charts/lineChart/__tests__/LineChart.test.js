@@ -10,7 +10,7 @@ import withThemeProvider from '../../../../theme/withThemeProvider';
 jest.mock('../../../../utils/api', () => ({
   api: {
     getData: jest.fn().mockResolvedValue({
-      data: { exposed: [2, 3], hour: [1, 2], hourNew: [1, 2] },
+      data: { exposed: [2, 3], hour: [1, 2], hourNew: [1, 2], exposedwithinfectedPeople: [2, 3] },
     }),
   },
 }));
@@ -44,6 +44,41 @@ describe('LineChart', () => {
     await findByText('line chart');
 
     expect(container).toMatchSnapshot();
+  });
+
+  it('should make yaxis scale type to log on toggle switch to  log scale', async () => {
+    const { findByText, getByRole, getByText } = render(
+      <LineChartWithProvider
+        config={{
+          dataSource: 'dataSource',
+          xAxis: { columnName: 'hour', type: 'linear' },
+          yAxis: [{ type: 'number', name: 'exposed' }],
+        }}
+      />,
+    );
+
+    await findByText('line chart');
+
+    getByRole('checkbox').click();
+    fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
+
+    expect(getByText('"type":"log"', { exact: false })).toBeInTheDocument();
+  });
+
+  it('should wrap legend name if greter than 15 char with ellipsis', async () => {
+    const { findByText, getByText } = render(
+      <LineChartWithProvider
+        config={{
+          dataSource: 'dataSource',
+          xAxis: { columnName: 'hour', type: 'linear' },
+          yAxis: [{ type: 'number', name: 'exposedwithinfectedPeople' }],
+        }}
+      />,
+    );
+
+    await findByText('line chart');
+
+    expect(getByText('"name":"exposedwithi..."', { exact: false })).toBeInTheDocument();
   });
 
   it('should call get data api for given data column and datasource', async () => {

@@ -5,13 +5,54 @@ exports[`BarChart should have fetched text in <BarChart /> component 1`] = `
   <div
     style="width: 100%; height: 100%; padding: 0px;"
   >
+    <div
+      class="MuiBox-root MuiBox-root-6 makeStyles-switchContainer-3"
+    >
+      <label
+        class="MuiFormControlLabel-root"
+      >
+        <span
+          class="MuiSwitch-root MuiSwitch-sizeSmall"
+        >
+          <span
+            aria-disabled="false"
+            class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-10 MuiSwitch-switchBase WithStyles(ForwardRef(Switch))-switchBase-7 MuiSwitch-colorSecondary"
+          >
+            <span
+              class="MuiIconButton-label"
+            >
+              <input
+                class="PrivateSwitchBase-input-13 MuiSwitch-input"
+                name="Log"
+                type="checkbox"
+                value=""
+              />
+              <span
+                class="MuiSwitch-thumb"
+              />
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </span>
+          <span
+            class="MuiSwitch-track WithStyles(ForwardRef(Switch))-track-9"
+          />
+        </span>
+        <span
+          class="MuiTypography-root MuiFormControlLabel-label makeStyles-uncheckedLabel-5 MuiTypography-body1"
+        >
+          Log Scale
+        </span>
+      </label>
+    </div>
     <div>
       <span>
         bar chart
       </span>
       <pre>
-        layout = {"legend":{"x":0.5,"y":-0.2,"orientation":"h","margin":{"l":0,"r":0,"b":0,"t":0},"xanchor":"center","font":{"color":"#929599","family":"Roboto","size":12,"weight":400}},"colorway":["#EC3237","#FAA847","#21C694","#1E3FD8","#C962BE","#62CEFF"],"autosize":true,"margin":{"l":32,"r":0,"b":60,"t":20},"font":{"family":"Roboto","size":10,"weight":400},"xaxis":{"type":"linear","title":{"text":"hour","standoff":8,"font":{"family":"Roboto","size":14,"weight":700}},"showline":true,"tickwidth":1,"automargin":false,"autotypenumbers":"strict","color":"#929599","zerolinecolor":"#c5c7cb","linewidth":0.5,"gridwidth":0.5,"zerolinewidth":0.5},"yaxis":{"title":{"standoff":8},"ticklabelposition":"outside","showline":true,"tickwidth":1,"automargin":false,"color":"#929599","zerolinecolor":"#c5c7cb","linewidth":0.5,"gridwidth":0.5,"zerolinewidth":0.5}}
-        data = [{"x":[1,2],"y":[2,3],"type":"bar","name":"exposed","line":{"shape":"spline"},"showspikes":true,"scale":"log","hoverlabel":{"bgcolor":"#fff","bordercolor":"#EC3237","font":{"color":"#000"}},"hoverinfo":"x+y","hovertemplate":"%{fullData.name}: %{y}&lt;extra&gt;&lt;/extra&gt;","transforms":[{"type":"sort","target":"x"}]}]
+        layout = {"showlegend":true,"colorway":["#EC3237","#FAA847","#21C694","#1E3FD8","#C962BE","#62CEFF"],"autosize":true,"font":{"family":"Roboto","size":10,"weight":400},"margin":{"l":32,"r":0,"b":60,"t":40,"autoexpand":true},"legend":{"font":{"color":"#929599","family":"Roboto","size":12,"weight":400}},"xaxis":{"type":"linear","title":{"text":"hour","standoff":8,"font":{"family":"Roboto","size":14,"weight":700}},"color":"#929599","zerolinecolor":"#c5c7cb","linewidth":0.5,"gridwidth":0.5,"zerolinewidth":0.5,"showline":true,"tickwidth":1,"automargin":true,"autotypenumbers":"strict"},"yaxis":{"title":{"standoff":8},"ticklabelposition":"outside","type":"-","color":"#929599","zerolinecolor":"#c5c7cb","linewidth":0.5,"gridwidth":0.5,"zerolinewidth":0.5,"showline":true,"tickwidth":1,"automargin":true,"autotypenumbers":"strict"}}
+        data = [{"x":[1,2],"y":[2,3],"type":"bar","name":"exposed","line":{"shape":"spline"},"showspikes":true,"scale":"log","transforms":[{"type":"sort","target":"x"}],"hoverlabel":{"bgcolor":"#fff","bordercolor":"#EC3237","font":{"color":"#000"}},"hoverinfo":"x+y","hovertemplate":"exposed: %{y}&lt;extra&gt;&lt;/extra&gt;"}]
         useResizeHandler = true
         style = {"width":"100%","height":"100%"}
         config = {"modeBarButtonsToRemove":["select2d","lasso2d","toImage"],"displaylogo":false}

@@ -42,6 +42,25 @@ describe('BarChart', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('should make yaxis scale type to log on toggle switch to  log scale', async () => {
+    const { findByText, getByRole, getByText } = render(
+      <BarChartWithProvider
+        config={{
+          dataSource: 'dataSource',
+          xAxis: { columnName: 'hour', type: 'linear' },
+          yAxis: [{ type: 'number', name: 'exposed' }],
+        }}
+      />,
+    );
+
+    await findByText('bar chart');
+
+    getByRole('checkbox').click();
+    fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
+
+    expect(getByText('"type":"log"', { exact: false })).toBeInTheDocument();
+  });
+
   it('should get data whenever column name are updated', async () => {
     const { rerender, findByText } = render(
       <BarChartWithProvider

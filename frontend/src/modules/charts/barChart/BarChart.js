@@ -6,14 +6,18 @@ import { api } from '../../../utils/api';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
-import { plotlyChartLayoutConfig, plotlyConfigOptions, tooltip } from '../chartStyleConfig';
+import { layoutConfig, configs, tooltip, yAxisLegendName } from '../chartStyleConfig';
 import { chartColorsPallet } from '../../../theme/colorPalette';
+import LogScaleSwitch from '../../../uiComponent/LogScaleSwitch';
+import useToggle from '../../../hook/useToggle';
 
 function BarChart({ config }) {
   const { xAxis, yAxis, dataSource } = config;
   const { columnName: xColumn, type: xAxisType } = xAxis;
   const yColumns = getYaxisNames(yAxis);
   const [fetchedData, setFetchedData] = useState();
+  const { state: isLogScale, toggleState } = useToggle();
+  const yAxisType = isLogScale ? 'log' : '-';
   const {
     loadingState,
     message,
@@ -52,30 +56,31 @@ function BarChart({ config }) {
         x: rawData[xColumn],
         y: rawData[yCol],
         type: 'bar',
-        name: yCol,
+        name: yAxisLegendName(yCol),
         line: { shape: 'spline' },
         showspikes: true,
         scale: 'log',
-        ...tooltip(color),
         transforms: [
           {
             type: 'sort',
             target: 'x',
           },
         ],
+        ...tooltip(yCol, color),
       };
     });
   }
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
       <div style={{ width: '100%', height: '100%', padding: 0 }}>
+        <LogScaleSwitch onChange={() => toggleState()} isChecked={isLogScale} />
         {fetchedData && (
           <Plot
-            layout={plotlyChartLayoutConfig(xColumn, xAxisType)}
+            layout={layoutConfig(xColumn, xAxisType, yAxisType)}
             data={createData(fetchedData.data)}
             useResizeHandler
             style={{ width: '100%', height: '100%' }}
-            config={plotlyConfigOptions}
+            config={configs}
           />
         )}
       </div>

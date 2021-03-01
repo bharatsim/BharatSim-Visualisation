@@ -10,20 +10,18 @@ import { getYaxisNames } from '../utils';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
-import {
-  plotlyChartLayoutConfig,
-  plotlyConfigOptions,
-  tooltip,
-  line,
-  marker,
-} from '../chartStyleConfig';
+import { line, marker, layoutConfig, configs, tooltip, yAxisLegendName } from '../chartStyleConfig';
 import { chartColorsPallet } from '../../../theme/colorPalette';
+import useToggle from '../../../hook/useToggle';
+import LogScaleSwitch from '../../../uiComponent/LogScaleSwitch';
 
 function LineChart({ config }) {
   const { xAxis, yAxis, dataSource } = config;
   const { columnName: xColumn, type: xAxisType } = xAxis;
   const yColumns = getYaxisNames(yAxis);
   const [fetchedData, setFetchedData] = useState();
+  const { state: isLogScale, toggleState } = useToggle();
+  const yAxisType = isLogScale ? 'log' : '-';
   const {
     loadingState,
     message,
@@ -63,18 +61,18 @@ function LineChart({ config }) {
         x: rawData[xColumn],
         y: rawData[yCol],
         type: 'scatter',
-        name: yCol,
+        name: yAxisLegendName(yCol),
         line,
         marker,
         mode: 'lines+markers',
         showspikes: true,
-        ...tooltip(color),
         transforms: [
           {
             type: 'sort',
             target: 'x',
           },
         ],
+        ...tooltip(yCol, color),
       };
     });
   }
@@ -82,13 +80,14 @@ function LineChart({ config }) {
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
       <div style={{ width: '100%', height: '100%', padding: 0 }}>
+        <LogScaleSwitch onChange={() => toggleState()} isChecked={isLogScale} />
         {fetchedData && (
           <Plot
-            layout={plotlyChartLayoutConfig(xColumn, xAxisType)}
+            layout={layoutConfig(xColumn, xAxisType, yAxisType)}
             data={createData(fetchedData.data)}
             useResizeHandler
             style={{ width: '100%', height: '100%' }}
-            config={plotlyConfigOptions}
+            config={configs}
           />
         )}
       </div>

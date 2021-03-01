@@ -1,14 +1,6 @@
 import { chartColorsPallet, colors } from '../../theme/colorPalette';
 
-const chartStyleConfig = {
-  fill: false,
-  borderWidth: 1,
-  pointBorderWidth: 1,
-  pointRadius: 1,
-  pointHitRadius: 10,
-};
-
-const plotlyConfigOptions = {
+const configs = {
   modeBarButtonsToRemove: ['select2d', 'lasso2d', 'toImage'],
   displaylogo: false,
 };
@@ -30,7 +22,7 @@ const line = {
   opacity: 1,
 };
 
-const tooltip = (color) => ({
+const tooltip = (yCol, color) => ({
   hoverlabel: {
     bgcolor: '#fff',
     bordercolor: color,
@@ -39,7 +31,7 @@ const tooltip = (color) => ({
     },
   },
   hoverinfo: 'x+y',
-  hovertemplate: '%{fullData.name}: %{y}<extra></extra>',
+  hovertemplate: `${yCol}: %{y}<extra></extra>`,
 });
 
 const axisStyles = {
@@ -48,49 +40,52 @@ const axisStyles = {
   linewidth: 0.5,
   gridwidth: 0.5,
   zerolinewidth: 0.5,
+  showline: true,
+  tickwidth: 1,
+  automargin: true,
+  autotypenumbers: 'strict',
 };
 
-function plotlyChartLayoutConfig(xColumn, xAxisType) {
+function layoutConfig(xColumn, xAxisType, yAxisType) {
   return {
+    showlegend: true,
+    colorway: chartColorsPallet[1],
+    autosize: true,
+    font,
+    margin: {
+      l: 32,
+      r: 0,
+      b: 60,
+      t: 40,
+      autoexpand: true,
+    },
     legend: {
-      x: 0.5,
-      y: -0.2,
-      orientation: 'h',
-      margin: { l: 0, r: 0, b: 0, t: 0 },
-      xanchor: 'center',
       font: {
         color: colors.grayScale['400'],
         ...font,
         size: 12,
       },
     },
-    colorway: chartColorsPallet[1],
-    autosize: true,
-    margin: {
-      l: 32,
-      r: 0,
-      b: 60,
-      t: 20,
-    },
-    font,
     xaxis: {
       type: xAxisType,
       title: { text: xColumn, standoff: 8, font: { ...font, weight: 700, size: 14 } },
-      showline: true,
-      tickwidth: 1,
-      automargin: false,
-      autotypenumbers: 'strict',
       ...axisStyles,
     },
     yaxis: {
       title: { standoff: 8 },
       ticklabelposition: 'outside',
-      showline: true,
-      tickwidth: 1,
-      automargin: false,
+      type: yAxisType,
       ...axisStyles,
     },
   };
 }
 
-export { chartStyleConfig, plotlyChartLayoutConfig, plotlyConfigOptions, line, marker, tooltip };
+function yAxisLegendName(yColName) {
+  const maxLength = 15;
+  const ellipsisLength = 3;
+  return yColName.length > maxLength
+    ? `${yColName.slice(0, maxLength - ellipsisLength)}...`
+    : yColName;
+}
+
+export { layoutConfig, configs, line, marker, tooltip, yAxisLegendName };
