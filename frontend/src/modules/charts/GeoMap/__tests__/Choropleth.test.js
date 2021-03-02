@@ -37,18 +37,15 @@ const mockGeoJson = {
 
 jest.mock('../../../../utils/api', () => ({
   api: {
-    getData: jest
-      .fn()
-      .mockImplementation(() =>
-        Promise.resolve({ data: { regionId: [1, 2, 3], infected: [2, 4, 6] } }),
-      ),
     getAggregatedGeoJson: jest
       .fn()
       .mockImplementation(() => Promise.resolve({ data: mockGeoJson })),
     getAggregatedData: jest
       .fn()
       .mockImplementation(() =>
-        Promise.resolve({ data: { regionId: [1, 2, 3], infected: [2, 4, 6] } }),
+        Promise.resolve({
+          data: { regionId: [1, 2, 3], infected: [2, 4, 6], timeTick: [1, 2, 3] },
+        }),
       ),
   },
 }));
@@ -159,26 +156,8 @@ describe('Choropleth', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should show error if get data api fail to load for csv data', async () => {
-    api.getData.mockRejectedValueOnce('error');
-    const { findByText, getByText } = render(
-      <ChoroplethWithProvider
-        config={{
-          dataSource: 'test.csv',
-          gisMeasure: 'infected',
-          choroplethConfig: config.choroplethConfig,
-          sliderConfig: config.sliderConfig,
-        }}
-      />,
-    );
-
-    await findByText('Unable to fetch data');
-
-    expect(getByText('Unable to fetch data')).toBeInTheDocument();
-  });
-
-  it('should call fetch data on render', async () => {
-    const { findByTestId } = render(
+  it('should create a choropleth component without time slider', async () => {
+    const { container, findByTestId } = render(
       <ChoroplethWithProvider
         config={{
           dataSource: 'test.csv',
@@ -191,49 +170,7 @@ describe('Choropleth', () => {
 
     await findByTestId('map-container');
 
-    expect(api.getAggregatedGeoJson).toHaveBeenCalledWith('mapLayer.geoJson', null);
-    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected']);
-  });
-
-  it('should call aggregated data with drill down choropleth', async () => {
-    const { findByTestId } = render(
-      <ChoroplethWithProvider
-        config={{
-          dataSource: 'test.csv',
-          gisMeasure: 'infected',
-          choroplethConfig: config.choroplethConfig,
-          sliderConfig: {},
-        }}
-      />,
-    );
-
-    await findByTestId('map-container');
-
-    expect(api.getAggregatedGeoJson).toHaveBeenCalledWith('mapLayer.geoJson', null);
-    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected']);
-  });
-
-  it('should call fetch data on render with time Metrics if time metric is present', async () => {
-    api.getData.mockImplementation(() =>
-      Promise.resolve({
-        data: { regionId: [1, 2, 3], infected: [2, 4, 6], timeTick: [1, 2, 3] },
-      }),
-    );
-
-    const { findByTestId } = render(
-      <ChoroplethWithProvider
-        config={{
-          dataSource: 'test.csv',
-          gisMeasure: 'infected',
-          choroplethConfig: config.choroplethConfig,
-          sliderConfig: config.sliderConfig,
-        }}
-      />,
-    );
-
-    await findByTestId('map-container');
-
-    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected', 'timeTick']);
+    expect(container).toMatchSnapshot();
   });
 
   it('should call fetch data on render with time Metrics if time metric is present with aggregated data', async () => {
@@ -385,19 +322,16 @@ describe('Choropleth', () => {
     );
     expect(api.getAggregatedGeoJson).toHaveBeenCalledWith('mapLayer.geoJson', null);
   });
+
   it('should rerender when prop value changes', async () => {
-    api.getData.mockImplementation((data) => {
-      if (data === 'test.csv')
-        return Promise.resolve({
-          data: {
-            regionId: [1, 2, 3],
-            infected: [2, 4, 6],
-            day: [1, 2, 3],
-            infectedNew: [1, 2, 3],
-          },
-        });
-      return Promise.resolve({ data: mockGeoJson });
-    });
+    api.getAggregatedData.mockImplementation(() => Promise.resolve({
+        data: {
+          regionId: [1, 2, 3],
+          infected: [2, 4, 6],
+          day: [1, 2, 3],
+          infectedNew: [1, 2, 3],
+        },
+      }));
 
     const { findByTestId, rerender } = render(
       <ChoroplethWithProvider
@@ -411,7 +345,12 @@ describe('Choropleth', () => {
     );
 
     await findByTestId('map-container');
-    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected', 'timeTick']);
+    expect(api.getAggregatedData).toHaveBeenCalledWith(
+      'test.csv',
+      ['regionId', 'timeTick'],
+      { infected: 'sum' },
+      null,
+    );
 
     rerender(
       <ChoroplethWithProvider
@@ -426,15 +365,16 @@ describe('Choropleth', () => {
 
     await findByTestId('map-container');
 
-    expect(api.getData).toHaveBeenLastCalledWith('test.csv', [
-      'regionId',
-      'infectedNew',
-      'timeTick',
-    ]);
+    expect(api.getAggregatedData).toHaveBeenLastCalledWith(
+      'test.csv',
+      ['regionId', 'timeTick'],
+      { infectedNew: 'sum' },
+      null,
+    );
   });
 
   it('should call fetch data on click of retry button', async () => {
-    api.getData.mockRejectedValueOnce('error');
+    api.getAggregatedData.mockRejectedValueOnce('error');
     const { findByText, getByText, findByTestId } = render(
       <ChoroplethWithProvider
         config={{
@@ -455,7 +395,12 @@ describe('Choropleth', () => {
     await findByTestId('map-container');
 
     expect(api.getAggregatedGeoJson).toHaveBeenCalledWith('mapLayer.geoJson', null);
-    expect(api.getData).toHaveBeenCalledWith('test.csv', ['regionId', 'infected', 'timeTick']);
+    expect(api.getAggregatedData).toHaveBeenCalledWith(
+      'test.csv',
+      ['regionId', 'timeTick'],
+      { infected: 'sum' },
+      null,
+    );
   });
 
   it('should show error if get data api fail to load for map layer', async () => {

@@ -167,31 +167,11 @@ function Choropleth({ config }) {
     startLoader();
     try {
       await fetchGisLayer();
-      if (isDrillDown) {
-        await fetchAggregatedData();
-        stopLoaderAfterSuccess();
-        return;
-      }
-      await fetchData();
+      await fetchAggregatedData();
       stopLoaderAfterSuccess();
     } catch (e) {
       stopLoaderAfterError('Unable to fetch data');
     }
-  }
-
-  async function fetchData() {
-    const columns = [dataLayerId, gisMeasure];
-    if (timeMetrics) {
-      columns.push(timeMetrics);
-    }
-    return api
-      .getData(dataSource, columns)
-      .then(({ data: fetchedData }) => {
-        setData(fetchedData);
-      })
-      .catch((error) => {
-        throw error;
-      });
   }
 
   async function fetchAggregatedData() {
