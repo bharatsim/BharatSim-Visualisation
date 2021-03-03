@@ -1,6 +1,5 @@
 const datasourceMetadataService = require('../../src/services/datasourceMetadataService');
 const dashboardService = require('../../src/services/dashboardService');
-const projectService = require('../../src/services/projectService');
 const dataSourceMetadataRepository = require('../../src/repository/datasourceMetadataRepository');
 const dashboardDatasourceMapRepository = require('../../src/repository/dashboardDatasourceMapRepository');
 
@@ -16,9 +15,11 @@ describe('datasourceMetadataService', () => {
       { _id: 'id1', name: 'model_1' },
       { _id: 'id2', name: 'model_2' },
     ];
+    dashboardService.getCount.mockResolvedValue({ count: 1 });
     dataSourceMetadataRepository.getManyDataSourcesMetadataByIds.mockResolvedValue(
       mockResolvedValue,
     );
+    dataSourceMetadataRepository.getDatasourcesMetadata.mockResolvedValue(mockResolvedValue);
     dashboardDatasourceMapRepository.getDatasourceIdsForDashboard.mockResolvedValue(['id1', 'id2']);
   });
   afterEach(() => {
@@ -26,7 +27,7 @@ describe('datasourceMetadataService', () => {
   });
 
   it('should get data sources name', async () => {
-    const data = await datasourceMetadataService.getDataSources({ dashboardId: 'dashboardId' });
+    const data = await datasourceMetadataService.getDatasources({ dashboardId: 'dashboardId' });
 
     expect(data).toEqual({
       dataSources: [
@@ -36,49 +37,11 @@ describe('datasourceMetadataService', () => {
     });
   });
   it('should give all the dataSources', async () => {
-    dataSourceMetadataRepository.getAllExceptDatasourceIds.mockResolvedValueOnce([
-      { _id: 'unassignedDatasourceId' },
-    ]);
-    dashboardService.getAllDashboards.mockResolvedValueOnce({
-      dashboards: [{ _id: 'dashboardId1' }, { _id: 'dashboardId2' }],
-    });
-    projectService.getAllProjects.mockResolvedValueOnce({
-      projects: [{ _id: 'projectId', name: 'projectName' }],
-    });
-    const result = await datasourceMetadataService.getDataSources({});
+    const result = await datasourceMetadataService.getDatasources({});
     const expected = {
       dataSources: [
-        {
-          _id: 'unassignedDatasourceId',
-        },
-        {
-          _id: 'id1',
-          dashboardId: 'dashboardId1',
-          name: 'model_1',
-          projectId: 'projectId',
-          projectName: 'projectName',
-        },
-        {
-          _id: 'id2',
-          dashboardId: 'dashboardId1',
-          name: 'model_2',
-          projectId: 'projectId',
-          projectName: 'projectName',
-        },
-        {
-          _id: 'id1',
-          dashboardId: 'dashboardId2',
-          name: 'model_1',
-          projectId: 'projectId',
-          projectName: 'projectName',
-        },
-        {
-          _id: 'id2',
-          dashboardId: 'dashboardId2',
-          name: 'model_2',
-          projectId: 'projectId',
-          projectName: 'projectName',
-        },
+        { _id: 'id1', name: 'model_1', usage: 1 },
+        { _id: 'id2', name: 'model_2', usage: 1 },
       ],
     };
     await expect(result).toEqual(expected);
@@ -87,7 +50,7 @@ describe('datasourceMetadataService', () => {
   it('should get data sources filter by dashboard id', async () => {
     const dashboardId = 'dashboardId';
 
-    const data = await datasourceMetadataService.getDataSources({ dashboardId });
+    const data = await datasourceMetadataService.getDatasources({ dashboardId });
 
     expect(data).toEqual({
       dataSources: [
@@ -100,7 +63,7 @@ describe('datasourceMetadataService', () => {
     dashboardService.getAllDashboards.mockResolvedValueOnce({
       dashboards: [{ _id: 'dashboardId1' }, { _id: 'dashboardId2' }],
     });
-    const data = await datasourceMetadataService.getDataSources({ projectId: 'projectId' });
+    const data = await datasourceMetadataService.getDatasources({ projectId: 'projectId' });
     expect(data).toEqual({
       dataSources: [
         {
@@ -138,12 +101,12 @@ describe('datasourceMetadataService', () => {
       dashboards: [{ _id: 'dashboardId1' }, { _id: 'dashboardId2' }],
     });
     const result = async () => {
-      await datasourceMetadataService.getDataSources({ projectId: 'projectId' });
+      await datasourceMetadataService.getDatasources({ projectId: 'projectId' });
     };
     await expect(result).rejects.toThrow(new Error('Some Error'));
   });
   it('should get datasources for given dashboard id even if projectId is defined', async () => {
-    const data = await datasourceMetadataService.getDataSources({
+    const data = await datasourceMetadataService.getDatasources({
       projectId: 'projectId',
       dashboardId: 'dashboardId',
     });
@@ -159,7 +122,7 @@ describe('datasourceMetadataService', () => {
   it('should call getManyDataSourcesMetadataByIds with datasource ids ', async () => {
     const dashboardId = 'dashboardId';
 
-    await datasourceMetadataService.getDataSources({ dashboardId });
+    await datasourceMetadataService.getDatasources({ dashboardId });
 
     expect(dataSourceMetadataRepository.getManyDataSourcesMetadataByIds).toHaveBeenCalledWith([
       'id1',
@@ -170,7 +133,7 @@ describe('datasourceMetadataService', () => {
   it('should call getDatasourceIdsForDashboard with dashboaord id ', async () => {
     const dashboardId = 'dashboardId';
 
-    await datasourceMetadataService.getDataSources({ dashboardId });
+    await datasourceMetadataService.getDatasources({ dashboardId });
 
     expect(dashboardDatasourceMapRepository.getDatasourceIdsForDashboard).toHaveBeenCalledWith(
       'dashboardId',

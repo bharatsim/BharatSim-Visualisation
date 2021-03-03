@@ -56,7 +56,7 @@ describe('api', () => {
         { name: 'susceptible', type: 'number' },
       ],
     });
-    datasourceMetadataService.getDataSources.mockResolvedValue({
+    datasourceMetadataService.getDatasources.mockResolvedValue({
       dataSources: [{ name: 'model_1' }, { name: 'model_2' }],
     });
 
@@ -204,21 +204,21 @@ describe('api', () => {
         .get('/datasources?dashboardId=123123')
         .expect(200)
         .expect({ dataSources: [{ name: 'model_1' }, { name: 'model_2' }] });
-      expect(datasourceMetadataService.getDataSources).toHaveBeenCalledWith({
+      expect(datasourceMetadataService.getDatasources).toHaveBeenCalledWith({
         dashboardId: '123123',
         projectId: undefined,
       });
     });
 
     it('should send error message for columns not found exception', async () => {
-      datasourceMetadataService.getDataSources.mockRejectedValueOnce(new Error('error'));
+      datasourceMetadataService.getDatasources.mockRejectedValueOnce(new Error('error'));
 
       await request(app)
         .get('/datasources?dashboardId=123123')
         .expect(500)
         .expect({ errorMessage: 'Technical error error', errorCode: 1003 });
 
-      expect(datasourceMetadataService.getDataSources).toHaveBeenCalled();
+      expect(datasourceMetadataService.getDatasources).toHaveBeenCalled();
     });
   });
 

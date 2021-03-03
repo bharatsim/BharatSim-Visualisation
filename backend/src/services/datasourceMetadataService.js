@@ -1,8 +1,9 @@
 const dataSourceMetadataRepository = require('../repository/datasourceMetadataRepository');
 const dashboardDatasourceMapRepository = require('../repository/dashboardDatasourceMapRepository');
+const dashboardService = require('./dashboardService');
 const dbUtils = require('../utils/dbUtils');
+const { DATASOURCE_USAGE_COUNT_FILTER_STRING } = require('../constants/dbConstants');
 const { parseDBObject } = require('../utils/dbUtils');
-const { getAllProjects } = require('./projectService');
 const { getAllDashboards } = require('./dashboardService');
 
 function transformDataSourceSchema(dataSourceSchema) {
@@ -52,28 +53,24 @@ async function getDatasourcesForDashboardId(dashboardId) {
   return dataSourceMetadataRepository.getManyDataSourcesMetadataByIds(datasourceIds);
 }
 
-async function getAllLinkedDataSources() {
-  const { projects } = await getAllProjects();
-  const assignedDatasources = await Promise.all(
-    projects.map(async ({ _id: projectId, name: projectName }) => {
-      return getDatasourcesForProjectId(projectId.toString(), projectName);
+async function getDatasourcesWithUsagesCount(dataSources) {
+  return Promise.all(
+    dataSources.map(async (datasource) => {
+      const { _id: id } = datasource;
+      const usage = await dashboardService.getCount({ [DATASOURCE_USAGE_COUNT_FILTER_STRING]: id });
+      return { ...datasource, usage: usage.count };
     }),
   );
-  return assignedDatasources.flat();
 }
 
-async function getAllUnlinkedDataSources(mappedDatasourceIds) {
-  return dataSourceMetadataRepository.getAllExceptDatasourceIds(
-    mappedDatasourceIds,
-  );
-}
-
-async function getDataSources({ projectId, dashboardId }) {
+async function getDatasources({ projectId, dashboardId }) {
+  const projectForDataSource = { __v: 0, dataSourceSchema: 0 };
   if (!projectId && !dashboardId) {
-    const linkedDataSources = await getAllLinkedDataSources();
-    const linkedDatasourceIds = linkedDataSources.map(({ _id: datasourceId }) => datasourceId);
-    const unlinkedDataSources = await getAllUnlinkedDataSources(linkedDatasourceIds);
-    return { dataSources: [...unlinkedDataSources, ...linkedDataSources] };
+    const datasources = dbUtils.parseDBObject(
+      await dataSourceMetadataRepository.getDatasourcesMetadata({}, projectForDataSource),
+    );
+    const dataSources = await getDatasourcesWithUsagesCount(datasources);
+    return { dataSources };
   }
   if (dashboardId) {
     const dataSources = await getDatasourcesForDashboardId(dashboardId);
@@ -85,5 +82,5 @@ async function getDataSources({ projectId, dashboardId }) {
 
 module.exports = {
   getHeaders,
-  getDataSources,
+  getDatasources,
 };

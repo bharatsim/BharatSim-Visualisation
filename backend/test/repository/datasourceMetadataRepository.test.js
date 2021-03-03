@@ -130,6 +130,28 @@ describe('Datasource metadata repository', () => {
     });
   });
 
+  describe('get all datasources', function () {
+    it('should return all datasources', async () => {
+      await DataSourceMetaData.insertMany(dataSourceMetadata);
+      const schema = parseMongoDBResult(
+        await DataSourceMetaDataRepository.getDatasourcesMetadata(
+          {},
+          { __v: 0, _id: 0, createdAt: 0, updatedAt: 0 },
+        ),
+      );
+
+      expect(schema).toEqual(dataSourceMetadata);
+    });
+    it('should return all datasources with all column', async () => {
+      await DataSourceMetaData.insertMany(dataSourceMetadata);
+      const schema = parseMongoDBResult(
+        await DataSourceMetaDataRepository.getDatasourcesMetadata(),
+      );
+
+      expect(schema.length).toEqual(dataSourceMetadata.length);
+    });
+  });
+
   it('should insert a data for dataSource Metadata', async () => {
     await DataSourceMetaDataRepository.insert({
       name: 'model_1',
@@ -177,6 +199,7 @@ describe('Datasource metadata repository', () => {
 
     expect(result).toEqual([]);
   });
+
   it('should bulk delete a datasource metadata for given datasource ids', async () => {
     const { _id: collectionId1 } = await DataSourceMetaDataRepository.insert({
       name: 'model1',

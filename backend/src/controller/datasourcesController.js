@@ -16,7 +16,7 @@ const { fileTypes } = require('../constants/fileTypes');
 router.get('/', async function (req, res) {
   const { dashboardId, projectId } = req.query;
   datasourceMetadataService
-    .getDataSources({ dashboardId, projectId })
+    .getDatasources({ dashboardId, projectId })
     .then((data) => res.json(data))
     .catch((err) => {
       sendServerError(err, res);
