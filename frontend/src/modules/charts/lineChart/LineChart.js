@@ -60,7 +60,7 @@ function LineChart({ config }) {
       return {
         x: rawData[xColumn],
         y: rawData[yCol],
-        type: 'scatter',
+        type: 'scattergl',
         name: yAxisLegendName(yCol),
         line,
         marker,

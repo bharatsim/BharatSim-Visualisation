@@ -57,9 +57,7 @@ function BarChart({ config }) {
         y: rawData[yCol],
         type: 'bar',
         name: yAxisLegendName(yCol),
-        line: { shape: 'spline' },
         showspikes: true,
-        scale: 'log',
         transforms: [
           {
             type: 'sort',
