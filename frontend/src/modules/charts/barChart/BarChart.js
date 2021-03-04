@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
+import sizeMe from 'react-sizeme';
 import { getYaxisNames } from '../utils';
 import { api } from '../../../utils/api';
 import useLoader from '../../../hook/useLoader';
@@ -102,4 +103,4 @@ BarChart.propTypes = {
   }).isRequired,
 };
 
-export default BarChart;
+export default sizeMe({ monitorHeight: true })(BarChart);
