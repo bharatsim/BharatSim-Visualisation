@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import sizeMe from 'react-sizeme';
@@ -50,6 +50,7 @@ function BarChart({ config }) {
     name: 'Retry',
     onClick: fetchData,
   };
+
   function createData(rawData) {
     return yColumns.map((yCol, index) => {
       const color = chartColorsPallet[1][index];
@@ -69,6 +70,12 @@ function BarChart({ config }) {
       };
     });
   }
+
+  const chartMemo = useMemo(() => {
+    const data = fetchedData && createData(fetchedData.data);
+    return { data };
+  }, [xColumn, xAxisType, yAxisType, fetchedData]);
+
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
       <div style={{ width: '100%', height: '100%', padding: 0 }}>
@@ -76,7 +83,7 @@ function BarChart({ config }) {
         {fetchedData && (
           <Plot
             layout={layoutConfig(xColumn, xAxisType, yAxisType)}
-            data={createData(fetchedData.data)}
+            data={chartMemo.data}
             useResizeHandler
             style={{ width: '100%', height: '100%' }}
             config={configs}

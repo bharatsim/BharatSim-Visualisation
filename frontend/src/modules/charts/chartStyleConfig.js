@@ -3,6 +3,7 @@ import { chartColorsPallet, colors } from '../../theme/colorPalette';
 const configs = {
   modeBarButtonsToRemove: ['select2d', 'lasso2d', 'toImage'],
   displaylogo: false,
+  responsive: true,
 };
 
 const font = {

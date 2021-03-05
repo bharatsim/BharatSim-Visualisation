@@ -55,7 +55,7 @@ exports[`BarChart should have fetched text in <BarChart /> component 1`] = `
         data = [{"x":[1,2],"y":[2,3],"type":"bar","name":"exposed","showspikes":true,"transforms":[{"type":"sort","target":"x"}],"hoverlabel":{"bgcolor":"#fff","bordercolor":"#EC3237","font":{"color":"#000"}},"hoverinfo":"x+y","hovertemplate":"exposed: %{y}&lt;extra&gt;&lt;/extra&gt;"}]
         useResizeHandler = true
         style = {"width":"100%","height":"100%"}
-        config = {"modeBarButtonsToRemove":["select2d","lasso2d","toImage"],"displaylogo":false}
+        config = {"modeBarButtonsToRemove":["select2d","lasso2d","toImage"],"displaylogo":false,"responsive":true}
       </pre>
     </div>
   </div>

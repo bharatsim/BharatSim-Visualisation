@@ -55,7 +55,7 @@ exports[`LineChart should create a line chart with single yaxis <LineChart /> co
         data = [{"x":[1,2],"y":[2,3],"type":"scattergl","name":"exposed","line":{"size":1,"opacity":1},"marker":{"size":4,"symbol":"circle","opacity":1},"mode":"lines+markers","showspikes":true,"transforms":[{"type":"sort","target":"x"}],"hoverlabel":{"bgcolor":"#fff","bordercolor":"#EC3237","font":{"color":"#000"}},"hoverinfo":"x+y","hovertemplate":"exposed: %{y}&lt;extra&gt;&lt;/extra&gt;"}]
         useResizeHandler = true
         style = {"width":"100%","height":"100%"}
-        config = {"modeBarButtonsToRemove":["select2d","lasso2d","toImage"],"displaylogo":false}
+        config = {"modeBarButtonsToRemove":["select2d","lasso2d","toImage"],"displaylogo":false,"responsive":true}
       </pre>
     </div>
   </div>
