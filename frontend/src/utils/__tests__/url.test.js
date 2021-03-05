@@ -10,7 +10,7 @@ describe('URL', () => {
   });
 
   it('should provide a url for data', () => {
-    expect(url.getDataUrl('dataSource')).toEqual('/api/dataSources/dataSource');
+    expect(url.getDatasourceUrl('dataSource')).toEqual('/api/dataSources/dataSource');
   });
   it('should provide a url for dashboard', () => {
     expect(url.getDashboardUrl('dashboardId')).toEqual('/api/dashboard/dashboardId');

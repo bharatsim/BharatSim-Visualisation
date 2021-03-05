@@ -6,22 +6,7 @@ import { formatDate } from '../../utils/dateUtils';
 import tableStyles from '../../uiComponent/table/tableCSS';
 import { convertFileSizeToMB } from '../../utils/helper';
 import { api } from '../../utils/api';
-
-function transformData(dataSources) {
-  const transformed = dataSources.reduce((acc, dataSource) => {
-    const { _id: dataSourceId } = dataSource;
-    if (!acc[dataSourceId]) {
-      acc[dataSourceId] = { count: 0, ...dataSource };
-    }
-    if (dataSource.dashboardId) {
-      acc[dataSourceId].count += 1;
-    }
-    return acc;
-  }, {});
-  return Object.values(transformed).sort(({ count: count1 }, { count: count2 }) => {
-    return count2 - count1;
-  });
-}
+import tableIcon from '../../uiComponent/table/tableIcon';
 
 function Datasets() {
   const [dataSources, setDataSources] = useState();
@@ -30,7 +15,17 @@ function Datasets() {
 
   async function fetchDatasets() {
     const { dataSources: fetchedDataSources } = await api.getAllDatasources();
+    fetchedDataSources.sort(({ usage: usage1 }, { usage: usage2 }) => usage2 - usage1);
     setDataSources(fetchedDataSources);
+  }
+
+  async function onDeleteClick(event, rowData) {
+    const { _id: datasourceId } = rowData;
+    api.deleteDatasource(datasourceId).then(() => {
+      setDataSources((prevDatasources) =>
+        prevDatasources.filter(({ _id: prevDatasourceID }) => prevDatasourceID !== datasourceId),
+      );
+    });
   }
 
   useEffect(() => {
@@ -45,7 +40,7 @@ function Datasets() {
   }
   return (
     <Table
-      data={transformData(dataSources)}
+      data={dataSources}
       columns={[
         { title: 'Name', field: 'name' },
         {
@@ -57,7 +52,7 @@ function Datasets() {
         { title: 'Type', field: 'fileType', render: (rowData) => fileTypes[rowData.fileType] },
         {
           title: 'Usage',
-          field: 'count',
+          field: 'usage',
           type: 'numeric',
         },
         {
@@ -78,10 +73,21 @@ function Datasets() {
           borderTop: 'none',
           borderBottom: `1px solid ${theme.colors.primaryColorScale['500']}3D`,
         },
+        actionsColumnIndex: -1,
       }}
       style={{
         ...styles.styles,
       }}
+      actions={[
+        (rowData) => ({
+          icon: tableIcon.Delete,
+          tooltip: 'Delete User',
+          onClick: onDeleteClick,
+          hidden: rowData.usage > 0,
+          iconProps: { 'data-testid': 'delete-datasource' },
+          size: 'small',
+        }),
+      ]}
     />
   );
 }

@@ -30,7 +30,7 @@ jest.mock('../../../../utils/api', () => ({
   api: {
     getProject: jest.fn().mockResolvedValue({ project: { name: 'name', _id: 'id' } }),
     deleteDashboard: jest.fn().mockResolvedValue({}),
-    deleteDatasource: jest.fn().mockResolvedValue({}),
+    deleteDatasources: jest.fn().mockResolvedValue({}),
     getAllDashBoardByProjectId: jest.fn().mockResolvedValue({
       dashboards: [
         { name: 'dashboardName1', _id: 'dashboardId1' },

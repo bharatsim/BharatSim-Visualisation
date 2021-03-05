@@ -18,7 +18,7 @@ jest.mock('../../../utils/api', () => ({
     getAllDatasources: jest.fn().mockResolvedValue({
       dataSources: [{ _id: 'datasourceId', name: 'fileName' }],
     }),
-    deleteDatasource: jest.fn().mockResolvedValue({ deleted: 1 }),
+    deleteDatasources: jest.fn().mockResolvedValue({ deleted: 1 }),
   },
 }));
 const mockHistoryPush = jest.fn();
@@ -127,7 +127,7 @@ describe('Existing User Home Screen', () => {
   });
   it('should show error if any while deleting datasources for project', async () => {
     const mockSetRecentProject = jest.fn();
-    api.deleteDatasource.mockRejectedValueOnce();
+    api.deleteDatasources.mockRejectedValueOnce();
     const { getByTestId, findByText, getByText } = render(
       <ExistingUserHomeScreenWithProviders
         recentProjects={[{ _id: 'projectId', name: 'projectName' }]}

@@ -74,7 +74,7 @@ function ProjectMetadataCard({ project, onProjectClick, deleteProject }) {
     const datasourceIds = dataSources.map(({ _id: datasourceId }) => datasourceId);
     if (datasourceIds.length > 0) {
       api
-        .deleteDatasource(getUniqueDatasourceIds(datasourceIds))
+        .deleteDatasources(getUniqueDatasourceIds(datasourceIds))
         .then(() => {
           enqueueSnackbar(`Datasource files for Project ${projectName} Deleted successfully`, {
             variant: snackbarVariant.SUCCESS,

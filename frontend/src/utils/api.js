@@ -61,12 +61,20 @@ const api = {
       isCustomErrorHandler: true,
       method: httpMethods.DELETE,
     }),
-  deleteDatasource: async (datasourceIds) => {
+
+  deleteDatasources: async (datasourceIds) => {
     return fetchData({
       url: serviceURL.DATA_SOURCES,
       method: httpMethods.DELETE,
       isCustomErrorHandler: true,
       query: { datasourceIds },
+    });
+  },
+
+  deleteDatasource: async (datasourceId) => {
+    return fetchData({
+      url: serviceURL.getDatasourceUrl(datasourceId),
+      method: httpMethods.DELETE,
     });
   },
 
@@ -110,7 +118,7 @@ const api = {
 
   getData: async (datasource, columns) =>
     fetchData({
-      url: serviceURL.getDataUrl(datasource),
+      url: serviceURL.getDatasourceUrl(datasource),
       query: { columns },
       isCustomLoader: true,
       isCustomErrorHandler: true,
@@ -118,7 +126,7 @@ const api = {
 
   getAggregatedData: async (datasource, groupBy, aggregate, filter) =>
     fetchData({
-      url: serviceURL.getDataUrl(datasource),
+      url: serviceURL.getDatasourceUrl(datasource),
       query: { aggregationParams: { groupBy, aggregate, filter } },
       isCustomLoader: true,
       isCustomErrorHandler: true,
@@ -126,7 +134,7 @@ const api = {
 
   getAggregatedGeoJson: async (datasource, filter) =>
     fetchData({
-      url: serviceURL.getDataUrl(datasource),
+      url: serviceURL.getDatasourceUrl(datasource),
       query: filter && { aggregationParams: { filter } },
       isCustomLoader: true,
       isCustomErrorHandler: true,

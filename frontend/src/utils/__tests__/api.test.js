@@ -242,7 +242,7 @@ describe('API', () => {
       method: 'delete',
     };
 
-    api.deleteDatasource(['datasourceId']);
+    api.deleteDatasources(['datasourceId']);
 
     expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });
@@ -286,6 +286,17 @@ describe('API', () => {
     };
 
     api.getAggregatedGeoJson('id', { propertyKey: 'key', value: 'value' });
+
+    expect(fetchData).toHaveBeenCalledWith(expectedParameter);
+  });
+
+  it('should call delete datasource', () => {
+    const expectedParameter = {
+      url: '/api/dataSources/id',
+      method: 'delete',
+    };
+
+    api.deleteDatasource('id');
 
     expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });

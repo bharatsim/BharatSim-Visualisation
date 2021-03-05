@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MaterialTable from 'material-table';
+import MaterialTable, { MTableAction } from 'material-table';
 import { useTheme } from '@material-ui/core';
 import tableIcons from './tableIcon';
 import tableStyles from './tableCSS';
+import { ChildrenPropTypes } from '../../commanPropTypes';
 
-function Table({ columns, data, title, options, ...rest }) {
+function Table({ columns, data, title, options, components, ...rest }) {
   const theme = useTheme();
   const styles = tableStyles(theme, data);
   return (
     <MaterialTable
+      components={{
+        ...components,
+        Action: (props) => <MTableAction {...props} size="small" />,
+      }}
       icons={tableIcons}
       title={title}
       columns={columns}
@@ -32,9 +37,11 @@ function Table({ columns, data, title, options, ...rest }) {
 
 Table.defaultProps = {
   options: {},
+  components: [],
 };
 
 Table.propTypes = {
+  components: PropTypes.arrayOf(ChildrenPropTypes),
   columns: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   title: PropTypes.string.isRequired,

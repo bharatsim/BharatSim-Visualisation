@@ -12,7 +12,7 @@ jest.mock('../../../../utils/api', () => ({
   api: {
     getDatasources: jest.fn().mockResolvedValue({ dataSources: [{ _id: 'datasourceId' }] }),
     deleteDashboard: jest.fn().mockResolvedValue({ deleted: 1 }),
-    deleteDatasource: jest.fn().mockResolvedValue({ deleted: 2 }),
+    deleteDatasources: jest.fn().mockResolvedValue({ deleted: 2 }),
   },
 }));
 
@@ -112,7 +112,7 @@ describe('Dashboard Navbar', () => {
     });
     it('should show error if datasource file for dashboard deletion fail', async () => {
       api.getDatasources.mockResolvedValue({ dataSources: [{ _id: 'datasourceId' }] });
-      api.deleteDatasource.mockImplementationOnce(() => Promise.reject());
+      api.deleteDatasources.mockImplementationOnce(() => Promise.reject());
 
       const { getByAltText, getByTestId, findByText, getByText } = render(<Component />);
       const optionsIcon = getByAltText('options-logo');
@@ -141,7 +141,7 @@ describe('Dashboard Navbar', () => {
 
       await findByText('Dashboard dashboard1 Deleted successfully');
 
-      expect(api.deleteDatasource).toHaveBeenCalledWith(['datasourceId']);
+      expect(api.deleteDatasources).toHaveBeenCalledWith(['datasourceId']);
     });
 
     it('should delete dashboard from context', async () => {
@@ -183,7 +183,7 @@ describe('Dashboard Navbar', () => {
     });
 
     it('should not show snack bar for successful deletion datasources if files are not present', async () => {
-      api.deleteDatasource.mockResolvedValueOnce({ delete: 0 });
+      api.deleteDatasources.mockResolvedValueOnce({ delete: 0 });
       api.getDatasources.mockResolvedValueOnce({ dataSources: [] });
       const { getByAltText, getByTestId, findByText, queryByText } = render(<Component />);
       const optionsIcon = getByAltText('options-logo');
@@ -202,7 +202,7 @@ describe('Dashboard Navbar', () => {
       ).not.toBeInTheDocument();
     });
     it('should not delete the datasource files if radio button is set to No on delete confirmation modal', async () => {
-      api.deleteDatasource.mockResolvedValueOnce({ delete: 0 });
+      api.deleteDatasources.mockResolvedValueOnce({ delete: 0 });
       const { getByAltText, getByTestId, findByText, queryByText } = render(<Component />);
       const optionsIcon = getByAltText('options-logo');
       fireEvent.click(optionsIcon);

@@ -32,7 +32,7 @@ function DashboardNavbar({ navItems, value, setNavTab }) {
   async function deleteDataSourceForDashboard(datasources, dashboardName) {
     const datasourceIds = datasources.map(({ _id: datasourceId }) => datasourceId);
     return api
-      .deleteDatasource(datasourceIds)
+      .deleteDatasources(datasourceIds)
       .then(() => {
         enqueueSnackbar(`Datasource files for Dashboard ${dashboardName} Deleted successfully`, {
           variant: snackbarVariant.SUCCESS,
