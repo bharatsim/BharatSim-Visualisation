@@ -54,6 +54,7 @@ function Datasets() {
           title: 'Usage',
           field: 'usage',
           type: 'numeric',
+          tooltip: 'Number of Dashboards which has widgets created',
         },
         {
           title: 'Date Added',
@@ -81,7 +82,7 @@ function Datasets() {
       actions={[
         (rowData) => ({
           icon: tableIcon.Delete,
-          tooltip: 'Delete User',
+          tooltip: 'Delete Datasource',
           onClick: onDeleteClick,
           hidden: rowData.usage > 0,
           iconProps: { 'data-testid': 'delete-datasource' },

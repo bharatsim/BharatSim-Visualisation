@@ -51,7 +51,12 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                     scope="col"
                     style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; color: rgba(52, 58, 64, 0.38); border-bottom: 1px solid #594ab73D; box-sizing: border-box;"
                   >
-                    Usage
+                    <span
+                      class=""
+                      title="Number of Dashboards which has widgets created"
+                    >
+                      Usage
+                    </span>
                   </th>
                   <th
                     class="MuiTableCell-root MuiTableCell-head MTableHeader-header-11 MuiTableCell-alignLeft"
@@ -227,7 +232,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                       <button
                         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeSmall"
                         tabindex="0"
-                        title="Delete User"
+                        title="Delete Datasource"
                         type="button"
                       >
                         <span
