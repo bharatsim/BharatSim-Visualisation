@@ -367,23 +367,4 @@ describe('api', () => {
         .expect({ errorMessage: 'datasource with id 123 not found', errorCode: 1002 });
     });
   });
-
-  describe('should get count of dashboards with matching filter', () => {
-    it('should get the count', async () => {
-      dashboardService.getCount.mockResolvedValue({ count: 2 });
-
-      await request(app).get('/datasources/1/dashboard_count').expect(200).expect({ count: 2 });
-
-      expect(dashboardService.getCount).toHaveBeenCalledWith({ 'charts.config.dataSource': '1' });
-    });
-
-    it('should throw technical error if error occurs while fetching the count', async () => {
-      dashboardService.getCount.mockRejectedValueOnce(new Error());
-
-      await request(app)
-        .get('/datasources/1234/dashboard_count')
-        .expect(500)
-        .expect({ errorMessage: 'Technical error ', errorCode: 1003 });
-    });
-  });
 });

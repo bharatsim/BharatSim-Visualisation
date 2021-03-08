@@ -1,7 +1,7 @@
 const EXCLUDED_COLUMNS_V = { __v: 0 };
 const EXCLUDED_COLUMNS_ID = { _id: 0 };
 
-const DATASOURCE_USAGE_COUNT_FILTER_STRING = 'charts.config.dataSource';
+const DATASOURCE_USAGE_COUNT_FILTER_STRING = 'charts.dataSourceIds';
 
 module.exports = {
   EXCLUDED_COLUMNS_V,
