@@ -107,15 +107,20 @@ describe('Chart configuration wizard', () => {
       fireEvent.click(applyButton);
     });
 
-    expect(mockOnApply).toHaveBeenCalledWith(undefined, 'lineChart', {
-      chartName: 'chart name',
-      dataSource: 'id2',
-      xAxis: {
-        columnName: 'column1',
-        type: '-',
+    expect(mockOnApply).toHaveBeenCalledWith(
+      undefined,
+      'lineChart',
+      {
+        chartName: 'chart name',
+        dataSource: 'id2',
+        xAxis: {
+          columnName: 'column1',
+          type: '-',
+        },
+        yAxis: [{ name: 'column2' }],
       },
-      yAxis: [{ name: 'column2' }],
-    });
+      ['id2'],
+    );
   });
 
   it('should call on apply function on click of on apply button of config step with default chart name', async () => {
@@ -145,15 +150,20 @@ describe('Chart configuration wizard', () => {
       fireEvent.click(applyButton);
     });
 
-    expect(onApplyMock).toHaveBeenCalledWith(undefined, 'lineChart', {
-      chartName: 'Untitled Chart',
-      dataSource: 'id2',
-      xAxis: {
-        columnName: 'column1',
-        type: '-',
+    expect(onApplyMock).toHaveBeenCalledWith(
+      undefined,
+      'lineChart',
+      {
+        chartName: 'Untitled Chart',
+        dataSource: 'id2',
+        xAxis: {
+          columnName: 'column1',
+          type: '-',
+        },
+        yAxis: [{ name: 'column2' }],
       },
-      yAxis: [{ name: 'column2' }],
-    });
+      ['id2'],
+    );
   });
   it('should disable apply button if any config is not selected', async () => {
     const onApplyMock = jest.fn();

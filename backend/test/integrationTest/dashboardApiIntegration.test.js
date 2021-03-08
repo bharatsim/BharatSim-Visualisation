@@ -10,15 +10,14 @@ const dashboardModel = require('../../src/model/dashboard');
 const DatasourceDashboardMap = require('../../src/model/datasourceDashboardMap');
 const { parseDBObject } = require('../../src/utils/dbUtils');
 
-
-const TEST_FOLDER_EXTENSION = "dashboard"
-
+const TEST_FOLDER_EXTENSION = 'dashboard';
 
 const chart = {
   layout: { h: 1, i: 'test', w: 2, x: 1, y: 3 },
   dataSource: 'datasource',
   config: { xAxis: 'xCol', yAxis: 'ycol' },
   chartType: 'chartType',
+  dataSourceIds: ['datasource'],
 };
 const dashboardData = {
   name: 'dashboard1',
@@ -32,7 +31,11 @@ describe('Integration test for dashboard api', () => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(multer({ dest: `${dbHandler.TEST_FILE_UPLOAD_PATH}-${TEST_FOLDER_EXTENSION}` }).single('datafile'));
+  app.use(
+    multer({ dest: `${dbHandler.TEST_FILE_UPLOAD_PATH}-${TEST_FOLDER_EXTENSION}` }).single(
+      'datafile',
+    ),
+  );
   app.use('/datasources', datasourcesRoutes);
   app.use('/dashboard', dashboardRoutes);
   beforeAll(async () => {

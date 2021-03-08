@@ -44,6 +44,7 @@ function HeaderSelector({
   const { errors, control, setValue, defaultValues } = useFormContext();
   const error = errors[configKey] || {};
   const initialValue = defaultValue || defaultValues[configKey] || '';
+
   return (
     <Box>
       <Box mb={1} pl={2}>

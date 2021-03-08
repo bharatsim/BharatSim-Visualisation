@@ -13,7 +13,7 @@ import NoDataSetPresentMessage from '../../configureDataset/NoDatatSetPresentMes
 import ControlledDropDown from '../../../uiComponent/ControlledDropdown';
 
 function DatasourceSelector({
-  name,
+  name: datasourceKey,
   disabled,
   defaultValue,
   filterDatasource,
@@ -24,8 +24,11 @@ function DatasourceSelector({
   id,
 }) {
   const { selectedDashboardMetadata, projectMetadata } = useContext(projectLayoutContext);
-  const { control, setValue, errors } = useFormContext();
-  const error = errors[name] || {};
+
+  const { control, setValue, errors, registerDatasource, watch } = useFormContext();
+  const datasourceValue = watch(datasourceKey);
+  const error = errors[datasourceKey] || {};
+
   const { _id: selectedDashboardId } = selectedDashboardMetadata;
   const {
     startLoader,
@@ -39,6 +42,9 @@ function DatasourceSelector({
   useEffect(() => {
     fetchDatasources();
   }, []);
+  useEffect(() => {
+    registerDatasource(datasourceKey, datasourceValue);
+  }, [datasourceValue]);
 
   async function fetchDatasources() {
     startLoader();
@@ -83,7 +89,7 @@ function DatasourceSelector({
             id={id}
             label={label}
             disabled={disabled}
-            name={name}
+            name={datasourceKey}
             control={control}
             validations={{ required: 'Required' }}
             defaultValue={defaultValue}

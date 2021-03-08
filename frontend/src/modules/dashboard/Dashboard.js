@@ -78,10 +78,10 @@ function Dashboard() {
     dispatch(updateDashboardAction(newDashboard));
   }
 
-  function onApply(chartId, chartType, config) {
+  function onApply(chartId, chartType, config, dataSourceIds) {
     const newCharts = chartId
-      ? updateChart(chartId, chartType, config)
-      : addChart(chartType, config);
+      ? updateChart(chartId, chartType, config, dataSourceIds)
+      : addChart(chartType, config, dataSourceIds);
     updateDashboard({
       charts: newCharts,
       layout,
@@ -97,18 +97,19 @@ function Dashboard() {
     closeModal();
   }
 
-  function addChart(chartType, config) {
+  function addChart(chartType, config, dataSourceIds) {
     return charts.concat({
       config,
       chartType,
       layout: getNewWidgetLayout(charts.length, COLUMNS, chartsCount),
+      dataSourceIds,
     });
   }
 
-  function updateChart(chartId, chartType, config) {
+  function updateChart(chartId, chartType, config, dataSourceIds) {
     const existingChart = charts.find((c) => c.layout.i === chartId);
     const restCharts = charts.filter((c) => c.layout.i !== chartId);
-    const updatedChart = { ...existingChart, chartType, config };
+    const updatedChart = { ...existingChart, chartType, config, dataSourceIds };
     return restCharts.concat(updatedChart);
   }
 

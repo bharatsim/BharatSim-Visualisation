@@ -29,7 +29,12 @@ const ComponentWithProvider = withProjectLayout(
   withRouter(withThemeProvider(ChoroplethMapLayerConfig)),
 );
 
-const TestForChoroplethMapLayerConfig = ({ onSubmit, shouldShowReferenceIdConfig, isEditMode,levelIndex }) => {
+const TestForChoroplethMapLayerConfig = ({
+  onSubmit,
+  shouldShowReferenceIdConfig,
+  isEditMode,
+  levelIndex,
+}) => {
   const form = useForm({ mode: 'onChange' });
   const { control, errors, handleSubmit, watch } = form;
   const props = {
@@ -43,7 +48,13 @@ const TestForChoroplethMapLayerConfig = ({ onSubmit, shouldShowReferenceIdConfig
     shouldShowReferenceIdConfig: shouldShowReferenceIdConfig || false,
     levelIndex: levelIndex || 0,
   };
-  const methods = { ...form, defaultValues: {}, isEditMode };
+  const mockRegisterDatasource = jest.fn();
+  const methods = {
+    ...form,
+    defaultValues: {},
+    isEditMode,
+    registerDatasource: mockRegisterDatasource,
+  };
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>

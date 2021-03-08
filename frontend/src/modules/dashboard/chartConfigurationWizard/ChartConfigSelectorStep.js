@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useForm as useReactForm, FormProvider } from 'react-hook-form';
 import {
@@ -46,6 +46,7 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
   const chartName = existingConfig[chartConfigOptionTypes.CHART_NAME] || 'Untitled Chart';
   const reactForm = useReactForm({ mode: 'onChange', defaultValues: existingConfig });
   const { register, handleSubmit, watch, setValue, formState } = reactForm;
+  const [dataSourcesRegistry, setDataSourcesRegistry] = useState({});
   const selectedDatasource = watch(chartConfigOptionTypes.DATASOURCE, undefined);
 
   function isEditMode() {
@@ -53,11 +54,22 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
   }
 
   function onApplyClick(data) {
-    onApply(data);
+    const datasourceIds = Object.values(dataSourcesRegistry);
+    onApply(data, datasourceIds);
   }
 
   function resetValue(keys) {
     keys.forEach((key) => setValue(key, undefined));
+  }
+
+  function registerDatasource(name, datasourceId) {
+    setDataSourcesRegistry((prev) => ({ ...prev, [name]: datasourceId }));
+  }
+
+  function unRegisterDatasource(name) {
+    const currentReg = { ...dataSourcesRegistry };
+    delete currentReg[name];
+    setDataSourcesRegistry(currentReg);
   }
 
   const methods = {
@@ -66,6 +78,8 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
     isEditMode: isEditMode(),
     chartType,
     defaultValues: existingConfig,
+    registerDatasource,
+    unRegisterDatasource,
   };
   return (
     <Box>

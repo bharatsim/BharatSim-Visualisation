@@ -27,7 +27,8 @@ jest.mock('../../../utils/api', () => ({
 const ComponentWithProvider = withProjectLayout(
   withRouter(withThemeProvider(ChoroplethMultiMapLayerConfig)),
 );
-
+const mockRegisterDatasource = jest.fn();
+const mockUnRegisterDatasource = jest.fn();
 const TestForChoroplethMultiMapLayerConfig = ({ onSubmit, isEditMode }) => {
   const form = useForm({ mode: 'onChange' });
   const { control, errors, handleSubmit, watch } = form;
@@ -40,7 +41,14 @@ const TestForChoroplethMultiMapLayerConfig = ({ onSubmit, isEditMode }) => {
     configKey: 'mapLayerConfig',
     isEditMode: isEditMode || false,
   };
-  const methods = { ...form, isEditMode, defaultValues: {} };
+
+  const methods = {
+    ...form,
+    defaultValues: {},
+    isEditMode,
+    registerDatasource: mockRegisterDatasource,
+    unRegisterDatasource: mockUnRegisterDatasource,
+  };
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -105,6 +113,7 @@ describe('<ChoroplethMultiMapLayerConfigs />', () => {
     fireEvent.click(getByTestId('delete-level-2'));
 
     expect(level2).not.toBeInTheDocument();
+    expect(mockUnRegisterDatasource).toHaveBeenCalledWith('mapLayerConfig.[1].mapLayer');
   });
   it('should only allow delete to be present on last level config', async () => {
     const renderComponent = render(<TestForChoroplethMultiMapLayerConfig onSubmit={jest.fn()} />);

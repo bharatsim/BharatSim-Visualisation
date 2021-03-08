@@ -38,8 +38,8 @@ function ChartConfigurationWizard({ chart: chartToEdit, isOpen, closeModal, onAp
     setSelectedChart(chart);
     goToNextStep();
   }
-  function onClickOfConfigSelectorNext(config) {
-    onApply(chartId, selectedChart, config);
+  function onClickOfConfigSelectorNext(config, dataSourceIds) {
+    onApply(chartId, selectedChart, config, dataSourceIds);
   }
 
   return (

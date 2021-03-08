@@ -18,7 +18,7 @@ async function getOne(dashboardId) {
 }
 
 async function getCount(filter) {
-  return await DashboardModel.countDocuments(filter);
+  return DashboardModel.countDocuments(filter);
 }
 
 async function deleteOne(dashboardId) {

@@ -10,6 +10,7 @@ const chart = {
   dataSource: 'datasource',
   layout: { h: 1, i: 'test', w: 2, x: 1, y: null },
   chartType: 'chartType',
+  dataSourceIds: ['datasource'],
 };
 
 const dashboard = {
@@ -42,6 +43,7 @@ describe('DashboardRepository', function () {
           dataSource: 'datasource',
           layout: { h: 1, i: 'test', w: 2, x: 1, y: null },
           chartType: 'chartType',
+          dataSourceIds: ['datasource'],
         },
       ],
       layout: [],
@@ -63,6 +65,7 @@ describe('DashboardRepository', function () {
           dataSource: 'datasource',
           layout: { h: 1, i: 'test', w: 2, x: 1, y: null },
           chartType: 'chartType',
+          dataSourceIds: ['datasource'],
         },
       ],
       layout: [],
@@ -117,6 +120,7 @@ describe('DashboardRepository', function () {
       charts: [
         {
           chartType: 'chartType',
+          dataSourceIds: ['datasource'],
           config: { xAxis: 'xCol', yAxis: 'ycol' },
           dataSource: 'datasource',
           layout: { h: 1, i: 'test', w: 2, x: 1, y: null },
@@ -149,9 +153,9 @@ describe('DashboardRepository', function () {
   it('should get count of widgets for given filter', async () => {
     await DashboardRepository.insert(dashboard);
 
-    const queryObject = {"charts.dataSource": "datasource"};
+    const queryObject = { 'charts.dataSource': 'datasource' };
 
     const count = await DashboardRepository.getCount(queryObject);
-    expect(count).toEqual(1)
+    expect(count).toEqual(1);
   });
 });

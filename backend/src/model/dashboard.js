@@ -8,6 +8,7 @@ const chartSchema = new Schema(
     config: Object,
     chartType: String,
     chartName: String,
+    dataSourceIds: [],
   },
   { _id: false },
 );
@@ -21,7 +22,6 @@ const dashboard = new Schema(
     charts: [chartSchema],
     layout: [Object],
     count: { type: Number, required: true },
-    // TODO: Add Required in project id
     projectId: {
       type: Schema.Types.ObjectId,
       ref: 'project',

@@ -39,7 +39,13 @@ const TestForChoroplethConfigs = ({ onSubmit, isEditMode, leveIndex }) => {
     isEditMode,
     leveIndex,
   };
-  const method = { ...form, isEditMode, defaultValues: {} };
+  const mockRegisterDatasource = jest.fn();
+  const method = {
+    ...form,
+    isEditMode,
+    defaultValues: {},
+    registerDatasource: mockRegisterDatasource,
+  };
   return (
     <FormProvider {...method}>
       <form onSubmit={handleSubmit(onSubmit)}>

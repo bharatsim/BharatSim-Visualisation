@@ -29,7 +29,8 @@ const TestForm = ({ onSubmit, isEditMode, filter }) => {
     ],
     configKey: 'dataSource',
   };
-  const methods = { ...form, isEditMode };
+  const mockRegisterDatasource = jest.fn();
+  const methods = { ...form, isEditMode, registerDatasource: mockRegisterDatasource };
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>

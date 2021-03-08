@@ -21,7 +21,13 @@ jest.mock('../../../utils/api', () => ({
 const TestForm = ({ onSubmit }) => {
   const form = useForm({ mode: 'onChange' });
   const { handleSubmit } = form;
-  const method = { ...form, defaultValues: {}, isEditMode: false };
+  const mockRegisterDatasource = jest.fn();
+  const method = {
+    ...form,
+    defaultValues: {},
+    isEditMode: false,
+    registerDatasource: mockRegisterDatasource,
+  };
   return (
     <FormProvider {...method}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -32,7 +38,7 @@ const TestForm = ({ onSubmit }) => {
   );
 };
 
-describe('<TimeSliderConfig />', () => {
+describe('<MapLayerSelector />', () => {
   const FormForTimeSliderConfig = withRouter(withProjectLayout(withThemeProvider(TestForm)));
 
   afterEach(() => {

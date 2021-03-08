@@ -84,6 +84,7 @@ const initialDashboardState = {
         x: 0,
         y: Infinity,
       },
+      dataSourceIds: ['id2'],
     },
   ],
   count: 1,

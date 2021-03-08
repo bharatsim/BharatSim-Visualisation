@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useFieldArray } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Typography } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ChoroplethMultiMapLayerConfig({ control, configKey, errors, isEditMode, headers, watch }) {
   const classes = useStyles();
+  const { unRegisterDatasource } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: configKey,
@@ -43,6 +44,11 @@ function ChoroplethMultiMapLayerConfig({ control, configKey, errors, isEditMode,
     if (isEditMode) return;
     append({});
   }, []);
+
+  function removeMapConfig(index) {
+    remove(index);
+    unRegisterDatasource(`${configKey}.[${index}].mapLayer`);
+  }
 
   return (
     <>
@@ -58,7 +64,7 @@ function ChoroplethMultiMapLayerConfig({ control, configKey, errors, isEditMode,
               </Typography>
               {fields.length > 1 && index === fields.length - 1 && (
                 <IconButton
-                  onClick={() => remove(index)}
+                  onClick={() => removeMapConfig(index)}
                   size="small"
                   data-testid={`delete-level-${levelIndex}`}
                 >
