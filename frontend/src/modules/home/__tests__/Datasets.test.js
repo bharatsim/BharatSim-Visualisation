@@ -1,6 +1,7 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, getAllByTestId } from '@testing-library/dom';
 
+import { within } from '@testing-library/react';
 import { renderWithRedux as render } from '../../../testUtil';
 import withSnackBar from '../../../hoc/snackbar/withSnackBar';
 import Datasets from '../Datasets';
@@ -63,23 +64,36 @@ describe('Datasets', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should call delete on click on delete icon', async () => {
-    const { findByText, getAllByRole } = render(<DatasetsWithProvider />);
-    await findByText('fileName');
-    const deleteButton = getAllByRole('button');
-    fireEvent.click(deleteButton[1]);
-    await findByText('fileName');
-    expect(api.deleteDatasource).toHaveBeenCalledWith('DatasourceId2');
-  });
+  it(
+    'should open delete confirmation modal on click of delete icon and delete ' +
+      'datasource on confirmation button click',
+    async () => {
+      const { findByText, getAllByTitle, getByText, getByTestId } = render(
+        <DatasetsWithProvider />,
+      );
+      await findByText('fileName');
+      const deleteButton = getAllByTitle('Delete Datasource');
+      fireEvent.click(deleteButton[1]);
+      const deleteConfirmationMessage = getByText(
+        'Are you sure you want to delete datasource fileName2 ?',
+      );
+      expect(deleteConfirmationMessage).toBeInTheDocument();
 
-  it('should delete row on click of delete icon', async () => {
-    const { findByText, getAllByRole, queryByText } = render(<DatasetsWithProvider />);
-    await findByText('fileName');
-    const deleteButton = getAllByRole('button');
-    fireEvent.click(deleteButton[1]);
-    await findByText('fileName');
+      const confirmDeleteButton = getByTestId('delete-datasource');
+      fireEvent.click(confirmDeleteButton);
+      await findByText('fileName');
 
-    expect(queryByText('fileName2')).toBeNull();
+      expect(api.deleteDatasource).toHaveBeenCalledWith('DatasourceId2');
+    },
+  );
+  it('should enable delete only for usage count more than 0', async () => {
+    const { findByText, getAllByTitle } = render(<DatasetsWithProvider />);
+    await findByText('fileName');
+    const deleteButton = getAllByTitle('Delete Datasource');
+
+    expect(deleteButton[1].children[0]).not.toHaveAttribute('disabled');
+    expect(deleteButton[0].children[0]).toHaveAttribute('disabled', '');
+    expect(deleteButton[2].children[0]).toHaveAttribute('disabled', '');
   });
 
   it('should show message No Datasource Found if no dataSources are uploaded', async () => {

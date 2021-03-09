@@ -37,11 +37,11 @@ function Table({ columns, data, title, options, components, ...rest }) {
 
 Table.defaultProps = {
   options: {},
-  components: [],
+  components: {},
 };
 
 Table.propTypes = {
-  components: PropTypes.arrayOf(ChildrenPropTypes),
+  components: PropTypes.shape({}),
   columns: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   title: PropTypes.string.isRequired,

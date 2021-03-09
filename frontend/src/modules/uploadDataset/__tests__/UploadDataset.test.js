@@ -65,7 +65,7 @@ describe('Upload Dataset', () => {
     expect(getByText('Drag your file here or')).toBeInTheDocument();
   });
 
-  it('should import file and open configure dataset step ', async () => {
+  it('should import file and open configure dataset step', async () => {
     const { getByText, getByTestId, findByText } = render(<ComponentWithProvider />);
     const inputComponent = getByTestId('file-input');
 
