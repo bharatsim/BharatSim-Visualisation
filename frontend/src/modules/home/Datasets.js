@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, useTheme } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 import Table from '../../uiComponent/table/Table';
 import fileTypes from '../../constants/fileTypes';
 import { formatDate } from '../../utils/dateUtils';
@@ -9,12 +10,15 @@ import { api } from '../../utils/api';
 import tableIcon from '../../uiComponent/table/tableIcon';
 import useModal from '../../hook/useModal';
 import DeleteConfirmationModal from '../../uiComponent/DeleteConfirmationModal';
+import snackbarVariant from '../../constants/snackbarVariant';
 
 function Datasets() {
   const [dataSources, setDataSources] = useState();
   const theme = useTheme();
   const styles = tableStyles(theme, dataSources);
   const [selectedRow, setSelectedRow] = useState();
+  const { enqueueSnackbar } = useSnackbar();
+  const { SUCCESS } = snackbarVariant;
   const {
     isOpen: isDeleteModalOpen,
     openModal: openDeleteModal,
@@ -28,11 +32,16 @@ function Datasets() {
 
   async function deleteDatasource() {
     const { _id: selectedRowId } = selectedRow;
+    closeDeleteModal();
     await api.deleteDatasource(selectedRowId).then(() => {
+      enqueueSnackbar(`Successfully deleted datasource ${selectedRow.name}`, {
+        variant: SUCCESS,
+      });
       setDataSources((prevDatasources) =>
         prevDatasources.filter(({ _id: prevDatasourceID }) => prevDatasourceID !== selectedRowId),
       );
     });
+
     closeDeleteModal();
   }
 
@@ -100,7 +109,6 @@ function Datasets() {
             onClick: onDeleteClick,
             disabled: rowData.usage > 0,
             size: 'small',
-            'data-testid': 'delete-datasource',
           }),
         ]}
       />

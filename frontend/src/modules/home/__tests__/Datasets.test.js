@@ -1,7 +1,6 @@
 import React from 'react';
-import { fireEvent, getAllByTestId } from '@testing-library/dom';
+import { fireEvent } from '@testing-library/dom';
 
-import { within } from '@testing-library/react';
 import { renderWithRedux as render } from '../../../testUtil';
 import withSnackBar from '../../../hoc/snackbar/withSnackBar';
 import Datasets from '../Datasets';
@@ -83,7 +82,9 @@ describe('Datasets', () => {
       fireEvent.click(confirmDeleteButton);
       await findByText('fileName');
 
+      const deletedMessage = getByText('Successfully deleted datasource fileName2');
       expect(api.deleteDatasource).toHaveBeenCalledWith('DatasourceId2');
+      expect(deletedMessage).toBeInTheDocument();
     },
   );
   it('should enable delete only for usage count more than 0', async () => {

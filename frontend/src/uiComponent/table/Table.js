@@ -4,7 +4,6 @@ import MaterialTable, { MTableAction } from 'material-table';
 import { useTheme } from '@material-ui/core';
 import tableIcons from './tableIcon';
 import tableStyles from './tableCSS';
-import { ChildrenPropTypes } from '../../commanPropTypes';
 
 function Table({ columns, data, title, options, components, ...rest }) {
   const theme = useTheme();
