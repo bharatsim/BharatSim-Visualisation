@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import { Typography } from '@material-ui/core';
+import { RootRef, Typography } from '@material-ui/core';
+import { toPng } from 'html-to-image';
+import { PhotoCamera } from '@material-ui/icons';
 import { ChildrenPropTypes } from '../../commanPropTypes';
 import dragIcon from '../../assets/images/dragIcon.svg';
 import WidgetMenu from './WidgetMenu';
+import IconButton from '../../uiComponent/IconButton';
 
 const useStyles = makeStyles((theme) => ({
   chartContainer: {
@@ -41,6 +44,16 @@ const useStyles = makeStyles((theme) => ({
 
 function Widget({ title, onDelete, onEdit, children }) {
   const classes = useStyles();
+  const ref = useRef();
+
+  function exportHtml() {
+    toPng(ref.current).then(function (dataUrl) {
+      const link = document.createElement('a');
+      link.download = title;
+      link.href = dataUrl;
+      link.click();
+    });
+  }
 
   return (
     <>
@@ -51,9 +64,21 @@ function Widget({ title, onDelete, onEdit, children }) {
         <Typography classes={{ body2: classes.chartName }} variant="body2">
           {title}
         </Typography>
-        <WidgetMenu onEdit={onEdit} onDelete={onDelete} />
+        <Box>
+          <IconButton
+            onClick={exportHtml}
+            size="small"
+            title="take snapshot"
+            data-testid="snapshot-button"
+          >
+            <PhotoCamera />
+          </IconButton>
+          <WidgetMenu onEdit={onEdit} onDelete={onDelete} />
+        </Box>
       </Box>
-      <Box className={classes.chartContainer}>{children}</Box>
+      <RootRef rootRef={ref}>
+        <Box className={classes.chartContainer}>{children}</Box>
+      </RootRef>
     </>
   );
 }

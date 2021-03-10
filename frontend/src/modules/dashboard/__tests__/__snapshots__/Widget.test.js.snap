@@ -18,31 +18,65 @@ exports[`<Widget /> should match snapshot 1`] = `
     >
       Line Chart
     </p>
-    <button
-      class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-9 makeStyles-root-8"
-      data-testid="widget-menu"
-      tabindex="0"
-      type="button"
+    <div
+      class="MuiBox-root MuiBox-root-8"
     >
-      <span
-        class="MuiIconButton-label"
+      <button
+        class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-9 MuiIconButton-sizeSmall"
+        data-testid="snapshot-button"
+        tabindex="0"
+        title="take snapshot"
+        type="button"
       >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root"
-          color="#797d82"
-          focusable="false"
-          viewBox="0 0 24 24"
+        <span
+          class="MuiIconButton-label"
         >
-          <path
-            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-          />
-        </svg>
-      </span>
-    </button>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="3.2"
+            />
+            <path
+              d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+      <button
+        class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-9 makeStyles-root-10"
+        data-testid="widget-menu"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root"
+            color="#797d82"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-15 makeStyles-chartContainer-1"
+    class="MuiBox-root MuiBox-root-16 makeStyles-chartContainer-1"
   >
     Line Chart
   </div>

@@ -1,7 +1,12 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
+import { toPng } from 'html-to-image';
 import Widget from '../Widget';
 import withThemeProvider from '../../../theme/withThemeProvider';
+
+jest.mock('html-to-image', () => ({
+  toPng: jest.fn().mockResolvedValue('dataUrl'),
+}));
 
 describe('<Widget />', () => {
   const WidgetWithProvider = withThemeProvider(Widget);
@@ -54,5 +59,17 @@ describe('<Widget />', () => {
     fireEvent.click(getByText('Delete Chart'));
     fireEvent.click(getByTestId('button-icon-close'));
     expect(onDeleteMock).not.toBeCalled();
+  });
+  it('should take snapshot of line chart', () => {
+    const onDeleteMock = jest.fn();
+
+    const { getByTestId } = render(
+      <WidgetWithProvider title="Line Chart" onDelete={onDeleteMock} onEdit={() => {}}>
+        Line Chart
+      </WidgetWithProvider>,
+    );
+    fireEvent.click(getByTestId('snapshot-button'));
+
+    expect(toPng).toHaveBeenCalled();
   });
 });

@@ -3,7 +3,7 @@
 exports[`LineChart should create a line chart with single yaxis <LineChart /> component 1`] = `
 <div>
   <div
-    style="width: 100%; height: 100%; padding: 0px;"
+    style="width: 100%; height: 100%; padding: 0px; position: relative;"
   >
     <div
       class="MuiBox-root MuiBox-root-6 makeStyles-switchContainer-3"

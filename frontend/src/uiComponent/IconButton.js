@@ -3,8 +3,8 @@ import MuiIconButton from '@material-ui/core/IconButton';
 
 const IconButton = withStyles((theme) => ({
   root: {
-    height: theme.spacing(6),
-    width: theme.spacing(6),
+    height: theme.spacing(5),
+    width: theme.spacing(5),
     color: theme.palette.grey['800'],
   },
 }))(MuiIconButton);
