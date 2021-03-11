@@ -3,10 +3,11 @@
 exports[`BarChart should have fetched text in <BarChart /> component 1`] = `
 <div>
   <div
-    style="width: 100%; height: 100%; padding: 0px; position: relative;"
+    class="MuiBox-root MuiBox-root-4 Styled(MuiBox)-root-3"
+    classes="[object Object]"
   >
     <div
-      class="MuiBox-root MuiBox-root-6 makeStyles-switchContainer-3"
+      class="MuiBox-root MuiBox-root-8 makeStyles-switchContainer-5"
     >
       <label
         class="MuiFormControlLabel-root"
@@ -16,13 +17,13 @@ exports[`BarChart should have fetched text in <BarChart /> component 1`] = `
         >
           <span
             aria-disabled="false"
-            class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-10 MuiSwitch-switchBase WithStyles(ForwardRef(Switch))-switchBase-7 MuiSwitch-colorSecondary"
+            class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-12 MuiSwitch-switchBase WithStyles(ForwardRef(Switch))-switchBase-9 MuiSwitch-colorSecondary"
           >
             <span
               class="MuiIconButton-label"
             >
               <input
-                class="PrivateSwitchBase-input-13 MuiSwitch-input"
+                class="PrivateSwitchBase-input-15 MuiSwitch-input"
                 name="Log"
                 type="checkbox"
                 value=""
@@ -36,11 +37,11 @@ exports[`BarChart should have fetched text in <BarChart /> component 1`] = `
             />
           </span>
           <span
-            class="MuiSwitch-track WithStyles(ForwardRef(Switch))-track-9"
+            class="MuiSwitch-track WithStyles(ForwardRef(Switch))-track-11"
           />
         </span>
         <span
-          class="MuiTypography-root MuiFormControlLabel-label makeStyles-uncheckedLabel-5 MuiTypography-body1"
+          class="MuiTypography-root MuiFormControlLabel-label makeStyles-uncheckedLabel-7 MuiTypography-body1"
         >
           Log Scale
         </span>

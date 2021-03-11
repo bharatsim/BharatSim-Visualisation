@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import { RootRef, Typography } from '@material-ui/core';
+import { RootRef, Typography, useTheme } from '@material-ui/core';
 import { toPng } from 'html-to-image';
 import { PhotoCamera } from '@material-ui/icons';
 import { ChildrenPropTypes } from '../../commanPropTypes';
@@ -40,14 +40,27 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     cursor: 'grab',
   },
+  icon: {
+    height: theme.spacing(5),
+    width: theme.spacing(5),
+  },
+  menubar: {
+    '& > *': {
+      marginRight: theme.spacing(1),
+    },
+    '& > *:last-child': {
+      marginRight: 0,
+    },
+  },
 }));
 
 function Widget({ title, onDelete, onEdit, children }) {
   const classes = useStyles();
   const ref = useRef();
+  const theme = useTheme();
 
   function exportHtml() {
-    toPng(ref.current).then(function (dataUrl) {
+    toPng(ref.current).then((dataUrl) => {
       const link = document.createElement('a');
       link.download = title;
       link.href = dataUrl;
@@ -64,14 +77,14 @@ function Widget({ title, onDelete, onEdit, children }) {
         <Typography classes={{ body2: classes.chartName }} variant="body2">
           {title}
         </Typography>
-        <Box>
+        <Box className={classes.menubar}>
           <IconButton
             onClick={exportHtml}
-            size="small"
             title="take snapshot"
             data-testid="snapshot-button"
+            classes={{ root: classes.icon }}
           >
-            <PhotoCamera />
+            <PhotoCamera fontSize="small" htmlColor={theme.colors.grayScale['500']} />
           </IconButton>
           <WidgetMenu onEdit={onEdit} onDelete={onDelete} />
         </Box>

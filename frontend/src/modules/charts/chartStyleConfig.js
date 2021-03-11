@@ -1,3 +1,5 @@
+import { withStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
 import { chartColorsPallet, colors } from '../../theme/colorPalette';
 
 const configs = {
@@ -89,4 +91,13 @@ function yAxisLegendName(yColName) {
     : yColName;
 }
 
-export { layoutConfig, configs, line, marker, tooltip, yAxisLegendName };
+const ChartFullSizeWrapper = withStyles(() => ({
+  root: {
+    height: '100%',
+    width: '100%',
+    position: 'relative',
+    padding: 0,
+  },
+}))(Box);
+
+export { layoutConfig, configs, line, marker, tooltip, yAxisLegendName, ChartFullSizeWrapper };

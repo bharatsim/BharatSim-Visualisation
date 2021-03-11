@@ -7,7 +7,13 @@ import { api } from '../../../utils/api';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
-import { layoutConfig, configs, tooltip, yAxisLegendName } from '../chartStyleConfig';
+import {
+  layoutConfig,
+  configs,
+  tooltip,
+  yAxisLegendName,
+  ChartFullSizeWrapper,
+} from '../chartStyleConfig';
 import { chartColorsPallet } from '../../../theme/colorPalette';
 import LogScaleSwitch from '../../../uiComponent/LogScaleSwitch';
 import useToggle from '../../../hook/useToggle';
@@ -78,7 +84,7 @@ function BarChart({ config }) {
 
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
-      <div style={{ width: '100%', height: '100%', padding: 0, position: 'relative' }}>
+      <ChartFullSizeWrapper>
         <LogScaleSwitch onChange={() => toggleState()} isChecked={isLogScale} />
         {fetchedData && (
           <Plot
@@ -89,7 +95,7 @@ function BarChart({ config }) {
             config={configs}
           />
         )}
-      </div>
+      </ChartFullSizeWrapper>
     </LoaderOrError>
   );
 }

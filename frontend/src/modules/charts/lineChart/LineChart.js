@@ -9,7 +9,15 @@ import { getYaxisNames } from '../utils';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
-import { line, marker, layoutConfig, configs, tooltip, yAxisLegendName } from '../chartStyleConfig';
+import {
+  line,
+  marker,
+  layoutConfig,
+  configs,
+  tooltip,
+  yAxisLegendName,
+  ChartFullSizeWrapper,
+} from '../chartStyleConfig';
 import { chartColorsPallet } from '../../../theme/colorPalette';
 import useToggle from '../../../hook/useToggle';
 import LogScaleSwitch from '../../../uiComponent/LogScaleSwitch';
@@ -82,7 +90,7 @@ function LineChart({ config }) {
 
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
-      <div style={{ width: '100%', height: '100%', padding: 0, position: 'relative' }}>
+      <ChartFullSizeWrapper>
         <LogScaleSwitch onChange={() => toggleState()} isChecked={isLogScale} />
         {fetchedData && (
           <Plot
@@ -93,7 +101,7 @@ function LineChart({ config }) {
             config={configs}
           />
         )}
-      </div>
+      </ChartFullSizeWrapper>
     </LoaderOrError>
   );
 }
