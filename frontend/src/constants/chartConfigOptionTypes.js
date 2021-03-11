@@ -10,4 +10,5 @@ export const chartConfigOptionTypes = {
   CHOROPLETH_CONFIG: 'choroplethConfig',
   DATASOURCE: 'dataSource',
   CHART_NAME: 'chartName',
+  MEASURE: 'measure',
 };

@@ -8,6 +8,7 @@ import heatMapIcon from '../assets/images/heatmap.svg';
 import BarChart from '../modules/charts/barChart/BarChart';
 import HeatMap from '../modules/charts/GeoMap/HeatMap';
 import Choropleth from '../modules/charts/GeoMap/Choropleth';
+import Histogram from '../modules/charts/histogram/Histogram';
 
 const chartConfigs = {
   [chartTypes.LINE_CHART]: {
@@ -45,6 +46,13 @@ const chartConfigs = {
       chartConfigOptionTypes.CHOROPLETH_CONFIG,
       chartConfigOptionTypes.SLIDER_CONFIG,
     ],
+  },
+  [chartTypes.HISTOGRAM]: {
+    key: chartTypes.HISTOGRAM,
+    label: 'Histogram',
+    icon: barChartIcon,
+    chart: (chartProps) => <Histogram {...chartProps} />,
+    configOptions: [chartConfigOptionTypes.MEASURE],
   },
 };
 

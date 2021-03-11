@@ -98,7 +98,7 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
             <h6
               class="MuiTypography-root MuiTypography-subtitle2"
             >
-              Geo Chart
+              Histogram
             </h6>
           </div>
           <div
@@ -106,10 +106,45 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
           >
             <div
               class="MuiBox-root MuiBox-root-22 makeStyles-buttonContainer-9"
-              data-testid="heatMap"
+              data-testid="histogram"
             >
               <div
                 class="MuiBox-root MuiBox-root-23 makeStyles-imageContainer-10"
+              >
+                <img
+                  alt="histogram"
+                  src="barChart.svg"
+                />
+              </div>
+              <span
+                class="MuiTypography-root MuiTypography-caption"
+              >
+                Histogram
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-24"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-25"
+          >
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2"
+            >
+              Geo Chart
+            </h6>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-26 makeStyles-chartTypeContainer-2"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-27 makeStyles-buttonContainer-9"
+              data-testid="heatMap"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-28 makeStyles-imageContainer-10"
               >
                 <img
                   alt="heatMap"
@@ -123,11 +158,11 @@ exports[`Chart configuration wizard should match snapshot 1`] = `
               </span>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-24 makeStyles-buttonContainer-9"
+              class="MuiBox-root MuiBox-root-29 makeStyles-buttonContainer-9"
               data-testid="choroplethMap"
             >
               <div
-                class="MuiBox-root MuiBox-root-25 makeStyles-imageContainer-10"
+                class="MuiBox-root MuiBox-root-30 makeStyles-imageContainer-10"
               >
                 <img
                   alt="choroplethMap"

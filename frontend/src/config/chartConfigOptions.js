@@ -78,6 +78,17 @@ const chartConfigOptions = {
       <ChoroplethConfigs headers={headers} configKey={chartConfigOptionTypes.CHOROPLETH_CONFIG} />
     ),
   },
+  [chartConfigOptionTypes.MEASURE]: {
+    component: ({ headers }) => (
+      <HeaderSelector
+        headers={headers}
+        id="measure"
+        label="select measure"
+        title="Measure/Metrics"
+        configKey={chartConfigOptionTypes.MEASURE}
+      />
+    ),
+  },
 };
 
 export default chartConfigOptions;
