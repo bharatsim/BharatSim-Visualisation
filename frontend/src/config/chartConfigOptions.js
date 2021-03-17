@@ -8,6 +8,7 @@ import TimeSliderConfig from '../modules/chartConfigOptions/TimeSliderConfig';
 import ChoroplethConfigs from '../modules/chartConfigOptions/ChoroplethConfigs';
 import MapLayerSelector from '../modules/chartConfigOptions/MapLayerSelector';
 import XAxisConfig from '../modules/chartConfigOptions/XAxisConfig';
+import AnnotationConfig from '../modules/chartConfigOptions/AnnotationConfig';
 
 const chartConfigOptions = {
   [chartConfigOptionTypes.X_AXIS]: {
@@ -88,6 +89,9 @@ const chartConfigOptions = {
         configKey={chartConfigOptionTypes.MEASURE}
       />
     ),
+  },
+  [chartConfigOptionTypes.ANNOTATION]: {
+    component: () => <AnnotationConfig configKey={chartConfigOptionTypes.ANNOTATION} />,
   },
 };
 

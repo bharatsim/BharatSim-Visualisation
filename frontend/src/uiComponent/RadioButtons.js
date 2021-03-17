@@ -37,7 +37,7 @@ function RadioButtons({ options, control, name, defaultValue, vertical, disabled
             return (
               <FormControlLabel
                 value={option.value}
-                control={<Radio />}
+                control={<Radio size="small" />}
                 label={option.label}
                 key={`option-${option.value}`}
                 name={option.label}

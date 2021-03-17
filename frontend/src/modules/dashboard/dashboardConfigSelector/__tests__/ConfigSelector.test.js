@@ -24,6 +24,9 @@ jest.mock('../../../../config/chartConfigOptions', () => ({
   yAxis: {
     component: () => <div>select y axis</div>,
   },
+  annotation: {
+    component: () => <div>annotation</div>,
+  },
 }));
 
 const ConfigSelectorWithProvider = withThemeProvider(ConfigSelector);
@@ -149,7 +152,7 @@ describe('<ConfigSelector />', () => {
 
     await findByText('select x axis');
 
-    expect(resetValue).toHaveBeenCalledWith(['xAxis', 'yAxis']);
+    expect(resetValue).toHaveBeenCalledWith(['xAxis', 'yAxis', 'annotation']);
   });
 
   it('should show loader while fetching data', async () => {

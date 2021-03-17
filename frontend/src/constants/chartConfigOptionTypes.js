@@ -11,4 +11,5 @@ export const chartConfigOptionTypes = {
   DATASOURCE: 'dataSource',
   CHART_NAME: 'chartName',
   MEASURE: 'measure',
+  ANNOTATION: 'annotation',
 };

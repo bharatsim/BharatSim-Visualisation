@@ -106,6 +106,7 @@ const chartColorsPallet = [
     '#58595b',
     '#8549ba',
   ],
+  ['#58595b'],
 ];
 
 export { muiColorPalette, colors, chartColorsPallet };

@@ -76,6 +76,9 @@ const initialDashboardState = {
             name: 'column2',
           },
         ],
+        annotation: {
+          annotationToggle: false,
+        },
       },
       layout: {
         h: 2,

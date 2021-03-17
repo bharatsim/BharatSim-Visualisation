@@ -16,14 +16,22 @@ const chartConfigs = {
     label: 'Line Chart',
     icon: lineChartIcon,
     chart: (chartProps) => <LineChart {...chartProps} />,
-    configOptions: [chartConfigOptionTypes.X_AXIS, chartConfigOptionTypes.Y_AXIS],
+    configOptions: [
+      chartConfigOptionTypes.X_AXIS,
+      chartConfigOptionTypes.Y_AXIS,
+      chartConfigOptionTypes.ANNOTATION,
+    ],
   },
   [chartTypes.BAR_CHART]: {
     key: chartTypes.BAR_CHART,
     label: 'Bar Chart',
     icon: barChartIcon,
     chart: (chartProps) => <BarChart {...chartProps} />,
-    configOptions: [chartConfigOptionTypes.X_AXIS, chartConfigOptionTypes.Y_AXIS],
+    configOptions: [
+      chartConfigOptionTypes.X_AXIS,
+      chartConfigOptionTypes.Y_AXIS,
+      chartConfigOptionTypes.ANNOTATION,
+    ],
   },
   [chartTypes.HEAT_MAP]: {
     key: chartTypes.HEAT_MAP,

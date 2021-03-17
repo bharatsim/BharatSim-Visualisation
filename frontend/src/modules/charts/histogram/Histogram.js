@@ -84,4 +84,4 @@ Histogram.propTypes = {
   }).isRequired,
 };
 
-export default Histogram;
+export default React.memo(Histogram);

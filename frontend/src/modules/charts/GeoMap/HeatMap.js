@@ -149,4 +149,4 @@ HeatMap.propTypes = {
   }).isRequired,
 };
 
-export default HeatMap;
+export default React.memo(HeatMap);

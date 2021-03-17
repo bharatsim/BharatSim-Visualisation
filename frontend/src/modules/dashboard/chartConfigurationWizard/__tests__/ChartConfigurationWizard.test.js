@@ -118,6 +118,9 @@ describe('Chart configuration wizard', () => {
           type: '-',
         },
         yAxis: [{ name: 'column2' }],
+        annotation: {
+          annotationToggle: false,
+        },
       },
       ['id2'],
     );
@@ -161,6 +164,9 @@ describe('Chart configuration wizard', () => {
           type: '-',
         },
         yAxis: [{ name: 'column2' }],
+        annotation: {
+          annotationToggle: false,
+        },
       },
       ['id2'],
     );

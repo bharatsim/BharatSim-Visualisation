@@ -240,4 +240,4 @@ Choropleth.propTypes = {
   }).isRequired,
 };
 
-export default Choropleth;
+export default React.memo(Choropleth);

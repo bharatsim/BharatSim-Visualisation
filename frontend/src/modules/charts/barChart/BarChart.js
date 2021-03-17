@@ -19,8 +19,9 @@ import LogScaleSwitch from '../../../uiComponent/LogScaleSwitch';
 import useToggle from '../../../hook/useToggle';
 
 function BarChart({ config }) {
-  const { xAxis, yAxis, dataSource } = config;
+  const { xAxis, yAxis, dataSource, annotation } = config;
   const { columnName: xColumn, type: xAxisType } = xAxis;
+  const { annotations } = annotation || {};
   const yColumns = getYaxisNames(yAxis);
   const [fetchedData, setFetchedData] = useState();
   const { state: isLogScale, toggleState } = useToggle();
@@ -88,7 +89,8 @@ function BarChart({ config }) {
         <LogScaleSwitch onChange={() => toggleState()} isChecked={isLogScale} />
         {fetchedData && (
           <Plot
-            layout={layoutConfig(xColumn, xAxisType, yAxisType)}
+            key={Math.random()}
+            layout={layoutConfig(xColumn, xAxisType, yAxisType, annotations)}
             data={chartMemo.data}
             useResizeHandler
             style={{ width: '100%', height: '100%' }}
@@ -113,6 +115,18 @@ BarChart.propTypes = {
         type: PropTypes.string.isRequired,
       }),
     ).isRequired,
+    annotation: PropTypes.shape({
+      annotations: PropTypes.arrayOf(
+        PropTypes.shape({
+          direction: PropTypes.string,
+          color: PropTypes.string,
+          opacity: PropTypes.string,
+          start: PropTypes.string,
+          end: PropTypes.string,
+          label: PropTypes.string,
+        }),
+      ),
+    }),
   }).isRequired,
 };
 

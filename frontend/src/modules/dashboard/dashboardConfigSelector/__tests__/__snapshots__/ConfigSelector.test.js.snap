@@ -28,6 +28,20 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
             select y axis
           </div>
         </div>
+        <hr
+          class="MuiDivider-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-7"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-8"
+        >
+          <div>
+            annotation
+          </div>
+        </div>
         
       </div>
     </div>

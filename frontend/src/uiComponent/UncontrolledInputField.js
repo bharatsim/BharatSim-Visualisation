@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => {
       backgroundColor: theme.colors.grayScale['100'],
       borderRadius: theme.spacing(1),
     },
+    input: {
+      minWidth: theme.spacing(52),
+    },
   };
 });
 
@@ -29,8 +32,10 @@ function UncontrolledInputTextField({
   label,
   validations,
   dataTestid,
+  inputProps,
 }) {
   const classes = useStyles();
+
   return (
     <TextField
       name={name}
@@ -43,10 +48,11 @@ function UncontrolledInputTextField({
       InputProps={{
         classes: label ? {} : { input: classes.inputField },
       }}
-      inputProps={{ 'data-testid': dataTestid }}
+      inputProps={{ 'data-testid': dataTestid, ...inputProps, defaultValue }}
       FormHelperTextProps={{ classes: { root: classes.helperText } }}
       defaultValue={defaultValue}
       label={label}
+      classes={{ root: classes.input }}
     />
   );
 }
@@ -62,6 +68,7 @@ UncontrolledInputTextField.propTypes = {
   dataTestid: PropTypes.string.isRequired,
   fullWidth: PropTypes.bool,
   validations: PropTypes.shape({}),
+  inputProps: PropTypes.shape({}),
 };
 
 UncontrolledInputTextField.defaultProps = {
@@ -71,6 +78,7 @@ UncontrolledInputTextField.defaultProps = {
   type: 'text',
   label: '',
   validations: {},
+  inputProps: {},
 };
 
 export default UncontrolledInputTextField;
