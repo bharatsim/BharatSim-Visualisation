@@ -1,6 +1,5 @@
 import React from 'react';
 import { act, fireEvent, render as rtlRender } from '@testing-library/react';
-import { waitFor } from '@testing-library/dom';
 import { useSelector } from 'react-redux';
 import Dashboard from '../Dashboard';
 import withThemeProvider from '../../../theme/withThemeProvider';
@@ -78,6 +77,7 @@ const initialDashboardState = {
         ],
         annotation: {
           annotationToggle: false,
+          annotations: [undefined],
         },
       },
       layout: {
@@ -115,7 +115,7 @@ describe('<Dashboard />', () => {
   });
 
   const addChart = async (renderedComponent) => {
-    const { getByText, findByText, getByTestId, getByLabelText } = renderedComponent;
+    const { getByText, findByText, getByTestId } = renderedComponent;
 
     const addChartButton = getByTestId('button-add-chart-header');
     fireEvent.click(addChartButton);
@@ -124,22 +124,20 @@ describe('<Dashboard />', () => {
     fireEvent.click(lineChartOption);
 
     await findByText('Data Source');
-    const chartNameInput = getByLabelText('Add chart name');
+    const chartNameInput = getByTestId('chart-name-input');
     fireEvent.input(chartNameInput, {
       target: { value: 'chart name' },
     });
-    await selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
-    await selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
-    await selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
+    selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
+    selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 
     const applyButton = getByText('Apply').closest('button');
 
-    await waitFor(() => expect(applyButton).not.toBeDisabled());
+    expect(applyButton).not.toBeDisabled();
 
-    await act(async () => {
-      fireEvent.click(applyButton);
-    });
+    fireEvent.click(applyButton);
   };
 
   it('should add dashboard name to dashboard component', async () => {
@@ -254,12 +252,10 @@ describe('<Dashboard />', () => {
 
       await addChart(renderedComponent);
 
-      await waitFor(() =>
-        expect(mockDispatch).toHaveBeenLastCalledWith({
-          type: 'UPDATE_DASHBOARD',
-          payload: { dashboard: initialDashboardState },
-        }),
-      );
+      expect(mockDispatch).toHaveBeenLastCalledWith({
+        type: 'UPDATE_DASHBOARD',
+        payload: { dashboard: initialDashboardState },
+      });
     });
 
     it('should edit chart and auto save', async () => {
@@ -271,39 +267,36 @@ describe('<Dashboard />', () => {
       };
       useSelector.mockImplementation((selector) => selector(mockNewState));
       const renderedComponent = rtlRender(<DashboardWithProviders />);
-      const { getByText, findByText, getByTestId, getByLabelText } = renderedComponent;
+      const { getByText, findByText, getByTestId } = renderedComponent;
 
       await findByText('dashboard1');
 
       fireEvent.click(getByTestId('widget-menu'));
 
-      fireEvent.click(getByText('Configure Chart'));
-
-      const chartNameInput = getByLabelText('Add chart name');
       await act(async () => {
-        fireEvent.input(chartNameInput, {
-          target: { value: 'edited chart name' },
-        });
+        fireEvent.click(getByText('Configure Chart'));
+      });
+
+      const chartNameInput = getByTestId('chart-name-input');
+
+      fireEvent.input(chartNameInput, {
+        target: { value: 'edited chart name' },
       });
 
       const applyButton = getByText('Apply').closest('button');
 
-      await waitFor(() => expect(applyButton).not.toBeDisabled());
+      expect(applyButton).not.toBeDisabled();
 
-      await act(async () => {
-        fireEvent.click(applyButton);
-      });
+      fireEvent.click(applyButton);
 
       const expectedState = initialDashboardState;
       expectedState.charts[0].config.chartName = 'edited chart name';
       expectedState.count = 2;
 
-      await waitFor(() =>
-        expect(mockDispatch).toHaveBeenLastCalledWith({
-          type: 'UPDATE_DASHBOARD',
-          payload: { dashboard: { ...expectedState } },
-        }),
-      );
+      expect(mockDispatch).toHaveBeenLastCalledWith({
+        type: 'UPDATE_DASHBOARD',
+        payload: { dashboard: { ...expectedState } },
+      });
     });
 
     it('should show error if any while saving the dashboard', async () => {

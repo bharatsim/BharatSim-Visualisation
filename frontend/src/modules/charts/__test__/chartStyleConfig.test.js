@@ -75,7 +75,7 @@ describe('Common chart styles', () => {
         opacity: '0.2',
       },
     ];
-    expect(layoutConfig('xColumn', 'date', 'log', annotation)).toMatchInlineSnapshot(`
+    expect(layoutConfig('xColumn', 'date', 'log', annotation, true)).toMatchInlineSnapshot(`
       Object {
         "annotations": Array [
           Object {

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import { useFormContext } from 'react-hook-form';
 
 import { geoDimensionsField } from '../../constants/geoMap';
 import HeaderSelector from './HeaderSelector';
+import { required } from '../../utils/validators';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -19,12 +19,6 @@ const useStyles = makeStyles((theme) => {
 
 function GeoDimensionsConfig({ headers, configKey }) {
   const classes = useStyles();
-  const { errors: formErrors, control, defaultValues: formDefaultValues } = useFormContext();
-  const errors = formErrors[configKey] || {
-    [geoDimensionsField.LON]: {},
-    [geoDimensionsField.LAT]: {},
-  };
-  const defaultValues = formDefaultValues[configKey] || {};
   return (
     <Box>
       <Box mb={1} pl={2}>
@@ -33,27 +27,21 @@ function GeoDimensionsConfig({ headers, configKey }) {
       <Box className={classes.fieldContainer}>
         <HeaderSelector
           id="latitude"
-          key="dropdown-latitude"
           label="select latitude"
           title="Latitude"
-          control={control}
           headers={headers}
           configKey={`${configKey}.${geoDimensionsField.LAT}`}
-          error={errors[geoDimensionsField.LAT]}
-          defaultValue={defaultValues[geoDimensionsField.LAT]}
           border={false}
+          validate={required}
         />
         <HeaderSelector
           id="longitude"
           label="select longitude"
-          key="dropdown-longitude"
           title="Longitude"
-          control={control}
           headers={headers}
           configKey={`${configKey}.${geoDimensionsField.LON}`}
-          defaultValue={defaultValues[geoDimensionsField.LON]}
-          error={errors[geoDimensionsField.LON]}
           border={false}
+          validate={required}
         />
       </Box>
     </Box>

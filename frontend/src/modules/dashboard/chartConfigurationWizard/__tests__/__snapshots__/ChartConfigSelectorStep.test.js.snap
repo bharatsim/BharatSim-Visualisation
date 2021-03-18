@@ -61,14 +61,11 @@ exports[`chart config selector should match snapshot 1`] = `
             </h6>
           </div>
           <div
-            class="MuiFormControl-root MuiTextField-root makeStyles-textFieldRoot-5"
-            data-testid="chartName"
+            class="MuiFormControl-root MuiTextField-root makeStyles-input-17"
           >
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-filled"
               data-shrink="true"
-              for="chartName"
-              id="chartName-label"
             >
               Add chart name
             </label>
@@ -78,22 +75,23 @@ exports[`chart config selector should match snapshot 1`] = `
               <input
                 aria-invalid="false"
                 class="MuiInputBase-input MuiFilledInput-input"
-                id="chartName"
+                data-testid="chart-name-input"
                 name="chartName"
                 type="text"
                 value="Untitled Chart"
               />
             </div>
+            
           </div>
         </div>
         <hr
           class="MuiDivider-root"
         />
         <div
-          class="MuiBox-root MuiBox-root-15"
+          class="MuiBox-root MuiBox-root-18"
         >
           <div
-            class="MuiBox-root MuiBox-root-22"
+            class="MuiBox-root MuiBox-root-25"
           >
             <h6
               class="MuiTypography-root MuiTypography-subtitle2"
@@ -102,7 +100,7 @@ exports[`chart config selector should match snapshot 1`] = `
             </h6>
           </div>
           <div
-            class="MuiFormControl-root makeStyles-formControl-30"
+            class="MuiFormControl-root makeStyles-formControl-33"
           >
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
@@ -148,16 +146,16 @@ exports[`chart config selector should match snapshot 1`] = `
         </div>
         
         <div
-          class="MuiBox-root MuiBox-root-18 makeStyles-footer-1"
+          class="MuiBox-root MuiBox-root-21 makeStyles-footer-1"
         >
           <hr
             class="MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-19"
+            class="MuiBox-root MuiBox-root-22"
           >
             <div
-              class="MuiBox-root MuiBox-root-21 makeStyles-buttonGroup-20"
+              class="MuiBox-root MuiBox-root-24 makeStyles-buttonGroup-23"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"
@@ -174,9 +172,8 @@ exports[`chart config selector should match snapshot 1`] = `
                 />
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall Mui-disabled Mui-disabled"
-                disabled=""
-                tabindex="-1"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+                tabindex="0"
                 type="submit"
               >
                 <span
@@ -184,6 +181,9 @@ exports[`chart config selector should match snapshot 1`] = `
                 >
                   Apply
                 </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
               </button>
             </div>
           </div>

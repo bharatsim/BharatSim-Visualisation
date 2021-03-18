@@ -1,10 +1,13 @@
 import { render } from '@testing-library/react';
-import React, { useEffect } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import React from 'react';
 import { fireEvent } from '@testing-library/dom';
+import { Form, Field } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
+
 import ConfigSelector from '../ConfigSelector';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import { api } from '../../../../utils/api';
+import { FormProvider } from '../../../../contexts/FormContext';
 
 jest.mock('../../../../utils/api', () => ({
   api: {
@@ -31,30 +34,29 @@ jest.mock('../../../../config/chartConfigOptions', () => ({
 
 const ConfigSelectorWithProvider = withThemeProvider(ConfigSelector);
 
-const TestForConfigSelector = ({ onSubmit, isEditMode, chartType, resetValue, dataSourceId }) => {
-  const form = useForm({ mode: 'onChange', defaultValues: { dataSource: dataSourceId } });
-  const { handleSubmit, reset } = form;
-
-  useEffect(() => {
-    reset({ dataSource: dataSourceId });
-  }, [dataSourceId]);
-
-  const methods = {
-    ...form,
-    defaultValues: { dataSource: dataSourceId },
-    isEditMode,
-    resetValue,
-    chartType,
-  };
-  return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ConfigSelectorWithProvider />
-        <button type="submit">submit</button>
-      </form>
-    </FormProvider>
+const TestForConfigSelector = ({ onSubmit, isEditMode, chartType, dataSourceId }) => (
+  <Form
+    onSubmit={onSubmit}
+    mutators={{ ...arrayMutators }}
+    initialValues={{ dataSource: dataSourceId }}
+    render={({ handleSubmit }) => (
+      <FormProvider
+        value={{
+              chartType,
+              isEditMode: !!isEditMode,
+              registerDatasource: jest.fn(),
+              unRegisterDatasource: jest.fn(),
+            }}
+      >
+        <form onSubmit={handleSubmit}>
+          <Field component="input" name="dataSource" />
+          <ConfigSelectorWithProvider />
+          <button type="submit">submit</button>
+        </form>
+      </FormProvider>
+        )}
+  />
   );
-};
 
 describe('<ConfigSelector />', () => {
   afterEach(() => {
@@ -68,6 +70,7 @@ describe('<ConfigSelector />', () => {
         chartType="lineChart"
         resetValue={jest.fn()}
         isEditMode={false}
+        onSubmit={jest.fn()}
       />,
     );
 
@@ -87,6 +90,7 @@ describe('<ConfigSelector />', () => {
         control={{}}
         register={jest.fn()}
         watch={jest.fn()}
+        onSubmit={jest.fn()}
       />,
     );
     await renderedComponent.findByText('select x axis');
@@ -101,6 +105,7 @@ describe('<ConfigSelector />', () => {
         chartType="lineChart"
         resetValue={jest.fn()}
         isEditMode={false}
+        onSubmit={jest.fn()}
       />,
     );
 
@@ -112,47 +117,13 @@ describe('<ConfigSelector />', () => {
         chartType="lineChart"
         resetValue={jest.fn()}
         isEditMode={false}
+        onSubmit={jest.fn()}
       />,
     );
 
     await findByText('select x axis');
 
     expect(api.getCsvHeaders).toHaveBeenLastCalledWith('datasourceID2');
-  });
-
-  it('should call resetValue for config of line chart', async () => {
-    const resetValue = jest.fn();
-    const { findByText, rerender } = render(
-      <TestForConfigSelector
-        dataSourceId="datasourceID"
-        chartType="lineChart"
-        resetValue={resetValue}
-        errors={{}}
-        isEditMode={false}
-        control={{}}
-        register={jest.fn()}
-        watch={jest.fn()}
-      />,
-    );
-
-    await findByText('select x axis');
-
-    rerender(
-      <TestForConfigSelector
-        dataSourceId="datasourceID2"
-        chartType="lineChart"
-        resetValue={jest.fn()}
-        errors={{}}
-        isEditMode={false}
-        control={{}}
-        register={jest.fn()}
-        watch={jest.fn()}
-      />,
-    );
-
-    await findByText('select x axis');
-
-    expect(resetValue).toHaveBeenCalledWith(['xAxis', 'yAxis', 'annotation']);
   });
 
   it('should show loader while fetching data', async () => {
@@ -166,6 +137,7 @@ describe('<ConfigSelector />', () => {
         control={{}}
         register={jest.fn()}
         watch={jest.fn()}
+        onSubmit={jest.fn()}
       />,
     );
     const loaderComponent = document.getElementsByTagName('svg');
@@ -187,6 +159,7 @@ describe('<ConfigSelector />', () => {
         control={{}}
         register={jest.fn()}
         watch={jest.fn()}
+        onSubmit={jest.fn()}
       />,
     );
 
@@ -207,6 +180,7 @@ describe('<ConfigSelector />', () => {
         control={{}}
         register={jest.fn()}
         watch={jest.fn()}
+        onSubmit={jest.fn()}
       />,
     );
 

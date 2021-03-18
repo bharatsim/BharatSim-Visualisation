@@ -1,12 +1,15 @@
 import React from 'react';
-import { act, render } from '@testing-library/react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { render } from '@testing-library/react';
+
 import { fireEvent } from '@testing-library/dom';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 
 import ChoroplethMapLayerConfig from '../ChoroplethMapLayerConfigs';
 import { api } from '../../../utils/api';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
+import { FormProvider } from '../../../contexts/FormContext';
 
 jest.mock('../../../utils/api', () => ({
   api: {
@@ -35,8 +38,6 @@ const TestForChoroplethMapLayerConfig = ({
   isEditMode,
   levelIndex,
 }) => {
-  const form = useForm({ mode: 'onChange' });
-  const { control, errors, handleSubmit, watch } = form;
   const props = {
     headers: [
       { name: 'a', type: 'number' },
@@ -44,29 +45,29 @@ const TestForChoroplethMapLayerConfig = ({
       { name: 'c', type: 'number' },
     ],
     configKey: 'mapLayerConfig',
-    isEditMode,
     shouldShowReferenceIdConfig: shouldShowReferenceIdConfig || false,
     levelIndex: levelIndex || 0,
   };
-  const mockRegisterDatasource = jest.fn();
-  const methods = {
-    ...form,
-    defaultValues: {},
-    isEditMode,
-    registerDatasource: mockRegisterDatasource,
-  };
+
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ComponentWithProvider
-          {...props}
-          control={control}
-          error={errors[props.configKey]}
-          watch={watch}
-        />
-        <button type="submit">submit</button>
-      </form>
-    </FormProvider>
+    <Form
+      onSubmit={onSubmit}
+      mutators={{ ...arrayMutators }}
+      render={({ handleSubmit }) => (
+        <FormProvider
+          value={{
+              isEditMode: !!isEditMode,
+              registerDatasource: jest.fn(),
+              unRegisterDatasource: jest.fn(),
+            }}
+        >
+          <form onSubmit={handleSubmit}>
+            <ComponentWithProvider {...props} />
+            <button type="submit">submit</button>
+          </form>
+        </FormProvider>
+        )}
+    />
   );
 };
 
@@ -77,7 +78,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    await selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
+    selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 
     expect(api.getCsvHeaders).toHaveBeenCalledWith('d_id1');
     expect(api.getDatasources).toHaveBeenCalledWith('id1');
@@ -90,7 +91,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    await selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
+    selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 
     expect(api.getCsvHeaders).toHaveBeenCalledWith('d_id1');
     expect(api.getDatasources).toHaveBeenCalledWith('id1');
@@ -138,7 +139,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    await selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
+    selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 
     expect(api.getCsvHeaders).toHaveBeenCalledWith('d_id1');
 
@@ -146,30 +147,31 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     expect(getByTestId('mapLayerId')).not.toHaveClass('Mui-disabled');
 
-    await selectDropDownOption(renderComponent, 'mapLayerId', 'column1');
+    selectDropDownOption(renderComponent, 'mapLayerId', 'column1');
 
-    await selectDropDownOption(renderComponent, 'dataLayerId', 'a');
+    selectDropDownOption(renderComponent, 'dataLayerId', 'a');
 
-    await act(async () => {
-      fireEvent.click(getByText('submit'));
-    });
+    fireEvent.click(getByText('submit'));
 
     expect(onSubmit).toHaveBeenCalledWith(
       {
         mapLayerConfig: { mapLayer: 'd_id1', mapLayerId: 'column1', dataLayerId: 'a' },
       },
       expect.anything(),
+      expect.anything(),
     );
   });
 
   it('should show error while fetching headers', async () => {
-    api.getCsvHeaders.mockRejectedValue('error');
+    api.getCsvHeaders.mockRejectedValueOnce('error');
     const renderComponent = render(<TestForChoroplethMapLayerConfig onSubmit={jest.fn()} />);
     const { findByText, getByText } = renderComponent;
 
     await findByText('select map layer');
 
-    await selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
+    selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
+
+    await findByText('Unable to fetch data source headers might be due to wrong file type');
 
     expect(
       getByText('Unable to fetch data source headers might be due to wrong file type'),

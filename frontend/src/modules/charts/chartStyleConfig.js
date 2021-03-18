@@ -60,7 +60,30 @@ function getTransformedValue(value) {
   return isNumeric(value) ? Number(value) : value;
 }
 
-function layoutConfig(xColumn, xAxisType, yAxisType, annotations = []) {
+function createAnnotation(annotations, annotationToggle) {
+  return annotationToggle
+    ? {
+        shapes: [
+          ...annotations.map(({ direction, ...rest }) =>
+            direction === areaAnnotationDirection.VERTICAL
+              ? createVerticalRect(rest)
+              : createHorizontalRect(rest),
+          ),
+        ],
+        annotations: [
+          ...annotations
+            .filter(({ label }) => !!label)
+            .map(({ direction, label, start, end }) =>
+              direction === areaAnnotationDirection.VERTICAL
+                ? createVerticalAnnotationLabel(start, label)
+                : createHorizontalAnnotationLabel(end, label),
+            ),
+        ],
+      }
+    : {};
+}
+
+function layoutConfig(xColumn, xAxisType, yAxisType, annotations = [], annotationToggel = false) {
   return {
     showlegend: true,
     colorway: chartColorsPallet[1],
@@ -91,22 +114,7 @@ function layoutConfig(xColumn, xAxisType, yAxisType, annotations = []) {
       type: yAxisType,
       ...axisStyles,
     },
-    shapes: [
-      ...annotations.map(({ direction, ...rest }) =>
-        direction === areaAnnotationDirection.VERTICAL
-          ? createVerticalRect(rest)
-          : createHorizontalRect(rest),
-      ),
-    ],
-    annotations: [
-      ...annotations
-        .filter(({ label }) => !!label)
-        .map(({ direction, label, start, end }) =>
-          direction === areaAnnotationDirection.VERTICAL
-            ? createVerticalAnnotationLabel(start, label)
-            : createHorizontalAnnotationLabel(end, label),
-        ),
-    ],
+    ...createAnnotation(annotations, annotationToggel),
   };
 }
 

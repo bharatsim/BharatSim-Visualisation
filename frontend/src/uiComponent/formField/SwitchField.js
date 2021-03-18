@@ -4,7 +4,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { useController } from 'react-hook-form';
+import { Field } from 'react-final-form';
 
 const switchContainerStyles = makeStyles({
   container: {
@@ -46,31 +46,42 @@ const AntSwitchWithStyle = withStyles((theme) => ({
   checked: {},
 }))(Switch);
 
-function AntSwitch({ onLabel, offLabel, name, control, dataTestid }) {
+function SwitchField({ onLabel, offLabel, name, dataTestId, defaultValue, validate }) {
   const switchContainerClasses = switchContainerStyles();
-  const {
-    field: { ref, onChange, value },
-  } = useController({ name, control, defaultValue: false });
 
   return (
     <Box className={switchContainerClasses.container}>
       <Box mr={1}>{offLabel}</Box>
-      <AntSwitchWithStyle
-        inputRef={ref}
-        onChange={(e) => onChange(e.target.checked)}
-        checked={value}
-        data-testid={dataTestid}
+      <Field
+        type="checkbox"
+        name={name}
+        validate={validate}
+        defaultValue={defaultValue}
+        render={({ input }) => {
+          return (
+            <AntSwitchWithStyle
+              onChange={input.onChange}
+              checked={input.checked}
+              data-testid={dataTestId}
+            />
+          );
+        }}
       />
       <Box ml={1}>{onLabel}</Box>
     </Box>
   );
 }
+SwitchField.defaultProps = {
+  defaultValue: false,
+  validate: null,
+};
 
-AntSwitch.propTypes = {
+SwitchField.propTypes = {
   onLabel: PropTypes.string.isRequired,
   offLabel: PropTypes.string.isRequired,
-  dataTestid: PropTypes.string.isRequired,
+  dataTestId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  control: PropTypes.shape({}).isRequired,
+  defaultValue: PropTypes.bool,
+  validate: PropTypes.func,
 };
-export default AntSwitch;
+export default SwitchField;

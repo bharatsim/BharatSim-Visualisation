@@ -1,111 +1,13 @@
-import {
-  chartNameValidator,
-  datasourceValidator,
-  geoMetricValidator,
-  requiredValueForDropdown,
-  validateFile,
-  xAxisValidator,
-  yAxisValidator,
-} from '../validators';
+import { validateFile, required } from '../validators';
 
 describe('Validators', () => {
-  describe('X axis validator', () => {
-    it('should provide message if x axis value is not present', () => {
-      expect(xAxisValidator('')).toEqual('Please select value for x axis');
-    });
-
-    it('should provide empty message if x axis value is present', () => {
-      expect(xAxisValidator('test')).toEqual('');
-    });
-
-    it('should provide message if x axis value is undefined', () => {
-      expect(xAxisValidator()).toEqual('Please select value for x axis');
+  describe('required', () => {
+    it('should provide message if value is not undefined, null or empty string', () => {
+      expect(required(undefined)).toEqual('Field is required');
+      expect(required(null)).toEqual('Field is required');
+      expect(required('')).toEqual('Field is required');
     });
   });
-
-  describe('dropdown value required', () => {
-    it('should provide message if x axis value is not present', () => {
-      expect(requiredValueForDropdown('')).toEqual(
-        'Please select some value, this is mandatory field',
-      );
-    });
-
-    it('should provide empty message if x axis value is present', () => {
-      expect(requiredValueForDropdown('test')).toEqual('');
-    });
-
-    it('should provide message if x axis value is undefined', () => {
-      expect(requiredValueForDropdown()).toEqual(
-        'Please select some value, this is mandatory field',
-      );
-    });
-  });
-
-  describe('geoMetric Validator', () => {
-    it('should provide message if x axis value is not present', () => {
-      expect(geoMetricValidator('')).toEqual('Please select value for geo metric');
-    });
-
-    it('should provide empty message if x axis value is present', () => {
-      expect(geoMetricValidator('test')).toEqual('');
-    });
-
-    it('should provide message if x axis value is undefined', () => {
-      expect(geoMetricValidator()).toEqual('Please select value for geo metric');
-    });
-  });
-
-  describe('Y axis validator', () => {
-    it('should provide message if y axis value is not present', () => {
-      expect(yAxisValidator(null)).toEqual('Please select valid value for y axis');
-    });
-
-    it('should provide message if y axis value undefined', () => {
-      expect(yAxisValidator()).toEqual('Please select value for y axis');
-    });
-    it('should provide message if any of the field is empty', () => {
-      expect(yAxisValidator([{ name: 'y-axis', type: 'number' }, ''])).toEqual(
-        'Please select value for y axis',
-      );
-    });
-
-    it('should provide empty message if selected y axis type is number', () => {
-      expect(yAxisValidator([{ name: 'y-axis', type: 'number' }])).toEqual('');
-    });
-
-    it('should provide empty message if selected y axis type is Number', () => {
-      expect(yAxisValidator([{ name: 'y-axis', type: 'Number' }])).toEqual('');
-    });
-  });
-
-  describe('datasource validator', () => {
-    it('should provide message if datasource value is not present', () => {
-      expect(datasourceValidator('')).toEqual('Please select data source');
-    });
-
-    it('should provide empty message if datasource value is present', () => {
-      expect(datasourceValidator('test')).toEqual('');
-    });
-
-    it('should provide message if datasource value is undefined', () => {
-      expect(datasourceValidator()).toEqual('Please select data source');
-    });
-  });
-
-  describe('chartName validator', () => {
-    it('should provide message if chart name value is not present', () => {
-      expect(chartNameValidator('')).toEqual('Please select chart name');
-    });
-
-    it('should provide empty message if chart name value is present', () => {
-      expect(chartNameValidator('test')).toEqual('');
-    });
-
-    it('should provide message if chart name value is undefined', () => {
-      expect(chartNameValidator()).toEqual('Please select chart name');
-    });
-  });
-
   describe('file validator', () => {
     it('should provide message if file is not present', () => {
       expect(validateFile()).toEqual('Please upload valid file');

@@ -1,11 +1,14 @@
 import React from 'react';
-import { act, render } from '@testing-library/react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { render } from '@testing-library/react';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
+
 import { fireEvent } from '@testing-library/dom';
 import { api } from '../../../utils/api';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import ChoroplethConfigs from '../ChoroplethConfigs';
+import { FormProvider } from '../../../contexts/FormContext';
 
 jest.mock('../../../utils/api', () => ({
   api: {
@@ -27,8 +30,6 @@ jest.mock('../../../utils/api', () => ({
 const ComponentWithProvider = withProjectLayout(withRouter(withThemeProvider(ChoroplethConfigs)));
 
 const TestForChoroplethConfigs = ({ onSubmit, isEditMode, leveIndex }) => {
-  const form = useForm({ mode: 'onChange' });
-  const { handleSubmit } = form;
   const props = {
     headers: [
       { name: 'a', type: 'number' },
@@ -39,20 +40,26 @@ const TestForChoroplethConfigs = ({ onSubmit, isEditMode, leveIndex }) => {
     isEditMode,
     leveIndex,
   };
-  const mockRegisterDatasource = jest.fn();
-  const method = {
-    ...form,
-    isEditMode,
-    defaultValues: {},
-    registerDatasource: mockRegisterDatasource,
-  };
+
   return (
-    <FormProvider {...method}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ComponentWithProvider {...props} />
-        <button type="submit">submit</button>
-      </form>
-    </FormProvider>
+    <Form
+      onSubmit={onSubmit}
+      mutators={{ ...arrayMutators }}
+      render={({ handleSubmit }) => (
+        <FormProvider
+          value={{
+              isEditMode: !!isEditMode,
+              registerDatasource: jest.fn(),
+              unRegisterDatasource: jest.fn(),
+            }}
+        >
+          <form onSubmit={handleSubmit}>
+            <ComponentWithProvider {...props} />
+            <button type="submit">submit</button>
+          </form>
+        </FormProvider>
+        )}
+    />
   );
 };
 
@@ -100,7 +107,7 @@ describe('<ChoroplethConfigs />', () => {
 
     await findByText('select map layer');
 
-    await selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
+    selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 
     expect(api.getCsvHeaders).toHaveBeenCalledWith('d_id1');
 
@@ -108,13 +115,11 @@ describe('<ChoroplethConfigs />', () => {
 
     expect(getByTestId('mapLayerId')).not.toHaveClass('Mui-disabled');
 
-    await selectDropDownOption(renderComponent, 'mapLayerId', 'column1');
+    selectDropDownOption(renderComponent, 'mapLayerId', 'column1');
 
-    await selectDropDownOption(renderComponent, 'dataLayerId', 'a');
+    selectDropDownOption(renderComponent, 'dataLayerId', 'a');
 
-    await act(async () => {
-      fireEvent.click(getByText('submit'));
-    });
+    fireEvent.click(getByText('submit'));
 
     expect(onSubmit).toHaveBeenCalledWith(
       {
@@ -123,6 +128,7 @@ describe('<ChoroplethConfigs />', () => {
           mapLayerConfig: [{ dataLayerId: 'a', mapLayer: 'd_id1', mapLayerId: 'column1' }],
         },
       },
+      expect.anything(),
       expect.anything(),
     );
   });

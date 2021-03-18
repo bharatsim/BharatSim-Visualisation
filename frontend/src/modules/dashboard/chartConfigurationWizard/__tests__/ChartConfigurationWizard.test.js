@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 
 import ChartConfigurationWizard from '../ChartConfigurationWizard';
@@ -42,7 +42,7 @@ describe('Chart configuration wizard', () => {
       },
       layout: { i: 'widget-3', x: 6, y: null, w: 6, h: 2 },
     };
-    const { findByText, getByLabelText, getByTestId } = render(
+    const { findByText, getByTestId } = render(
       <ComponentWithProvider
         chart={existingChart}
         closeModal={jest.fn()}
@@ -52,7 +52,7 @@ describe('Chart configuration wizard', () => {
     );
 
     await findByText('Data Source');
-    expect(getByLabelText('Add chart name')).toHaveValue('line chart with config');
+    expect(getByTestId('chart-name-input')).toHaveValue('line chart with config');
 
     await findByText('select x axis');
     const xAxisDropdown = within(getByTestId('x-axis-dropdown'));
@@ -80,32 +80,28 @@ describe('Chart configuration wizard', () => {
     const renderedComponent = render(
       <ComponentWithProvider closeModal={jest.fn()} isOpen onApply={mockOnApply} />,
     );
-    const { findByText, getByText, getByTestId, getByLabelText } = renderedComponent;
+    const { findByText, getByText, getByTestId } = renderedComponent;
 
     const lineChartOption = getByTestId('lineChart');
 
     fireEvent.click(lineChartOption);
     await findByText('Data Source');
 
-    const chartNameInput = getByLabelText('Add chart name');
+    const chartNameInput = getByTestId('chart-name-input');
     fireEvent.input(chartNameInput, {
       target: { value: 'chart name' },
     });
 
-    await selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
-    await selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
-    await selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
+    selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
+    selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 
     const applyButton = getByText('Apply');
 
-    await act(async () => {
-      expect(applyButton).not.toBeDisabled();
-    });
+    expect(applyButton).not.toBeDisabled();
 
-    await act(async () => {
-      fireEvent.click(applyButton);
-    });
+    fireEvent.click(applyButton);
 
     expect(mockOnApply).toHaveBeenCalledWith(
       undefined,
@@ -120,6 +116,7 @@ describe('Chart configuration wizard', () => {
         yAxis: [{ name: 'column2' }],
         annotation: {
           annotationToggle: false,
+          annotations: [undefined],
         },
       },
       ['id2'],
@@ -138,20 +135,16 @@ describe('Chart configuration wizard', () => {
     fireEvent.click(lineChartOption);
     await findByText('Data Source');
 
-    await selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
-    await selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
-    await selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
+    selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
+    selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 
     const applyButton = getByText('Apply');
 
-    await act(async () => {
-      expect(applyButton).not.toBeDisabled();
-    });
+    expect(applyButton).not.toBeDisabled();
 
-    await act(async () => {
-      fireEvent.click(applyButton);
-    });
+    fireEvent.click(applyButton);
 
     expect(onApplyMock).toHaveBeenCalledWith(
       undefined,
@@ -166,6 +159,7 @@ describe('Chart configuration wizard', () => {
         yAxis: [{ name: 'column2' }],
         annotation: {
           annotationToggle: false,
+          annotations: [undefined],
         },
       },
       ['id2'],
@@ -183,15 +177,13 @@ describe('Chart configuration wizard', () => {
     fireEvent.click(lineChartOption);
     await findByText('Data Source');
 
-    await selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
+    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
     await findByText('select x axis');
-    await selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
+    selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
 
     const applyButton = getByText('Apply').closest('button');
 
-    await act(async () => {
-      expect(applyButton).toBeDisabled();
-    });
+    expect(applyButton).toBeDisabled();
   });
 
   it('should get back to chart selector step on click of back to chart type', async () => {

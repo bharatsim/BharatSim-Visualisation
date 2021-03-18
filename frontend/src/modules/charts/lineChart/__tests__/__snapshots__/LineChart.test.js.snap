@@ -52,11 +52,13 @@ exports[`LineChart should create a line chart with single yaxis <LineChart /> co
         line chart
       </span>
       <pre>
-        layout = {"showlegend":true,"colorway":["#62CEFF","#EC3237","#FAA847","#21C694","#1E3FD8","#C962BE"],"autosize":true,"font":{"family":"Roboto","size":10,"weight":400},"margin":{"l":32,"r":0,"b":60,"t":40,"autoexpand":true},"legend":{"font":{"color":"#929599","family":"Roboto","size":12,"weight":400}},"xaxis":{"type":"linear","title":{"text":"hour","standoff":8,"font":{"family":"Roboto","size":14,"weight":700}},"color":"#929599","zerolinecolor":"#c5c7cb","linewidth":0.5,"gridwidth":0.5,"zerolinewidth":0.5,"showline":true,"tickwidth":1,"automargin":true,"autotypenumbers":"strict"},"yaxis":{"title":{"standoff":8},"ticklabelposition":"outside","type":"-","color":"#929599","zerolinecolor":"#c5c7cb","linewidth":0.5,"gridwidth":0.5,"zerolinewidth":0.5,"showline":true,"tickwidth":1,"automargin":true,"autotypenumbers":"strict"},"shapes":[],"annotations":[]}
-        data = [{"x":[1,2],"y":[2,3],"type":"scattergl","name":"exposed","line":{"size":1,"opacity":1},"marker":{"size":4,"symbol":"circle","opacity":1},"mode":"lines+markers","showspikes":true,"transforms":[{"type":"sort","target":"x"}],"hoverlabel":{"bgcolor":"#fff","bordercolor":"#62CEFF","font":{"color":"#000"}},"hoverinfo":"x+y","hovertemplate":"exposed: %{y}&lt;extra&gt;&lt;/extra&gt;"}]
-        useResizeHandler = true
-        style = {"width":"100%","height":"100%"}
-        config = {"modeBarButtonsToRemove":["select2d","lasso2d","toImage"],"displaylogo":false,"responsive":true}
+        <object>
+          layout = {"showlegend":true,"colorway":["#62CEFF","#EC3237","#FAA847","#21C694","#1E3FD8","#C962BE"],"autosize":true,"font":{"family":"Roboto","size":10,"weight":400},"margin":{"l":32,"r":0,"b":60,"t":40,"autoexpand":true},"legend":{"font":{"color":"#929599","family":"Roboto","size":12,"weight":400}},"xaxis":{"type":"linear","title":{"text":"hour","standoff":8,"font":{"family":"Roboto","size":14,"weight":700}},"color":"#929599","zerolinecolor":"#c5c7cb","linewidth":0.5,"gridwidth":0.5,"zerolinewidth":0.5,"showline":true,"tickwidth":1,"automargin":true,"autotypenumbers":"strict"},"yaxis":{"title":{"standoff":8},"ticklabelposition":"outside","type":"-","color":"#929599","zerolinecolor":"#c5c7cb","linewidth":0.5,"gridwidth":0.5,"zerolinewidth":0.5,"showline":true,"tickwidth":1,"automargin":true,"autotypenumbers":"strict"}}
+          data = [{"x":[1,2],"y":[2,3],"type":"scattergl","name":"exposed","line":{"size":1,"opacity":1},"marker":{"size":4,"symbol":"circle","opacity":1},"mode":"lines+markers","showspikes":true,"transforms":[{"type":"sort","target":"x"}],"hoverlabel":{"bgcolor":"#fff","bordercolor":"#62CEFF","font":{"color":"#000"}},"hoverinfo":"x+y","hovertemplate":"exposed: %{y}&lt;extra&gt;&lt;/extra&gt;"}]
+          useResizeHandler = true
+          style = {"width":"100%","height":"100%"}
+          config = {"modeBarButtonsToRemove":["select2d","lasso2d","toImage"],"displaylogo":false,"responsive":true}
+        </object>
       </pre>
     </div>
   </div>

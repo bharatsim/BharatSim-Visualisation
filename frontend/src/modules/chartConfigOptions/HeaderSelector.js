@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, fade, makeStyles, Typography } from '@material-ui/core';
-import { useFormContext } from 'react-hook-form';
 
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
-import ControlledDropDown from '../../uiComponent/ControlledDropdown';
+
+import DropDownField from '../../uiComponent/formField/SelectField';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -38,12 +38,9 @@ function HeaderSelector({
   border,
   disabled,
   helperText,
-  defaultValue,
+  validate,
 }) {
   const classes = useStyles();
-  const { errors, control, setValue, defaultValues } = useFormContext();
-  const error = errors[configKey] || {};
-  const initialValue = defaultValue || defaultValues[configKey] || '';
 
   return (
     <Box>
@@ -54,18 +51,14 @@ function HeaderSelector({
         </Typography>
       </Box>
       <Box className={`${classes.fieldContainer} ${border ? classes.border : ''}`}>
-        <ControlledDropDown
+        <DropDownField
           options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
           id={id}
           label={label}
-          error={error}
-          control={control}
           name={configKey}
-          validations={{ required: 'Required' }}
           disabled={disabled}
-          data-testid={id}
-          setValue={setValue}
-          defaultValue={initialValue}
+          dataTestid={id}
+          validate={validate}
         />
       </Box>
     </Box>
@@ -76,7 +69,7 @@ HeaderSelector.defaultProps = {
   border: true,
   disabled: false,
   helperText: '',
-  defaultValue: '',
+  validate: null,
 };
 
 HeaderSelector.propTypes = {
@@ -90,10 +83,10 @@ HeaderSelector.propTypes = {
   label: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  defaultValue: PropTypes.string,
   border: PropTypes.bool,
   disabled: PropTypes.bool,
   helperText: PropTypes.string,
+  validate: PropTypes.func,
 };
 
 export default HeaderSelector;

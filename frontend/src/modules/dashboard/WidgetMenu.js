@@ -5,7 +5,7 @@ import { DeleteOutline, MoreVert, EditOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteConfirmationModal from '../../uiComponent/DeleteConfirmationModal';
 import useModal from '../../hook/useModal';
-import DropdownMenu from '../../uiComponent/DropdownMenu/DropdownMenu';
+import DropdownMenu from '../../uiComponent/dropdownMenu/DropdownMenu';
 import IconButton from '../../uiComponent/IconButton';
 
 const iconStyles = makeStyles((theme) => ({

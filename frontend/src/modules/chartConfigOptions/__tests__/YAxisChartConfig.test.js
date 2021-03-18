@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
-import { act, render } from '@testing-library/react';
-import { useForm, FormProvider } from 'react-hook-form';
+import React from 'react';
+import { render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 
 import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import YAxisChartConfig from '../YAxisChartConfig';
+
+import { FormProvider } from '../../../contexts/FormContext';
 
 const headers = [
   { name: 'a', type: 'number' },
@@ -14,26 +17,30 @@ const headers = [
 ];
 
 const TestForm = ({ onSubmit, isEditMode }) => {
-  const form = useForm({ mode: 'onChange' });
-  const { handleSubmit, reset } = form;
-
   const configKey = 'yAxis';
-
-  useEffect(() => {
-    if (isEditMode) {
-      reset({
-        yAxis: [{ name: 'b' }, { name: 'c' }],
-      });
-    }
-  }, []);
-  const methods = { ...form, isEditMode, defaultValues: {} };
+  const initialValues = {
+    yAxis: [{ name: 'b' }, { name: 'c' }],
+  };
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <YAxisChartConfig configKey={configKey} headers={headers} isEditMode={isEditMode} />
-        <button type="submit">submit</button>
-      </form>
-    </FormProvider>
+    <Form
+      onSubmit={onSubmit}
+      initialValues={isEditMode ? initialValues : undefined}
+      mutators={{ ...arrayMutators }}
+      render={({ handleSubmit }) => (
+        <FormProvider
+          value={{
+              isEditMode: !!isEditMode,
+              registerDatasource: jest.fn(),
+              unRegisterDatasource: jest.fn(),
+            }}
+        >
+          <form onSubmit={handleSubmit}>
+            <YAxisChartConfig configKey={configKey} headers={headers} isEditMode={isEditMode} />
+            <button type="submit">submit</button>
+          </form>
+        </FormProvider>
+        )}
+    />
   );
 };
 
@@ -61,17 +68,16 @@ describe('<YAxisConfig />', () => {
     const addFieldButton = getByText('Add Metric');
     fireEvent.click(addFieldButton);
 
-    await selectDropDownOption(renderedContainer, 'y-axis-dropdown-0', 'a');
-    await selectDropDownOption(renderedContainer, 'y-axis-dropdown-1', 'b');
+    selectDropDownOption(renderedContainer, 'y-axis-dropdown-0', 'a');
+    selectDropDownOption(renderedContainer, 'y-axis-dropdown-1', 'b');
 
-    await act(async () => {
-      fireEvent.click(renderedContainer.getByText('submit'));
-    });
+    fireEvent.click(renderedContainer.getByText('submit'));
 
     expect(onSubmit).toHaveBeenCalledWith(
       {
         yAxis: [{ name: 'a' }, { name: 'b' }],
       },
+      expect.anything(),
       expect.anything(),
     );
   });

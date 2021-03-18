@@ -1,11 +1,13 @@
 import React from 'react';
-import { act, render } from '@testing-library/react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { fireEvent } from '@testing-library/dom';
+import { render } from '@testing-library/react';
 
+import { fireEvent } from '@testing-library/dom';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import MapLayerSelector from '../MapLayerSelector';
+import { FormProvider } from '../../../contexts/FormContext';
 
 jest.mock('../../../utils/api', () => ({
   api: {
@@ -18,28 +20,29 @@ jest.mock('../../../utils/api', () => ({
   },
 }));
 
-const TestForm = ({ onSubmit }) => {
-  const form = useForm({ mode: 'onChange' });
-  const { handleSubmit } = form;
-  const mockRegisterDatasource = jest.fn();
-  const method = {
-    ...form,
-    defaultValues: {},
-    isEditMode: false,
-    registerDatasource: mockRegisterDatasource,
-  };
-  return (
-    <FormProvider {...method}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <MapLayerSelector />
-        <button type="submit">submit</button>
-      </form>
-    </FormProvider>
+const TestForm = ({ onSubmit }) => (
+  <Form
+    onSubmit={onSubmit}
+    mutators={{ ...arrayMutators }}
+    render={({ handleSubmit }) => (
+      <FormProvider
+        value={{
+              isEditMode: false,
+              registerDatasource: jest.fn(),
+              unRegisterDatasource: jest.fn(),
+            }}
+      >
+        <form onSubmit={handleSubmit}>
+          <MapLayerSelector />
+          <button type="submit">submit</button>
+        </form>
+      </FormProvider>
+        )}
+  />
   );
-};
 
 describe('<MapLayerSelector />', () => {
-  const FormForTimeSliderConfig = withRouter(withProjectLayout(withThemeProvider(TestForm)));
+  const MapLayerSelectorConfig = withRouter(withProjectLayout(withThemeProvider(TestForm)));
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -47,17 +50,19 @@ describe('<MapLayerSelector />', () => {
 
   it('should call on submit with time slider configs with default intervals', async () => {
     const onSubmit = jest.fn();
-    const renderedContainer = render(<FormForTimeSliderConfig onSubmit={onSubmit} />);
+    const renderedContainer = render(<MapLayerSelectorConfig onSubmit={onSubmit} />);
     const { findByText } = renderedContainer;
 
     await findByText('select GIS shape layer source');
 
-    await selectDropDownOption(renderedContainer, 'gisShapeLayer-dropdown', 'datasource1');
+    selectDropDownOption(renderedContainer, 'gisShapeLayer-dropdown', 'datasource1');
 
-    await act(async () => {
-      fireEvent.click(renderedContainer.getByText('submit'));
-    });
+    fireEvent.click(renderedContainer.getByText('submit'));
 
-    expect(onSubmit).toHaveBeenCalledWith({ gisShapeLayer: 'id1' }, expect.anything());
+    expect(onSubmit).toHaveBeenCalledWith(
+      { gisShapeLayer: 'id1' },
+      expect.anything(),
+      expect.anything(),
+    );
   });
 });

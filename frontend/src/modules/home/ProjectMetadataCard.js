@@ -4,7 +4,7 @@ import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { DeleteOutline, MoreVert } from '@material-ui/icons';
 import { useSnackbar } from 'notistack';
-import DropdownMenu from '../../uiComponent/DropdownMenu/DropdownMenu';
+import DropdownMenu from '../../uiComponent/dropdownMenu/DropdownMenu';
 import DeleteProjectConfirmationModal from './DeleteProjectConfirmationModal';
 import useModal from '../../hook/useModal';
 import { api } from '../../utils/api';

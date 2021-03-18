@@ -7,7 +7,7 @@ import deleteIcon from '../../../../assets/images/delete.svg';
 import { useTabStyles } from './sideDashboardNavbarCSS';
 import { ChildrenPropTypes } from '../../../../commanPropTypes';
 import useModal from '../../../../hook/useModal';
-import DropdownMenu from '../../../../uiComponent/DropdownMenu/DropdownMenu';
+import DropdownMenu from '../../../../uiComponent/dropdownMenu/DropdownMenu';
 import DashboardDeleteConfirmationModal from './DashboardDeleteConfirmationModal';
 import IconButton from '../../../../uiComponent/IconButton';
 

@@ -2,15 +2,19 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Box, Button, fade, makeStyles, Typography } from '@material-ui/core';
-import { useFieldArray, useFormContext, Controller } from 'react-hook-form';
-import AntSwitch from '../../uiComponent/AntSwitch';
-import UncontrolledInputField from '../../uiComponent/UncontrolledInputField';
-import RadioButtons from '../../uiComponent/RadioButtons';
+import { FieldArray } from 'react-final-form-arrays';
+import { useForm } from 'react-final-form';
+
 import deleteIcon from '../../assets/images/delete.svg';
 import plusIcon from '../../assets/images/plus.svg';
 import IconButton from '../../uiComponent/IconButton';
 import { areaAnnotationDirection } from '../../constants/annotations';
-import ColorPicker from '../../uiComponent/ColorPicker';
+import RadioButtonsField from '../../uiComponent/formField/RadioButtonField';
+import TextField from '../../uiComponent/formField/TextField';
+import SwitchField from '../../uiComponent/formField/SwitchField';
+import { useFormContext } from '../../contexts/FormContext';
+import ColorPickerField from '../../uiComponent/formField/ColorPickerField';
+import { required } from '../../utils/validators';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -74,170 +78,125 @@ const ANNOTATION_NAME = 'annotations';
 
 function AnnotationConfig({ configKey }) {
   const classes = useStyles();
-  const { errors: formErrors, control, watch, register, isEditMode } = useFormContext();
+  const { isEditMode } = useFormContext();
+  const {
+    mutators: { push },
+    getFieldState,
+  } = useForm();
   const annotationConfigKey = `${configKey}.${ANNOTATION_NAME}`;
-  const { fields, remove, append } = useFieldArray({ control, name: annotationConfigKey });
-  const errors = formErrors[configKey] || { annotations: [] };
+  const showAnnotationConfig = getFieldState(
+    `${configKey}.${areaAnnotationConfig.ANNOTATION_TOGGLE}`,
+  )?.value;
 
   useEffect(() => {
-    if (!isEditMode) append({});
+    if (!isEditMode) push(annotationConfigKey);
   }, []);
-
-  const showAnnotationConfig = watch(`${configKey}.${areaAnnotationConfig.ANNOTATION_TOGGLE}`);
 
   return (
     <Box>
       <Box mb={4} pl={2} className={classes.headerContainer}>
         <Typography variant="subtitle2">Annotation</Typography>
         <Box ml={2}>
-          <AntSwitch
-            dataTestid="toggle-time-slider"
-            control={control}
+          <SwitchField
+            dataTestId="toggle-time-slider"
             name={`${configKey}.${areaAnnotationConfig.ANNOTATION_TOGGLE}`}
             onLabel="Yes"
             offLabel="No"
+            validate={required}
           />
         </Box>
       </Box>
       {showAnnotationConfig && (
-        <>
-          {fields.map(({ id, ...data }, index) => {
-            const lastFieldIndex = fields.length - 1;
-            const annotationErrors = errors.annotations;
-            return (
-              <Box className={classes.configContainer} key={id}>
+        <FieldArray name={annotationConfigKey}>
+          {({ fields }) =>
+            fields.map((name, index) => (
+              <Box className={classes.configContainer} key={name}>
                 <Box>
                   <Box className={[classes.fieldContainer, classes.directionContainer].join(' ')}>
                     <Typography variant="subtitle2">Axis</Typography>
                     <Box ml={2}>
-                      <RadioButtons
-                        control={control}
-                        defaultValue={data[areaAnnotationConfig.DIRECTION] || defaultDirection}
-                        name={`${annotationConfigKey}.[${index}].${areaAnnotationConfig.DIRECTION}`}
+                      <RadioButtonsField
+                        name={`${name}.${areaAnnotationConfig.DIRECTION}`}
                         options={directions}
                         vertical={false}
+                        defaultValue={defaultDirection}
+                        validate={required}
                       />
                     </Box>
                   </Box>
                   <Box className={classes.fieldContainer}>
                     <Typography variant="subtitle2">Label</Typography>
                     <Box mt={2}>
-                      <UncontrolledInputField
-                        defaultValue={data[areaAnnotationConfig.ANNOTATION_LABEL] || ''}
-                        name={`${annotationConfigKey}.[${index}].${areaAnnotationConfig.ANNOTATION_LABEL}`}
-                        register={register}
-                        error={
-                          annotationErrors[index] &&
-                          annotationErrors[index][areaAnnotationConfig.ANNOTATION_LABEL]
-                        }
+                      <TextField
+                        name={`${name}.${areaAnnotationConfig.ANNOTATION_LABEL}`}
                         label="Enter label"
-                        dataTestid="label-input"
-                        validations={{
-                          required: 'Required',
-                        }}
+                        dataTestId="label-input"
+                        validate={required}
                       />
                     </Box>
                   </Box>
                   <Box className={classes.fieldContainer}>
                     <Typography variant="subtitle2">Position</Typography>
                     <Box className={classes.timeFieldContainer}>
-                      <UncontrolledInputField
-                        defaultValue={data[areaAnnotationConfig.START] || ''}
-                        name={`${annotationConfigKey}.[${index}].${areaAnnotationConfig.START}`}
-                        register={register}
-                        error={
-                          annotationErrors[index] &&
-                          annotationErrors[index][areaAnnotationConfig.START]
-                        }
+                      <TextField
+                        name={`${name}.${areaAnnotationConfig.START}`}
                         label="From value"
-                        dataTestid="start-input"
-                        validations={{
-                          required: 'Required',
-                        }}
+                        dataTestId="start-input"
+                        validate={required}
                       />
-                      <UncontrolledInputField
-                        defaultValue={data[areaAnnotationConfig.END] || ''}
-                        name={`${annotationConfigKey}.[${index}].${areaAnnotationConfig.END}`}
-                        register={register}
-                        error={
-                          annotationErrors[index] &&
-                          annotationErrors[index][areaAnnotationConfig.END]
-                        }
+                      <TextField
+                        name={`${name}.${areaAnnotationConfig.END}`}
                         label="To Value"
-                        dataTestid="end-input"
-                        validations={{
-                          required: 'Required',
-                        }}
+                        dataTestId="end-input"
+                        validate={required}
                       />
                     </Box>
                   </Box>
                   <Box className={classes.fieldContainer}>
-                    <Controller
-                      control={control}
-                      defaultValue={
-                        data[areaAnnotationConfig.COLOR] || {
-                          r: '241',
-                          g: '112',
-                          b: '19',
-                          a: '1',
-                        }
-                      }
-                      name={`${annotationConfigKey}.[${index}].${areaAnnotationConfig.COLOR}`}
-                      render={({ onChange, value }) => (
-                        <ColorPicker onChange={onChange} value={value} dataTestId="color-picker" />
-                      )}
+                    <ColorPickerField
+                      name={`${name}.${areaAnnotationConfig.COLOR}`}
+                      validate={required}
+                      isEditMode={isEditMode}
                     />
                   </Box>
                   <Box className={classes.fieldContainer}>
                     <Typography variant="subtitle2">Opacity</Typography>
                     <Box mt={2}>
-                      <UncontrolledInputField
-                        defaultValue={data[areaAnnotationConfig.OPACITY] || ''}
+                      <TextField
                         type="number"
-                        name={`${annotationConfigKey}.[${index}].${areaAnnotationConfig.OPACITY}`}
-                        register={register}
-                        error={
-                          annotationErrors[index] &&
-                          annotationErrors[index][areaAnnotationConfig.OPACITY]
-                        }
+                        name={`${name}.${areaAnnotationConfig.OPACITY}`}
                         label="Enter opacity"
-                        dataTestid="opacity-input"
-                        validations={{
-                          required: 'Required',
-                          min: { value: 0, message: 'opacity should be from 0  to 1' },
-                          max: { value: 1, message: 'opacity should be from 0  to 1' },
-                        }}
+                        dataTestId="opacity-input"
                         inputProps={{ min: 0, max: 1, step: 0.1 }}
+                        validate={required}
+                        defaultValue={0.1}
                       />
                     </Box>
                   </Box>
                 </Box>
-                {index === lastFieldIndex && (
-                  <Box p={2}>
-                    <IconButton
-                      onClick={() => remove(index)}
-                      data-testid={`delete-button-${index}`}
-                    >
-                      <img src={deleteIcon} alt="icon" />
-                    </IconButton>
-                  </Box>
-                )}
+                <Box p={2}>
+                  <IconButton
+                    onClick={() => fields.remove(index)}
+                    data-testid={`delete-button-${index}`}
+                  >
+                    <img src={deleteIcon} alt="icon" />
+                  </IconButton>
+                </Box>
               </Box>
-            );
-          })}
-          <Box className={classes.addMetricButtonContainer}>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              onClick={() => append({})}
-              startIcon={<img src={plusIcon} alt="icon" />}
-            >
-              Add Annotation
-            </Button>
-          </Box>
-        </>
+            ))}
+        </FieldArray>
       )}
+      <Box className={classes.addMetricButtonContainer}>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={() => push(annotationConfigKey)}
+          startIcon={<img src={plusIcon} alt="icon" />}
+        >
+          Add Annotation
+        </Button>
+      </Box>
     </Box>
   );
 }

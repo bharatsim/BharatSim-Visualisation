@@ -25,7 +25,7 @@ import LogScaleSwitch from '../../../uiComponent/LogScaleSwitch';
 function LineChart({ config }) {
   const { xAxis, yAxis, dataSource, annotation } = config;
   const { columnName: xColumn, type: xAxisType } = xAxis;
-  const { annotations } = annotation || {};
+  const { annotations, annotationToggle } = annotation || {};
   const yColumns = getYaxisNames(yAxis);
   const [fetchedData, setFetchedData] = useState();
   const { state: isLogScale, toggleState } = useToggle();
@@ -95,7 +95,7 @@ function LineChart({ config }) {
         <LogScaleSwitch onChange={() => toggleState()} isChecked={isLogScale} />
         {fetchedData && (
           <Plot
-            layout={layoutConfig(xColumn, xAxisType, yAxisType, annotations)}
+            layout={layoutConfig(xColumn, xAxisType, yAxisType, annotations, annotationToggle)}
             data={chartMemo.data}
             useResizeHandler
             style={{ width: '100%', height: '100%' }}

@@ -3,6 +3,10 @@
 exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`] = `
 <div>
   <form>
+    <input
+      name="dataSource"
+      value="datasourceID"
+    />
     <div>
       <div
         class="MuiBox-root MuiBox-root-3"

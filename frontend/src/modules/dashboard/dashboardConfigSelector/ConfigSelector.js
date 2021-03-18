@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
-import { useFormContext } from 'react-hook-form';
+import { useForm } from 'react-final-form';
 
 import chartConfigs from '../../../config/chartConfigs';
 import { api } from '../../../utils/api';
@@ -9,11 +9,14 @@ import chartConfigOptions from '../../../config/chartConfigOptions';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import { chartConfigOptionTypes } from '../../../constants/chartConfigOptionTypes';
+import { useFormContext } from '../../../contexts/FormContext';
 
 function ConfigSelector() {
   const [fetchedCsvHeaders, setFetchedCsvHeaders] = useState();
-  const { chartType, resetValue, watch } = useFormContext();
-  const dataSourceId = watch(chartConfigOptionTypes.DATASOURCE, undefined);
+  const { chartType, isEditMode } = useFormContext();
+  const { getFieldState, change } = useForm();
+
+  const dataSourceId = getFieldState(chartConfigOptionTypes.DATASOURCE)?.value;
 
   const {
     startLoader,
@@ -24,7 +27,7 @@ function ConfigSelector() {
   } = useLoader();
 
   useEffect(() => {
-    resetValue(configOptionsKeysForSelectedChart);
+    if (!isEditMode) configOptionsKeysForSelectedChart.forEach((key) => change(key));
     fetchCsvHeaders();
   }, [dataSourceId]);
 

@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Typography } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
+import { FieldArray } from 'react-final-form-arrays';
+import { useForm } from 'react-final-form';
 
 import PropTypes from 'prop-types';
 import IconButton from '../../uiComponent/IconButton';
 import ChoroplethMapLayerConfig from './ChoroplethMapLayerConfigs';
 import plusIcon from '../../assets/images/plus.svg';
+import { useFormContext } from '../../contexts/FormContext';
 
 const useStyles = makeStyles((theme) => ({
   configContainer: {
@@ -32,67 +34,60 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ChoroplethMultiMapLayerConfig({ control, configKey, errors, isEditMode, headers, watch }) {
+function ChoroplethMultiMapLayerConfig({ configKey, headers }) {
   const classes = useStyles();
   const { unRegisterDatasource } = useFormContext();
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: configKey,
-  });
 
-  useEffect(() => {
-    if (isEditMode) return;
-    append({});
-  }, []);
+  const {
+    mutators: { push, remove },
+  } = useForm();
 
   function removeMapConfig(index) {
-    remove(index);
+    remove(configKey, index);
     unRegisterDatasource(`${configKey}.[${index}].mapLayer`);
   }
 
   return (
     <>
-      {fields.map((field, index) => {
-        const levelIndex = index + 1;
-        return (
-          <Box className={classes.configContainer} key={field.id}>
-            <Box p={2} className={classes.configHeaderContainer}>
-              <Typography variant="subtitle2">
-                Drill Down - 
-                {' '}
-                {index === 0 ? 'Level 1 (Top Level)' : `Level ${levelIndex}`}
-              </Typography>
-              {fields.length > 1 && index === fields.length - 1 && (
-                <IconButton
-                  onClick={() => removeMapConfig(index)}
-                  size="small"
-                  data-testid={`delete-level-${levelIndex}`}
-                >
-                  <Delete />
-                </IconButton>
-              )}
-            </Box>
-            <ChoroplethMapLayerConfig
-              control={control}
-              isEditMode={isEditMode}
-              errors={errors[index]}
-              configKey={`${configKey}.[${index}]`}
-              headers={headers}
-              watch={watch}
-              shouldShowReferenceIdConfig={index !== 0}
-              levelIndex={index}
-              defaultValues={field}
-            />
-          </Box>
-        );
-      })}
+      <FieldArray name={configKey}>
+        {({ fields }) =>
+          fields.map((name, index) => {
+            const levelIndex = index + 1;
+            return (
+              <Box className={classes.configContainer} key={name}>
+                <Box p={2} className={classes.configHeaderContainer}>
+                  <Typography variant="subtitle2">
+                    Drill Down - 
+                    {' '}
+                    {index === 0 ? 'Level 1 (Top Level)' : `Level ${levelIndex}`}
+                  </Typography>
+                  {fields.length > 1 && index === fields.length - 1 && (
+                    <IconButton
+                      onClick={() => removeMapConfig(index)}
+                      size="small"
+                      data-testid={`delete-level-${levelIndex}`}
+                    >
+                      <Delete />
+                    </IconButton>
+                  )}
+                </Box>
+                <ChoroplethMapLayerConfig
+                  configKey={name}
+                  headers={headers}
+                  shouldShowReferenceIdConfig={index !== 0}
+                  levelIndex={index}
+                />
+              </Box>
+            );
+          })}
+      </FieldArray>
       <Box className={classes.addLevelButtonContainer}>
         <Button
           variant="contained"
           color="secondary"
           size="small"
           onClick={() => {
-            append({ mapLayer: '', mapLayerId: '', dataLayerId: '', referenceId: '' });
+            push(configKey);
           }}
           startIcon={<img src={plusIcon} alt="icon" />}
         >
@@ -103,11 +98,6 @@ function ChoroplethMultiMapLayerConfig({ control, configKey, errors, isEditMode,
   );
 }
 
-ChoroplethMultiMapLayerConfig.defaultProps = {
-  errors: [],
-  isEditMode: false,
-};
-
 ChoroplethMultiMapLayerConfig.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
@@ -116,10 +106,6 @@ ChoroplethMultiMapLayerConfig.propTypes = {
     }),
   ).isRequired,
   configKey: PropTypes.string.isRequired,
-  errors: PropTypes.arrayOf(PropTypes.shape({})),
-  control: PropTypes.shape({}).isRequired,
-  isEditMode: PropTypes.bool,
-  watch: PropTypes.func.isRequired,
 };
 
 export default ChoroplethMultiMapLayerConfig;

@@ -1,28 +1,14 @@
 import {
   convertObjectArrayToOptionStructure,
-  convertStringArrayToOptions,
   debounce,
   formatToUnits,
   getLatLngCenter,
   shapeFileFilter,
   transformChoroplethData,
   transformDataForHeatMap,
-  updateState,
 } from '../helper';
 
 describe('Helpers', () => {
-  describe('Update state', () => {
-    it('should only update state data which is modified', () => {
-      const prevState = { a: '1', b: '2' };
-      const updatedData = { b: '3' };
-      const expectedState = { a: '1', b: '3' };
-
-      const updatedState = updateState(prevState, updatedData);
-
-      expect(updatedState).toEqual(expectedState);
-    });
-  });
-
   describe('convertObjectArrayToOptionStructure', () => {
     it('should provide option in value and display name format from array of object ', () => {
       const arrayObject = [
@@ -54,21 +40,6 @@ describe('Helpers', () => {
       ];
 
       const updatedState = convertObjectArrayToOptionStructure(arrayObject, 'a');
-
-      expect(updatedState).toEqual(expectedOptions);
-    });
-  });
-
-  describe('convertStringArrayToOptions', () => {
-    it('should provide option in value and display name format from array of strings', () => {
-      const arrayObject = ['a', 'b', 'c'];
-      const expectedOptions = [
-        { value: 'a', displayName: 'a' },
-        { value: 'b', displayName: 'b' },
-        { value: 'c', displayName: 'c' },
-      ];
-
-      const updatedState = convertStringArrayToOptions(arrayObject);
 
       expect(updatedState).toEqual(expectedOptions);
     });

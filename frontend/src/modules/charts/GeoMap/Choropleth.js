@@ -37,7 +37,7 @@ function Choropleth({ config }) {
   const classes = useStyles();
   const { dataSource, gisMeasure, choroplethConfig, sliderConfig } = config;
   const { choroplethType, mapLayerConfig } = choroplethConfig;
-  const { timeMetrics } = sliderConfig;
+  const timeMetrics = sliderConfig?.timeMetrics;
   const {
     loadingState,
     message,

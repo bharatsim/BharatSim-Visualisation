@@ -85,7 +85,7 @@ export default function Dropdown({
         labelId="dropdown-label"
         id={id}
         value={options.length > 0 ? value : ''}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={onChange}
         multiple={multiple}
         label={label}
         data-testid={id}

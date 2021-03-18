@@ -19,7 +19,10 @@ jest.mock('react-plotly.js', () => (props) => (
   <div>
     <span>line chart</span>
     {/* eslint-disable-next-line no-undef */}
-    <pre>{mockPropsCapture(props)}</pre>
+    <pre>
+      {/* eslint-disable-next-line no-undef */}
+      <object>{mockPropsCapture(props)}</object>
+    </pre>
   </div>
 ));
 

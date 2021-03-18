@@ -1,23 +1,19 @@
 /* eslint-disable */
 import React from 'react';
-import { fireEvent, render as rtlRender, within, act } from '@testing-library/react';
+import { fireEvent, render as rtlRender, within } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { composeStore } from './hoc/redux/store';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
-import { FormProvider } from 'react-hook-form';
 import { ProjectLayoutProvider } from './contexts/projectLayoutContext';
-import useForm from './hook/useForm';
 
-export async function selectDropDownOption(container, dropDownId, optionId) {
+export function selectDropDownOption(container, dropDownId, optionId) {
   const dropDown = container.getByTestId(dropDownId);
   fireEvent.mouseDown(within(dropDown).getByRole('button'));
   const options = within(
     within(document.getElementById(`menu-${dropDownId}`)).getByRole('listbox'),
   );
-  await act(async () => {
-    fireEvent.click(options.getByTestId(`${dropDownId}-${optionId}`));
-  });
+  fireEvent.click(options.getByTestId(`${dropDownId}-${optionId}`));
 }
 
 export function withRouter(WrappedComponent) {

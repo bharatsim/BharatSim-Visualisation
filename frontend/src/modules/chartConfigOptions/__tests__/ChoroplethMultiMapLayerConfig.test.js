@@ -1,11 +1,14 @@
 import React from 'react';
-import { act, render } from '@testing-library/react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { render } from '@testing-library/react';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 import { fireEvent } from '@testing-library/dom';
 import { api } from '../../../utils/api';
+
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import ChoroplethMultiMapLayerConfig from '../ChoroplethMultiMapLayerConfig';
+import { FormProvider } from '../../../contexts/FormContext';
 
 jest.mock('../../../utils/api', () => ({
   api: {
@@ -30,8 +33,6 @@ const ComponentWithProvider = withProjectLayout(
 const mockRegisterDatasource = jest.fn();
 const mockUnRegisterDatasource = jest.fn();
 const TestForChoroplethMultiMapLayerConfig = ({ onSubmit, isEditMode }) => {
-  const form = useForm({ mode: 'onChange' });
-  const { control, errors, handleSubmit, watch } = form;
   const props = {
     headers: [
       { name: 'a', type: 'number' },
@@ -39,28 +40,28 @@ const TestForChoroplethMultiMapLayerConfig = ({ onSubmit, isEditMode }) => {
       { name: 'c', type: 'number' },
     ],
     configKey: 'mapLayerConfig',
-    isEditMode: isEditMode || false,
   };
 
-  const methods = {
-    ...form,
-    defaultValues: {},
-    isEditMode,
-    registerDatasource: mockRegisterDatasource,
-    unRegisterDatasource: mockUnRegisterDatasource,
-  };
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ComponentWithProvider
-          {...props}
-          control={control}
-          error={errors[props.configKey]}
-          watch={watch}
-        />
-        <button type="submit">submit</button>
-      </form>
-    </FormProvider>
+    <Form
+      onSubmit={onSubmit}
+      mutators={{ ...arrayMutators }}
+      initialValues={{ mapLayerConfig: [{}] }}
+      render={({ handleSubmit }) => (
+        <FormProvider
+          value={{
+              isEditMode: !!isEditMode,
+              registerDatasource: mockRegisterDatasource,
+              unRegisterDatasource: mockUnRegisterDatasource,
+            }}
+        >
+          <form onSubmit={handleSubmit}>
+            <ComponentWithProvider {...props} />
+            <button type="submit">submit</button>
+          </form>
+        </FormProvider>
+        )}
+    />
   );
 };
 
@@ -72,15 +73,6 @@ describe('<ChoroplethMultiMapLayerConfigs />', () => {
     await findByText('select map layer');
 
     expect(getByText('Drill Down - Level 1 (Top Level)')).toBeInTheDocument();
-  });
-
-  it('should not add level if edit mode is on', async () => {
-    const renderComponent = render(
-      <TestForChoroplethMultiMapLayerConfig onSubmit={jest.fn()} isEditMode />,
-    );
-    const { queryByText } = renderComponent;
-
-    expect(queryByText('Drill Down - Top Level')).toBeNull();
   });
 
   it('should add another level on click of add level button', async () => {
@@ -141,7 +133,7 @@ describe('<ChoroplethMultiMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    await selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
+    selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 
     expect(api.getCsvHeaders).toHaveBeenCalledWith('d_id1');
 
@@ -149,18 +141,17 @@ describe('<ChoroplethMultiMapLayerConfigs />', () => {
 
     expect(getByTestId('mapLayerId')).not.toHaveClass('Mui-disabled');
 
-    await selectDropDownOption(renderComponent, 'mapLayerId', 'column1');
+    selectDropDownOption(renderComponent, 'mapLayerId', 'column1');
 
-    await selectDropDownOption(renderComponent, 'dataLayerId', 'a');
+    selectDropDownOption(renderComponent, 'dataLayerId', 'a');
 
-    await act(async () => {
-      fireEvent.click(getByText('submit'));
-    });
+    fireEvent.click(getByText('submit'));
 
     expect(onSubmit).toHaveBeenCalledWith(
       {
         mapLayerConfig: [{ mapLayer: 'd_id1', mapLayerId: 'column1', dataLayerId: 'a' }],
       },
+      expect.anything(),
       expect.anything(),
     );
   });

@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import { useFormContext } from 'react-hook-form';
-import ControlledDropDown from '../../uiComponent/ControlledDropdown';
+import { useForm } from 'react-final-form';
+
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
+import DropDownField from '../../uiComponent/formField/SelectField';
+import { required } from '../../utils/validators';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -32,50 +34,39 @@ const axisTypeOptions = [
 
 function XAxisConfig({ headers, configKey }) {
   const classes = useStyles();
-  const {
-    errors: formErrors,
-    control,
-    defaultValues: formDefaultValues,
-    setValue,
-    watch,
-  } = useFormContext();
-  const errors = formErrors[configKey] || {};
-  const defaultValues = formDefaultValues[configKey] || { [xAxisConfigNames.TYPE]: '-' };
-  const selectedType = watch(`${configKey}.${xAxisConfigNames.TYPE}`);
+  const { getFieldState } = useForm();
+
+  const selectedType = getFieldState(`${configKey}.${xAxisConfigNames.TYPE}`)?.value;
+
   return (
     <Box>
       <Box mb={1} pl={2}>
         <Typography variant="subtitle2">X axis</Typography>
       </Box>
       <Box className={classes.fieldContainer}>
-        <ControlledDropDown
+        <DropDownField
           id="x-axis-dropdown"
           key="dropdown-x-axis"
           label="select x axis"
           title="x axis"
-          control={control}
           options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
           name={`${configKey}.${xAxisConfigNames.NAME}`}
-          error={errors[xAxisConfigNames.NAME]}
-          defaultValue={defaultValues[xAxisConfigNames.NAME]}
           border={false}
-          setValue={setValue}
+          validate={required}
         />
-        <ControlledDropDown
+        <DropDownField
           id="x-axis-type-dropdown"
           label="select x axis type"
           key="dropdown-x-axis-type"
           title="x axis type"
-          control={control}
           options={axisTypeOptions}
           name={`${configKey}.${xAxisConfigNames.TYPE}`}
-          error={errors[xAxisConfigNames.TYPE]}
-          defaultValue={defaultValues[xAxisConfigNames.TYPE]}
           border={false}
-          setValue={setValue}
           helperText={
             selectedType === 'date' ? 'Only YYYY-mm-dd HH:MM:SS.sss date format is supported' : ''
           }
+          defaultValue="-"
+          validate={required}
         />
       </Box>
     </Box>

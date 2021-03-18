@@ -1,16 +1,5 @@
 import { INDIA_CENTER } from '../constants/geoMap';
 
-function updateState(prevState, updatedValue) {
-  return { ...prevState, ...updatedValue };
-}
-
-function convertStringArrayToOptions(stringsArray) {
-  return stringsArray.map((stringElement) => ({
-    value: stringElement,
-    displayName: stringElement,
-  }));
-}
-
 function convertObjectArrayToOptionStructure(objectArray, displayNameKey, valueKey) {
   return objectArray.map((objectElement) => ({
     value: valueKey ? objectElement[valueKey] : objectElement,
@@ -144,10 +133,8 @@ function formatToUnits(number, precision = 0) {
 }
 
 export {
-  updateState,
   transformDataForHeatMap,
   debounce,
-  convertStringArrayToOptions,
   convertObjectArrayToOptionStructure,
   convertFileSizeToMB,
   getLatLngCenter,

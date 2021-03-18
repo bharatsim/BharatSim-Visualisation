@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import { useFormContext } from 'react-hook-form';
+import { useForm } from 'react-final-form';
 
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
 import { timeIntervalStrategies, timeSliderConfig } from '../../constants/sliderConfigs';
-import AntSwitch from '../../uiComponent/AntSwitch';
-import ControlledDropDown from '../../uiComponent/ControlledDropdown';
-import UncontrolledInputTextField from '../../uiComponent/UncontrolledInputField';
-import RadioButtons from '../../uiComponent/RadioButtons';
+import SwitchField from '../../uiComponent/formField/SwitchField';
+import DropDownField from '../../uiComponent/formField/SelectField';
+import RadioButtonsField from '../../uiComponent/formField/RadioButtonField';
+import TextField from '../../uiComponent/formField/TextField';
+import { required } from '../../utils/validators';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -33,31 +34,25 @@ const useStyles = makeStyles((theme) => {
 
 function TimeSliderConfig({ headers, configKey }) {
   const classes = useStyles();
-  const {
-    errors: formErrors,
-    control,
-    watch,
-    register,
-    setValue,
-    defaultValues: formDefaultValues,
-  } = useFormContext();
-  const errors = formErrors[configKey] || { [timeSliderConfig.TIME_METRICS]: {} };
-  const defaultValues = formDefaultValues[configKey] || {};
 
-  const showSliderConfig = watch(`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`);
-  const selectedIntervalStrategy = watch(`${configKey}.${timeSliderConfig.STRATEGY}`);
+  const { getFieldState } = useForm();
+
+  const showSliderConfig = getFieldState(`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`)
+    ?.value;
+  const selectedIntervalStrategy = getFieldState(`${configKey}.${timeSliderConfig.STRATEGY}`)
+    ?.value;
 
   return (
     <Box>
       <Box mb={1} pl={2} className={classes.headerContainer}>
         <Typography variant="subtitle2">Time Dimension</Typography>
         <Box ml={2}>
-          <AntSwitch
-            dataTestid="toggle-time-slider"
-            control={control}
+          <SwitchField
+            dataTestId="toggle-time-slider"
             name={`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`}
             onLabel="Yes"
             offLabel="No"
+            validate={required}
           />
         </Box>
       </Box>
@@ -66,26 +61,20 @@ function TimeSliderConfig({ headers, configKey }) {
           <Box className={classes.fieldContainer}>
             <Box>
               <Typography variant="body1">Time</Typography>
-              <ControlledDropDown
+              <DropDownField
                 options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
                 id="timeMetrics"
-                key="dropdown-timeMetrics"
                 label="select Time Metrics"
-                control={control}
-                validations={{ required: 'Required' }}
                 name={`${configKey}.${timeSliderConfig.TIME_METRICS}`}
-                error={errors[timeSliderConfig.TIME_METRICS]}
-                setValue={setValue}
-                defaultValue={defaultValues[timeSliderConfig.TIME_METRICS]}
+                validate={required}
               />
             </Box>
           </Box>
           <Box className={[classes.fieldContainer, classes.timeFieldContainer].join(' ')}>
             <Box>
               <Typography variant="body1">Time Interval</Typography>
-              <RadioButtons
+              <RadioButtonsField
                 defaultValue={timeIntervalStrategies.DEFAULT_INTERVALS}
-                control={control}
                 name={`${configKey}.${timeSliderConfig.STRATEGY}`}
                 options={[
                   {
@@ -97,22 +86,18 @@ function TimeSliderConfig({ headers, configKey }) {
                     label: 'Specify step size',
                   },
                 ]}
+                validate={required}
               />
             </Box>
             <Box>
               {selectedIntervalStrategy === 'stepSize' && (
-                <UncontrolledInputTextField
+                <TextField
                   type="number"
                   defaultValue={1}
                   name={`${configKey}.${timeSliderConfig.STEP_SIZE}`}
-                  register={register}
-                  error={errors[timeSliderConfig.STEP_SIZE]}
                   label="select step size"
-                  dataTestid="stepsize-input-box"
-                  validations={{
-                    required: 'Required',
-                    min: { value: 1, message: 'step size should not be less than 1' },
-                  }}
+                  dataTestId="stepsize-input-box"
+                  validate={required}
                 />
               )}
             </Box>

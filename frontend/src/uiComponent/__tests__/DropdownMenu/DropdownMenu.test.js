@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
-import DropdownMenu from '../../DropdownMenu/DropdownMenu';
+import DropdownMenu from '../../dropdownMenu/DropdownMenu';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import deleteIcon from '../../../assets/images/delete.svg';
 

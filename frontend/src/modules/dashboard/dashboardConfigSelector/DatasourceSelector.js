@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { useFormContext } from 'react-hook-form';
 import { Box, Typography } from '@material-ui/core';
+import { useForm } from 'react-final-form';
 
 import { api } from '../../../utils/api';
 import { convertObjectArrayToOptionStructure } from '../../../utils/helper';
@@ -10,24 +10,25 @@ import { projectLayoutContext } from '../../../contexts/projectLayoutContext';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import NoDataSetPresentMessage from '../../configureDataset/NoDatatSetPresentMessage';
-import ControlledDropDown from '../../../uiComponent/ControlledDropdown';
+import DropDownField from '../../../uiComponent/formField/SelectField';
+import { useFormContext } from '../../../contexts/FormContext';
 
 function DatasourceSelector({
   name: datasourceKey,
   disabled,
-  defaultValue,
-  filterDatasource,
+  datasourceFilter,
   helperText,
   noDataSourcePresentMessage,
   header,
   label,
   id,
+  validate,
 }) {
   const { selectedDashboardMetadata, projectMetadata } = useContext(projectLayoutContext);
 
-  const { control, setValue, errors, registerDatasource, watch } = useFormContext();
-  const datasourceValue = watch(datasourceKey);
-  const error = errors[datasourceKey] || {};
+  const { registerDatasource } = useFormContext();
+  const { getFieldState } = useForm();
+  const datasourceValue = getFieldState(datasourceKey)?.value;
 
   const { _id: selectedDashboardId } = selectedDashboardMetadata;
   const {
@@ -42,6 +43,7 @@ function DatasourceSelector({
   useEffect(() => {
     fetchDatasources();
   }, []);
+
   useEffect(() => {
     registerDatasource(datasourceKey, datasourceValue);
   }, [datasourceValue]);
@@ -52,8 +54,9 @@ function DatasourceSelector({
       .getDatasources(selectedDashboardId)
       .then(({ dataSources }) => {
         stopLoaderAfterSuccess();
-        if (filterDatasource) {
-          const filteredDatasources = dataSources.filter(filterDatasource);
+
+        if (datasourceFilter) {
+          const filteredDatasources = dataSources.filter(datasourceFilter);
           setFetchedDatasources(filteredDatasources);
         }
         setFetchedDatasources(dataSources);
@@ -84,18 +87,14 @@ function DatasourceSelector({
           <Box mb={2}>
             <Typography variant="subtitle2">{header}</Typography>
           </Box>
-          <ControlledDropDown
-            options={convertObjectArrayToOptionStructure(dataSources, 'name', '_id')}
+          <DropDownField
             id={id}
+            options={convertObjectArrayToOptionStructure(dataSources, 'name', '_id')}
             label={label}
             disabled={disabled}
             name={datasourceKey}
-            control={control}
-            validations={{ required: 'Required' }}
-            defaultValue={defaultValue}
-            error={error}
             helperText={helperText}
-            setValue={setValue}
+            validate={validate}
           />
         </>
       ) : (
@@ -111,11 +110,11 @@ function DatasourceSelector({
 }
 
 DatasourceSelector.defaultProps = {
-  defaultValue: '',
-  filterDatasource: null,
+  datasourceFilter: null,
   noDataSourcePresentMessage: '',
   helperText: '',
   disabled: false,
+  validate: null,
 };
 
 DatasourceSelector.propTypes = {
@@ -124,10 +123,10 @@ DatasourceSelector.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  defaultValue: PropTypes.string,
   helperText: PropTypes.string,
-  filterDatasource: PropTypes.func,
+  datasourceFilter: PropTypes.func,
   noDataSourcePresentMessage: PropTypes.string,
+  validate: PropTypes.func,
 };
 
 export default DatasourceSelector;

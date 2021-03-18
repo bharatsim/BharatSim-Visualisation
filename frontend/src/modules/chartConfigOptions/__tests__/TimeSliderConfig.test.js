@@ -1,15 +1,16 @@
 import React from 'react';
-import { act, render } from '@testing-library/react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { render } from '@testing-library/react';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 import { fireEvent } from '@testing-library/dom';
 
 import { selectDropDownOption } from '../../../testUtil';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import TimeSliderConfig from '../TimeSliderConfig';
 
+import { FormProvider } from '../../../contexts/FormContext';
+
 const TestForm = ({ onSubmit }) => {
-  const form = useForm({ mode: 'onChange' });
-  const { handleSubmit } = form;
   const props = {
     headers: [
       { name: 'a', type: 'number' },
@@ -18,14 +19,26 @@ const TestForm = ({ onSubmit }) => {
     ],
     configKey: 'sliderConfig',
   };
-  const method = { ...form, defaultValues: {} };
+
   return (
-    <FormProvider {...method}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TimeSliderConfig configKey={props.configKey} headers={props.headers} />
-        <button type="submit">submit</button>
-      </form>
-    </FormProvider>
+    <Form
+      onSubmit={onSubmit}
+      mutators={{ ...arrayMutators }}
+      render={({ handleSubmit }) => (
+        <FormProvider
+          value={{
+              isEditMode: false,
+              registerDatasource: jest.fn(),
+              unRegisterDatasource: jest.fn(),
+            }}
+        >
+          <form onSubmit={handleSubmit}>
+            <TimeSliderConfig configKey={props.configKey} headers={props.headers} />
+            <button type="submit">submit</button>
+          </form>
+        </FormProvider>
+        )}
+    />
   );
 };
 
@@ -36,36 +49,31 @@ describe('<TimeSliderConfig />', () => {
     jest.clearAllMocks();
   });
 
-  it('should call on submit with time slider configs with default intervals', async () => {
+  it('should call on submit with time slider configs with default intervals', () => {
     const onSubmit = jest.fn();
     const renderedContainer = render(<FormForTimeSliderConfig onSubmit={onSubmit} />);
-    const { getByRole, findByTestId } = renderedContainer;
+    const { getByRole } = renderedContainer;
     getByRole('checkbox').click();
     fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
 
-    await findByTestId('timeMetrics');
+    selectDropDownOption(renderedContainer, 'timeMetrics', 'a');
 
-    await selectDropDownOption(renderedContainer, 'timeMetrics', 'a');
-
-    await act(async () => {
-      fireEvent.click(renderedContainer.getByText('submit'));
-    });
+    fireEvent.click(renderedContainer.getByText('submit'));
 
     expect(onSubmit).toHaveBeenCalledWith(
       { sliderConfig: { timeConfigToggle: true, timeMetrics: 'a', strategy: 'defaultIntervals' } },
+      expect.anything(),
       expect.anything(),
     );
   });
   it('should call on submit with time slider configs with defined stepSize intervals', async () => {
     const onSubmit = jest.fn();
     const renderedContainer = render(<FormForTimeSliderConfig onSubmit={onSubmit} />);
-    const { getByRole, findByTestId, getAllByRole, getByTestId } = renderedContainer;
+    const { getByRole, getAllByRole, getByTestId } = renderedContainer;
     getByRole('checkbox').click();
     fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
 
-    await findByTestId('timeMetrics');
-
-    await selectDropDownOption(renderedContainer, 'timeMetrics', 'a');
+    selectDropDownOption(renderedContainer, 'timeMetrics', 'a');
 
     const radioButtons = getAllByRole('radio');
     fireEvent.click(radioButtons[1]);
@@ -74,9 +82,7 @@ describe('<TimeSliderConfig />', () => {
     const stepSizeInputBox = getByTestId('stepsize-input-box');
     fireEvent.input(stepSizeInputBox, { target: { value: 2 } });
 
-    await act(async () => {
-      fireEvent.click(renderedContainer.getByText('submit'));
-    });
+    fireEvent.click(renderedContainer.getByText('submit'));
 
     expect(onSubmit).toHaveBeenCalledWith(
       {
@@ -88,39 +94,16 @@ describe('<TimeSliderConfig />', () => {
         },
       },
       expect.anything(),
+      expect.anything(),
     );
-  });
-  it('should show error if stepSize value set to empty', async () => {
-    const onSubmit = jest.fn();
-    const renderedContainer = render(<FormForTimeSliderConfig onSubmit={onSubmit} />);
-    const { getByRole, findByTestId, getAllByRole, getByTestId, findByText } = renderedContainer;
-    getByRole('checkbox').click();
-    fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
-
-    await findByTestId('timeMetrics');
-
-    await selectDropDownOption(renderedContainer, 'timeMetrics', 'a');
-
-    const radioButtons = getAllByRole('radio');
-    fireEvent.click(radioButtons[1]);
-    fireEvent.change(radioButtons[1], { target: { checked: true } });
-
-    const stepSizeInputBox = getByTestId('stepsize-input-box');
-    fireEvent.input(stepSizeInputBox, { target: { value: 0 } });
-
-    const requiredMessage = await findByText('step size should not be less than 1');
-
-    expect(requiredMessage).toBeInTheDocument();
   });
 
   it('should show time slider config if toggle is on', async () => {
     const onSubmit = jest.fn();
     const renderedContainer = render(<FormForTimeSliderConfig onSubmit={onSubmit} />);
-    const { getByRole, findByTestId, getByTestId } = renderedContainer;
+    const { getByRole, getByTestId } = renderedContainer;
     getByRole('checkbox').click();
     fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
-
-    await findByTestId('timeMetrics');
 
     expect(getByTestId('timeMetrics')).toBeInTheDocument();
   });

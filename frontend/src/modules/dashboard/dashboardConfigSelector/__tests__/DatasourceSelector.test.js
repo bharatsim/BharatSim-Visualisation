@@ -1,11 +1,14 @@
 import { act, render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
+
 import DatasourceSelector from '../DatasourceSelector';
 import { selectDropDownOption, withProjectLayout, withRouter } from '../../../../testUtil';
 import { api } from '../../../../utils/api';
 import withThemeProvider from '../../../../theme/withThemeProvider';
+import { FormProvider } from '../../../../contexts/FormContext';
 
 jest.mock('../../../../utils/api', () => ({
   api: {
@@ -19,8 +22,6 @@ jest.mock('../../../../utils/api', () => ({
 }));
 
 const TestForm = ({ onSubmit, isEditMode, filter }) => {
-  const form = useForm({ mode: 'onChange' });
-  const { control, errors, handleSubmit } = form;
   const props = {
     headers: [
       { name: 'a', type: 'number' },
@@ -29,24 +30,33 @@ const TestForm = ({ onSubmit, isEditMode, filter }) => {
     ],
     configKey: 'dataSource',
   };
-  const mockRegisterDatasource = jest.fn();
-  const methods = { ...form, isEditMode, registerDatasource: mockRegisterDatasource };
+
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DatasourceSelector
-          disabled={isEditMode}
-          control={control}
-          name={props.configKey}
-          error={errors[props.configKey]}
-          header="Data Source"
-          id="dropdown-dataSources"
-          label="select data source"
-          filterDatasource={filter}
-        />
-        <button type="submit">submit</button>
-      </form>
-    </FormProvider>
+    <Form
+      onSubmit={onSubmit}
+      mutators={{ ...arrayMutators }}
+      render={({ handleSubmit }) => (
+        <FormProvider
+          value={{
+              isEditMode: !!isEditMode,
+              registerDatasource: jest.fn(),
+              unRegisterDatasource: jest.fn(),
+            }}
+        >
+          <form onSubmit={handleSubmit}>
+            <DatasourceSelector
+              disabled={isEditMode}
+              name={props.configKey}
+              header="Data Source"
+              id="dropdown-dataSources"
+              label="select data source"
+              datasourceFilter={filter}
+            />
+            <button type="submit">submit</button>
+          </form>
+        </FormProvider>
+        )}
+    />
   );
 };
 
@@ -72,6 +82,7 @@ describe('<DatasourceSelector />', () => {
       {
         dataSource: 'id1',
       },
+      expect.anything(),
       expect.anything(),
     );
   });
