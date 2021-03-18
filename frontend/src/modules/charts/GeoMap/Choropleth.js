@@ -62,7 +62,16 @@ function Choropleth({ config }) {
 
   useEffect(() => {
     fetchAllData();
-  }, [dataLayerId, gisMeasure, timeMetrics, dataLayerId, drillDownLevel, referenceId, mapLayer]);
+  }, [
+    dataLayerId,
+    gisMeasure,
+    timeMetrics,
+    dataLayerId,
+    drillDownLevel,
+    referenceId,
+    mapLayer,
+    choroplethConfig,
+  ]);
 
   function onClickOfFeature(event) {
     const selectedFeature = event.target.feature.properties[mapLayerId];
