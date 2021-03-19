@@ -83,11 +83,20 @@ function createAnnotation(annotations, annotationToggle) {
     : {};
 }
 
-function layoutConfig(xColumn, xAxisType, yAxisType, annotations = [], annotationToggel = false) {
+function layoutConfig(
+  xColumn,
+  xAxisType,
+  yAxisType,
+  annotations = [],
+  annotationToggel = false,
+  revision,
+) {
   return {
     showlegend: true,
     colorway: chartColorsPallet[1],
     autosize: true,
+    width: undefined,
+    height: undefined,
     font,
     margin: {
       l: 32,
@@ -103,6 +112,7 @@ function layoutConfig(xColumn, xAxisType, yAxisType, annotations = [], annotatio
         size: 12,
       },
     },
+    datarevision: revision,
     xaxis: {
       type: xAxisType,
       title: { text: xColumn, standoff: 8, font: { ...font, weight: 700, size: 14 } },

@@ -34,6 +34,7 @@ describe('BarChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 
@@ -50,6 +51,7 @@ describe('BarChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 4, w: 3 }}
       />,
     );
 
@@ -69,6 +71,7 @@ describe('BarChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 
@@ -81,12 +84,43 @@ describe('BarChart', () => {
           xAxis: { columnName: 'hourNew', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 
     await findByText('bar chart');
 
     expect(api.getData).toHaveBeenLastCalledWith('dataSource', ['hourNew', 'exposed']);
+  });
+
+  it('should call data if column name are same', async () => {
+    const { rerender, findByText } = render(
+      <BarChartWithProvider
+        config={{
+          dataSource: 'dataSource',
+          xAxis: { columnName: 'hour', type: 'linear' },
+          yAxis: [{ type: 'number', name: 'exposed' }],
+        }}
+        layout={{ h: 1, w: 2 }}
+      />,
+    );
+
+    await findByText('bar chart');
+
+    rerender(
+      <BarChartWithProvider
+        config={{
+          dataSource: 'dataSource',
+          xAxis: { columnName: 'hour', type: 'linear' },
+          yAxis: [{ type: 'number', name: 'exposed' }],
+        }}
+        layout={{ h: 1, w: 2 }}
+      />,
+    );
+
+    await findByText('bar chart');
+
+    expect(api.getData).not.toHaveBeenLastCalledWith('dataSource', ['hourNew', 'exposed']);
   });
 
   it('should call get data api for given data column and datasource', async () => {
@@ -97,6 +131,7 @@ describe('BarChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 
@@ -113,6 +148,7 @@ describe('BarChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
     const loaderComponent = document.getElementsByTagName('svg');
@@ -131,6 +167,7 @@ describe('BarChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 
@@ -148,6 +185,7 @@ describe('BarChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 

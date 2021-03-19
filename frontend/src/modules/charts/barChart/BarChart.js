@@ -1,29 +1,31 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import sizeMe from 'react-sizeme';
+import equal from 'fast-deep-equal/es6/react';
+
 import { getYaxisNames } from '../utils';
 import { api } from '../../../utils/api';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import useDeepCompareMemoize from '../../../hook/useDeepCompareMemoize';
 import {
-  layoutConfig,
+  ChartFullSizeWrapper,
   configs,
+  layoutConfig,
   tooltip,
   yAxisLegendName,
-  ChartFullSizeWrapper,
 } from '../chartStyleConfig';
 import { chartColorsPallet } from '../../../theme/colorPalette';
 import LogScaleSwitch from '../../../uiComponent/LogScaleSwitch';
 import useToggle from '../../../hook/useToggle';
 
-function BarChart({ config }) {
+function BarChart({ config, layout }) {
   const { xAxis, yAxis, dataSource, annotation } = config;
   const { columnName: xColumn, type: xAxisType } = xAxis;
-  const { annotations } = annotation || {};
+  const { annotations, annotationToggle } = annotation || {};
   const yColumns = getYaxisNames(yAxis);
   const [fetchedData, setFetchedData] = useState();
+  const [revision, setRevision] = useState(0);
   const { state: isLogScale, toggleState } = useToggle();
   const yAxisType = isLogScale ? 'log' : '-';
   const {
@@ -52,6 +54,11 @@ function BarChart({ config }) {
   useEffect(() => {
     fetchData();
   }, [xColumn, yAxisDeps]);
+
+  const memoizeConfig = useDeepCompareMemoize(config);
+  useEffect(() => {
+    setRevision((prev) => prev + 1);
+  }, [memoizeConfig, layout.h, layout.w]);
 
   const onErrorAction = {
     name: 'Retry',
@@ -90,11 +97,19 @@ function BarChart({ config }) {
         {fetchedData && (
           <Plot
             key={Math.random()}
-            layout={layoutConfig(xColumn, xAxisType, yAxisType, annotations)}
+            layout={layoutConfig(
+              xColumn,
+              xAxisType,
+              yAxisType,
+              annotations,
+              annotationToggle,
+              revision,
+            )}
             data={chartMemo.data}
             useResizeHandler
             style={{ width: '100%', height: '100%' }}
             config={configs}
+            revision={revision}
           />
         )}
       </ChartFullSizeWrapper>
@@ -128,6 +143,14 @@ BarChart.propTypes = {
       ),
     }),
   }).isRequired,
+  layout: PropTypes.shape({ h: PropTypes.number, w: PropTypes.number }).isRequired,
 };
 
-export default sizeMe({ monitorHeight: true })(BarChart);
+function isEqual(prevProps, newProps) {
+  return (
+    equal(prevProps.config, newProps.config) &&
+    prevProps.layout.h === newProps.layout.h &&
+    prevProps.layout.w === newProps.layout.w
+  );
+}
+export default React.memo(BarChart, isEqual);

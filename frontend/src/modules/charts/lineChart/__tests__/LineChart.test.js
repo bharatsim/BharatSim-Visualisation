@@ -41,6 +41,7 @@ describe('LineChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 
@@ -57,6 +58,7 @@ describe('LineChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 
@@ -76,6 +78,7 @@ describe('LineChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposedwithinfectedPeople' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 
@@ -92,6 +95,7 @@ describe('LineChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 
@@ -108,6 +112,7 @@ describe('LineChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 
@@ -120,12 +125,43 @@ describe('LineChart', () => {
           xAxis: { columnName: 'hourNew', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 4, w: 3 }}
       />,
     );
 
     await findByText('line chart');
 
     expect(api.getData).toHaveBeenLastCalledWith('dataSource', ['hourNew', 'exposed']);
+  });
+
+  it('should not call get data whenever column name same', async () => {
+    const { rerender, findByText } = render(
+      <LineChartWithProvider
+        config={{
+          dataSource: 'dataSource',
+          xAxis: { columnName: 'hour', type: 'linear' },
+          yAxis: [{ type: 'number', name: 'exposed' }],
+        }}
+        layout={{ h: 1, w: 2 }}
+      />,
+    );
+
+    await findByText('line chart');
+
+    rerender(
+      <LineChartWithProvider
+        config={{
+          dataSource: 'dataSource',
+          xAxis: { columnName: 'hour', type: 'linear' },
+          yAxis: [{ type: 'number', name: 'exposed' }],
+        }}
+        layout={{ h: 1, w: 2 }}
+      />,
+    );
+
+    await findByText('line chart');
+
+    expect(api.getData).not.toHaveBeenLastCalledWith('dataSource', ['hourNew', 'exposed']);
   });
 
   it('should show loader while fetching data', async () => {
@@ -136,6 +172,7 @@ describe('LineChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
     const loaderComponent = document.getElementsByTagName('svg');
@@ -154,6 +191,7 @@ describe('LineChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 
@@ -171,6 +209,7 @@ describe('LineChart', () => {
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed' }],
         }}
+        layout={{ h: 1, w: 2 }}
       />,
     );
 

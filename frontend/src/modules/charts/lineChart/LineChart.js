@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import equal from 'fast-deep-equal/es6/react';
 
 import { api } from '../../../utils/api';
 import { getYaxisNames } from '../utils';
@@ -22,14 +23,16 @@ import { chartColorsPallet } from '../../../theme/colorPalette';
 import useToggle from '../../../hook/useToggle';
 import LogScaleSwitch from '../../../uiComponent/LogScaleSwitch';
 
-function LineChart({ config }) {
+function LineChart({ config, layout }) {
   const { xAxis, yAxis, dataSource, annotation } = config;
   const { columnName: xColumn, type: xAxisType } = xAxis;
   const { annotations, annotationToggle } = annotation || {};
   const yColumns = getYaxisNames(yAxis);
   const [fetchedData, setFetchedData] = useState();
+  const [revision, setRevision] = useState(0);
   const { state: isLogScale, toggleState } = useToggle();
   const yAxisType = isLogScale ? 'log' : '-';
+
   const {
     loadingState,
     message,
@@ -56,6 +59,11 @@ function LineChart({ config }) {
   useEffect(() => {
     fetchData();
   }, [xColumn, yAxisDeps]);
+
+  const memoizeConfig = useDeepCompareMemoize(config);
+  useEffect(() => {
+    setRevision((prev) => prev + 1);
+  }, [memoizeConfig, layout.h, layout.w]);
 
   const onErrorAction = {
     name: 'Retry',
@@ -86,8 +94,8 @@ function LineChart({ config }) {
   }
   const chartMemo = useMemo(() => {
     const data = fetchedData && createData(fetchedData.data);
-    return { data };
-  }, [xColumn, xAxisType, yAxisType, fetchedData]);
+    return { data, n: Math.random() };
+  }, [xColumn, xAxisType, yAxisType, fetchedData, annotations]);
 
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
@@ -95,9 +103,17 @@ function LineChart({ config }) {
         <LogScaleSwitch onChange={() => toggleState()} isChecked={isLogScale} />
         {fetchedData && (
           <Plot
-            layout={layoutConfig(xColumn, xAxisType, yAxisType, annotations, annotationToggle)}
+            layout={layoutConfig(
+              xColumn,
+              xAxisType,
+              yAxisType,
+              annotations,
+              annotationToggle,
+              revision,
+            )}
             data={chartMemo.data}
             useResizeHandler
+            revision={revision}
             style={{ width: '100%', height: '100%' }}
             config={configs}
           />
@@ -132,6 +148,14 @@ LineChart.propTypes = {
       ),
     }),
   }).isRequired,
+  layout: PropTypes.shape({ h: PropTypes.number, w: PropTypes.number }).isRequired,
 };
 
-export default LineChart;
+function isEqual(prevProps, newProps) {
+  return (
+    equal(prevProps.config, newProps.config) &&
+    prevProps.layout.h === newProps.layout.h &&
+    prevProps.layout.w === newProps.layout.w
+  );
+}
+export default React.memo(LineChart, isEqual);

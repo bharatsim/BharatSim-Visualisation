@@ -4,6 +4,7 @@ import { fade, makeStyles } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import ReactGridLayout, { WidthProvider } from 'react-grid-layout';
 import { useDispatch, useSelector } from 'react-redux';
+import produce from 'immer';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
 import ProjectHeader from '../../uiComponent/ProjectHeader';
 import 'react-grid-layout/css/styles.css';
@@ -107,10 +108,12 @@ function Dashboard() {
   }
 
   function updateChart(chartId, chartType, config, dataSourceIds) {
-    const existingChart = charts.find((c) => c.layout.i === chartId);
-    const restCharts = charts.filter((c) => c.layout.i !== chartId);
-    const updatedChart = { ...existingChart, chartType, config, dataSourceIds };
-    return restCharts.concat(updatedChart);
+    return produce(charts, (draftCharts) => {
+      const existingChart = draftCharts.find((chart) => chart.layout.i === chartId);
+      existingChart.config = config;
+      existingChart.dataSourceIds = dataSourceIds;
+      existingChart.chartType = chartType;
+    });
   }
 
   function onLayoutChange(changedLayout) {
@@ -176,7 +179,7 @@ function Dashboard() {
             draggableHandle=".dragHandler"
           >
             {charts.map((item) => {
-              return renderWidget(item, dashboardId, onDeleteWidget, onEditWidget);
+              return renderWidget(item, dashboardId, onDeleteWidget, onEditWidget, layout);
             })}
           </GridLayout>
         )}

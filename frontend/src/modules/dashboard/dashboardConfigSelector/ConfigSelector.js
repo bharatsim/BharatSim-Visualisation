@@ -28,7 +28,7 @@ function ConfigSelector() {
 
   useEffect(() => {
     if (!isEditMode) configOptionsKeysForSelectedChart.forEach((key) => change(key));
-    fetchCsvHeaders();
+    if (dataSourceId) fetchCsvHeaders();
   }, [dataSourceId]);
 
   async function fetchCsvHeaders() {

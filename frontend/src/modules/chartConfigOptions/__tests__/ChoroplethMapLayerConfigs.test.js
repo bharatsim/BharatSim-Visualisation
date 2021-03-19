@@ -56,17 +56,17 @@ const TestForChoroplethMapLayerConfig = ({
       render={({ handleSubmit }) => (
         <FormProvider
           value={{
-              isEditMode: !!isEditMode,
-              registerDatasource: jest.fn(),
-              unRegisterDatasource: jest.fn(),
-            }}
+            isEditMode: !!isEditMode,
+            registerDatasource: jest.fn(),
+            unRegisterDatasource: jest.fn(),
+          }}
         >
           <form onSubmit={handleSubmit}>
             <ComponentWithProvider {...props} />
             <button type="submit">submit</button>
           </form>
         </FormProvider>
-        )}
+      )}
     />
   );
 };
@@ -80,6 +80,8 @@ describe('<ChoroplethMapLayerConfigs />', () => {
 
     selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 
+    await findByText('select map layer id');
+
     expect(api.getCsvHeaders).toHaveBeenCalledWith('d_id1');
     expect(api.getDatasources).toHaveBeenCalledWith('id1');
   });
@@ -92,6 +94,8 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     await findByText('select map layer');
 
     selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
+
+    await findByText('select map layer id');
 
     expect(api.getCsvHeaders).toHaveBeenCalledWith('d_id1');
     expect(api.getDatasources).toHaveBeenCalledWith('id1');

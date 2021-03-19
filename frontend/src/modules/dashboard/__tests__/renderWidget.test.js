@@ -29,6 +29,7 @@ describe('Create element', () => {
         'dashboardId',
         jest.fn(),
         jest.fn(),
+        [{ i: 'id-1-Linechart-dashboardId' }],
       ),
     );
 

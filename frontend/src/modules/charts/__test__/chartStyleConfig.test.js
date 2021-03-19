@@ -108,11 +108,13 @@ describe('Common chart styles', () => {
           "#1E3FD8",
           "#C962BE",
         ],
+        "datarevision": undefined,
         "font": Object {
           "family": "Roboto",
           "size": 10,
           "weight": 400,
         },
+        "height": undefined,
         "legend": Object {
           "font": Object {
             "color": "#929599",
@@ -173,6 +175,7 @@ describe('Common chart styles', () => {
           },
         ],
         "showlegend": true,
+        "width": undefined,
         "xaxis": Object {
           "automargin": true,
           "autotypenumbers": "strict",

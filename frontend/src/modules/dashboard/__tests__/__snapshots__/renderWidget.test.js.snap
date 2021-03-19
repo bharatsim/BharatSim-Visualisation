@@ -88,6 +88,7 @@ exports[`Create element should provide element with data-grid 1`] = `
         Linechart
         <span>
           config = {"chartName":"title"}
+          layout = {"i":"id-1-Linechart-dashboardId"}
         </span>
       </div>
     </div>
