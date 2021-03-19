@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => {
       padding: theme.spacing(2, 6),
       justifyContent: 'space-between',
       alignItems: 'center',
-      width: ({ fullWidth }) => (fullWidth ? '100%' : 'unset'),
+      width: ({ fullWidth }) => (fullWidth ? '100%' : 'fit-content'),
     },
   };
 });

@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import renderChart from '../charts/renderChart';
 import Widget from './Widget';
+import Error from '../loaderOrError/Error';
 
 export function renderWidget(chart, dashboardId, onDelete, onEdit, dashboardLayout) {
   const { layout, chartType, config } = chart;
@@ -21,7 +23,17 @@ export function renderWidget(chart, dashboardId, onDelete, onEdit, dashboardLayo
         onEdit={() => onEdit(layout.i)}
         chartId={layout.i}
       >
-        {renderChart(chartType, { config, layout: chartLayout })}
+        <ErrorBoundary
+          resetKeys={[config]}
+          FallbackComponent={() => (
+            <Error
+              message="unable to plot chart, there might be some error or type mismatch with config"
+              fullWidth={false}
+            />
+          )}
+        >
+          {renderChart(chartType, { config, layout: chartLayout })}
+        </ErrorBoundary>
       </Widget>
     </div>
   );
