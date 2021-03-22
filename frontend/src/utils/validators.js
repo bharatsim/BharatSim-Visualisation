@@ -18,8 +18,21 @@ function validateFile(file) {
   return '';
 }
 
+function validateStepSize(value) {
+  if (isUndefined(value)) {
+    return 'Field is required';
+  }
+  if (value < 1) {
+    return 'Step size should be greater than equal to 1';
+  }
+  if (value % 1 !== 0) {
+    return 'Step size should be integer';
+  }
+  return '';
+}
+
 function required(value) {
   return isUndefined(value) ? 'Field is required' : '';
 }
 
-export { validateFile, required };
+export { validateFile, required, validateStepSize };

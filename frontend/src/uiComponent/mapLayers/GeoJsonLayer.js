@@ -40,6 +40,7 @@ function GeoJsonLayer({
 
   const sumOfValues = Object.values(idDataMap).reduce(
     (accumulator, currentValue) => accumulator + currentValue,
+    0,
   );
   const scaleBand = maxOfMeasure - minOfMeasure;
 

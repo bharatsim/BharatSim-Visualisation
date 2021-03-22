@@ -10,7 +10,7 @@ import SwitchField from '../../uiComponent/formField/SwitchField';
 import DropDownField from '../../uiComponent/formField/SelectField';
 import RadioButtonsField from '../../uiComponent/formField/RadioButtonField';
 import TextField from '../../uiComponent/formField/TextField';
-import { required } from '../../utils/validators';
+import { required, validateStepSize } from '../../utils/validators';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -97,7 +97,7 @@ function TimeSliderConfig({ headers, configKey }) {
                   name={`${configKey}.${timeSliderConfig.STEP_SIZE}`}
                   label="select step size"
                   dataTestId="stepsize-input-box"
-                  validate={required}
+                  validate={validateStepSize}
                 />
               )}
             </Box>

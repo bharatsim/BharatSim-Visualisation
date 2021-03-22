@@ -165,7 +165,13 @@ function Choropleth({ config }) {
             <ResizeController />
             <ScaleControl />
             <ZoomControl position="bottomleft" />
-            <ColorScaleLegend scale={scale} min={minValue} max={maxValue} title={gisMeasure} />
+            <ColorScaleLegend
+              scale={scale}
+              min={minValue}
+              max={maxValue}
+              title={gisMeasure}
+              disablePercentageScale
+            />
           </MapContainer>
         </div>
       </LoaderOrError>

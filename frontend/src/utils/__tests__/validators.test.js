@@ -1,4 +1,4 @@
-import { validateFile, required } from '../validators';
+import { validateFile, required, validateStepSize } from '../validators';
 
 describe('Validators', () => {
   describe('required', () => {
@@ -8,6 +8,25 @@ describe('Validators', () => {
       expect(required('')).toEqual('Field is required');
     });
   });
+
+  describe('step size validator', () => {
+    it('should provide message if step size is undefined', () => {
+      expect(validateStepSize()).toEqual('Field is required');
+    });
+
+    it('should provide message if step size is less than 1', () => {
+      expect(validateStepSize(0)).toEqual('Step size should be greater than equal to 1');
+    });
+
+    it('should provide message if step size is not valid integer', () => {
+      expect(validateStepSize(2.2)).toEqual('Step size should be integer');
+    });
+
+    it('should provide empty message for valid step size', () => {
+      expect(validateStepSize(2)).toEqual('');
+    });
+  });
+
   describe('file validator', () => {
     it('should provide message if file is not present', () => {
       expect(validateFile()).toEqual('Please upload valid file');
