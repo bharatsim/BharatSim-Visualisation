@@ -4,22 +4,22 @@ import { Form } from 'react-final-form';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import ColorPickerField from '../../formField/ColorPickerField';
 
-jest.mock('../../ColorPicker', () => ({ onChange, value, dataTestId }) => <input type="text" onChange={onChange} value={value} data-testid={dataTestId} />);
+jest.mock('../../ColorPicker', () => ({ onChange, value, dataTestId }) => (
+  <input type="text" onChange={onChange} value={value} data-testid={dataTestId} />
+));
 
-const TestForm = ({ onSubmit, defaultValue }) => (
+const TestForm = ({ onSubmit, defaultValue, initialValue }) => (
   <Form
     onSubmit={onSubmit}
+    initialValues={{ colorPicker: initialValue }}
     render={({ handleSubmit }) => (
       <form onSubmit={handleSubmit}>
-        <ColorPickerField
-          name="colorPicker"
-          defaultValue={defaultValue}
-        />
+        <ColorPickerField name="colorPicker" defaultValue={defaultValue} />
         <button type="submit">submit</button>
       </form>
-        )}
+    )}
   />
-  );
+);
 
 describe('<ColorPickerField  />', () => {
   const FormForColorPickerField = withThemeProvider(TestForm);
@@ -52,6 +52,36 @@ describe('<ColorPickerField  />', () => {
           g: '112',
           b: '19',
           r: '241',
+        },
+      },
+      expect.anything(),
+      expect.anything(),
+    );
+  });
+
+  it('Should return initial value for color picker has initial value in edit mode', () => {
+    const onSubmit = jest.fn();
+    const { getByText } = render(
+      <FormForColorPickerField
+        onSubmit={onSubmit}
+        initialValue={{
+          a: '1',
+          g: '100',
+          b: '200',
+          r: '300',
+        }}
+      />,
+    );
+
+    fireEvent.click(getByText('submit'));
+
+    expect(onSubmit).toHaveBeenCalledWith(
+      {
+        colorPicker: {
+          a: '1',
+          g: '100',
+          b: '200',
+          r: '300',
         },
       },
       expect.anything(),

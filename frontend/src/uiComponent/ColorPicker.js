@@ -73,7 +73,7 @@ function ColorPicker({ onChange, value }) {
           horizontal: 'left',
         }}
       >
-        <SketchPicker color={value} onChange={handleChange} />
+        <SketchPicker color={value} onChangeComplete={handleChange} />
       </Popover>
     </Box>
   );

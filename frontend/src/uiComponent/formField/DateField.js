@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, useForm } from 'react-final-form';
+import { Field } from 'react-final-form';
 
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,19 +24,12 @@ const useStyles = makeStyles((theme) => {
 
 function DateField({ name, label, dataTestId, validate, defaultValue, format }) {
   const classes = useStyles();
-  const { change, getFieldState } = useForm();
-  const value = getFieldState(name)?.value;
-
-  useEffect(() => {
-    if (!value) {
-      change(name, defaultValue);
-    }
-  }, [!!value]);
 
   return (
     <Field
       name={name}
       validate={validate}
+      defaultValue={defaultValue}
       render={({ input }) => (
         <KeyboardDatePicker
           label={label}

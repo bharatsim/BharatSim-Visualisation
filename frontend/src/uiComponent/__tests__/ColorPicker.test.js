@@ -6,8 +6,8 @@ import ColorPicker from '../ColorPicker';
 
 const ColorPickerWithProvider = withThemeProvider(ColorPicker);
 jest.mock('react-color', () => ({
-  SketchPicker: ({ color, onChange }) => {
-    const handleChange = () => onChange({ rgb: { r: 2, g: 3, b: 5, a: 1 } });
+  SketchPicker: ({ color, onChangeComplete }) => {
+    const handleChange = () => onChangeComplete({ rgb: { r: 2, g: 3, b: 5, a: 1 } });
     return <input value={color} onChange={handleChange} data-testid="color-picker-input" />;
   },
 }));

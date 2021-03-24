@@ -6,13 +6,11 @@ import ColorPicker from '../ColorPicker';
 
 function ColorPickerField({ name, defaultValue }) {
   const { change, getFieldState } = useForm();
-  const value = getFieldState(name)?.value;
+  const initialValue = getFieldState(name)?.initial;
 
   useEffect(() => {
-    if (!value) {
-      change(name, defaultValue);
-    }
-  }, [!!value]);
+    change(name, initialValue || defaultValue);
+  }, [initialValue]);
 
   return (
     <Field
