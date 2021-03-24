@@ -6,14 +6,13 @@ import ColorPickerField from '../../formField/ColorPickerField';
 
 jest.mock('../../ColorPicker', () => ({ onChange, value, dataTestId }) => <input type="text" onChange={onChange} value={value} data-testid={dataTestId} />);
 
-const TestForm = ({ onSubmit, isEditMode, defaultValue }) => (
+const TestForm = ({ onSubmit, defaultValue }) => (
   <Form
     onSubmit={onSubmit}
     render={({ handleSubmit }) => (
       <form onSubmit={handleSubmit}>
         <ColorPickerField
           name="colorPicker"
-          isEditMode={!!isEditMode}
           defaultValue={defaultValue}
         />
         <button type="submit">submit</button>

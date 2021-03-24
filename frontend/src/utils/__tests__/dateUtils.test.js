@@ -1,4 +1,4 @@
-import { formatDate } from '../dateUtils';
+import { currentDate, formatDate } from '../dateUtils';
 
 describe('Date utils', () => {
   it('should provide formatted date', () => {
@@ -29,4 +29,16 @@ describe('Date utils', () => {
 
     expect(formatDate(date)).toEqual('--');
   });
+  it('should return current date', ()=>{
+    const mockDate = new Date(1466424490000)
+    const spy = jest
+      .spyOn(global, 'Date')
+      .mockImplementation(() => mockDate)
+
+    const date = currentDate();
+
+    expect(date.toDateString()).toBe('Mon Jun 20 2016');
+
+    spy.mockRestore()
+  })
 });

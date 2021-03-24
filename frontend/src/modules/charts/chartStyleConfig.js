@@ -1,13 +1,8 @@
 import { withStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
+import { addDays, differenceInDays } from 'date-fns';
 import { chartColorsPallet, colors } from '../../theme/colorPalette';
-import { areaAnnotationDirection } from '../../constants/annotations';
-
-function isNumeric(str) {
-  if (typeof str !== 'string') return false;
-  // eslint-disable-next-line no-restricted-globals
-  return !isNaN(str) && !isNaN(parseFloat(str));
-}
+import { annotationTypes, areaAnnotationDirection } from '../../constants/annotations';
 
 const configs = {
   modeBarButtonsToRemove: ['select2d', 'lasso2d', 'toImage'],
@@ -56,8 +51,14 @@ const axisStyles = {
   autotypenumbers: 'strict',
 };
 
-function getTransformedValue(value) {
-  return isNumeric(value) ? Number(value) : value;
+function getLabelPosition(start, end, type) {
+  if (type === annotationTypes.NUMERIC) {
+    return Number(start) + Math.abs(end - start) / 2;
+  }
+  const date1 = new Date(end);
+  const date2 = new Date(start);
+  const difference = differenceInDays(date1, date2) / 2;
+  return addDays(date2, difference)
 }
 
 function createAnnotation(annotations, annotationToggle) {
@@ -73,11 +74,12 @@ function createAnnotation(annotations, annotationToggle) {
         annotations: [
           ...annotations
             .filter(({ label }) => !!label)
-            .map(({ direction, label, start, end }) =>
-              direction === areaAnnotationDirection.VERTICAL
-                ? createVerticalAnnotationLabel(start, label)
-                : createHorizontalAnnotationLabel(end, label),
-            ),
+            .map(({ direction, label, start, end, type }) => {
+              const labelPosition = getLabelPosition(start, end, type);
+              return direction === areaAnnotationDirection.VERTICAL
+                ? createVerticalAnnotationLabel(labelPosition, label)
+                : createHorizontalAnnotationLabel(labelPosition, label);
+            }),
         ],
       }
     : {};
@@ -130,13 +132,13 @@ function layoutConfig(
 
 function createVerticalAnnotationLabel(position, label) {
   return {
-    x: getTransformedValue(position),
-    y: 0,
+    x: position,
+    y: 0.99,
     xref: 'x',
     yref: 'paper',
     text: label,
     showarrow: false,
-    xanchor: 'left',
+    xanchor: 'center',
     yanchor: 'auto',
   };
 }
@@ -144,13 +146,13 @@ function createVerticalAnnotationLabel(position, label) {
 function createHorizontalAnnotationLabel(position, label) {
   return {
     x: 0,
-    y: getTransformedValue(position),
+    y: position,
     xref: 'paper',
     yref: 'x',
     text: label,
     showarrow: false,
     xanchor: 'auto',
-    yanchor: 'top',
+    yanchor: 'center',
   };
 }
 
@@ -159,9 +161,9 @@ function createVerticalRect({ start, end, color, opacity }) {
     type: 'rect',
     xref: 'x',
     yref: 'paper',
-    x1: getTransformedValue(start),
+    x0: start,
     y0: 0,
-    x0: getTransformedValue(end),
+    x1: end,
     y1: 1,
     fillcolor: color,
     opacity,
@@ -177,9 +179,9 @@ function createHorizontalRect({ start, end, color, opacity }) {
     xref: 'paper',
     yref: 'y',
     x0: 0,
-    y0: getTransformedValue(start),
+    y0: start,
     x1: 1,
-    y1: getTransformedValue(end),
+    y1: end,
     fillcolor: color,
     opacity,
     line: {

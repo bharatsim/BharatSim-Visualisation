@@ -114,4 +114,14 @@ describe('<YAxisConfig />', () => {
 
     expect(newField).not.toBeInTheDocument();
   });
+
+  it('should not have delete button if only one yaxis config is present', () => {
+    const onSubmit = jest.fn();
+    const renderedContainer = render(<FormForYAxisConfig onSubmit={onSubmit} />);
+    const { queryAllByAltText } = renderedContainer;
+
+    const deleteIcons = queryAllByAltText('delete-icon');
+
+    expect(deleteIcons.length).toBe(0);
+  });
 });

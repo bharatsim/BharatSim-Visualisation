@@ -4,17 +4,22 @@ import PropTypes from 'prop-types';
 import { Box, Button, fade, makeStyles, Typography } from '@material-ui/core';
 import { FieldArray } from 'react-final-form-arrays';
 import { useForm } from 'react-final-form';
+import { format } from 'date-fns';
 
 import deleteIcon from '../../assets/images/delete.svg';
 import plusIcon from '../../assets/images/plus.svg';
 import IconButton from '../../uiComponent/IconButton';
-import { areaAnnotationDirection } from '../../constants/annotations';
+import { annotationTypes, areaAnnotationDirection, DATE_FORMAT } from '../../constants/annotations';
 import RadioButtonsField from '../../uiComponent/formField/RadioButtonField';
 import TextField from '../../uiComponent/formField/TextField';
 import SwitchField from '../../uiComponent/formField/SwitchField';
 import { useFormContext } from '../../contexts/FormContext';
 import ColorPickerField from '../../uiComponent/formField/ColorPickerField';
 import { required } from '../../utils/validators';
+import Condition from '../../uiComponent/formField/ConditionalField';
+import SelectField from '../../uiComponent/formField/SelectField';
+import DateField from '../../uiComponent/formField/DateField';
+import { currentDate } from '../../utils/dateUtils';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -66,7 +71,13 @@ const areaAnnotationConfig = {
   ANNOTATION_LABEL: 'label',
   COLOR: 'color',
   OPACITY: 'opacity',
+  TYPE: 'type',
 };
+
+const annotationTypeOptions = [
+  { value: annotationTypes.DATE, displayName: 'Date' },
+  { value: annotationTypes.NUMERIC, displayName: 'Numeric' },
+];
 
 const directions = [
   { label: 'X-Axis', value: areaAnnotationDirection.VERTICAL },
@@ -107,96 +118,144 @@ function AnnotationConfig({ configKey }) {
         </Box>
       </Box>
       {showAnnotationConfig && (
-        <FieldArray name={annotationConfigKey}>
-          {({ fields }) =>
-            fields.map((name, index) => (
-              <Box className={classes.configContainer} key={name}>
-                <Box>
-                  <Box className={[classes.fieldContainer, classes.directionContainer].join(' ')}>
-                    <Typography variant="subtitle2">Axis</Typography>
-                    <Box ml={2}>
-                      <RadioButtonsField
-                        name={`${name}.${areaAnnotationConfig.DIRECTION}`}
-                        options={directions}
-                        vertical={false}
-                        defaultValue={defaultDirection}
+        <>
+          <FieldArray name={annotationConfigKey}>
+            {({ fields }) =>
+              fields.map((name, index) => (
+                <Box className={classes.configContainer} key={name}>
+                  <Box>
+                    <Box className={[classes.fieldContainer, classes.directionContainer].join(' ')}>
+                      <Typography variant="subtitle2">Axis</Typography>
+                      <Box ml={2}>
+                        <RadioButtonsField
+                          name={`${name}.${areaAnnotationConfig.DIRECTION}`}
+                          options={directions}
+                          vertical={false}
+                          defaultValue={defaultDirection}
+                          validate={required}
+                        />
+                      </Box>
+                    </Box>
+                    <Box className={classes.fieldContainer}>
+                      <Typography variant="subtitle2">Label</Typography>
+                      <Box mt={2}>
+                        <TextField
+                          name={`${name}.${areaAnnotationConfig.ANNOTATION_LABEL}`}
+                          label="Enter label"
+                          dataTestId="label-input"
+                          validate={required}
+                        />
+                      </Box>
+                    </Box>
+                    <Box className={classes.fieldContainer}>
+                      <Typography variant="subtitle2">Type</Typography>
+                      <Box mt={2}>
+                        <SelectField
+                          name={`${name}.${areaAnnotationConfig.TYPE}`}
+                          options={annotationTypeOptions}
+                          id="type-of-annotation-value"
+                          label="select type"
+                          validate={required}
+                          defaultValue={annotationTypes.NUMERIC}
+                        />
+                      </Box>
+                    </Box>
+                    <Box className={classes.fieldContainer}>
+                      <Typography variant="subtitle2">Position</Typography>
+                      <Box className={classes.timeFieldContainer}>
+                        <Condition
+                          when={`${name}.${areaAnnotationConfig.TYPE}`}
+                          is={annotationTypes.NUMERIC}
+                        >
+                          <TextField
+                            type="number"
+                            name={`${name}.${areaAnnotationConfig.START}`}
+                            label="From value"
+                            dataTestId="start-input"
+                            validate={required}
+                          />
+                          <TextField
+                            type="number"
+                            name={`${name}.${areaAnnotationConfig.END}`}
+                            label="To Value"
+                            dataTestId="end-input"
+                            validate={required}
+                          />
+                        </Condition>
+                        <Condition
+                          when={`${name}.${areaAnnotationConfig.TYPE}`}
+                          is={annotationTypes.DATE}
+                        >
+                          <DateField
+                            name={`${name}.${areaAnnotationConfig.START}`}
+                            label="From value"
+                            dataTestId="start-input"
+                            validate={required}
+                            isEditMode={isEditMode}
+                            defaultValue={format(currentDate(), DATE_FORMAT)}
+                            format={DATE_FORMAT}
+                          />
+                          <DateField
+                            name={`${name}.${areaAnnotationConfig.END}`}
+                            label="To Value"
+                            dataTestId="end-input"
+                            validate={required}
+                            isEditMode={isEditMode}
+                            defaultValue={format(currentDate(), DATE_FORMAT)}
+                            format={DATE_FORMAT}
+                          />
+                        </Condition>
+                      </Box>
+                    </Box>
+                    <Box className={classes.fieldContainer}>
+                      <ColorPickerField
+                        name={`${name}.${areaAnnotationConfig.COLOR}`}
                         validate={required}
+                        isEditMode={isEditMode}
                       />
                     </Box>
-                  </Box>
-                  <Box className={classes.fieldContainer}>
-                    <Typography variant="subtitle2">Label</Typography>
-                    <Box mt={2}>
-                      <TextField
-                        name={`${name}.${areaAnnotationConfig.ANNOTATION_LABEL}`}
-                        label="Enter label"
-                        dataTestId="label-input"
-                        validate={required}
-                      />
+                    <Box className={classes.fieldContainer}>
+                      <Typography variant="subtitle2">Opacity</Typography>
+                      <Box mt={2}>
+                        <TextField
+                          type="number"
+                          name={`${name}.${areaAnnotationConfig.OPACITY}`}
+                          label="Enter opacity"
+                          dataTestId="opacity-input"
+                          inputProps={{ min: 0, max: 1, step: 0.1 }}
+                          validate={required}
+                          defaultValue={0.1}
+                        />
+                      </Box>
                     </Box>
                   </Box>
-                  <Box className={classes.fieldContainer}>
-                    <Typography variant="subtitle2">Position</Typography>
-                    <Box className={classes.timeFieldContainer}>
-                      <TextField
-                        name={`${name}.${areaAnnotationConfig.START}`}
-                        label="From value"
-                        dataTestId="start-input"
-                        validate={required}
-                      />
-                      <TextField
-                        name={`${name}.${areaAnnotationConfig.END}`}
-                        label="To Value"
-                        dataTestId="end-input"
-                        validate={required}
-                      />
+                  {fields.length > 1 && (
+                    <Box p={2}>
+                      <IconButton
+                        onClick={() => fields.remove(index)}
+                        data-testid={`delete-button-${index}`}
+                      >
+                        <img src={deleteIcon} alt="delete-icon" />
+                      </IconButton>
                     </Box>
-                  </Box>
-                  <Box className={classes.fieldContainer}>
-                    <ColorPickerField
-                      name={`${name}.${areaAnnotationConfig.COLOR}`}
-                      validate={required}
-                      isEditMode={isEditMode}
-                    />
-                  </Box>
-                  <Box className={classes.fieldContainer}>
-                    <Typography variant="subtitle2">Opacity</Typography>
-                    <Box mt={2}>
-                      <TextField
-                        type="number"
-                        name={`${name}.${areaAnnotationConfig.OPACITY}`}
-                        label="Enter opacity"
-                        dataTestId="opacity-input"
-                        inputProps={{ min: 0, max: 1, step: 0.1 }}
-                        validate={required}
-                        defaultValue={0.1}
-                      />
-                    </Box>
-                  </Box>
+                  )}
                 </Box>
-                <Box p={2}>
-                  <IconButton
-                    onClick={() => fields.remove(index)}
-                    data-testid={`delete-button-${index}`}
-                  >
-                    <img src={deleteIcon} alt="icon" />
-                  </IconButton>
-                </Box>
-              </Box>
-            ))}
-        </FieldArray>
+              ))
+            }
+          </FieldArray>
+          <Box className={classes.addMetricButtonContainer}>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              onClick={() => push(annotationConfigKey)}
+              startIcon={<img src={plusIcon} alt="icon" />}
+            >
+              Add Annotation
+            </Button>
+          </Box>
+        </>
       )}
-      <Box className={classes.addMetricButtonContainer}>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="small"
-          onClick={() => push(annotationConfigKey)}
-          startIcon={<img src={plusIcon} alt="icon" />}
-        >
-          Add Annotation
-        </Button>
-      </Box>
     </Box>
   );
 }

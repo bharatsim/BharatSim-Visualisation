@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withSnackBar should provide date fns utils context to child component 1`] = `
+<div>
+  <div
+    class="MuiFormControl-root MuiTextField-root"
+    format="MMMM do"
+  >
+    <label
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+      data-shrink="true"
+    >
+      Basic example
+    </label>
+    <div
+      class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+    >
+      <input
+        aria-invalid="false"
+        class="MuiInputBase-input MuiInput-input"
+        readonly=""
+        type="text"
+        value="March 24th"
+      />
+    </div>
+    
+  </div>
+</div>
+`;

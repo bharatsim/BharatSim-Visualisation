@@ -64,14 +64,17 @@ function YAxisChartConfig({ headers, configKey }) {
                 validations={{ required: 'Required' }}
                 validate={required}
               />
-              <IconButton
-                onClick={() => fields.remove(index)}
-                data-testid={`delete-button-${index}`}
-              >
-                <img src={deleteIcon} alt="icon" />
-              </IconButton>
+              {fields.length > 1 && (
+                <IconButton
+                  onClick={() => fields.remove(index)}
+                  data-testid={`delete-button-${index}`}
+                >
+                  <img src={deleteIcon} alt="delete-icon" />
+                </IconButton>
+              )}
             </Box>
-          ))}
+          ))
+        }
       </FieldArray>
       <Box className={classes.addMetricButtonContainer}>
         <Button

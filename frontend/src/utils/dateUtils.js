@@ -16,4 +16,8 @@ function formatDate(dateString) {
   return `${DD}-${months[MM]}-${YYYY} at ${HH % 12}:${mm < 10 ? `0${mm}` : mm} ${getPeriod(HH)}`;
 }
 
-export { formatDate };
+function currentDate(){
+  return new Date();
+}
+
+export { formatDate, currentDate };

@@ -9,8 +9,7 @@ export function renderWidget(chart, dashboardId, onDelete, onEdit, dashboardLayo
   const { layout, chartType, config } = chart;
   const updatedLayout = { ...layout, y: layout.y ? layout.y : Infinity };
   const chartId = `${updatedLayout.i}-${chartType}-${dashboardId}`;
-  const chartLayout = dashboardLayout.find((l) => l.i === chartId);
-
+  const chartLayout = dashboardLayout.find((l) => l.i === chartId) || updatedLayout;
   return (
     <div
       key={`${updatedLayout.i}-${chartType}-${dashboardId}`}

@@ -31,8 +31,18 @@ function validateStepSize(value) {
   return '';
 }
 
+function validateOpacity(value) {
+  if (isUndefined(value)) {
+    return 'Field is required';
+  }
+  if (value < 0 || value > 1) {
+    return 'Opacity should be between 0 to 1';
+  }
+  return '';
+}
+
 function required(value) {
   return isUndefined(value) ? 'Field is required' : '';
 }
 
-export { validateFile, required, validateStepSize };
+export { validateFile, required, validateStepSize, validateOpacity };

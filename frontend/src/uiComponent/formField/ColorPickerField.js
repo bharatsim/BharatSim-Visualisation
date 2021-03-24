@@ -4,13 +4,16 @@ import { Field, useForm } from 'react-final-form';
 
 import ColorPicker from '../ColorPicker';
 
-function ColorPickerField({ name, defaultValue, isEditMode }) {
-  const { change } = useForm();
+function ColorPickerField({ name, defaultValue }) {
+  const { change, getFieldState } = useForm();
+  const value = getFieldState(name)?.value;
+
   useEffect(() => {
-    if (!isEditMode) {
+    if (!value) {
       change(name, defaultValue);
     }
-  }, []);
+  }, [!!value]);
+
   return (
     <Field
       name={name}
@@ -35,7 +38,6 @@ ColorPickerField.defaultProps = {
 };
 
 ColorPickerField.propTypes = {
-  isEditMode: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   defaultValue: PropTypes.shape({}),
 };

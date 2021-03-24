@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { compose } from 'redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-
 import { ErrorBoundary } from 'react-error-boundary';
+
 import AppRoute from './AppRoute';
 import withThemeProvider from './theme/withThemeProvider';
 import withAppLayout from './modules/layout/appLayout/withAppLayout';
@@ -13,6 +13,7 @@ import { initLoader } from './utils/fetch';
 import { overlayLoaderOrErrorContext } from './contexts/overlayLoaderOrErrorContext';
 import { initHistory } from './utils/browserHistory';
 import withRedux from './hoc/redux/withRedux';
+import withMuiDatePicker from './hoc/datePicker/withMuiDatePicker';
 import Error from './modules/loaderOrError/Error';
 
 const useRootStyles = makeStyles(() => ({
@@ -46,6 +47,7 @@ function App() {
 export default compose(
   withRedux,
   withThemeProvider,
+  withMuiDatePicker,
   withSnackBar,
   withOverlayLoaderOrError,
   withAppLayout,

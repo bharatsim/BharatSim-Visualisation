@@ -7,10 +7,16 @@ import arrayMutators from 'final-form-arrays';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import AnnotationConfig from '../AnnotationConfig';
 import { FormProvider } from '../../../contexts/FormContext';
+import { selectDropDownOption } from '../../../testUtil';
+import withMuiDatePicker from '../../../hoc/datePicker/withMuiDatePicker';
 
 jest.mock('../../../uiComponent/ColorPicker', () => ({ onChange, value, dataTestId }) => (
   <input type="text" onChange={onChange} value={value} data-testid={dataTestId} />
 ));
+
+jest.mock('../../../utils/dateUtils', () => ({
+  currentDate: jest.fn(() => new Date(1999, 3, 1, 1, 2, 2, 2)),
+}));
 
 const TestForm = ({ onSubmit, isEditMode }) => {
   const configKey = 'annotation';
@@ -38,23 +44,23 @@ const TestForm = ({ onSubmit, isEditMode }) => {
       render={({ handleSubmit }) => (
         <FormProvider
           value={{
-              isEditMode: !!isEditMode,
-              registerDatasource: jest.fn(),
-              unRegisterDatasource: jest.fn(),
-            }}
+            isEditMode: !!isEditMode,
+            registerDatasource: jest.fn(),
+            unRegisterDatasource: jest.fn(),
+          }}
         >
           <form onSubmit={handleSubmit}>
             <AnnotationConfig configKey={configKey} />
             <button type="submit">submit</button>
           </form>
         </FormProvider>
-        )}
+      )}
     />
   );
 };
 
 describe('<AnnotationConfig />', () => {
-  const FormForAnnotationConfig = withThemeProvider(TestForm);
+  const FormForAnnotationConfig = withThemeProvider(withMuiDatePicker(TestForm));
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -102,6 +108,7 @@ describe('<AnnotationConfig />', () => {
               label: 'label',
               color: 'color',
               opacity: '0.2',
+              type: 'numeric',
             },
           ],
         },
@@ -163,5 +170,49 @@ describe('<AnnotationConfig />', () => {
     fireEvent.click(renderedContainer.getByText('submit'));
 
     expect(getAllByText('Field is required').length).toBe(3);
+  });
+
+  it('should display start input for date if date is selected', () => {
+    const onSubmit = jest.fn();
+    const renderedContainer = render(<FormForAnnotationConfig onSubmit={onSubmit} />);
+    const { getByRole, getByTestId } = renderedContainer;
+    getByRole('checkbox').click();
+    fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
+
+    selectDropDownOption(renderedContainer, 'type-of-annotation-value', 'Date');
+
+    const inputStart = getByTestId('start-input');
+    const inputEnd = getByTestId('end-input');
+
+    expect(inputStart).toHaveAttribute('type', 'text');
+    expect(inputEnd).toHaveAttribute('type', 'text');
+  });
+
+  it('should display start input for number if numeric is selected', () => {
+    const onSubmit = jest.fn();
+    const renderedContainer = render(<FormForAnnotationConfig onSubmit={onSubmit} />);
+    const { getByRole, getByTestId } = renderedContainer;
+    getByRole('checkbox').click();
+    fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
+
+    selectDropDownOption(renderedContainer, 'type-of-annotation-value', 'Numeric');
+
+    const inputStart = getByTestId('start-input');
+    const inputEnd = getByTestId('end-input');
+
+    expect(inputStart).toHaveAttribute('type', 'number');
+    expect(inputEnd).toHaveAttribute('type', 'number');
+  });
+
+  it('should not have delete button if only one annotation config is present', () => {
+    const onSubmit = jest.fn();
+    const renderedContainer = render(<FormForAnnotationConfig onSubmit={onSubmit} />);
+    const { getByRole, queryAllByAltText } = renderedContainer;
+    getByRole('checkbox').click();
+    fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
+
+    const deleteIcons = queryAllByAltText('delete-icon');
+
+    expect(deleteIcons.length).toBe(0);
   });
 });

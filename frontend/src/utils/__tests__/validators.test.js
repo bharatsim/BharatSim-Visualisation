@@ -1,4 +1,4 @@
-import { validateFile, required, validateStepSize } from '../validators';
+import { validateFile, required, validateStepSize, validateOpacity } from '../validators';
 
 describe('Validators', () => {
   describe('required', () => {
@@ -24,6 +24,24 @@ describe('Validators', () => {
 
     it('should provide empty message for valid step size', () => {
       expect(validateStepSize(2)).toEqual('');
+    });
+  });
+
+  describe('Opacity validator', () => {
+    it('should provide message if opacity is undefined', () => {
+      expect(validateOpacity()).toEqual('Field is required');
+    });
+
+    it('should provide message if opacity is greater than 1', () => {
+      expect(validateOpacity(-1)).toEqual('Opacity should be between 0 to 1');
+    });
+
+    it('should provide message if opacity is lass than 0', () => {
+      expect(validateOpacity(1.1)).toEqual('Opacity should be between 0 to 1');
+    });
+
+    it('should provide empty message for valid opacity', () => {
+      expect(validateOpacity(0.2)).toEqual('');
     });
   });
 
