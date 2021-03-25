@@ -54,8 +54,10 @@ describe('Common chart styles', () => {
       {
         direction: 'horizontal',
         label: 'label',
-        start: 2,
-        end: 5,
+        numeric: {
+          start: 2,
+          end: 5,
+        },
         color: 'red',
         opacity: '0.2',
         type: 'numeric',
@@ -63,16 +65,20 @@ describe('Common chart styles', () => {
       {
         direction: 'vertical',
         label: 'label',
-        start: '2020-04-01',
-        end: '2020-06-01',
+        date: {
+          start: '2020-04-01',
+          end: '2020-06-01',
+        },
         color: 'red',
         opacity: '0.2',
         type: 'date',
       },
       {
         direction: 'vertical',
-        start: '2',
-        end: '3',
+        numeric: {
+          start: '2',
+          end: '3',
+        },
         color: 'red',
         opacity: '0.2',
         type: 'numeric',

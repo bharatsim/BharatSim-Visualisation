@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`withSnackBar should provide date fns utils context to child component 1`] = `
+exports[`withMuiDatePicker should provide date fns utils context to child component 1`] = `
 <div>
   <div
     class="MuiFormControl-root MuiTextField-root"
@@ -20,7 +20,7 @@ exports[`withSnackBar should provide date fns utils context to child component 1
         class="MuiInputBase-input MuiInput-input"
         readonly=""
         type="text"
-        value="March 24th"
+        value="May 4th"
       />
     </div>
     

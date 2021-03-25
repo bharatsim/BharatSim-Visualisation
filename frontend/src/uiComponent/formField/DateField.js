@@ -52,7 +52,6 @@ DateField.propTypes = {
   dataTestId: PropTypes.string.isRequired,
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.shape({})]),
   validate: PropTypes.func,
-  isEditMode: PropTypes.bool,
   format: PropTypes.string,
 };
 
@@ -60,7 +59,6 @@ DateField.defaultProps = {
   label: '',
   defaultValue: '',
   validate: null,
-  isEditMode: false,
   format: DATE_FORMAT,
 };
 

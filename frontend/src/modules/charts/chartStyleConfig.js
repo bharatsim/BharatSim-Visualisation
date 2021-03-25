@@ -58,23 +58,25 @@ function getLabelPosition(start, end, type) {
   const date1 = new Date(end);
   const date2 = new Date(start);
   const difference = differenceInDays(date1, date2) / 2;
-  return addDays(date2, difference)
+  return addDays(date2, difference);
 }
 
 function createAnnotation(annotations, annotationToggle) {
   return annotationToggle
     ? {
         shapes: [
-          ...annotations.map(({ direction, ...rest }) =>
-            direction === areaAnnotationDirection.VERTICAL
-              ? createVerticalRect(rest)
-              : createHorizontalRect(rest),
-          ),
+          ...annotations.map(({ direction, type, date, numeric, color, opacity }) => {
+            const { start, end } = type === annotationTypes.DATE ? date : numeric;
+            return direction === areaAnnotationDirection.VERTICAL
+              ? createVerticalRect({ start, end, color, opacity })
+              : createHorizontalRect({ start, end, color, opacity });
+          }),
         ],
         annotations: [
           ...annotations
             .filter(({ label }) => !!label)
-            .map(({ direction, label, start, end, type }) => {
+            .map(({ direction, label, numeric, date, type }) => {
+              const { start, end } = type === annotationTypes.DATE ? date : numeric;
               const labelPosition = getLabelPosition(start, end, type);
               return direction === areaAnnotationDirection.VERTICAL
                 ? createVerticalAnnotationLabel(labelPosition, label)

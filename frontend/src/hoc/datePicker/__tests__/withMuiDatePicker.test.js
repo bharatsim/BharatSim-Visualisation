@@ -12,13 +12,13 @@ function DummyComponent() {
   return (
     <DatePicker
       label="Basic example"
-      value={format(new Date(), DATE_FORMAT)}
+      value={format(new Date(1999, 4, 4, 4, 4, 4, 4), DATE_FORMAT)}
       onChange={jest.fn()}
     />
   );
 }
 
-describe('withSnackBar', () => {
+describe('withMuiDatePicker', () => {
   const Component = withThemeProvider(withMuiDatePicker(DummyComponent));
   it('should provide date fns utils context to child component', () => {
     const { container } = render(<Component />);

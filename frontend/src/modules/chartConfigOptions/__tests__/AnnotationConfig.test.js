@@ -102,8 +102,10 @@ describe('<AnnotationConfig />', () => {
           annotationToggle: true,
           annotations: [
             {
-              start: '2',
-              end: '5',
+              numeric: {
+                start: '2',
+                end: '5',
+              },
               direction: 'horizontal',
               label: 'label',
               color: 'color',

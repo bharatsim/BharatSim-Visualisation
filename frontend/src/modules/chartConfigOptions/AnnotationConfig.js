@@ -169,14 +169,14 @@ function AnnotationConfig({ configKey }) {
                         >
                           <TextField
                             type="number"
-                            name={`${name}.${areaAnnotationConfig.START}`}
+                            name={`${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.START}`}
                             label="From value"
                             dataTestId="start-input"
                             validate={required}
                           />
                           <TextField
                             type="number"
-                            name={`${name}.${areaAnnotationConfig.END}`}
+                            name={`${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.END}`}
                             label="To Value"
                             dataTestId="end-input"
                             validate={required}
@@ -187,7 +187,7 @@ function AnnotationConfig({ configKey }) {
                           is={annotationTypes.DATE}
                         >
                           <DateField
-                            name={`${name}.${areaAnnotationConfig.START}`}
+                            name={`${name}.${annotationTypes.DATE}.${areaAnnotationConfig.START}`}
                             label="From value"
                             dataTestId="start-input"
                             validate={required}
@@ -196,7 +196,7 @@ function AnnotationConfig({ configKey }) {
                             format={DATE_FORMAT}
                           />
                           <DateField
-                            name={`${name}.${areaAnnotationConfig.END}`}
+                            name={`${name}.${annotationTypes.DATE}.${areaAnnotationConfig.END}`}
                             label="To Value"
                             dataTestId="end-input"
                             validate={required}
@@ -240,8 +240,7 @@ function AnnotationConfig({ configKey }) {
                     </Box>
                   )}
                 </Box>
-              ))
-            }
+              ))}
           </FieldArray>
           <Box className={classes.addMetricButtonContainer}>
             <Button
