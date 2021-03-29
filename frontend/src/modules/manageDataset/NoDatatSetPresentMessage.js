@@ -4,10 +4,10 @@ import { Typography } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
-import useConfigureDatasetStyles from './configureDatasetCSS';
+import useManageDatasetStyles from './manageDatasetCSS';
 
 function NoDataSetPresentMessage({ projectMetadataId, message }) {
-  const classes = useConfigureDatasetStyles();
+  const classes = useManageDatasetStyles();
   const uploadFilePage = `/projects/${projectMetadataId}/upload-dataset`;
   return (
     <Box className={classes.noDataSourcesMessage}>

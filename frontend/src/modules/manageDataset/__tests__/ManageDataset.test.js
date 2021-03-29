@@ -1,10 +1,10 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { render } from '@testing-library/react';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, within } from '@testing-library/dom';
 import { createMemoryHistory } from 'history';
 
-import ConfigureDataset from '../ConfigureDataset';
+import ManageDataset from '../ManageDataset';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import { ProjectLayoutProvider } from '../../../contexts/projectLayoutContext';
 import { api } from '../../../utils/api';
@@ -36,6 +36,37 @@ jest.mock('../../../utils/api', () => ({
         },
       ],
     }),
+    getAllDatasources: jest.fn().mockResolvedValue({
+      dataSources: [
+        {
+          createdAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardId: '5f9952ede93dbd234a39d82f',
+          fileSize: 125005,
+          fileType: 'csv',
+          name: 'csv-file-name',
+          updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          _id: '5f9a88952629222105e180df',
+        },
+        {
+          createdAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardId: '5f9952ede93dbd234a39d82f',
+          fileSize: 125005,
+          fileType: 'csv',
+          name: 'csv-file-name-2',
+          updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          _id: '5f9a88952629222105e180pq',
+        },
+        {
+          createdAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardId: '5f9952ede93dbd234a39d82f',
+          fileSize: 125005,
+          fileType: 'csv',
+          name: 'csv-file-name-3',
+          updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          _id: '5f9a88952629222105e180rs',
+        },
+      ],
+    }),
   },
 }));
 
@@ -49,16 +80,21 @@ const ComponentWithProvider = withThemeProvider(() => (
         selectedDashboardMetadata: { name: 'dashboard1', _id: 'selectedDashboardId' },
       }}
     >
-      <ConfigureDataset />
+      <ManageDataset />
     </ProjectLayoutProvider>
   </Router>
 ));
 
 describe('Configure datasets', () => {
-  it('should match snapshot for given dashboard data and project name ', async () => {
-    const { container, findByText } = render(<ComponentWithProvider />);
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it('should show datasources for dashboard and global datasources', async () => {
+    const { getAllByText, findByText } = render(<ComponentWithProvider />);
     await findByText('Configure Dashboard Data');
-    expect(container).toMatchSnapshot();
+    await findByText('Dataset Library');
+
+    expect(getAllByText('csv-file-name').length).toBe(2);
   });
 
   it('should render configure dataset header with for given dashboard data and project name ', async () => {
@@ -97,16 +133,8 @@ describe('Configure datasets', () => {
     expect(mockHistoryPush).toHaveBeenCalledWith('/projects/123/upload-dataset');
   });
 
-  it('should display table of data sources if data sources are not empty', async () => {
-    const { getByText, findByText } = render(<ComponentWithProvider />);
-
-    await findByText('Configure Dashboard Data');
-
-    expect(getByText('csv-file-name')).toBeInTheDocument();
-  });
-
   it('should navigate to upload data screen on click of upload dataset link', async () => {
-    api.getDatasources.mockResolvedValue({ dataSources: [] });
+    api.getDatasources.mockResolvedValueOnce({ dataSources: [] });
     const { getByText, findByText } = render(<ComponentWithProvider />);
 
     await findByText('Configure Dashboard Data');
@@ -117,7 +145,7 @@ describe('Configure datasets', () => {
   });
 
   it('should display no datasource message if data sources are empty', async () => {
-    api.getDatasources.mockResolvedValue({ dataSources: [] });
+    api.getDatasources.mockResolvedValueOnce({ dataSources: [] });
     const { getByText, findByText } = render(<ComponentWithProvider />);
 
     await findByText('Configure Dashboard Data');
@@ -128,11 +156,52 @@ describe('Configure datasets', () => {
   });
 
   it('should disable goToDashboard button if no datasource presents', async () => {
-    api.getDatasources.mockResolvedValue({ dataSources: [] });
+    api.getDatasources.mockResolvedValueOnce({ dataSources: [] });
     const { getByText, findByText } = render(<ComponentWithProvider />);
 
     await findByText('Configure Dashboard Data');
 
     expect(getByText('Go to dashboard').closest('button')).toBeDisabled();
+  });
+
+  it('add and remove datasource from dashboard flow', async () => {
+    const { getByText, findByText, getAllByText, getAllByTitle } = render(
+      <ComponentWithProvider />,
+    );
+    await findByText('Configure Dashboard Data');
+    await findByText('Dataset Library');
+
+    const commonFileFromGlobalDataset = getAllByText('csv-file-name')[1];
+    const rowOfCommonFile = within(commonFileFromGlobalDataset.parentNode);
+
+    // should checkbox for common file should be disable and checked
+    expect(rowOfCommonFile.getByRole('checkbox')).toHaveAttribute('checked', '');
+    expect(rowOfCommonFile.getByRole('checkbox')).toHaveAttribute('disabled', '');
+
+    // should global file name should be present only one time before adding to dashboard
+    expect(getAllByText('csv-file-name-2').length).toBe(1);
+    const fileName = getByText('csv-file-name-2');
+    const rowOfFile = within(fileName.parentNode);
+
+    // should select csv-file-name-2 to add in dashboard
+    rowOfFile.getByRole('checkbox').click();
+    fireEvent.change(rowOfFile.getByRole('checkbox'), { target: { checked: true } });
+
+    // should make selected count 1
+    expect(getByText('1 item(s) selected'));
+
+    // should add selected file
+    fireEvent.click(getByText('Add to dashboard'));
+    expect(getAllByText('csv-file-name-2').length).toBe(2);
+
+    // should unchecked datasources in global dataset and make selected count zero
+    expect(getByText('0 item(s) selected'));
+
+    // remove added file from dashboard
+    const removeButtonForSecondRow = getAllByTitle('Remove datasource from dashboard')[1];
+
+    fireEvent.click(removeButtonForSecondRow);
+
+    expect(getAllByText('csv-file-name-2').length).toBe(1);
   });
 });

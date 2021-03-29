@@ -132,6 +132,17 @@ function formatToUnits(number, precision = 0) {
   return (number / 10 ** (order * 3)).toFixed(precision) + suffix;
 }
 
+function uniqueObjectsBy(objects, property) {
+  const uniquePropertySet = new Set();
+  return objects.reduce((acc, object) => {
+    if (!uniquePropertySet.has(object[property])) {
+      uniquePropertySet.add(object[property]);
+      acc.push(object);
+    }
+    return acc;
+  }, []);
+}
+
 export {
   transformDataForHeatMap,
   debounce,
@@ -141,4 +152,5 @@ export {
   transformChoroplethData,
   shapeFileFilter,
   formatToUnits,
+  uniqueObjectsBy,
 };

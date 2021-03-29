@@ -6,8 +6,9 @@ import fileTypes from '../../constants/fileTypes';
 import { formatDate } from '../../utils/dateUtils';
 import tableStyles from '../../uiComponent/table/tableCSS';
 import { convertFileSizeToMB } from '../../utils/helper';
+import tableIcon from '../../uiComponent/table/tableIcon';
 
-function DashboardDataSetsTable({ dataSources }) {
+function DashboardDataSetsTable({ dataSources, removeDatasource }) {
   const theme = useTheme();
   const styles = tableStyles(theme, dataSources);
   return (
@@ -41,7 +42,16 @@ function DashboardDataSetsTable({ dataSources }) {
             borderTop: 'none',
             borderBottom: `1px solid ${theme.colors.primaryColorScale['500']}3D`,
           },
+          actionsColumnIndex: -1,
         }}
+        actions={[
+          {
+            icon: tableIcon.RemoveRow,
+            tooltip: 'Remove datasource from dashboard',
+            onClick: (event, { _id: datasourceId }) => removeDatasource(datasourceId),
+            size: 'small',
+          },
+        ]}
         style={{
           ...styles.styles,
           border: 'unset',
@@ -60,6 +70,7 @@ DashboardDataSetsTable.propTypes = {
       createdAt: PropTypes.string,
     }),
   ).isRequired,
+  removeDatasource: PropTypes.func.isRequired,
 };
 
 export default DashboardDataSetsTable;

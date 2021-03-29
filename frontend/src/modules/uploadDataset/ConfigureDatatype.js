@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box } from '@material-ui/core';
 import { getFileExtension } from '../../utils/fileUploadUtils';
-import CsvPreview from '../filePreview/csvPreview';
-import JsonPreview from '../filePreview/jsonPreview';
+import CsvPreview from './csvPreview';
+import JsonPreview from './jsonPreview';
 import { EXTENDED_JSON_TYPES } from '../../constants/fileUpload';
 
 function ConfigureDatatype({ selectedFile, previewData, schema }) {

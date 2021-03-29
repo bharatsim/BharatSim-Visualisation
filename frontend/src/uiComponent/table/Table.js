@@ -4,6 +4,7 @@ import MaterialTable, { MTableAction } from 'material-table';
 import { useTheme } from '@material-ui/core';
 import tableIcons from './tableIcon';
 import tableStyles from './tableCSS';
+import './table.css';
 
 function Table({ columns, data, title, options, components, ...rest }) {
   const theme = useTheme();
@@ -21,6 +22,8 @@ function Table({ columns, data, title, options, components, ...rest }) {
       options={{
         rowStyle: (_, index) => styles.rowStyles(index),
         cellStyle: styles.cellStyle(),
+        actionsCellStyle: styles.cellStyle(),
+        filterCellStyle: styles.cellStyle(),
         headerStyle: styles.headerStyle,
         emptyRowsWhenPaging: false,
         disableGutters: true,

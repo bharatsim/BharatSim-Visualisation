@@ -25,8 +25,8 @@ const colors = {
     color: '#FFFFFF',
   },
   tab: { color: '#694ED6' },
-  borderColor: '#694ED6',
-
+  borderColor: '#694ed6',
+  tableBorder: 'rgba(89,74,183,0.24)',
   textLight: {
     primary: '#FFFFFF',
     secondary: 'rgba(255, 255, 255, 0.8)',

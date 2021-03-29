@@ -278,6 +278,45 @@ exports[`withThemeProvider HOC should match snapshot 1`] = `
         "display": "flex",
         "alignItems": "center"
       }
+    },
+    "MuiOutlinedInput": {
+      "root": {
+        "position": "relative",
+        "borderColor": "rgba(89,74,183,0.24)",
+        "borderRadius": 4,
+        "&:hover $notchedOutline": {
+          "borderColor": "#413288"
+        },
+        "@media (hover: none)": {
+          "&:hover $notchedOutline": {
+            "borderColor": "#282154"
+          }
+        },
+        "&$focused $notchedOutline": {
+          "borderColor": "#282154",
+          "borderWidth": 2
+        }
+      },
+      "notchedOutline": {
+        "borderColor": "rgba(89,74,183,0.24)"
+      },
+      "input": {
+        "paddingTop": 8,
+        "paddingBottom": 8
+      }
+    },
+    "MuiCheckbox": {
+      "colorPrimary": {
+        "&$checked": {
+          "color": "#594ab7",
+          "&:hover": {
+            "backgroundColor": "rgba(89, 74, 183, 0.04)",
+            "@media (hover: none)": {
+              "backgroundColor": "transparent"
+            }
+          }
+        }
+      }
     }
   },
   "palette": {
@@ -553,7 +592,8 @@ exports[`withThemeProvider HOC should match snapshot 1`] = `
     "tab": {
       "color": "#694ED6"
     },
-    "borderColor": "#694ED6",
+    "borderColor": "#694ed6",
+    "tableBorder": "rgba(89,74,183,0.24)",
     "textLight": {
       "primary": "#FFFFFF",
       "secondary": "rgba(255, 255, 255, 0.8)",

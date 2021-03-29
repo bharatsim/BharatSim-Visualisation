@@ -9,7 +9,7 @@ import { convertObjectArrayToOptionStructure } from '../../../utils/helper';
 import { projectLayoutContext } from '../../../contexts/projectLayoutContext';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
-import NoDataSetPresentMessage from '../../configureDataset/NoDatatSetPresentMessage';
+import NoDataSetPresentMessage from '../../manageDataset/NoDatatSetPresentMessage';
 import DropDownField from '../../../uiComponent/formField/SelectField';
 import { useFormContext } from '../../../contexts/FormContext';
 

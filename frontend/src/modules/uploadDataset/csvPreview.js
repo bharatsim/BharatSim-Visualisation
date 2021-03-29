@@ -3,8 +3,8 @@ import { Typography, useTheme } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import { createColumnForMTable } from '../../utils/fileUploadUtils';
-import DataPreviewTableToolBar from '../uploadDataset/DataPreviewTableToolBar';
-import DataPreviewTableHeader from '../uploadDataset/DataPreviewTableHeader';
+import DataPreviewTableToolBar from './DataPreviewTableToolBar';
+import DataPreviewTableHeader from './DataPreviewTableHeader';
 import Table from '../../uiComponent/table/Table';
 import tableStyles from '../../uiComponent/table/tableCSS';
 

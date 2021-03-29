@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useConfigureDatasetStyles = makeStyles((theme) => {
+const useManageDatasetStyles = makeStyles((theme) => {
   return {
     configureProjectDataBar: {
       width: '100%',
@@ -51,4 +51,4 @@ const useConfigureDatasetStyles = makeStyles((theme) => {
   };
 });
 
-export default useConfigureDatasetStyles;
+export default useManageDatasetStyles;

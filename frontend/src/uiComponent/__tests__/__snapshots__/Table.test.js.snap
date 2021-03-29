@@ -123,7 +123,7 @@ exports[`<Table /> should match snapshot 1`] = `
                       Adı
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-fontSizeSmall"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -147,7 +147,7 @@ exports[`<Table /> should match snapshot 1`] = `
                       Soyadı
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-fontSizeSmall"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -171,7 +171,7 @@ exports[`<Table /> should match snapshot 1`] = `
                       Doğum Yılı
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-fontSizeSmall"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -195,7 +195,7 @@ exports[`<Table /> should match snapshot 1`] = `
                       Doğum Yeri
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-fontSizeSmall"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -312,7 +312,7 @@ exports[`TableIcons table icon Add 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -327,7 +327,7 @@ exports[`TableIcons table icon Check 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -342,7 +342,7 @@ exports[`TableIcons table icon Clear 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -357,7 +357,7 @@ exports[`TableIcons table icon Delete 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -372,7 +372,7 @@ exports[`TableIcons table icon DetailPanel 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -387,7 +387,7 @@ exports[`TableIcons table icon Edit 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -402,7 +402,7 @@ exports[`TableIcons table icon Export 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -417,7 +417,7 @@ exports[`TableIcons table icon Filter 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -432,7 +432,7 @@ exports[`TableIcons table icon FirstPage 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -447,7 +447,7 @@ exports[`TableIcons table icon LastPage 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -462,7 +462,7 @@ exports[`TableIcons table icon NextPage 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -477,7 +477,7 @@ exports[`TableIcons table icon PreviousPage 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -488,11 +488,26 @@ exports[`TableIcons table icon PreviousPage 1`] = `
 </div>
 `;
 
+exports[`TableIcons table icon RemoveRow 1`] = `
+<div>
+  <svg
+    aria-hidden="true"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    focusable="false"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+    />
+  </svg>
+</div>
+`;
+
 exports[`TableIcons table icon ResetSearch 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -507,7 +522,7 @@ exports[`TableIcons table icon Search 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -522,7 +537,7 @@ exports[`TableIcons table icon SortArrow 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -537,7 +552,7 @@ exports[`TableIcons table icon ThirdStateCheck 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -552,7 +567,7 @@ exports[`TableIcons table icon ViewColumn 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >

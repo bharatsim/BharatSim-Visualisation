@@ -15,7 +15,9 @@ const mockData = [
   },
 ];
 
-const Component = withThemeProvider(() => <DashboardDataSetsTable dataSources={mockData} />);
+const Component = withThemeProvider(() => (
+  <DashboardDataSetsTable dataSources={mockData} removeDatasource={jest.fn} />
+));
 
 describe('<DashboardDataSetsTable />', () => {
   it('should render date in DD-MM-YYYY, hh:mm am/pm', () => {

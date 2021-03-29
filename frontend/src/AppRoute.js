@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Home from './modules/home/Home';
-import ConfigureDataset from './modules/configureDataset/ConfigureDataset';
+import ManageDataset from './modules/manageDataset/ManageDataset';
 import UploadDataset from './modules/uploadDataset/UploadDataset';
 import ProjectLayout from './modules/layout/projectLayout/projectLayout/ProjectLayout';
 import ProjectHomeScreen from './modules/projectHomeScreen/ProjectHomeScreen';
@@ -21,7 +21,7 @@ function renderProjectRoute() {
           <Dashboard />
         </Route>
         <Route exact path="/projects/:id/configure-dataset">
-          <ConfigureDataset />
+          <ManageDataset />
         </Route>
       </Switch>
     </ProjectLayout>

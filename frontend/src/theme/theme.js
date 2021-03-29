@@ -250,6 +250,48 @@ theme.overrides = {
       alignItems: 'center',
     },
   },
+  MuiOutlinedInput: {
+    root: {
+      position: 'relative',
+      borderColor: theme.colors.tableBorder,
+      borderRadius: theme.spacing(1),
+      '&:hover $notchedOutline': {
+        borderColor: theme.palette.primary.light,
+      },
+      '@media (hover: none)': {
+        '&:hover $notchedOutline': {
+          borderColor: theme.palette.primary.main,
+        },
+      },
+      '&$focused $notchedOutline': {
+        borderColor: theme.palette.primary.main,
+        borderWidth: 2,
+      },
+    },
+    notchedOutline: {
+      borderColor: theme.colors.tableBorder,
+    },
+    input: {
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+    },
+  },
+  MuiCheckbox: {
+    colorPrimary: {
+      '&$checked': {
+        color: theme.colors.primaryColorScale['500'],
+        '&:hover': {
+          backgroundColor: fade(
+            theme.colors.primaryColorScale['500'],
+            theme.palette.action.hoverOpacity,
+          ),
+          '@media (hover: none)': {
+            backgroundColor: 'transparent',
+          },
+        },
+      },
+    },
+  },
 };
 
 export default theme;

@@ -6,6 +6,7 @@ import {
   shapeFileFilter,
   transformChoroplethData,
   transformDataForHeatMap,
+  uniqueObjectsBy,
 } from '../helper';
 
 describe('Helpers', () => {
@@ -193,6 +194,22 @@ describe('Helpers', () => {
       const isShapeFile = shapeFileFilter(file);
 
       expect(isShapeFile).toEqual(true);
+    });
+  });
+
+  describe('uniqueObjectsBy', () => {
+    it('should unique object from array of object by given property name ', () => {
+      const files = [
+        { name: 'csv file 1', fileType: 'csv' },
+        { name: 'csv file 2', fileType: 'csv' },
+        { name: 'csv file 1', fileType: 'csv' },
+      ];
+      const uniqueFilesByFileName = uniqueObjectsBy(files, 'name');
+
+      expect(uniqueFilesByFileName).toEqual([
+        { name: 'csv file 1', fileType: 'csv' },
+        { name: 'csv file 2', fileType: 'csv' },
+      ]);
     });
   });
 });
