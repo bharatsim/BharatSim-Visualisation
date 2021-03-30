@@ -67,6 +67,8 @@ describe('Integration test', () => {
         createdAt: metadata.createdAt.toISOString(),
         updatedAt: metadata.updatedAt.toISOString(),
         fileId: 'fileIdByMulter',
+        dashboardUsage: 0,
+        widgetUsage: 0
       }));
       await request(app)
         .get('/datasources?dashboardId=313233343536373839303137')

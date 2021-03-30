@@ -21,6 +21,14 @@ const dashboard = {
   projectId: '313233343536373839303133',
 };
 
+const dashboard2 = {
+  name: 'dashboard2',
+  charts: [chart],
+  layout: [],
+  count: 0,
+  projectId: '313233343536373839303133',
+};
+
 describe('DashboardRepository', function () {
   beforeAll(async () => {
     await dbHandler.connect();
@@ -150,12 +158,34 @@ describe('DashboardRepository', function () {
     });
   });
 
-  it('should get count of widgets for given filter', async () => {
+  it('should get count of dashboard for given filter', async () => {
     await DashboardRepository.insert(dashboard);
 
     const queryObject = { 'charts.dataSource': 'datasource' };
 
     const count = await DashboardRepository.getCount(queryObject);
     expect(count).toEqual(1);
+  });
+
+  it('should get count of charts for given dashboard and datasources', async () => {
+    const { _id: dashboard1 } = await DashboardRepository.insert(dashboard);
+    await DashboardRepository.insert(dashboard2);
+
+    const widgetCount = await DashboardRepository.getChartCountForDatasource(
+      'datasource',
+      dashboard1,
+    );
+    expect(widgetCount.count).toEqual(1);
+  });
+
+  it('should get count of charts zero if datasource is not used in dashboard', async () => {
+    const { _id: dashboard1 } = await DashboardRepository.insert(dashboard);
+    await DashboardRepository.insert(dashboard2);
+
+    const widgetCount = await DashboardRepository.getChartCountForDatasource(
+      'datasource3',
+      dashboard1,
+    );
+    expect(widgetCount.count).toEqual(0);
   });
 });

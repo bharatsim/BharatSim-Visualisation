@@ -39,18 +39,18 @@ async function bulkDeleteDatasourceMetadata(datasourceIds) {
 }
 
 function filterDatasourceIds(datasourceIds, filters) {
-  return DataSourceMetadata.find(
+  return getDatasourcesMetadata(
     { _id: { $in: datasourceIds }, ...filters },
     { __v: 0, dataSourceSchema: 0 },
   );
 }
 
-async function getManyDataSourcesMetadataByIds(datasourceIds) {
-  return DataSourceMetadata.find({ _id: { $in: datasourceIds } }, { __v: 0, dataSourceSchema: 0 });
+async function getDataSourcesMetadataByIds(datasourceIds) {
+  return getDatasourcesMetadata({ _id: { $in: datasourceIds } }, { __v: 0, dataSourceSchema: 0 });
 }
 
 function getAllExceptDatasourceIds(datasourceIds) {
-  return DataSourceMetadata.find({ _id: { $nin: datasourceIds } }, { __v: 0, dataSourceSchema: 0 });
+  return getDatasourcesMetadata({ _id: { $nin: datasourceIds } }, { __v: 0, dataSourceSchema: 0 });
 }
 
 async function getDatasourceMetadataForDatasourceId(dataSourceId) {
@@ -67,7 +67,7 @@ module.exports = {
   getDataSourceSchemaById,
   insert,
   deleteDatasourceMetadata,
-  getManyDataSourcesMetadataByIds,
+  getDataSourcesMetadataByIds,
   bulkDeleteDatasourceMetadata,
   getDatasourceMetadataForDatasourceId,
   filterDatasourceIds,

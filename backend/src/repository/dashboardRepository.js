@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const DashboardModel = require('../model/dashboard');
 
 async function insert(dashboardConfigs) {
@@ -25,6 +26,17 @@ async function deleteOne(dashboardId) {
   return DashboardModel.deleteOne({ _id: dashboardId }, { __v: 0 });
 }
 
+async function getChartCountForDatasource(datasourceId, dashboardId) {
+  const counts = await DashboardModel.aggregate([
+    { $match: { _id: mongoose.Types.ObjectId(dashboardId) } },
+    { $unwind: { path: '$charts' } },
+    { $unwind: { path: '$charts.dataSourceIds' } },
+    { $group: { _id: '$charts.dataSourceIds', count: { $sum: 1 } } },
+    { $match: { _id: datasourceId } },
+  ]);
+  return counts[0] || { count: 0 };
+}
+
 module.exports = {
   insert,
   update,
@@ -32,4 +44,5 @@ module.exports = {
   getOne,
   getCount,
   deleteOne,
+  getChartCountForDatasource,
 };

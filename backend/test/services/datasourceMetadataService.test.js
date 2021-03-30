@@ -2,11 +2,13 @@ const datasourceMetadataService = require('../../src/services/datasourceMetadata
 const dashboardService = require('../../src/services/dashboardService');
 const dataSourceMetadataRepository = require('../../src/repository/datasourceMetadataRepository');
 const dashboardDatasourceMapRepository = require('../../src/repository/dashboardDatasourceMapRepository');
+const dashboardRepository = require('../../src/repository/dashboardRepository');
 
 jest.mock('../../src/repository/datasourceMetadataRepository');
 jest.mock('../../src/repository/dashboardDatasourceMapRepository');
 jest.mock('../../src/services/dashboardService');
 jest.mock('../../src/services/projectService');
+jest.mock('../../src/repository/dashboardRepository');
 
 describe('datasourceMetadataService', () => {
   beforeEach(() => {
@@ -15,12 +17,11 @@ describe('datasourceMetadataService', () => {
       { _id: 'id1', name: 'model_1' },
       { _id: 'id2', name: 'model_2' },
     ];
-    dashboardService.getCount.mockResolvedValue({ count: 1 });
-    dataSourceMetadataRepository.getManyDataSourcesMetadataByIds.mockResolvedValue(
-      mockResolvedValue,
-    );
+    dashboardService.getActiveDashboardCountFor.mockResolvedValue({ count: 1 });
+    dataSourceMetadataRepository.getDataSourcesMetadataByIds.mockResolvedValue(mockResolvedValue);
     dataSourceMetadataRepository.getDatasourcesMetadata.mockResolvedValue(mockResolvedValue);
     dashboardDatasourceMapRepository.getDatasourceIdsForDashboard.mockResolvedValue(['id1', 'id2']);
+    dashboardRepository.getChartCountForDatasource.mockResolvedValue({ count: 1 });
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -31,8 +32,8 @@ describe('datasourceMetadataService', () => {
 
     expect(data).toEqual({
       dataSources: [
-        { _id: 'id1', name: 'model_1' },
-        { _id: 'id2', name: 'model_2' },
+        { _id: 'id1', name: 'model_1', dashboardUsage: 1, widgetUsage: 1 },
+        { _id: 'id2', name: 'model_2', dashboardUsage: 1, widgetUsage: 1 },
       ],
     });
   });
@@ -40,8 +41,8 @@ describe('datasourceMetadataService', () => {
     const result = await datasourceMetadataService.getDatasources({});
     const expected = {
       dataSources: [
-        { _id: 'id1', name: 'model_1', usage: 1 },
-        { _id: 'id2', name: 'model_2', usage: 1 },
+        { _id: 'id1', name: 'model_1', dashboardUsage: 1 },
+        { _id: 'id2', name: 'model_2', dashboardUsage: 1 },
       ],
     };
     await expect(result).toEqual(expected);
@@ -54,8 +55,8 @@ describe('datasourceMetadataService', () => {
 
     expect(data).toEqual({
       dataSources: [
-        { _id: 'id1', name: 'model_1' },
-        { _id: 'id2', name: 'model_2' },
+        { _id: 'id1', name: 'model_1', dashboardUsage: 1, widgetUsage: 1 },
+        { _id: 'id2', name: 'model_2', dashboardUsage: 1, widgetUsage: 1 },
       ],
     });
   });
@@ -112,8 +113,8 @@ describe('datasourceMetadataService', () => {
     });
     expect(data).toEqual({
       dataSources: [
-        { _id: 'id1', name: 'model_1' },
-        { _id: 'id2', name: 'model_2' },
+        { _id: 'id1', name: 'model_1', dashboardUsage: 1, widgetUsage: 1 },
+        { _id: 'id2', name: 'model_2', dashboardUsage: 1, widgetUsage: 1 },
       ],
     });
     expect(dashboardService.getAllDashboards).not.toHaveBeenCalled();
@@ -124,7 +125,7 @@ describe('datasourceMetadataService', () => {
 
     await datasourceMetadataService.getDatasources({ dashboardId });
 
-    expect(dataSourceMetadataRepository.getManyDataSourcesMetadataByIds).toHaveBeenCalledWith([
+    expect(dataSourceMetadataRepository.getDataSourcesMetadataByIds).toHaveBeenCalledWith([
       'id1',
       'id2',
     ]);

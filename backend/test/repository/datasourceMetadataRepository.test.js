@@ -72,7 +72,7 @@ describe('Datasource metadata repository', () => {
       const insertedIds = insertedMetadata.map((metadata) => metadata.id.toString());
 
       const dataSources = parseMongoDBResult(
-        await DataSourceMetaDataRepository.getManyDataSourcesMetadataByIds(insertedIds),
+        await DataSourceMetaDataRepository.getDataSourcesMetadataByIds(insertedIds),
       );
 
       expect(dataSources).toEqual(expectedResult);

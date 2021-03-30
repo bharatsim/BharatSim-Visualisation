@@ -1,5 +1,6 @@
 const dataSourceMetadataRepository = require('../repository/datasourceMetadataRepository');
 const dashboardDatasourceMapRepository = require('../repository/dashboardDatasourceMapRepository');
+const dashboardRepository = require('../repository/dashboardRepository');
 const dashboardService = require('./dashboardService');
 const dbUtils = require('../utils/dbUtils');
 const { DATASOURCE_USAGE_COUNT_FILTER_STRING } = require('../constants/dbConstants');
@@ -50,15 +51,32 @@ async function getDatasourcesForDashboardId(dashboardId) {
   const datasourceIds = dbUtils.parseDBObject(
     await dashboardDatasourceMapRepository.getDatasourceIdsForDashboard(dashboardId),
   );
-  return dataSourceMetadataRepository.getManyDataSourcesMetadataByIds(datasourceIds);
+  return dataSourceMetadataRepository.getDataSourcesMetadataByIds(datasourceIds);
 }
 
 async function getDatasourcesWithUsagesCount(dataSources) {
   return Promise.all(
     dataSources.map(async (datasource) => {
       const { _id: id } = datasource;
-      const usage = await dashboardService.getCount({ [DATASOURCE_USAGE_COUNT_FILTER_STRING]: id });
-      return { ...datasource, usage: usage.count };
+      const usage = await dashboardService.getActiveDashboardCountFor({
+        [DATASOURCE_USAGE_COUNT_FILTER_STRING]: id,
+      });
+      return { ...datasource, dashboardUsage: usage.count };
+    }),
+  );
+}
+
+async function getDatasourceWithWidgetAndDashboardUsageCount(dataSources, dashboardId) {
+  return Promise.all(
+    dataSources.map(async (datasource) => {
+      const { _id: id } = datasource;
+      const dashboardUsage = await dashboardService.getActiveDashboardCountFor(id);
+      const widgetUsage = await dashboardRepository.getChartCountForDatasource(id, dashboardId);
+      return {
+        ...datasource,
+        dashboardUsage: dashboardUsage.count,
+        widgetUsage: widgetUsage.count,
+      };
     }),
   );
 }
@@ -66,15 +84,19 @@ async function getDatasourcesWithUsagesCount(dataSources) {
 async function getDatasources({ projectId, dashboardId }) {
   const projectForDataSource = { __v: 0, dataSourceSchema: 0 };
   if (!projectId && !dashboardId) {
-    const datasources = dbUtils.parseDBObject(
+    const dataSources = dbUtils.parseDBObject(
       await dataSourceMetadataRepository.getDatasourcesMetadata({}, projectForDataSource),
     );
-    const dataSources = await getDatasourcesWithUsagesCount(datasources);
-    return { dataSources };
+    const updatedDatasources = await getDatasourcesWithUsagesCount(dataSources);
+    return { dataSources: updatedDatasources };
   }
   if (dashboardId) {
-    const dataSources = await getDatasourcesForDashboardId(dashboardId);
-    return { dataSources };
+    const dataSources = dbUtils.parseDBObject(await getDatasourcesForDashboardId(dashboardId));
+    const updatedDatasources = await getDatasourceWithWidgetAndDashboardUsageCount(
+      dataSources,
+      dashboardId,
+    );
+    return { dataSources: updatedDatasources };
   }
   const dataSources = await getDatasourcesForProjectId(projectId);
   return { dataSources };
