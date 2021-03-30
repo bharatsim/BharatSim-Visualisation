@@ -7,6 +7,7 @@ const PORT = process.env.APP_PORT || 3005;
 
 const LOGGER_FORMAT_STRING = ':method :url :status :res[content-length] - :response-time ms';
 const apiRoutes = require('./src/controller/datasourcesController.js');
+const datasourceDashboardMapRoutes = require('./src/controller/datasourceDashboardMapController.js');
 const dashBoardRoutes = require('./src/controller/dashboardController.js');
 const projectRoutes = require('./src/controller/projectController.js');
 require('./setupDB');
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(multer({ dest: FILE_UPLOAD_PATH }).single('datafile'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/api/dashboard-datasource-map', datasourceDashboardMapRoutes);
 app.use('/api/datasources', apiRoutes);
 app.use('/api/dashboard', dashBoardRoutes);
 app.use('/api/projects', projectRoutes);

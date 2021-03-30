@@ -8,6 +8,10 @@ async function insertDatasourceDashboardMap(datasourceId, dashboardId) {
   return datasourceDashboardMap.save();
 }
 
+async function insertDatasourceDashboardMaps(datasourceDashboardMaps) {
+  return DatasourceDashboardMap.insertMany(datasourceDashboardMaps);
+}
+
 async function getDatasourceIdsForDashboard(dashboardId) {
   return DatasourceDashboardMap.find({ dashboardId }, { datasourceId: 1 }).then((data) =>
     data.map((datasourceMatch) => {
@@ -16,8 +20,13 @@ async function getDatasourceIdsForDashboard(dashboardId) {
   );
 }
 
+// TODO: Refactor - Add a single function to delete map
 async function deleteDatasourceMapping(dashboardId) {
   return DatasourceDashboardMap.deleteMany({ dashboardId });
+}
+
+async function deleteDatasourceDashboardMap(datasourceDashboardMap) {
+  return DatasourceDashboardMap.deleteOne(datasourceDashboardMap);
 }
 
 async function deleteDataSourceDashboardMapping(dataSourceId) {
@@ -29,4 +38,6 @@ module.exports = {
   deleteDatasourceMapping,
   getDatasourceIdsForDashboard,
   deleteDataSourceDashboardMapping,
+  insertDatasourceDashboardMaps,
+  deleteDatasourceDashboardMap,
 };

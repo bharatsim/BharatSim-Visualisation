@@ -15,13 +15,29 @@ describe('dashboardDatasourceMapRepository', () => {
     await dbHandler.closeDatabase();
   });
   describe('insertDatasourceDashboardMap', () => {
-    it('insert datasource and dashboard id map in collection', async () => {
+    it('should insert datasource and dashboard id map in collection', async () => {
       const dashboardId = '5fd084fe0fbe24c086935aca';
       const datasourceId = '5fd084fe0fbe24c086935acb';
       await dashboardDatasourceMapRepository.insertDatasourceDashboardMap(
         datasourceId,
         dashboardId,
       );
+
+      const foundData = parseMongoDBResult(
+        await DatasourceDashboardMap.find({ datasourceId }, { __v: 0, _id: 0 }),
+      );
+
+      expect(foundData).toEqual([{ datasourceId, dashboardId }]);
+    });
+    it('should insert multiple datasource dashboard maps', async () => {
+      const dashboardId = '5fd084fe0fbe24c086935aca';
+      const datasourceId = '5fd084fe0fbe24c086935acb';
+      await dashboardDatasourceMapRepository.insertDatasourceDashboardMaps([
+        {
+          datasourceId,
+          dashboardId,
+        },
+      ]);
 
       const foundData = parseMongoDBResult(
         await DatasourceDashboardMap.find({ datasourceId }, { __v: 0, _id: 0 }),
@@ -53,7 +69,7 @@ describe('dashboardDatasourceMapRepository', () => {
   });
 
   describe('deleteDatasourceMapping', () => {
-    it('should get datasourceIds for provided dashboard', async () => {
+    it('should delete datasource mapping for given dashboard id', async () => {
       await DatasourceDashboardMap.insertMany([
         { datasourceId: '5fd084fe0fbe24c086935acb', dashboardId: '5fd084fe0fbe24c086935aca' },
         { datasourceId: '5fd084fe0fbe24c086935acc', dashboardId: '5fd084fe0fbe24c086935aca' },
@@ -82,6 +98,24 @@ describe('dashboardDatasourceMapRepository', () => {
       await dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping(
         '5fd084fe0fbe24c086935acb',
       );
+
+      const foundData = parseMongoDBResult(
+        await DatasourceDashboardMap.find({ datasourceId: '5fd084fe0fbe24c086935acb' }),
+      );
+
+      expect(foundData).toEqual([]);
+    });
+    it('should delete the mapping given the datasource and dashboard id mapping', async () => {
+      await DatasourceDashboardMap.insertMany([
+        { datasourceId: '5fd084fe0fbe24c086935acb', dashboardId: '5fd084fe0fbe24c086935aca' },
+        { datasourceId: '5fd084fe0fbe24c086935acc', dashboardId: '5fd084fe0fbe24c086935aca' },
+        { datasourceId: '5fd084fe0fbe24c086935acd', dashboardId: '5fd084fe0fbe24c086935acf' },
+      ]);
+
+      await dashboardDatasourceMapRepository.deleteDatasourceDashboardMap({
+        datasourceId: '5fd084fe0fbe24c086935acb',
+        dashboardId: '5fd084fe0fbe24c086935aca',
+      });
 
       const foundData = parseMongoDBResult(
         await DatasourceDashboardMap.find({ datasourceId: '5fd084fe0fbe24c086935acb' }),
