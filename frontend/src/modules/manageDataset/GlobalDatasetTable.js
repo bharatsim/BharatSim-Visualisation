@@ -39,16 +39,16 @@ function GlobalDatasetTable({ dataSources, onAddDatasourceClick, selectedDatasou
           },
           { title: 'Type', field: 'fileType', render: (rowData) => fileTypes[rowData.fileType] },
           {
-            title: 'Usage',
-            field: 'usage',
-            type: 'numeric',
-            tooltip: 'Number of Dashboards which has widgets created',
-          },
-          {
             title: 'Date Added',
             field: 'createdAt',
             type: 'datetime',
             render: (rowData) => formatDate(rowData.createdAt),
+          },
+          {
+            title: 'Active Dashboard Count',
+            field: 'dashboardUsage',
+            type: 'numeric',
+            tooltip: 'Number of Dashboards which has widgets created',
           },
         ]}
         title="table"

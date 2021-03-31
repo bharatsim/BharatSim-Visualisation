@@ -3,6 +3,7 @@ import Box from '@material-ui/core/Box';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
 import useManageDatasetStyles from './manageDatasetCSS';
 import ProjectHeader from '../../uiComponent/ProjectHeader';
@@ -13,6 +14,7 @@ import DashboardHeaderBar from '../../uiComponent/DashboardHeaderBar';
 import NoDataSetPresentMessage from './NoDatatSetPresentMessage';
 import GlobalDatasetTable from './GlobalDatasetTable';
 import { uniqueObjectsBy } from '../../utils/helper';
+import snackbarVariant from '../../constants/snackbarVariant';
 
 const UNIQUE_ID_FOR_DATASOURCES = '_id';
 
@@ -25,6 +27,8 @@ function ManageDataset() {
   const history = useHistory();
   const [dataSources, setDataSources] = useState(null);
   const [globalDataSources, setGlobalDataSources] = useState(null);
+  const { enqueueSnackbar } = useSnackbar();
+  const { SUCCESS } = snackbarVariant;
 
   const {
     projectMetadata,
@@ -68,20 +72,58 @@ function ManageDataset() {
     setGlobalDataSources(updatedGlobalDatasources);
   }
 
-  function onAddDatasourceClick(checkedDatasources) {
+  async function mapSelectedDatasourcesToDashboard(checkedDatasources) {
+    const datasourceDashboardMap = checkedDatasources.map(({ _id: datasourceId }) => ({
+      dashboardId: selectedDashboardId,
+      datasourceId,
+    }));
+    return api.addDatasourceDashboardMaps(datasourceDashboardMap);
+  }
+
+  async function addDatasource(checkedDatasources) {
     const updatedDataSources = uniqueObjectsBy(
       [...dataSources, ...checkedDatasources],
       UNIQUE_ID_FOR_DATASOURCES,
-    ).map(({ tableData, ...rest }) => rest);
-    setDataSources(updatedDataSources);
-    uncheckedAllDatasources();
+    ).map(({ tableData, ...rest }) => ({ ...rest, widgetUsage: 0 }));
+
+    mapSelectedDatasourcesToDashboard(checkedDatasources).then(() => {
+      setDataSources(updatedDataSources);
+      uncheckedAllDatasources();
+      enqueueSnackbar('Successfully added checked datasources', { variant: SUCCESS });
+    });
   }
 
-  function removeDatasource(checkedDatasourceId) {
+  function removeDatasource(checkedDatasource) {
+    const { _id: checkedDatasourceId, name } = checkedDatasource;
     const updatedDataSources = dataSources
       .filter(({ _id: datasourceId }) => checkedDatasourceId !== datasourceId)
       .map(({ tableData, ...rest }) => rest);
-    setDataSources(updatedDataSources);
+    api
+      .removeDatasourceDashboardMaps({
+        dashboardId: selectedDashboardId,
+        datasourceId: checkedDatasourceId,
+      })
+      .then(() => {
+        enqueueSnackbar(`Successfully removed datasource ${name} from dashboard`, {
+          variant: SUCCESS,
+        });
+        setDataSources(updatedDataSources);
+      });
+  }
+
+  function deleteDatasource(checkedDatasource) {
+    const { _id: checkedDatasourceId, name } = checkedDatasource;
+    const updatedDataSources = dataSources
+      .filter(({ _id: datasourceId }) => checkedDatasourceId !== datasourceId)
+      .map(({ tableData, ...rest }) => rest);
+    const updatedGlobalDataSources = globalDataSources
+      .filter(({ _id: datasourceId }) => checkedDatasourceId !== datasourceId)
+      .map(({ tableData, ...rest }) => rest);
+    api.deleteDatasource(checkedDatasourceId).then(() => {
+      enqueueSnackbar(`Successfully deleted datasources ${name}`, { variant: SUCCESS });
+      setDataSources(updatedDataSources);
+      setGlobalDataSources(updatedGlobalDataSources);
+    });
   }
 
   return (
@@ -125,7 +167,8 @@ function ManageDataset() {
               ) : (
                 <DashboardDataSetsTable
                   dataSources={dataSources}
-                  removeDatasource={removeDatasource}
+                  onRemove={removeDatasource}
+                  onDelete={deleteDatasource}
                 />
               )}
             </Box>
@@ -137,7 +180,7 @@ function ManageDataset() {
             <Box mt={2}>
               <GlobalDatasetTable
                 dataSources={getUniqueGlobalDatasources(dataSources, globalDataSources)}
-                onAddDatasourceClick={onAddDatasourceClick}
+                onAddDatasourceClick={addDatasource}
                 selectedDatasources={dataSources}
               />
             </Box>

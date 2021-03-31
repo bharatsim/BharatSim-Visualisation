@@ -16,7 +16,7 @@ const mockData = [
 ];
 
 const Component = withThemeProvider(() => (
-  <DashboardDataSetsTable dataSources={mockData} removeDatasource={jest.fn} />
+  <DashboardDataSetsTable dataSources={mockData} onDelete={jest.fn} onRemove={jest.fn} />
 ));
 
 describe('<DashboardDataSetsTable />', () => {

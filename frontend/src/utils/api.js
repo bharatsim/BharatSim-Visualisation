@@ -170,6 +170,20 @@ const api = {
       url: serviceURL.getProjectUrl(id),
     });
   },
+  addDatasourceDashboardMaps: async (datasourceDashboardMaps) => {
+    return uploadData({
+      url: serviceURL.DATASOURCE_DASHBOARD_MAP,
+      data: { datasourceDashboardMaps },
+      method: httpMethods.POST,
+    });
+  },
+  removeDatasourceDashboardMaps: async ({ datasourceId, dashboardId }) => {
+    return uploadData({
+      url: serviceURL.DATASOURCE_DASHBOARD_MAP,
+      data: { dashboardId, datasourceId },
+      method: httpMethods.DELETE,
+    });
+  },
 };
 
 export { api };

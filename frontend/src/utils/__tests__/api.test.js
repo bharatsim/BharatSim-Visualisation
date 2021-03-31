@@ -300,4 +300,39 @@ describe('API', () => {
 
     expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });
+
+  it('should call add datasource and dashboard map ', () => {
+    const expectedParameter = {
+      url: '/api/dashboard-datasource-map',
+      method: 'post',
+      data: {
+        datasourceDashboardMaps: [
+          { dashboardId: 'dashboardId1', datasourceId: 'datasourceId1' },
+          { dashboardId: 'dashboardId2', datasourceId: 'datasourceId2' },
+        ],
+      },
+    };
+
+    api.addDatasourceDashboardMaps([
+      { dashboardId: 'dashboardId1', datasourceId: 'datasourceId1' },
+      { dashboardId: 'dashboardId2', datasourceId: 'datasourceId2' },
+    ]);
+
+    expect(uploadData).toHaveBeenCalledWith(expectedParameter);
+  });
+
+  it('should call delete datasource and dashboard map', () => {
+    const expectedParameter = {
+      url: '/api/dashboard-datasource-map',
+      method: 'delete',
+      data: { dashboardId: 'dashboardId1', datasourceId: 'datasourceId1' },
+    };
+
+    api.removeDatasourceDashboardMaps({
+      dashboardId: 'dashboardId1',
+      datasourceId: 'datasourceId1',
+    });
+
+    expect(uploadData).toHaveBeenCalledWith(expectedParameter);
+  });
 });

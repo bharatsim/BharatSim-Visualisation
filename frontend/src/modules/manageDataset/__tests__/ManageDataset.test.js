@@ -1,13 +1,14 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import { render } from '@testing-library/react';
 import { fireEvent, within } from '@testing-library/dom';
 import { createMemoryHistory } from 'history';
 
+import { renderWithRedux as render } from '../../../testUtil';
 import ManageDataset from '../ManageDataset';
 import withThemeProvider from '../../../theme/withThemeProvider';
 import { ProjectLayoutProvider } from '../../../contexts/projectLayoutContext';
 import { api } from '../../../utils/api';
+import withSnackBar from '../../../hoc/snackbar/withSnackBar';
 
 const mockHistoryPush = jest.fn();
 const mockHistoryReplace = jest.fn();
@@ -32,7 +33,31 @@ jest.mock('../../../utils/api', () => ({
           fileType: 'csv',
           name: 'csv-file-name',
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardUsage: 1,
+          widgetUsage: 1,
           _id: '5f9a88952629222105e180df',
+        },
+        {
+          createdAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardId: '5f9952ede93dbd234a39d82f',
+          fileSize: 125005,
+          fileType: 'csv',
+          name: 'csv-file-name-4',
+          updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardUsage: 0,
+          widgetUsage: 0,
+          _id: '5f9a88952629222105e160df',
+        },
+        {
+          createdAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardId: '5f9952ede93dbd234a39d82f',
+          fileSize: 125005,
+          fileType: 'csv',
+          name: 'csv-file-name-5',
+          updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardUsage: 1,
+          widgetUsage: 0,
+          _id: '5f9a88952629222105e170df',
         },
       ],
     }),
@@ -44,6 +69,7 @@ jest.mock('../../../utils/api', () => ({
           fileSize: 125005,
           fileType: 'csv',
           name: 'csv-file-name',
+          dashboardUsage: 1,
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           _id: '5f9a88952629222105e180df',
         },
@@ -53,6 +79,7 @@ jest.mock('../../../utils/api', () => ({
           fileSize: 125005,
           fileType: 'csv',
           name: 'csv-file-name-2',
+          dashboardUsage: 1,
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           _id: '5f9a88952629222105e180pq',
         },
@@ -62,28 +89,56 @@ jest.mock('../../../utils/api', () => ({
           fileSize: 125005,
           fileType: 'csv',
           name: 'csv-file-name-3',
+          dashboardUsage: 1,
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           _id: '5f9a88952629222105e180rs',
         },
+        {
+          createdAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardId: '5f9952ede93dbd234a39d82f',
+          fileSize: 125005,
+          fileType: 'csv',
+          name: 'csv-file-name-4',
+          updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardUsage: 0,
+          widgetUsage: 0,
+          _id: '5f9a88952629222105e160df',
+        },
+        {
+          createdAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardId: '5f9952ede93dbd234a39d82f',
+          fileSize: 125005,
+          fileType: 'csv',
+          name: 'csv-file-name-5',
+          updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
+          dashboardUsage: 1,
+          widgetUsage: 0,
+          _id: '5f9a88952629222105e170df',
+        },
       ],
     }),
+    addDatasourceDashboardMaps: jest.fn().mockResolvedValue({}),
+    removeDatasourceDashboardMaps: jest.fn().mockResolvedValue({}),
+    deleteDatasource: jest.fn().mockResolvedValue({}),
   },
 }));
 
 const history = createMemoryHistory();
 
-const ComponentWithProvider = withThemeProvider(() => (
-  <Router history={history}>
-    <ProjectLayoutProvider
-      value={{
-        projectMetadata: { name: 'project1', id: '123' },
-        selectedDashboardMetadata: { name: 'dashboard1', _id: 'selectedDashboardId' },
-      }}
-    >
-      <ManageDataset />
-    </ProjectLayoutProvider>
-  </Router>
-));
+const ComponentWithProvider = withThemeProvider(
+  withSnackBar(() => (
+    <Router history={history}>
+      <ProjectLayoutProvider
+        value={{
+          projectMetadata: { name: 'project1', id: '123' },
+          selectedDashboardMetadata: { name: 'dashboard1', _id: 'selectedDashboardId' },
+        }}
+      >
+        <ManageDataset />
+      </ProjectLayoutProvider>
+    </Router>
+  )),
+);
 
 describe('Configure datasets', () => {
   afterEach(() => {
@@ -164,44 +219,147 @@ describe('Configure datasets', () => {
     expect(getByText('Go to dashboard').closest('button')).toBeDisabled();
   });
 
-  it('add and remove datasource from dashboard flow', async () => {
-    const { getByText, findByText, getAllByText, getAllByTitle } = render(
-      <ComponentWithProvider />,
-    );
+  it('should checked and disable common file rows in dataset libraries', async () => {
+    const { findByText, getAllByText } = render(<ComponentWithProvider />);
     await findByText('Configure Dashboard Data');
     await findByText('Dataset Library');
 
     const commonFileFromGlobalDataset = getAllByText('csv-file-name')[1];
     const rowOfCommonFile = within(commonFileFromGlobalDataset.parentNode);
 
-    // should checkbox for common file should be disable and checked
     expect(rowOfCommonFile.getByRole('checkbox')).toHaveAttribute('checked', '');
     expect(rowOfCommonFile.getByRole('checkbox')).toHaveAttribute('disabled', '');
+  });
 
-    // should global file name should be present only one time before adding to dashboard
+  it('should have common file rows in both dashboard datasets and global datasets', async () => {
+    const { findByText, getAllByText } = render(<ComponentWithProvider />);
+    await findByText('Configure Dashboard Data');
+    await findByText('Dataset Library');
+
+    expect(getAllByText('csv-file-name-4').length).toBe(2);
+  });
+
+  it('should have only one rows in global datasets if datasource is not added in dashboard', async () => {
+    const { findByText, getAllByText } = render(<ComponentWithProvider />);
+    await findByText('Configure Dashboard Data');
+    await findByText('Dataset Library');
+
     expect(getAllByText('csv-file-name-2').length).toBe(1);
+  });
+
+  it('add datasource from dashboard flow', async () => {
+    const { getByText, findByText, getAllByText } = render(<ComponentWithProvider />);
+    await findByText('Configure Dashboard Data');
+    await findByText('Dataset Library');
+
     const fileName = getByText('csv-file-name-2');
     const rowOfFile = within(fileName.parentNode);
 
-    // should select csv-file-name-2 to add in dashboard
     rowOfFile.getByRole('checkbox').click();
     fireEvent.change(rowOfFile.getByRole('checkbox'), { target: { checked: true } });
 
-    // should make selected count 1
     expect(getByText('1 item(s) selected'));
 
-    // should add selected file
     fireEvent.click(getByText('Add to dashboard'));
+
+    await findByText('Successfully added checked datasources');
+
     expect(getAllByText('csv-file-name-2').length).toBe(2);
 
     // should unchecked datasources in global dataset and make selected count zero
     expect(getByText('0 item(s) selected'));
+  });
+  it('should disable remove button if widget count is more than 0', async () => {
+    const { findByText, getAllByText } = render(<ComponentWithProvider />);
+    await findByText('Configure Dashboard Data');
+    await findByText('Dataset Library');
 
-    // remove added file from dashboard
-    const removeButtonForSecondRow = getAllByTitle('Remove datasource from dashboard')[1];
+    const rowOneName = getAllByText('csv-file-name')[0];
+    const rowOne = within(rowOneName.parentNode);
 
-    fireEvent.click(removeButtonForSecondRow);
+    const removeButton = rowOne.getByTitle('Remove datasource from dashboard').childNodes[0];
 
-    expect(getAllByText('csv-file-name-2').length).toBe(1);
+    expect(removeButton).toHaveAttribute('disabled', '');
+  });
+
+  it('should disable delet button if widget usage and dashboard usage count is more than 0', async () => {
+    const { findByText, getAllByText } = render(<ComponentWithProvider />);
+    await findByText('Configure Dashboard Data');
+    await findByText('Dataset Library');
+
+    const rowOneName = getAllByText('csv-file-name')[0];
+    const rowOne = within(rowOneName.parentNode);
+
+    const removeButton = rowOne.getByTitle('Delete Datasource').childNodes[0];
+
+    expect(removeButton).toHaveAttribute('disabled', '');
+  });
+
+  it('should disable delete button if widget usage and dashboard usage count is more than 0', async () => {
+    const { findByText, getAllByText } = render(<ComponentWithProvider />);
+    await findByText('Configure Dashboard Data');
+    await findByText('Dataset Library');
+
+    const rowOneName = getAllByText('csv-file-name')[0];
+    const rowOne = within(rowOneName.parentNode);
+
+    const removeButton = rowOne.getByTitle('Delete Datasource').childNodes[0];
+
+    expect(removeButton).toHaveAttribute('disabled', '');
+  });
+
+  it('delete datasource flow', async () => {
+    const { findByText, getAllByText, getByText, queryByText } = render(<ComponentWithProvider />);
+    await findByText('Configure Dashboard Data');
+    await findByText('Dataset Library');
+
+    // present in both dashboard and datasets
+    const file4 = getAllByText('csv-file-name-4');
+    expect(file4.length).toBe(2);
+
+    const file4NameFromDashboard = file4[0];
+    const rowForFile4 = within(file4NameFromDashboard.parentNode);
+
+    const deleteButton = rowForFile4.getByTitle('Delete Datasource');
+
+    fireEvent.click(deleteButton);
+
+    const deleteDatasourceButton = getByText('Delete data source');
+
+    expect(deleteDatasourceButton).toBeInTheDocument();
+
+    fireEvent.click(deleteDatasourceButton);
+
+    await findByText('Successfully deleted datasources csv-file-name-4');
+
+    expect(api.deleteDatasource).toHaveBeenCalledWith('5f9a88952629222105e160df');
+
+    expect(queryByText('csv-file-name-4')).toBeNull();
+  });
+
+  it('remove datasource flow', async () => {
+    const { findByText, getAllByText } = render(<ComponentWithProvider />);
+    await findByText('Configure Dashboard Data');
+    await findByText('Dataset Library');
+
+    // present in both dashboard and datasets
+    const file5 = getAllByText('csv-file-name-5');
+    expect(file5.length).toBe(2);
+
+    const file5NameFromDashboard = file5[0];
+    const rowForFile5 = within(file5NameFromDashboard.parentNode);
+
+    const removeButton = rowForFile5.getByTitle('Remove datasource from dashboard');
+
+    fireEvent.click(removeButton);
+
+    await findByText('Successfully removed datasource csv-file-name-5 from dashboard');
+
+    expect(api.removeDatasourceDashboardMaps).toHaveBeenCalledWith({
+      dashboardId: 'selectedDashboardId',
+      datasourceId: '5f9a88952629222105e170df',
+    });
+
+    expect(getAllByText('csv-file-name-5').length).toBe(1);
   });
 });

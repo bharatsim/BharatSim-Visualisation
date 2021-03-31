@@ -15,6 +15,7 @@ const {
 
 router.post('/', async function (req, res) {
   const { dashboardData } = req.body;
+
   saveDashboard(dashboardData)
     .then((dashboardId) => {
       res.send(dashboardId);

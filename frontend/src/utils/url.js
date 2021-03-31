@@ -1,6 +1,7 @@
 const DATASOURCE_URL = '/api/dataSources';
 const DASHBOARD_URL = '/api/dashboard';
 const PROJECT_URL = '/api/projects';
+const DATASOURCE_DASHBOARD_MAP = '/api/dashboard-datasource-map';
 
 export const url = {
   getDatasourceUrl: (dataSource) => `${DATASOURCE_URL}/${dataSource}`,
@@ -11,4 +12,5 @@ export const url = {
   DATA_SOURCES: `${DATASOURCE_URL}`,
   DASHBOARD_URL,
   PROJECT_URL,
+  DATASOURCE_DASHBOARD_MAP,
 };

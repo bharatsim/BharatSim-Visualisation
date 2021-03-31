@@ -3,7 +3,6 @@ const dashboardDatasourceMapRepository = require('../repository/dashboardDatasou
 const dashboardRepository = require('../repository/dashboardRepository');
 const dashboardService = require('./dashboardService');
 const dbUtils = require('../utils/dbUtils');
-const { DATASOURCE_USAGE_COUNT_FILTER_STRING } = require('../constants/dbConstants');
 const { parseDBObject } = require('../utils/dbUtils');
 const { getAllDashboards } = require('./dashboardService');
 
@@ -58,10 +57,8 @@ async function getDatasourcesWithUsagesCount(dataSources) {
   return Promise.all(
     dataSources.map(async (datasource) => {
       const { _id: id } = datasource;
-      const usage = await dashboardService.getActiveDashboardCountFor({
-        [DATASOURCE_USAGE_COUNT_FILTER_STRING]: id,
-      });
-      return { ...datasource, dashboardUsage: usage.count };
+      const dashboardUsage = await dashboardService.getActiveDashboardCountFor(id);
+      return { ...datasource, dashboardUsage: dashboardUsage.count };
     }),
   );
 }

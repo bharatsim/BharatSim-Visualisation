@@ -74,16 +74,16 @@ function Datasets() {
           },
           { title: 'Type', field: 'fileType', render: (rowData) => fileTypes[rowData.fileType] },
           {
-            title: 'Usage',
-            field: 'usage',
-            type: 'numeric',
-            tooltip: 'Number of Dashboards which has widgets created',
-          },
-          {
             title: 'Date Added',
             field: 'createdAt',
             type: 'datetime',
             render: (rowData) => formatDate(rowData.createdAt),
+          },
+          {
+            title: 'Active Dashboard Count',
+            field: 'dashboardUsage',
+            type: 'numeric',
+            tooltip: 'Number of Dashboards which has widgets created',
           },
         ]}
         title="table"
@@ -107,7 +107,7 @@ function Datasets() {
             icon: tableIcon.Delete,
             tooltip: 'Delete Datasource',
             onClick: onDeleteClick,
-            disabled: rowData.usage > 0,
+            disabled: rowData.dashboardUsage > 0,
             size: 'small',
           }),
         ]}
