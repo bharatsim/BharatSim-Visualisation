@@ -77,7 +77,7 @@ describe('Datasets', () => {
       const deleteButton = getAllByTitle('Delete Datasource');
       fireEvent.click(deleteButton[1]);
       const deleteConfirmationMessage = getByText(
-        'Are you sure you want to delete datasource fileName2 ?',
+        'Are you sure you want to delete fileName2 datasource ?',
       );
       expect(deleteConfirmationMessage).toBeInTheDocument();
 
@@ -85,7 +85,7 @@ describe('Datasets', () => {
       fireEvent.click(confirmDeleteButton);
       await findByText('fileName');
 
-      const deletedMessage = getByText('Successfully deleted datasource fileName2');
+      const deletedMessage = getByText('Successfully deleted fileName2 datasource');
       expect(api.deleteDatasource).toHaveBeenCalledWith('DatasourceId2');
       expect(deletedMessage).toBeInTheDocument();
     },

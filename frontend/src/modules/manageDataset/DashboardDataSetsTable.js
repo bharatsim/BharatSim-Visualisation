@@ -119,7 +119,7 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
         }}
       >
         <Typography variant="body2">
-          {`Are you sure you want to delete datasource ${selectedRow ? selectedRow.name : ''} ?`}
+          {`Are you sure you want to delete ${selectedRow ? selectedRow.name : ''} datasource ?`}
         </Typography>
       </DeleteConfirmationModal>
     </>

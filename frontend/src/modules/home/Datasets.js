@@ -35,7 +35,7 @@ function Datasets() {
     const { _id: selectedRowId } = selectedRow;
     closeDeleteModal();
     await api.deleteDatasource(selectedRowId).then(() => {
-      enqueueSnackbar(`Successfully deleted datasource ${selectedRow.name}`, {
+      enqueueSnackbar(`Successfully deleted ${selectedRow.name} datasource`, {
         variant: SUCCESS,
       });
       setDataSources((prevDatasources) =>
@@ -131,7 +131,7 @@ function Datasets() {
         }}
       >
         <Typography variant="body2">
-          {`Are you sure you want to delete datasource ${selectedRow ? selectedRow.name : ''} ?`}
+          {`Are you sure you want to delete ${selectedRow ? selectedRow.name : ''} datasource ?`}
         </Typography>
       </DeleteConfirmationModal>
     </Box>

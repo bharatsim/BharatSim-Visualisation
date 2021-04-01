@@ -270,7 +270,7 @@ describe('Manage datasets', () => {
 
     fireEvent.click(getByText('Add to dashboard'));
 
-    await findByText('Successfully added checked datasources');
+    await findByText('Successfully added selected datasources');
 
     expect(getAllByText('csv-file-name-2').length).toBe(2);
 
@@ -338,7 +338,7 @@ describe('Manage datasets', () => {
 
     fireEvent.click(deleteDatasourceButton);
 
-    await findByText('Successfully deleted datasources csv-file-name-4');
+    await findByText('Successfully deleted csv-file-name-4 datasource');
 
     expect(api.deleteDatasource).toHaveBeenCalledWith('5f9a88952629222105e160df');
 
@@ -361,7 +361,7 @@ describe('Manage datasets', () => {
 
     fireEvent.click(removeButton);
 
-    await findByText('Successfully removed datasource csv-file-name-5 from dashboard');
+    await findByText('Successfully removed csv-file-name-5 datasource from dashboard');
 
     expect(api.removeDatasourceDashboardMaps).toHaveBeenCalledWith({
       dashboardId: 'selectedDashboardId',

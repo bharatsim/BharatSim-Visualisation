@@ -84,12 +84,12 @@ function ManageDataset() {
     const updatedDataSources = uniqueObjectsBy(
       [...dataSources, ...checkedDatasources],
       UNIQUE_ID_FOR_DATASOURCES,
-    ).map(({ tableData, ...rest }) => ({ ...rest, widgetUsage: 0 }));
+    ).map(({ tableData, ...rest }) => ({ ...rest, widgetUsage: rest.widgetUsage || 0 }));
 
     mapSelectedDatasourcesToDashboard(checkedDatasources).then(() => {
       setDataSources(updatedDataSources);
       uncheckedAllDatasources();
-      enqueueSnackbar('Successfully added checked datasources', { variant: SUCCESS });
+      enqueueSnackbar('Successfully added selected datasources', { variant: SUCCESS });
     });
   }
 
@@ -104,7 +104,7 @@ function ManageDataset() {
         datasourceId: checkedDatasourceId,
       })
       .then(() => {
-        enqueueSnackbar(`Successfully removed datasource ${name} from dashboard`, {
+        enqueueSnackbar(`Successfully removed  ${name} datasource from dashboard`, {
           variant: SUCCESS,
         });
         setDataSources(updatedDataSources);
@@ -120,7 +120,7 @@ function ManageDataset() {
       .filter(({ _id: datasourceId }) => checkedDatasourceId !== datasourceId)
       .map(({ tableData, ...rest }) => rest);
     api.deleteDatasource(checkedDatasourceId).then(() => {
-      enqueueSnackbar(`Successfully deleted datasources ${name}`, { variant: SUCCESS });
+      enqueueSnackbar(`Successfully deleted ${name} datasource`, { variant: SUCCESS });
       setDataSources(updatedDataSources);
       setGlobalDataSources(updatedGlobalDataSources);
     });
