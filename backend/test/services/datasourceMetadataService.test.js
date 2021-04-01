@@ -3,12 +3,14 @@ const dashboardService = require('../../src/services/dashboardService');
 const dataSourceMetadataRepository = require('../../src/repository/datasourceMetadataRepository');
 const dashboardDatasourceMapRepository = require('../../src/repository/dashboardDatasourceMapRepository');
 const dashboardRepository = require('../../src/repository/dashboardRepository');
+const projectRepository = require('../../src/repository/projectRepository');
 
 jest.mock('../../src/repository/datasourceMetadataRepository');
 jest.mock('../../src/repository/dashboardDatasourceMapRepository');
 jest.mock('../../src/services/dashboardService');
 jest.mock('../../src/services/projectService');
 jest.mock('../../src/repository/dashboardRepository');
+jest.mock('../../src/repository/projectRepository');
 
 describe('datasourceMetadataService', () => {
   beforeEach(() => {
@@ -17,11 +19,15 @@ describe('datasourceMetadataService', () => {
       { _id: 'id1', name: 'model_1' },
       { _id: 'id2', name: 'model_2' },
     ];
-    dashboardService.getActiveDashboardCountFor.mockResolvedValue({ count: 1 });
+    dashboardService.getActiveDashboardsFor.mockResolvedValue([
+      { _id: 1, projectId: 1, name: 'dashboard1' },
+      { _id: 2, projectId: 1, name: 'dashboard2' },
+    ]);
     dataSourceMetadataRepository.getDataSourcesMetadataByIds.mockResolvedValue(mockResolvedValue);
     dataSourceMetadataRepository.getDatasourcesMetadata.mockResolvedValue(mockResolvedValue);
     dashboardDatasourceMapRepository.getDatasourceIdsForDashboard.mockResolvedValue(['id1', 'id2']);
     dashboardRepository.getChartCountForDatasource.mockResolvedValue({ count: 1 });
+    projectRepository.getOne.mockResolvedValue({ _id: 1, name: 'project2' });
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -32,8 +38,36 @@ describe('datasourceMetadataService', () => {
 
     expect(data).toEqual({
       dataSources: [
-        { _id: 'id1', name: 'model_1', dashboardUsage: 1, widgetUsage: 1 },
-        { _id: 'id2', name: 'model_2', dashboardUsage: 1, widgetUsage: 1 },
+        {
+          _id: 'id1',
+          name: 'model_1',
+          dashboardUsage: 2,
+          widgetUsage: 1,
+          usage: [
+            {
+              dashboards: ['dashboard1', 'dashboard2'],
+              project: {
+                id: 1,
+                name: 'project2',
+              },
+            },
+          ],
+        },
+        {
+          _id: 'id2',
+          name: 'model_2',
+          dashboardUsage: 2,
+          widgetUsage: 1,
+          usage: [
+            {
+              dashboards: ['dashboard1', 'dashboard2'],
+              project: {
+                id: 1,
+                name: 'project2',
+              },
+            },
+          ],
+        },
       ],
     });
   });
@@ -41,8 +75,34 @@ describe('datasourceMetadataService', () => {
     const result = await datasourceMetadataService.getDatasources({});
     const expected = {
       dataSources: [
-        { _id: 'id1', name: 'model_1', dashboardUsage: 1 },
-        { _id: 'id2', name: 'model_2', dashboardUsage: 1 },
+        {
+          _id: 'id1',
+          name: 'model_1',
+          dashboardUsage: 2,
+          usage: [
+            {
+              dashboards: ['dashboard1', 'dashboard2'],
+              project: {
+                id: 1,
+                name: 'project2',
+              },
+            },
+          ],
+        },
+        {
+          _id: 'id2',
+          name: 'model_2',
+          dashboardUsage: 2,
+          usage: [
+            {
+              dashboards: ['dashboard1', 'dashboard2'],
+              project: {
+                id: 1,
+                name: 'project2',
+              },
+            },
+          ],
+        },
       ],
     };
     await expect(result).toEqual(expected);
@@ -55,8 +115,36 @@ describe('datasourceMetadataService', () => {
 
     expect(data).toEqual({
       dataSources: [
-        { _id: 'id1', name: 'model_1', dashboardUsage: 1, widgetUsage: 1 },
-        { _id: 'id2', name: 'model_2', dashboardUsage: 1, widgetUsage: 1 },
+        {
+          _id: 'id1',
+          name: 'model_1',
+          dashboardUsage: 2,
+          widgetUsage: 1,
+          usage: [
+            {
+              dashboards: ['dashboard1', 'dashboard2'],
+              project: {
+                id: 1,
+                name: 'project2',
+              },
+            },
+          ],
+        },
+        {
+          _id: 'id2',
+          name: 'model_2',
+          dashboardUsage: 2,
+          widgetUsage: 1,
+          usage: [
+            {
+              dashboards: ['dashboard1', 'dashboard2'],
+              project: {
+                id: 1,
+                name: 'project2',
+              },
+            },
+          ],
+        },
       ],
     });
   });
@@ -113,8 +201,36 @@ describe('datasourceMetadataService', () => {
     });
     expect(data).toEqual({
       dataSources: [
-        { _id: 'id1', name: 'model_1', dashboardUsage: 1, widgetUsage: 1 },
-        { _id: 'id2', name: 'model_2', dashboardUsage: 1, widgetUsage: 1 },
+        {
+          _id: 'id1',
+          name: 'model_1',
+          dashboardUsage: 2,
+          widgetUsage: 1,
+          usage: [
+            {
+              dashboards: ['dashboard1', 'dashboard2'],
+              project: {
+                id: 1,
+                name: 'project2',
+              },
+            },
+          ],
+        },
+        {
+          _id: 'id2',
+          name: 'model_2',
+          dashboardUsage: 2,
+          widgetUsage: 1,
+          usage: [
+            {
+              dashboards: ['dashboard1', 'dashboard2'],
+              project: {
+                id: 1,
+                name: 'project2',
+              },
+            },
+          ],
+        },
       ],
     });
     expect(dashboardService.getAllDashboards).not.toHaveBeenCalled();

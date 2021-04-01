@@ -1,4 +1,4 @@
-const { getProjectedColumns } = require('../utils/dbUtils');
+const { getProjectedColumns, parseDBObject } = require('../utils/dbUtils');
 const InvalidInputException = require('../exceptions/InvalidInputException');
 const { deleteDatasourceMapping } = require('../repository/dashboardDatasourceMapRepository');
 const dashboardRepository = require('../repository/dashboardRepository');
@@ -51,10 +51,12 @@ async function getDashboard(dashboardId) {
   return { dashboard };
 }
 
-async function getActiveDashboardCountFor(datasourceId) {
+async function getActiveDashboardsFor(datasourceId) {
   const datasourceUsageCountInDashboardFilter = { 'charts.dataSourceIds': datasourceId };
-  const count = await dashboardRepository.getCount(datasourceUsageCountInDashboardFilter);
-  return { count };
+  const dashboards = parseDBObject(
+    await dashboardRepository.getAll(datasourceUsageCountInDashboardFilter),
+  );
+  return dashboards;
 }
 
 async function deleteDashboardAndMapping(dashboardId) {
@@ -77,7 +79,7 @@ module.exports = {
   insertDashboard,
   getAllDashboards,
   getDashboard,
-  getActiveDashboardCountFor,
+  getActiveDashboardsFor,
   deleteDashboardAndMapping,
   deleteDashboardsAndMappingWithProjectId,
 };

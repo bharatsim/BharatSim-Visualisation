@@ -2,7 +2,7 @@ const {
   saveDashboard,
   getAllDashboards,
   getDashboard,
-  getActiveDashboardCountFor,
+  getActiveDashboardsFor,
 } = require('../../src/services/dashboardService');
 const dashboardRepository = require('../../src/repository/dashboardRepository');
 const InvalidInputException = require('../../src/exceptions/InvalidInputException');
@@ -115,13 +115,13 @@ describe('Dashboard Service', function () {
   });
 
   it('should call getCount and return the result', async () => {
-    dashboardRepository.getCount.mockResolvedValueOnce(1);
+    dashboardRepository.getAll.mockResolvedValue([{ _id: '123' }, { _id: '123' }]);
 
-    const result = await getActiveDashboardCountFor('datasource');
+    const result = await getActiveDashboardsFor('datasource');
 
-    expect(dashboardRepository.getCount).toHaveBeenCalledWith({
+    expect(dashboardRepository.getAll).toHaveBeenCalledWith({
       'charts.dataSourceIds': 'datasource',
     });
-    expect(result).toEqual({ count: 1 });
+    expect(result).toEqual([{ _id: '123' }, { _id: '123' }]);
   });
 });

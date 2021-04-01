@@ -35,6 +35,7 @@ jest.mock('../../../utils/api', () => ({
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           dashboardUsage: 1,
           widgetUsage: 1,
+          usage: [{ project: { name: 'project1', id: 1 }, dashboards: ['dashboard2'] }],
           _id: '5f9a88952629222105e180df',
         },
         {
@@ -46,6 +47,7 @@ jest.mock('../../../utils/api', () => ({
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           dashboardUsage: 0,
           widgetUsage: 0,
+          usage: [],
           _id: '5f9a88952629222105e160df',
         },
         {
@@ -57,6 +59,7 @@ jest.mock('../../../utils/api', () => ({
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           dashboardUsage: 1,
           widgetUsage: 0,
+          usage: [{ project: { name: 'project1', id: 1 }, dashboards: ['dashboard2'] }],
           _id: '5f9a88952629222105e170df',
         },
       ],
@@ -70,6 +73,7 @@ jest.mock('../../../utils/api', () => ({
           fileType: 'csv',
           name: 'csv-file-name',
           dashboardUsage: 1,
+          usage: [{ project: { name: 'project1', id: 1 }, dashboards: ['dashboard2'] }],
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           _id: '5f9a88952629222105e180df',
         },
@@ -80,6 +84,7 @@ jest.mock('../../../utils/api', () => ({
           fileType: 'csv',
           name: 'csv-file-name-2',
           dashboardUsage: 1,
+          usage: [{ project: { name: 'project1', id: 1 }, dashboards: ['dashboard2'] }],
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           _id: '5f9a88952629222105e180pq',
         },
@@ -90,6 +95,7 @@ jest.mock('../../../utils/api', () => ({
           fileType: 'csv',
           name: 'csv-file-name-3',
           dashboardUsage: 1,
+          usage: [{ project: { name: 'project1', id: 1 }, dashboards: ['dashboard2'] }],
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           _id: '5f9a88952629222105e180rs',
         },
@@ -102,6 +108,7 @@ jest.mock('../../../utils/api', () => ({
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           dashboardUsage: 0,
           widgetUsage: 0,
+          usage: [],
           _id: '5f9a88952629222105e160df',
         },
         {
@@ -113,6 +120,7 @@ jest.mock('../../../utils/api', () => ({
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           dashboardUsage: 1,
           widgetUsage: 0,
+          usage: [{ project: { name: 'project1', id: 1 }, dashboards: ['dashboard2'] }],
           _id: '5f9a88952629222105e170df',
         },
       ],
@@ -140,7 +148,7 @@ const ComponentWithProvider = withThemeProvider(
   )),
 );
 
-describe('Configure datasets', () => {
+describe('Manage datasets', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });

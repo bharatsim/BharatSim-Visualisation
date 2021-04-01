@@ -8,6 +8,7 @@ import { formatDate } from '../../utils/dateUtils';
 import { convertFileSizeToMB } from '../../utils/helper';
 import tableStyles from '../../uiComponent/table/tableCSS';
 import DatasetTableToolBar from './DatasetTableToolBar';
+import DatasourceUsageTooltip from '../../uiComponent/DatasourceUsageTooltip';
 
 function isSelectedCheckBox(datasourceId, selectedDatasources) {
   return selectedDatasources.some(
@@ -49,6 +50,13 @@ function GlobalDatasetTable({ dataSources, onAddDatasourceClick, selectedDatasou
             field: 'dashboardUsage',
             type: 'numeric',
             tooltip: 'Number of Dashboards which has widgets created',
+            // eslint-disable-next-line react/prop-types
+            render: ({ dashboardUsage, usage }) =>
+              dashboardUsage ? (
+                <DatasourceUsageTooltip usage={usage} dashboardUsage={dashboardUsage} />
+              ) : (
+                dashboardUsage
+              ),
           },
         ]}
         title="table"

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, useTheme } from '@material-ui/core';
+import { Box, Tooltip, Typography, useTheme, withStyles } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import Table from '../../uiComponent/table/Table';
 import fileTypes from '../../constants/fileTypes';
@@ -11,6 +11,7 @@ import tableIcon from '../../uiComponent/table/tableIcon';
 import useModal from '../../hook/useModal';
 import DeleteConfirmationModal from '../../uiComponent/DeleteConfirmationModal';
 import snackbarVariant from '../../constants/snackbarVariant';
+import DatasourceUsageTooltip from '../../uiComponent/DatasourceUsageTooltip';
 
 function Datasets() {
   const [dataSources, setDataSources] = useState();
@@ -84,6 +85,13 @@ function Datasets() {
             field: 'dashboardUsage',
             type: 'numeric',
             tooltip: 'Number of Dashboards which has widgets created',
+            // eslint-disable-next-line react/prop-types
+            render: ({ dashboardUsage, usage }) =>
+              dashboardUsage ? (
+                <DatasourceUsageTooltip usage={usage} dashboardUsage={dashboardUsage} />
+              ) : (
+                dashboardUsage
+              ),
           },
         ]}
         title="table"

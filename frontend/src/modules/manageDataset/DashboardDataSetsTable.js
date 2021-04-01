@@ -10,6 +10,7 @@ import { convertFileSizeToMB } from '../../utils/helper';
 import tableIcon from '../../uiComponent/table/tableIcon';
 import DeleteConfirmationModal from '../../uiComponent/DeleteConfirmationModal';
 import useModal from '../../hook/useModal';
+import DatasourceUsageTooltip from '../../uiComponent/DatasourceUsageTooltip';
 
 function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
   const theme = useTheme();
@@ -56,6 +57,14 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
               field: 'dashboardUsage',
               type: 'numeric',
               tooltip: 'Number of active Dashboards ',
+              // eslint-disable-next-line react/prop-types
+              render: ({ dashboardUsage, usage }) =>
+                dashboardUsage ? (
+                  <DatasourceUsageTooltip usage={usage} dashboardUsage={dashboardUsage} />
+                ) : (
+                  dashboardUsage
+                ),
+
             },
             {
               title: 'Widget Count',
