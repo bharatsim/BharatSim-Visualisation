@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Tooltip, Typography, withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
@@ -16,7 +17,12 @@ const LightTooltip = withStyles((theme) => ({
   },
 }))(Tooltip);
 
+const useTextStyles = makeStyles((theme) => ({
+  text: { color: theme.palette.info.light },
+}));
+
 function DatasourceUsageTooltip({ usage, dashboardUsage }) {
+  const classes = useTextStyles();
   const lastIndex = usage.length - 1;
   return (
     <LightTooltip
@@ -37,7 +43,7 @@ function DatasourceUsageTooltip({ usage, dashboardUsage }) {
         );
       })}
     >
-      <span>{dashboardUsage}</span>
+      <span className={classes.text}>{dashboardUsage}</span>
     </LightTooltip>
   );
 }

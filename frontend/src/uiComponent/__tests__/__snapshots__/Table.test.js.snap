@@ -33,7 +33,7 @@ exports[`<Table /> should match snapshot 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-26 MuiSvgIcon-fontSizeSmall"
               focusable="false"
               title="Search"
               viewBox="0 0 24 24"
@@ -67,7 +67,7 @@ exports[`<Table /> should match snapshot 1`] = `
                 <svg
                   aria-hidden="true"
                   aria-label="clear"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-28 MuiSvgIcon-fontSizeSmall"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -91,7 +91,7 @@ exports[`<Table /> should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="Component-horizontalScrollContainer-12"
+      class="Component-horizontalScrollContainer-16"
       style="overflow-x: auto; position: relative;"
     >
       <div>
@@ -110,7 +110,7 @@ exports[`<Table /> should match snapshot 1`] = `
                   class="MuiTableRow-root MuiTableRow-head"
                 >
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-13 MuiTableCell-alignLeft"
+                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-17 MuiTableCell-alignLeft"
                     scope="col"
                     style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
                   >
@@ -123,7 +123,7 @@ exports[`<Table /> should match snapshot 1`] = `
                       Adı
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-fontSizeSmall"
+                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-colorPrimary Component-colorPrimary-30 MuiSvgIcon-fontSizeSmall"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -134,7 +134,7 @@ exports[`<Table /> should match snapshot 1`] = `
                     </span>
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-13 MuiTableCell-alignLeft"
+                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-17 MuiTableCell-alignLeft"
                     scope="col"
                     style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
                   >
@@ -147,7 +147,7 @@ exports[`<Table /> should match snapshot 1`] = `
                       Soyadı
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-fontSizeSmall"
+                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-colorPrimary Component-colorPrimary-32 MuiSvgIcon-fontSizeSmall"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -158,7 +158,7 @@ exports[`<Table /> should match snapshot 1`] = `
                     </span>
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-13 MuiTableCell-alignRight"
+                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-17 MuiTableCell-alignRight"
                     scope="col"
                     style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
                   >
@@ -171,7 +171,7 @@ exports[`<Table /> should match snapshot 1`] = `
                       Doğum Yılı
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-fontSizeSmall"
+                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-colorPrimary Component-colorPrimary-34 MuiSvgIcon-fontSizeSmall"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -182,7 +182,7 @@ exports[`<Table /> should match snapshot 1`] = `
                     </span>
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-13 MuiTableCell-alignLeft"
+                    class="MuiTableCell-root MuiTableCell-head MTableHeader-header-17 MuiTableCell-alignLeft"
                     scope="col"
                     style="padding: 8px 12px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
                   >
@@ -195,7 +195,7 @@ exports[`<Table /> should match snapshot 1`] = `
                       Doğum Yeri
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-fontSizeSmall"
+                        class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-colorPrimary Component-colorPrimary-36 MuiSvgIcon-fontSizeSmall"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -312,7 +312,7 @@ exports[`TableIcons table icon Add 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-38 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -327,7 +327,7 @@ exports[`TableIcons table icon Check 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-40 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -342,7 +342,7 @@ exports[`TableIcons table icon Clear 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-42 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -357,7 +357,7 @@ exports[`TableIcons table icon Delete 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-72 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -372,7 +372,7 @@ exports[`TableIcons table icon DetailPanel 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-44 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -387,7 +387,7 @@ exports[`TableIcons table icon Edit 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-46 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -402,7 +402,7 @@ exports[`TableIcons table icon Export 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-48 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -417,7 +417,7 @@ exports[`TableIcons table icon Filter 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-50 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -432,7 +432,7 @@ exports[`TableIcons table icon FirstPage 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-52 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -447,7 +447,7 @@ exports[`TableIcons table icon LastPage 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-54 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -462,7 +462,7 @@ exports[`TableIcons table icon NextPage 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-56 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -477,7 +477,7 @@ exports[`TableIcons table icon PreviousPage 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-58 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -492,7 +492,7 @@ exports[`TableIcons table icon RemoveRow 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-70 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -507,7 +507,7 @@ exports[`TableIcons table icon ResetSearch 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-60 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -522,7 +522,7 @@ exports[`TableIcons table icon Search 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-62 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -537,7 +537,7 @@ exports[`TableIcons table icon SortArrow 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-64 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -552,7 +552,7 @@ exports[`TableIcons table icon ThirdStateCheck 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-66 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -567,12 +567,27 @@ exports[`TableIcons table icon ViewColumn 1`] = `
 <div>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-68 MuiSvgIcon-fontSizeSmall"
     focusable="false"
     viewBox="0 0 24 24"
   >
     <path
       d="M10 18h5V5h-5v13zm-6 0h5V5H4v13zM16 5v13h5V5h-5z"
+    />
+  </svg>
+</div>
+`;
+
+exports[`TableIcons table icon disable 1`] = `
+<div>
+  <svg
+    aria-hidden="true"
+    class="MuiSvgIcon-root MuiSvgIcon-colorDisabled Component-colorDisabled-75 MuiSvgIcon-fontSizeSmall"
+    focusable="false"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
     />
   </svg>
 </div>

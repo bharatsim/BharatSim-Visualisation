@@ -126,7 +126,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                       value="1"
                     >
                       <span
-                        class=""
+                        class="makeStyles-text-13"
                       >
                         1
                       </span>
@@ -153,7 +153,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-colorDisabled Component-colorDisabled-24 MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
                                 viewBox="0 0 24 24"
                               >
@@ -225,7 +225,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-25 MuiSvgIcon-fontSizeSmall"
                               focusable="false"
                               viewBox="0 0 24 24"
                             >
@@ -280,7 +280,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                       value="3"
                     >
                       <span
-                        class=""
+                        class="makeStyles-text-13"
                       >
                         3
                       </span>
@@ -307,7 +307,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-colorDisabled Component-colorDisabled-28 MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
                                 viewBox="0 0 24 24"
                               >

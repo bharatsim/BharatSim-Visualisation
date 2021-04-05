@@ -34,10 +34,17 @@ describe('<Table />', () => {
 describe('TableIcons', () => {
   Object.keys(tableIcons).forEach((tableIconName) => {
     it(`table icon ${tableIconName}`, () => {
-      const Icon = tableIcons[tableIconName];
+      const Icon = withThemeProvider(tableIcons[tableIconName]);
       const { container } = render(<Icon />);
 
       expect(container).toMatchSnapshot();
     });
+  });
+
+  it(`table icon disable`, () => {
+    const Icon = withThemeProvider(tableIcons.Add);
+    const { container } = render(<Icon disabled />);
+
+    expect(container).toMatchSnapshot();
   });
 });
