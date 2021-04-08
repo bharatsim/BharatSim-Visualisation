@@ -1,3 +1,5 @@
+import { isBefore } from 'date-fns';
+
 import { getFileExtension } from './fileUploadUtils';
 import { MAX_FILE_SIZE, VALID_FILE_EXTENSIONS } from '../constants/fileUpload';
 
@@ -41,8 +43,28 @@ function validateOpacity(value) {
   return '';
 }
 
+function validateToValueNumber(value, fromValue) {
+  if (isUndefined(value)) {
+    return 'Field is required';
+  }
+  if (value < fromValue) {
+    return 'To value should be greater than from value';
+  }
+  return '';
+}
+
+function validateToValueDate(value, fromValue) {
+  if (isUndefined(value)) {
+    return 'Field is required';
+  }
+  if (isBefore(new Date(value), new Date(fromValue))) {
+    return 'To value should be greater than from value';
+  }
+  return '';
+}
+
 function required(value) {
   return isUndefined(value) ? 'Field is required' : '';
 }
 
-export { validateFile, required, validateStepSize, validateOpacity };
+export { validateFile, required, validateStepSize, validateOpacity, validateToValueNumber, validateToValueDate };

@@ -1,4 +1,11 @@
-import { validateFile, required, validateStepSize, validateOpacity } from '../validators';
+import {
+  validateFile,
+  required,
+  validateStepSize,
+  validateOpacity,
+  validateToValueNumber,
+  validateToValueDate,
+} from '../validators';
 
 describe('Validators', () => {
   describe('required', () => {
@@ -42,6 +49,34 @@ describe('Validators', () => {
 
     it('should provide empty message for valid opacity', () => {
       expect(validateOpacity(0.2)).toEqual('');
+    });
+  });
+
+  describe('validate ToValue Number', () => {
+    it('should provide message if to value is undefined', () => {
+      expect(validateToValueNumber()).toEqual('Field is required');
+    });
+
+    it('should provide message if to value is less than from value', () => {
+      expect(validateToValueNumber(2, 5)).toEqual('To value should be greater than from value');
+    });
+
+    it('should provide empty message for valid to value', () => {
+      expect(validateToValueNumber(5, 2)).toEqual('');
+    });
+  });
+
+  describe('validate ToValue Date', () => {
+    it('should provide message if to value is undefined', () => {
+      expect(validateToValueDate()).toEqual('Field is required');
+    });
+
+    it('should provide message if to value is less than from value', () => {
+      expect(validateToValueDate('2001, Jan 12', '2002, Jan 12')).toEqual('To value should be greater than from value');
+    });
+
+    it('should provide empty message for valid to value', () => {
+      expect(validateToValueDate('2002, Jan 12', '2001, Jan 12')).toEqual('');
     });
   });
 

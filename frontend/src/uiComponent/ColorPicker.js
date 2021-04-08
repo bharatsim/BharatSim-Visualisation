@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { SketchPicker } from 'react-color';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Popover, Typography } from '@material-ui/core';
+import { ArrowDropDown } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   colorBox: {
@@ -35,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  colorBoxContainer: {
+    display: 'flex',
+    marginLeft: theme.spacing(2),
+  }
 }));
 
 function ColorPicker({ onChange, value }) {
@@ -59,7 +64,10 @@ function ColorPicker({ onChange, value }) {
   return (
     <Box className={classes.container}>
       <Typography variant="subtitle2">Color</Typography>
-      <Box className={classes.colorBox} onClick={handleClick} ml={2} data-testid="color-picker" />
+      <Box className={classes.colorBoxContainer} onClick={handleClick}>
+        <Box className={classes.colorBox} data-testid="color-picker" />
+        <ArrowDropDown />
+      </Box>
       <Popover
         open={open}
         onClose={handleClose}

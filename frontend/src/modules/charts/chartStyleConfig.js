@@ -1,6 +1,6 @@
 import { withStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
-import { addDays, differenceInDays } from 'date-fns';
+import { addDays, differenceInDays, isAfter } from 'date-fns';
 import { chartColorsPallet, colors } from '../../theme/colorPalette';
 import { annotationTypes, areaAnnotationDirection } from '../../constants/annotations';
 
@@ -53,12 +53,14 @@ const axisStyles = {
 
 function getLabelPosition(start, end, type) {
   if (type === annotationTypes.NUMERIC) {
-    return Number(start) + Math.abs(end - start) / 2;
+    return Math.min(start, end) + Math.abs(end - start) / 2;
   }
-  const date1 = new Date(end);
-  const date2 = new Date(start);
-  const difference = differenceInDays(date1, date2) / 2;
-  return addDays(date2, difference);
+  const date1 = new Date(start);
+  const date2 = new Date(end);
+  const startDate = isAfter(date1, date2) ? date2 : date1;
+  const endDate = isAfter(date1, date2) ? date1 : date2;
+  const difference = differenceInDays(endDate, startDate) / 2;
+  return addDays(startDate, difference);
 }
 
 function createAnnotation(annotations, annotationToggle) {

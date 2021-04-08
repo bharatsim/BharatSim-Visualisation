@@ -5,6 +5,7 @@ import { Field } from 'react-final-form';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import { DATE_FORMAT } from '../../constants/annotations';
+import MuiTextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-function DateField({ name, label, dataTestId, validate, defaultValue, format }) {
+function DateField({ name, label, dataTestId, validate, defaultValue, format, helperText }) {
   const classes = useStyles();
 
   return (
@@ -30,16 +31,19 @@ function DateField({ name, label, dataTestId, validate, defaultValue, format }) 
       name={name}
       validate={validate}
       defaultValue={defaultValue}
-      render={({ input }) => (
+      render={({ input:  {value, onChange, ...rest} , meta}) => (
         <KeyboardDatePicker
           label={label}
           inputVariant="filled"
-          value={input.value || defaultValue}
-          onChange={(date) => input.onChange(date)}
+          value={value || defaultValue}
+          onChange={(date) => onChange(date)}
+          {...rest}
           inputProps={{ 'data-testid': dataTestId }}
           FormHelperTextProps={{ classes: { root: classes.helperText } }}
           classes={{ root: classes.input }}
           format={format}
+          helperText={meta.error && meta.touched ? meta.error : helperText}
+          error={meta.error && meta.touched}
         />
       )}
     />
@@ -53,6 +57,7 @@ DateField.propTypes = {
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.shape({})]),
   validate: PropTypes.func,
   format: PropTypes.string,
+  helperText: PropTypes.string,
 };
 
 DateField.defaultProps = {
@@ -60,6 +65,7 @@ DateField.defaultProps = {
   defaultValue: '',
   validate: null,
   format: DATE_FORMAT,
+  helperText: '',
 };
 
 export default DateField;

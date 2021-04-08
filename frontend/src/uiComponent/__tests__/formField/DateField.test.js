@@ -1,19 +1,20 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { Form } from 'react-final-form';
-import { format } from 'date-fns';
+import { format, isAfter } from 'date-fns';
 
 import withThemeProvider from '../../../theme/withThemeProvider';
 import DateField from '../../formField/DateField';
 import { required } from '../../../utils/validators';
-import { DATE_FORMAT } from '../../../constants/annotations';
+import { DATE_FORMAT, } from '../../../constants/annotations';
 
 jest.mock('@material-ui/pickers', () => ({
-  KeyboardDatePicker: jest.fn(({ value, onChange, ...rest }) => (
+  KeyboardDatePicker: jest.fn(({ value, onChange, error, helperText, ...rest }) => (
     <div>
       {/* eslint-disable-next-line no-undef */}
       <pre>{mockPropsCapture(rest)}</pre>
       <input value={value} onChange={onChange} data-testid="date-input" />
+      {error && helperText }
     </div>
   )),
 }));
@@ -28,7 +29,7 @@ const TestForm = ({ onSubmit, isEditMode }) => {
             name="dateField"
             label="To Value"
             dataTestId="end-input"
-            validate={required}
+            validate={(value) => isAfter(new Date(value),new Date('2010, Jan 1')) ? 'Error': ''}
             isEditMode={isEditMode}
             defaultValue={format(new Date(1900, 1, 1, 0, 0, 0, 0), DATE_FORMAT)}
             format={DATE_FORMAT}
@@ -41,19 +42,19 @@ const TestForm = ({ onSubmit, isEditMode }) => {
 };
 
 describe('<DateField  />', () => {
-  const DropdownForm = withThemeProvider(TestForm);
+  const DateFieldForm = withThemeProvider(TestForm);
 
   it('Should return selected value', () => {
     const onSubmit = jest.fn();
-    const renderComponent = render(<DropdownForm onSubmit={onSubmit} />);
+    const renderComponent = render(<DateFieldForm onSubmit={onSubmit} />);
     const { getByText, getByTestId } = renderComponent;
 
-    fireEvent.change(getByTestId('date-input'), { target: { value: '2020-04-04' } });
+    fireEvent.change(getByTestId('date-input'), { target: { value: '2000-04-04' } });
 
     fireEvent.click(getByText('submit'));
 
     expect(onSubmit).toHaveBeenCalledWith(
-      { dateField: '2020-04-04' },
+      { dateField: '2000-04-04' },
       expect.anything(),
       expect.anything(),
     );
@@ -61,7 +62,7 @@ describe('<DateField  />', () => {
 
   it('Should return default value', () => {
     const onSubmit = jest.fn();
-    const { getByText } = render(<DropdownForm onSubmit={onSubmit} defaultValue="one" />);
+    const { getByText } = render(<DateFieldForm onSubmit={onSubmit} />);
 
     fireEvent.click(getByText('submit'));
 
@@ -70,5 +71,16 @@ describe('<DateField  />', () => {
       expect.anything(),
       expect.anything(),
     );
+  });
+
+  it('Should show error', () => {
+    const onSubmit = jest.fn();
+    const { getByText, getByTestId } = render(<DateFieldForm onSubmit={onSubmit} />);
+
+    fireEvent.change(getByTestId('date-input'), { target: { value: '2020-04-04' } });
+
+    fireEvent.click(getByText('submit'));
+
+    expect(getByText('Error')).toBeInTheDocument()
   });
 });

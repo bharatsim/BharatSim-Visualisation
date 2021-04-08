@@ -15,7 +15,7 @@ import TextField from '../../uiComponent/formField/TextField';
 import SwitchField from '../../uiComponent/formField/SwitchField';
 import { useFormContext } from '../../contexts/FormContext';
 import ColorPickerField from '../../uiComponent/formField/ColorPickerField';
-import { required } from '../../utils/validators';
+import { required, validateFromValuNumber, validateToValueDate, validateToValueNumber } from '../../utils/validators';
 import Condition from '../../uiComponent/formField/ConditionalField';
 import SelectField from '../../uiComponent/formField/SelectField';
 import DateField from '../../uiComponent/formField/DateField';
@@ -179,7 +179,14 @@ function AnnotationConfig({ configKey }) {
                             name={`${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.END}`}
                             label="To Value"
                             dataTestId="end-input"
-                            validate={required}
+                            validate={(value) =>
+                              validateToValueNumber(
+                                value,
+                                getFieldState(
+                                  `${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.START}`,
+                                )?.value,
+                              )
+                            }
                           />
                         </Condition>
                         <Condition
@@ -199,10 +206,17 @@ function AnnotationConfig({ configKey }) {
                             name={`${name}.${annotationTypes.DATE}.${areaAnnotationConfig.END}`}
                             label="To Value"
                             dataTestId="end-input"
-                            validate={required}
                             isEditMode={isEditMode}
                             defaultValue={format(currentDate(), DATE_FORMAT)}
                             format={DATE_FORMAT}
+                            validate={(value) =>
+                              validateToValueDate(
+                                value,
+                                getFieldState(
+                                  `${name}.${annotationTypes.DATE}.${areaAnnotationConfig.START}`,
+                                )?.value,
+                              )
+                            }
                           />
                         </Condition>
                       </Box>
@@ -240,7 +254,8 @@ function AnnotationConfig({ configKey }) {
                     </Box>
                   )}
                 </Box>
-              ))}
+              ))
+            }
           </FieldArray>
           <Box className={classes.addMetricButtonContainer}>
             <Button
