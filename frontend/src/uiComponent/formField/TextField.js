@@ -31,6 +31,8 @@ function TextField({
   inputProps,
   defaultValue,
   validate,
+  InputProps,
+  ...rest
 }) {
   const classes = useStyles();
 
@@ -39,7 +41,7 @@ function TextField({
       name={name}
       validate={validate}
       defaultValue={defaultValue}
-      render={({ input: { value, ...rest }, meta }) => (
+      render={({ input: { value, ...inputRest }, meta }) => (
         <MuiTextField
           name={name}
           label={label}
@@ -49,10 +51,12 @@ function TextField({
           type={type}
           fullWidth={fullWidth}
           value={value}
-          {...rest}
+          {...inputRest}
           inputProps={{ 'data-testid': dataTestId, ...inputProps }}
+          InputProps={{ ...InputProps }}
           FormHelperTextProps={{ classes: { root: classes.helperText } }}
           classes={{ root: classes.input }}
+          {...rest}
         />
       )}
     />
@@ -67,6 +71,7 @@ TextField.propTypes = {
   dataTestId: PropTypes.string.isRequired,
   fullWidth: PropTypes.bool,
   inputProps: PropTypes.shape({}),
+  InputProps: PropTypes.shape({}),
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.shape({})]),
   validate: PropTypes.func,
 };
@@ -77,6 +82,7 @@ TextField.defaultProps = {
   type: 'text',
   label: '',
   inputProps: {},
+  InputProps: {},
   defaultValue: '',
   validate: null,
 };

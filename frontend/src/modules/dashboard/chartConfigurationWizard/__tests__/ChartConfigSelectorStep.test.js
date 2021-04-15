@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import ChartConfigSelectorStep from '../ChartConfigSelectorStep';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import { withProjectLayout, withRouter } from '../../../../testUtil';
@@ -51,5 +51,46 @@ describe('chart config selector', () => {
     fireEvent.click(backToChartTypeButton);
 
     expect(backToChartType).toHaveBeenCalled();
+  });
+
+  it('should show style tab if styles are present for chart', async () => {
+    const { findByText, getByText } = render(
+      <ChartConfigSelectorStepWithTheme
+        chartType="lineChart"
+        onApply={jest.fn()}
+        backToChartType={jest.fn()}
+      />,
+    );
+    await findByText('Data Source');
+    expect(getByText('Styles')).toBeInTheDocument();
+  });
+
+  it('should not show style tab if styles are not present for chart', async () => {
+    const { findByText, queryByText } = render(
+      <ChartConfigSelectorStepWithTheme
+        chartType="heatMap"
+        onApply={jest.fn()}
+        backToChartType={jest.fn()}
+      />,
+    );
+    await findByText('Data Source');
+    expect(queryByText('Styles')).toBeNull();
+  });
+
+  it('should show style tab on click of style', async () => {
+    const { findByText, getByText } = render(
+      <ChartConfigSelectorStepWithTheme
+        chartType="lineChart"
+        onApply={jest.fn()}
+        backToChartType={jest.fn()}
+      />,
+    );
+    await findByText('Data Source');
+
+    const stylesButton = getByText('Styles').closest('button');
+
+    fireEvent.click(stylesButton);
+
+    expect(stylesButton).toHaveAttribute('aria-selected', 'true');
   });
 });

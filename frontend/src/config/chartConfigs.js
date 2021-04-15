@@ -21,6 +21,7 @@ const chartConfigs = {
       chartConfigOptionTypes.Y_AXIS,
       chartConfigOptionTypes.ANNOTATION,
     ],
+    styleConfig: [chartConfigOptionTypes.LINE_CHART_SERIES_STYLE],
   },
   [chartTypes.BAR_CHART]: {
     key: chartTypes.BAR_CHART,
@@ -32,6 +33,7 @@ const chartConfigs = {
       chartConfigOptionTypes.Y_AXIS,
       chartConfigOptionTypes.ANNOTATION,
     ],
+    styleConfig: [chartConfigOptionTypes.BAR_CHART_SERIES_STYLE],
   },
   [chartTypes.HEAT_MAP]: {
     key: chartTypes.HEAT_MAP,
@@ -61,6 +63,7 @@ const chartConfigs = {
     icon: barChartIcon,
     chart: (chartProps) => <Histogram {...chartProps} />,
     configOptions: [chartConfigOptionTypes.MEASURE],
+    styleConfig: [chartConfigOptionTypes.HISTOGRAM_CHART_SERIES_STYLE],
   },
 };
 

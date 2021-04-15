@@ -72,7 +72,15 @@ const initialDashboardState = {
         },
         yAxis: [
           {
+            color: {
+              a: 1,
+              b: 246,
+              g: 201,
+              r: 77,
+            },
             name: 'column2',
+            seriesType: 'dot',
+            seriesWidth: '1',
           },
         ],
         annotation: {

@@ -1,16 +1,16 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
-import { Box, Button, Divider, makeStyles, Tab, Tabs, Typography } from '@material-ui/core';
+import { Box, Button, Divider, makeStyles, Tab, Tabs } from '@material-ui/core';
 
 import arrayMutators from 'final-form-arrays';
-import DatasourceSelector from '../dashboardConfigSelector/DatasourceSelector';
-import ConfigSelector from '../dashboardConfigSelector/ConfigSelector';
 import ButtonGroup from '../../../uiComponent/ButtonGroup';
 import { useFooterStyles } from './styles';
 import { chartConfigOptionTypes } from '../../../constants/chartConfigOptionTypes';
-import TextField from '../../../uiComponent/formField/TextField';
 import { FormProvider } from '../../../contexts/FormContext';
+import DataConfiguration from './DataConfiguration';
+import chartConfigs from '../../../config/chartConfigs';
+import StyleConfig from './StyleConfig';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,11 +31,14 @@ const useStyles = makeStyles((theme) => ({
   textFieldRoot: {
     minWidth: theme.spacing(80),
   },
+  hide: {
+    display: 'none',
+  },
 }));
 
 function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToChartType }) {
   const footerClasses = useFooterStyles();
-  const [selectedTab] = React.useState(0);
+  const [selectedTab, setSelectedTab] = React.useState(0);
   const classes = useStyles();
   const [dataSourcesRegistry, setDataSourcesRegistry] = useState({});
   const isEditMode = Object.keys(existingConfig).length !== 0;
@@ -58,6 +61,8 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
     setDataSourcesRegistry(currentReg);
   }, []);
 
+  const isStylePresent = chartConfigs[chartType].styleConfig?.length;
+
   return (
     <Box>
       <Form
@@ -66,7 +71,7 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
         mutators={{
           ...arrayMutators,
         }}
-        render={({ handleSubmit, form, values, invalid }) => {
+        render={({ handleSubmit, invalid }) => {
           return (
             <FormProvider
               value={{
@@ -82,40 +87,19 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
                     value={selectedTab}
                     indicatorColor="primary"
                     aria-label="disabled tabs example"
+                    onChange={(_, value) => setSelectedTab(value)}
                   >
                     <Tab label="Data" classes={{ root: classes.tabRoot }} />
+                    {isStylePresent && <Tab label="Styles" classes={{ root: classes.tabRoot }} />}
                   </Tabs>
                 </Box>
                 <Box className={classes.container}>
-                  <Box px={2} pb={6}>
-                    <Box mb={2}>
-                      <Typography variant="subtitle2">Chart Name</Typography>
-                    </Box>
-                    <TextField
-                      name={chartConfigOptionTypes.CHART_NAME}
-                      label="Add chart name"
-                      type="text"
-                      dataTestId="chart-name-input"
-                    />
+                  <Box className={selectedTab === 0 ? '' : classes.hide}>
+                    <DataConfiguration />
                   </Box>
-                  <Divider />
-                  <Box px={2} py={6}>
-                    <DatasourceSelector
-                      disabled={isEditMode}
-                      name={chartConfigOptionTypes.DATASOURCE}
-                      header="Data Source"
-                      id="dropdown-dataSources"
-                      label="select data source"
-                    />
+                  <Box className={selectedTab === 1 ? '' : classes.hide}>
+                    <StyleConfig />
                   </Box>
-                  {values[chartConfigOptionTypes.DATASOURCE] && (
-                    <>
-                      <Divider />
-                      <Box pt={6}>
-                        <ConfigSelector />
-                      </Box>
-                    </>
-                  )}
                   <Box className={footerClasses.footer}>
                     <Divider />
                     <Box mt={3} display="flex" justifyContent="flex-end">

@@ -3,11 +3,11 @@
 exports[`chart config selector should match snapshot 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-6"
+    class="MuiBox-root MuiBox-root-7"
   >
     <form>
       <div
-        class="MuiBox-root MuiBox-root-7 makeStyles-tabContainer-3"
+        class="MuiBox-root MuiBox-root-8 makeStyles-tabContainer-3"
       >
         <div
           class="MuiTabs-root"
@@ -37,125 +37,182 @@ exports[`chart config selector should match snapshot 1`] = `
                   class="MuiTouchRipple-root"
                 />
               </button>
+              <button
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root makeStyles-tabRoot-4 MuiTab-textColorInherit"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="MuiTab-wrapper"
+                >
+                  Styles
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
             </div>
             <span
-              class="PrivateTabIndicator-root-8 PrivateTabIndicator-colorPrimary-9 MuiTabs-indicator"
+              class="PrivateTabIndicator-root-9 PrivateTabIndicator-colorPrimary-10 MuiTabs-indicator"
               style="left: 0px; width: 0px;"
             />
           </div>
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-12 makeStyles-container-2"
+        class="MuiBox-root MuiBox-root-13 makeStyles-container-2"
       >
         <div
-          class="MuiBox-root MuiBox-root-13"
+          class="MuiBox-root MuiBox-root-14"
         >
           <div
-            class="MuiBox-root MuiBox-root-14"
+            class="MuiBox-root MuiBox-root-15"
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2"
-            >
-              Chart Name
-            </h6>
-          </div>
-          <div
-            class="MuiFormControl-root MuiTextField-root makeStyles-input-17"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-filled"
-              data-shrink="true"
-            >
-              Add chart name
-            </label>
             <div
-              class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+              class="MuiBox-root MuiBox-root-16"
             >
-              <input
-                aria-invalid="false"
-                class="MuiInputBase-input MuiFilledInput-input"
-                data-testid="chart-name-input"
-                name="chartName"
-                type="text"
-                value="Untitled Chart"
-              />
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2"
+              >
+                Chart Name
+              </h6>
             </div>
-            
-          </div>
-        </div>
-        <hr
-          class="MuiDivider-root"
-        />
-        <div
-          class="MuiBox-root MuiBox-root-18"
-        >
-          <div
-            class="MuiBox-root MuiBox-root-25"
-          >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2"
-            >
-              Data Source
-            </h6>
-          </div>
-          <div
-            class="MuiFormControl-root makeStyles-formControl-33"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
-              data-shrink="false"
-              id="dropdown-label"
-            >
-              select data source
-            </label>
             <div
-              class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
-              data-testid="dropdown-dataSources"
+              class="MuiFormControl-root MuiTextField-root makeStyles-input-19"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-filled"
+                data-shrink="true"
+              >
+                Add chart name
+              </label>
+              <div
+                class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiFilledInput-input"
+                  data-testid="chart-name-input"
+                  name="chartName"
+                  type="text"
+                  value="Untitled Chart"
+                />
+              </div>
+              
+            </div>
+          </div>
+          <hr
+            class="MuiDivider-root"
+          />
+          <div
+            class="MuiBox-root MuiBox-root-20"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-33"
+            >
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2"
+              >
+                Data Source
+              </h6>
+            </div>
+            <div
+              class="MuiFormControl-root makeStyles-formControl-41"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+                data-shrink="false"
+                id="dropdown-label"
+              >
+                select data source
+              </label>
+              <div
+                class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                data-testid="dropdown-dataSources"
+              >
+                <div
+                  aria-haspopup="listbox"
+                  aria-labelledby="dropdown-label dropdown-dataSources"
+                  class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
+                  id="dropdown-dataSources"
+                  role="button"
+                  tabindex="0"
+                >
+                  <span>
+                    ​
+                  </span>
+                </div>
+                <input
+                  aria-hidden="true"
+                  class="MuiSelect-nativeInput"
+                  tabindex="-1"
+                  value=""
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 10l5 5 5-5z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-23 makeStyles-hide-6"
+        >
+          <div>
+            <div
+              class="MuiBox-root MuiBox-root-24"
             >
               <div
-                aria-haspopup="listbox"
-                aria-labelledby="dropdown-label dropdown-dataSources"
-                class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
-                id="dropdown-dataSources"
-                role="button"
-                tabindex="0"
+                class="MuiBox-root MuiBox-root-25"
               >
-                <span>
-                  ​
-                </span>
+                <div
+                  class="MuiBox-root MuiBox-root-26"
+                >
+                  <h6
+                    class="MuiTypography-root MuiTypography-subtitle2"
+                  >
+                    Series
+                  </h6>
+                  <div
+                    class="MuiBox-root MuiBox-root-27"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-28"
+                    >
+                      <h6
+                        class="MuiTypography-root MuiTypography-subtitle2"
+                      >
+                        Select Y axis measure to add styles
+                      </h6>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <input
-                aria-hidden="true"
-                class="MuiSelect-nativeInput"
-                tabindex="-1"
-                value=""
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7 10l5 5 5-5z"
-                />
-              </svg>
+              
             </div>
           </div>
         </div>
-        
         <div
-          class="MuiBox-root MuiBox-root-21 makeStyles-footer-1"
+          class="MuiBox-root MuiBox-root-29 makeStyles-footer-1"
         >
           <hr
             class="MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-22"
+            class="MuiBox-root MuiBox-root-30"
           >
             <div
-              class="MuiBox-root MuiBox-root-24 makeStyles-buttonGroup-23"
+              class="MuiBox-root MuiBox-root-32 makeStyles-buttonGroup-31"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"

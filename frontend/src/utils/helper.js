@@ -1,3 +1,4 @@
+import chrome from 'chroma-js';
 import { INDIA_CENTER } from '../constants/geoMap';
 
 function convertObjectArrayToOptionStructure(objectArray, displayNameKey, valueKey) {
@@ -143,6 +144,20 @@ function uniqueObjectsBy(objects, property) {
   }, []);
 }
 
+function hexToRgba(hex) {
+  const rgba = ['r', 'g', 'b', 'a'];
+  return chrome(hex)
+    .rgba()
+    .reduce((acc, item, index) => {
+      acc[rgba[index]] = item;
+      return acc;
+    }, {});
+}
+
+function rgbaToHex(rgba) {
+  return chrome(Object.values(rgba)).hex();
+}
+
 export {
   transformDataForHeatMap,
   debounce,
@@ -153,4 +168,6 @@ export {
   shapeFileFilter,
   formatToUnits,
   uniqueObjectsBy,
+  hexToRgba,
+  rgbaToHex,
 };

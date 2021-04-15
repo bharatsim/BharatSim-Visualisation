@@ -113,7 +113,19 @@ describe('Chart configuration wizard', () => {
           columnName: 'column1',
           type: '-',
         },
-        yAxis: [{ name: 'column2' }],
+        yAxis: [
+          {
+            color: {
+              a: 1,
+              b: 246,
+              g: 201,
+              r: 77,
+            },
+            name: 'column2',
+            seriesType: 'dot',
+            seriesWidth: '1',
+          },
+        ],
         annotation: {
           annotationToggle: false,
           annotations: [undefined],
@@ -156,7 +168,19 @@ describe('Chart configuration wizard', () => {
           columnName: 'column1',
           type: '-',
         },
-        yAxis: [{ name: 'column2' }],
+        yAxis: [
+          {
+            color: {
+              a: 1,
+              b: 246,
+              g: 201,
+              r: 77,
+            },
+            name: 'column2',
+            seriesType: 'dot',
+            seriesWidth: '1',
+          },
+        ],
         annotation: {
           annotationToggle: false,
           annotations: [undefined],

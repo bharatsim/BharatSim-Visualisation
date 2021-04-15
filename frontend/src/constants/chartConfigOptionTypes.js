@@ -12,4 +12,7 @@ export const chartConfigOptionTypes = {
   CHART_NAME: 'chartName',
   MEASURE: 'measure',
   ANNOTATION: 'annotation',
+  LINE_CHART_SERIES_STYLE: 'lineChartSeriesStyle',
+  BAR_CHART_SERIES_STYLE: 'barChartSeriesStyle',
+  HISTOGRAM_CHART_SERIES_STYLE: 'harChartSeriesStyle',
 };

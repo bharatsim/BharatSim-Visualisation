@@ -9,6 +9,9 @@ import ChoroplethConfigs from '../modules/chartConfigOptions/ChoroplethConfigs';
 import MapLayerSelector from '../modules/chartConfigOptions/MapLayerSelector';
 import XAxisConfig from '../modules/chartConfigOptions/XAxisConfig';
 import AnnotationConfig from '../modules/chartConfigOptions/AnnotationConfig';
+import LineChartSeriesStyles from '../modules/chartConfigOptions/LineChartSeriesStyles';
+import HistogramStyleConfig from '../modules/chartConfigOptions/HistogramStyles';
+import BarChartSeriesStyles from '../modules/chartConfigOptions/BarChartSeriesStyle';
 
 const chartConfigOptions = {
   [chartConfigOptionTypes.X_AXIS]: {
@@ -92,6 +95,29 @@ const chartConfigOptions = {
   },
   [chartConfigOptionTypes.ANNOTATION]: {
     component: () => <AnnotationConfig configKey={chartConfigOptionTypes.ANNOTATION} />,
+  },
+  [chartConfigOptionTypes.LINE_CHART_SERIES_STYLE]: {
+    component: () => (
+      <LineChartSeriesStyles
+        seriesConfigKey={chartConfigOptionTypes.Y_AXIS}
+        title="Series"
+        configKey="yAxisStyles"
+      />
+    ),
+  },
+  [chartConfigOptionTypes.BAR_CHART_SERIES_STYLE]: {
+    component: () => (
+      <BarChartSeriesStyles
+        seriesConfigKey={chartConfigOptionTypes.Y_AXIS}
+        title="Series"
+        configKey="yAxisStyles"
+      />
+    ),
+  },
+  [chartConfigOptionTypes.HISTOGRAM_CHART_SERIES_STYLE]: {
+    component: () => (
+      <HistogramStyleConfig seriesConfigKey={chartConfigOptionTypes.MEASURE} title="Series" />
+    ),
   },
 };
 

@@ -3,6 +3,8 @@ import {
   debounce,
   formatToUnits,
   getLatLngCenter,
+  hexToRgba,
+  rgbaToHex,
   shapeFileFilter,
   transformChoroplethData,
   transformDataForHeatMap,
@@ -210,6 +212,33 @@ describe('Helpers', () => {
         { name: 'csv file 1', fileType: 'csv1' },
         { name: 'csv file 2', fileType: 'csv2' },
       ]);
+    });
+  });
+
+  describe('hexToRgba', () => {
+    it('should return rgba of given hex', () => {
+      const hex = '#ea3535';
+      const rgba = hexToRgba(hex);
+
+      expect(rgba).toEqual({
+        r: 234,
+        g: 53,
+        b: 53,
+        a: 1,
+      });
+    });
+  });
+  describe('hexToRgba', () => {
+    it('should return rgba of given hex', () => {
+      const expectedHex = '#ea3535';
+      const hex = rgbaToHex({
+        r: 234,
+        g: 53,
+        b: 53,
+        a: 1,
+      });
+
+      expect(hex).toEqual(expectedHex);
     });
   });
 });
