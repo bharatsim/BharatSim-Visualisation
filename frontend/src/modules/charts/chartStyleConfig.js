@@ -22,10 +22,13 @@ const marker = {
   opacity: 1,
 };
 
-const line = {
+const line = ({ color, width, dash }) => ({
   size: 1,
   opacity: 1,
-};
+  color,
+  width,
+  dash,
+});
 
 const tooltip = (yCol, color) => ({
   hoverlabel: {

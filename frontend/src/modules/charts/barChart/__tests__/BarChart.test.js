@@ -32,7 +32,7 @@ describe('BarChart', () => {
         config={{
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
-          yAxis: [{ type: 'number', name: 'exposed' }],
+          yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -49,7 +49,7 @@ describe('BarChart', () => {
         config={{
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
-          yAxis: [{ type: 'number', name: 'exposed' }],
+          yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
         }}
         layout={{ h: 4, w: 3 }}
       />,
@@ -69,7 +69,7 @@ describe('BarChart', () => {
         config={{
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
-          yAxis: [{ type: 'number', name: 'exposed' }],
+          yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -82,7 +82,7 @@ describe('BarChart', () => {
         config={{
           dataSource: 'dataSource',
           xAxis: { columnName: 'hourNew', type: 'linear' },
-          yAxis: [{ type: 'number', name: 'exposed' }],
+          yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -99,7 +99,7 @@ describe('BarChart', () => {
         config={{
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
-          yAxis: [{ type: 'number', name: 'exposed' }],
+          yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -112,7 +112,7 @@ describe('BarChart', () => {
         config={{
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
-          yAxis: [{ type: 'number', name: 'exposed' }],
+          yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -129,7 +129,7 @@ describe('BarChart', () => {
         config={{
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
-          yAxis: [{ type: 'number', name: 'exposed' }],
+          yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -146,7 +146,7 @@ describe('BarChart', () => {
         config={{
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
-          yAxis: [{ type: 'number', name: 'exposed' }],
+          yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -165,7 +165,7 @@ describe('BarChart', () => {
         config={{
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
-          yAxis: [{ type: 'number', name: 'exposed' }],
+          yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -183,7 +183,7 @@ describe('BarChart', () => {
         config={{
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
-          yAxis: [{ type: 'number', name: 'exposed' }],
+          yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
         }}
         layout={{ h: 1, w: 2 }}
       />,

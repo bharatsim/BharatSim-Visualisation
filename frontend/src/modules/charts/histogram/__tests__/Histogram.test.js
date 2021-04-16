@@ -36,6 +36,7 @@ describe('Histogram', () => {
         config={{
           dataSource: 'dataSource',
           measure: 'exposed',
+          color: { r: 1, g: 1, b: 1, a: 1 },
         }}
       />,
     );
@@ -51,6 +52,7 @@ describe('Histogram', () => {
         config={{
           dataSource: 'dataSource',
           measure: 'exposed',
+          color: { r: 1, g: 1, b: 1, a: 1 },
         }}
       />,
     );
@@ -66,6 +68,7 @@ describe('Histogram', () => {
         config={{
           dataSource: 'dataSource',
           measure: 'exposed',
+          color: { r: 1, g: 1, b: 1, a: 1 },
         }}
       />,
     );
@@ -77,6 +80,7 @@ describe('Histogram', () => {
         config={{
           dataSource: 'dataSource',
           measure: 'exposedNew',
+          color: { r: 1, g: 1, b: 1, a: 1 },
         }}
       />,
     );
@@ -92,6 +96,7 @@ describe('Histogram', () => {
         config={{
           dataSource: 'dataSource',
           measure: 'exposed',
+          color: { r: 1, g: 1, b: 1, a: 1 },
         }}
       />,
     );
@@ -110,6 +115,7 @@ describe('Histogram', () => {
         config={{
           dataSource: 'dataSource',
           measure: 'exposed',
+          color: { r: 1, g: 1, b: 1, a: 1 },
         }}
       />,
     );
@@ -126,6 +132,7 @@ describe('Histogram', () => {
         config={{
           dataSource: 'dataSource',
           measure: 'exposed',
+          color: { r: 1, g: 1, b: 1, a: 1 },
         }}
       />,
     );

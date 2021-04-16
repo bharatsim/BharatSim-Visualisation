@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import equal from 'fast-deep-equal/es6/react';
 
 import { api } from '../../../utils/api';
 import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import { ChartFullSizeWrapper, configs, layoutConfig, tooltip } from '../chartStyleConfig';
-import { chartColorsPallet } from '../../../theme/colorPalette';
+import { rgbaToHex } from '../../../utils/helper';
 
 function Histogram({ config }) {
-  const { measure, dataSource } = config;
+  const { measure, dataSource, color: rgbaColor } = config;
   const [fetchedData, setFetchedData] = useState();
   const {
     loadingState,
@@ -44,12 +45,15 @@ function Histogram({ config }) {
   };
 
   function createData(rawData) {
-    const color = chartColorsPallet[1][0];
+    const color = rgbaToHex(rgbaColor);
     return [
       {
         x: rawData[measure],
         type: 'histogram',
         name: measure,
+        marker: {
+          color,
+        },
         ...tooltip(measure, color),
       },
     ];
@@ -58,7 +62,7 @@ function Histogram({ config }) {
   const chartMemo = useMemo(() => {
     const data = fetchedData && createData(fetchedData.data);
     return { data };
-  }, [measure, fetchedData]);
+  }, [measure, fetchedData, rgbaColor]);
 
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
@@ -81,7 +85,16 @@ Histogram.propTypes = {
   config: PropTypes.shape({
     dataSource: PropTypes.string.isRequired,
     measure: PropTypes.string.isRequired,
+    color: PropTypes.shape.isRequired,
   }).isRequired,
 };
 
-export default React.memo(Histogram);
+function isEqual(prevProps, newProps) {
+  return (
+    equal(prevProps.config, newProps.config) &&
+    prevProps.layout.h === newProps.layout.h &&
+    prevProps.layout.w === newProps.layout.w
+  );
+}
+
+export default React.memo(Histogram, isEqual);

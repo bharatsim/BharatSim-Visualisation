@@ -19,9 +19,9 @@ import {
   tooltip,
   yAxisLegendName,
 } from '../chartStyleConfig';
-import { chartColorsPallet } from '../../../theme/colorPalette';
 import useToggle from '../../../hook/useToggle';
 import LogScaleSwitch from '../../../uiComponent/LogScaleSwitch';
+import { rgbaToHex } from '../../../utils/helper';
 
 function LineChart({ config, layout }) {
   const { xAxis, yAxis, dataSource, annotation } = config;
@@ -72,13 +72,14 @@ function LineChart({ config, layout }) {
 
   function createData(rawData) {
     return yColumns.map((yCol, index) => {
-      const color = chartColorsPallet[1][index];
+      const { color: rgbaColor, seriesType: dash, seriesWidth: width } = yAxis[index];
+      const color = rgbaToHex(rgbaColor);
       return {
         x: rawData[xColumn],
         y: rawData[yCol],
         type: 'scattergl',
         name: yAxisLegendName(yCol),
-        line,
+        line: line({ color, dash, width }),
         marker,
         mode: 'lines+markers',
         showspikes: true,
@@ -133,6 +134,9 @@ LineChart.propTypes = {
     yAxis: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
+        color: PropTypes.shape.isRequired,
+        seriesType: PropTypes.string.isRequired,
+        seriesWidth: PropTypes.number.isRequired,
       }),
     ).isRequired,
     annotation: PropTypes.shape({

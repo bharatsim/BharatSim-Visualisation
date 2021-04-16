@@ -15,9 +15,9 @@ import {
   tooltip,
   yAxisLegendName,
 } from '../chartStyleConfig';
-import { chartColorsPallet } from '../../../theme/colorPalette';
 import LogScaleSwitch from '../../../uiComponent/LogScaleSwitch';
 import useToggle from '../../../hook/useToggle';
+import { rgbaToHex } from '../../../utils/helper';
 
 function BarChart({ config, layout }) {
   const { xAxis, yAxis, dataSource, annotation } = config;
@@ -67,12 +67,16 @@ function BarChart({ config, layout }) {
 
   function createData(rawData) {
     return yColumns.map((yCol, index) => {
-      const color = chartColorsPallet[1][index];
+      const { color: rgbaColor } = yAxis[index];
+      const color = rgbaToHex(rgbaColor);
       return {
         x: rawData[xColumn],
         y: rawData[yCol],
         type: 'bar',
         name: yAxisLegendName(yCol),
+        marker: {
+          color,
+        },
         showspikes: true,
         transforms: [
           {
@@ -128,6 +132,7 @@ BarChart.propTypes = {
       PropTypes.shape({
         name: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
+        color: PropTypes.shape.isRequired,
       }),
     ).isRequired,
     annotation: PropTypes.shape({

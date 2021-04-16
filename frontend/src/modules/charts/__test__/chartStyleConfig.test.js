@@ -24,10 +24,13 @@ describe('Common chart styles', () => {
     `);
   });
   it('should match line config', () => {
-    expect(line).toMatchInlineSnapshot(`
+    expect(line({ color: 'color', width: 1, dash: 'dash' })).toMatchInlineSnapshot(`
       Object {
+        "color": "color",
+        "dash": "dash",
         "opacity": 1,
         "size": 1,
+        "width": 1,
       }
     `);
   });
