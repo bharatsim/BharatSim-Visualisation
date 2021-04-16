@@ -107,7 +107,7 @@ describe('datasourceService', () => {
   });
   it(
     'should fetch data from database for give datasource name ' +
-      'and selected columns only for same column name',
+    'and selected columns only for same column name',
     async () => {
       dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
         dataSourceSchema: 'DataSourceSchema',
@@ -295,7 +295,7 @@ describe('datasourceService', () => {
 
     expect(data).toEqual({ deletedCount: 2 });
   });
-  describe('mocked function testing', function () {
+  describe('mocked function testing', function() {
     beforeEach(async () => {
       jest.clearAllMocks();
       dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
@@ -310,15 +310,15 @@ describe('datasourceService', () => {
       await datasourceService.getData(dataSourceId, ['hour']);
     });
 
-    it('should getDataSourceSchema to have been called with dataSource name', function () {
+    it('should getDataSourceSchema to have been called with dataSource name', function() {
       expect(dataSourceMetadataRepository.getDataSourceSchemaById).toHaveBeenCalledWith('model');
     });
 
-    it('should dataSourceRepository.getData to have been called with created model', function () {
+    it('should dataSourceRepository.getData to have been called with created model', function() {
       expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 });
     });
 
-    it('should createModel to have been called with dataSource name and schema', function () {
+    it('should createModel to have been called with dataSource name and schema', function() {
       expect(modelCreator.createModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
     });
   });
@@ -438,6 +438,28 @@ describe('datasourceService', () => {
         dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping,
       ).not.toHaveBeenCalled();
       expect(dataSourceMetadataRepository.deleteDatasourceMetadata).not.toHaveBeenCalled();
+    });
+  });
+  describe('update datasources with given id', () => {
+    it('should add new column with given name and expression', async () => {
+      dataSourceMetadataRepository.updateDatasourceSchema.mockResolvedValue({ n: 1 });
+      dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
+        column1: 'number',
+        'col2': 'String',
+      });
+      dataSourceRepository.addColumn.mockResolvedValueOnce({ n: 10, nModified: 0 });
+      modelCreator.createModel.mockReturnValue('DataSourceModel');
+
+      const result = await datasourceService.updateDatasource('datasource1', {
+        columnName: 'newColumn', expression: { '$sum': ['col1', 1, 2, 3] },
+      });
+      expect(dataSourceMetadataRepository.updateDatasourceSchema).toHaveBeenCalledWith('datasource1', {
+        'newColumn': 'Number',
+      });
+      expect(dataSourceRepository.addColumn).toHaveBeenCalledWith('DataSourceModel', {
+        '$sum': ['col1', 1, 2, 3],
+      }, 'newColumn');
+      expect(result).toEqual({ n: 10, nModified: 0 });
     });
   });
 });

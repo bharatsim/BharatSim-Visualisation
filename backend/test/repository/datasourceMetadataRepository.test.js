@@ -41,7 +41,7 @@ describe('Datasource metadata repository', () => {
     await dbHandler.closeDatabase();
   });
 
-  describe('getDataSourceNames', function () {
+  describe('getDataSourceNames', function() {
     it('should return names of all present data sources', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
       const expectedResult = insertedMetadata.map((metadata) => ({
@@ -55,7 +55,7 @@ describe('Datasource metadata repository', () => {
     });
   });
 
-  describe('get DataSource metadata by dashboard id', function () {
+  describe('get DataSource metadata by dashboard id', function() {
     it('should return DataSource metadata for given datasource id', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
 
@@ -100,7 +100,7 @@ describe('Datasource metadata repository', () => {
     expect(dataSources).toEqual([expectedResult]);
   });
 
-  describe('get DataSource Schema By Id', function () {
+  describe('get DataSource Schema By Id', function() {
     it('should return datasource schema for given datasource name for csv', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
       const { _id: dataSourceId } = insertedMetadata[0];
@@ -130,7 +130,7 @@ describe('Datasource metadata repository', () => {
     });
   });
 
-  describe('get all datasources', function () {
+  describe('get all datasources', function() {
     it('should return all datasources', async () => {
       await DataSourceMetaData.insertMany(dataSourceMetadata);
       const schema = parseMongoDBResult(
@@ -223,5 +223,24 @@ describe('Datasource metadata repository', () => {
     );
 
     expect(result).toEqual([]);
+  });
+
+  describe('should update datasource schema', () => {
+    it('should add new column to the previously defined schema for given datasource id', async () => {
+      const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
+      const { _id: firstMetadataId } = insertedMetadata[0];
+      await DataSourceMetaDataRepository.updateDatasourceSchema(firstMetadataId, {
+        hour: 'number',
+        susceptible: 'number',
+        newColumn: 'number',
+      });
+      const firstDatasourceMetadata = await DataSourceMetaDataRepository.getDataSourceSchemaById(firstMetadataId);
+
+      expect(firstDatasourceMetadata.dataSourceSchema).toEqual({
+        hour: 'number',
+        susceptible: 'number',
+        newColumn: 'number',
+      });
+    });
   });
 });

@@ -222,7 +222,7 @@ describe('api', () => {
     });
   });
 
-  describe('Post /datasources', function () {
+  describe('Post /datasources', function() {
     it('should upload file csv successfully', async () => {
       await request(app)
         .post('/datasources')
@@ -339,7 +339,7 @@ describe('api', () => {
     });
   });
 
-  describe('delete datasource with id', () => {
+  describe('delete /datasources/:id', () => {
     it('should delete datasource for given id ', async () => {
       datasourceService.deleteDatasource.mockResolvedValue({});
       await request(app).delete('/datasources/1').expect(200);
@@ -365,6 +365,34 @@ describe('api', () => {
         .delete('/datasources/123')
         .expect(404)
         .expect({ errorMessage: 'datasource with id 123 not found', errorCode: 1002 });
+    });
+  });
+  describe('post /datasources/:id/update', () => {
+    it('should add column in database with given column name and expression', async () => {
+      const updateParams = { columnName: 'newColumn', expression: { '$sum': ['1', '$col1'] } };
+      datasourceService.updateDatasource.mockResolvedValue({ n: 10, nModified: 0, ok: 1 });
+      await request(app)
+        .post('/datasources/datasourceId/update')
+        .send({ updateParams });
+      expect(datasourceService.updateDatasource).toHaveBeenCalledWith('datasourceId', updateParams);
+    });
+    it('should throw not found exception if id is not present', async () => {
+      const updateParams = { columnName: 'newColumn', expression: { '$sum': ['1', '$col1'] } };
+      datasourceService.updateDatasource.mockRejectedValueOnce(
+        new DataSourceNotFoundException('123'),
+      );
+      await request(app)
+        .post('/datasources/datasourceId/update')
+        .send({ updateParams })
+        .expect({ errorMessage: 'datasource with id 123 not found', errorCode: 1002 });
+    });
+    it('should throw technical error if error occurs while deleting', async () => {
+      datasourceService.updateDatasource.mockRejectedValueOnce(new Error());
+
+      await request(app)
+        .post('/datasources/datasourceId/update')
+        .expect(500)
+        .expect({ errorMessage: 'Technical error ', errorCode: 1003 });
     });
   });
 });

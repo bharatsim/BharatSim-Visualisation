@@ -61,6 +61,16 @@ async function getDatasourcesMetadata(filter = {}, project = {}) {
   return DataSourceMetadata.find(filter, project);
 }
 
+async function updateDatasourceSchema(datasourceId, newSchema) {
+  return DataSourceMetadata.updateOne({ _id: datasourceId }, {
+    $set: {
+      dataSourceSchema: {
+        ...newSchema,
+      },
+    },
+  });
+}
+
 module.exports = {
   getDatasourcesMetadata,
   getDataSourceNames,
@@ -72,4 +82,5 @@ module.exports = {
   getDatasourceMetadataForDatasourceId,
   filterDatasourceIds,
   getAllExceptDatasourceIds,
+  updateDatasourceSchema,
 };

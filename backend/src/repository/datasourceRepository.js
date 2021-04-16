@@ -62,6 +62,16 @@ async function deleteDatasource(dataSourceId) {
   return db.dropCollection(dataSourceId);
 }
 
+async function addColumn(datasourceModal, expression, columnName) {
+  //tests pending
+  return datasourceModal.updateMany({}, [{
+      $set: {
+        [columnName]:expression
+      },
+    }]
+  );
+}
+
 module.exports = {
   getData,
   insert,
@@ -69,4 +79,5 @@ module.exports = {
   bulkDeleteCsv,
   getAggregatedData,
   deleteDatasource,
+  addColumn,
 };

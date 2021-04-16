@@ -7,8 +7,10 @@ const dbUtils = require('../utils/dbUtils');
 
 const ColumnsNotFoundException = require('../exceptions/ColumnsNotFoundException');
 const DatasourceNotFoundException = require('../exceptions/DatasourceNotFoundException');
+const { parseDBObject } = require('../utils/dbUtils');
 const { EXTENDED_JSON_TYPES } = require('../constants/fileTypes');
 const { fileTypes } = require('../constants/fileTypes');
+const { dbDataTypes } = require('../constants/dbConstants');
 
 const FILE_UPLOAD_PATH = './uploads/';
 
@@ -17,8 +19,12 @@ function isNotProvidedDataHaveEqualColumns(data, columns) {
 }
 
 async function getDataSourceModel(datasourceId) {
-  const dataSourceSchema = await dataSourceMetadataRepository.getDataSourceSchemaById(datasourceId);
-  return modelCreator.createModel(datasourceId, dataSourceSchema.dataSourceSchema);
+  const { dataSourceSchema } = await dataSourceMetadataRepository.getDataSourceSchemaById(datasourceId);
+  return modelCreator.createModel(datasourceId, dataSourceSchema);
+}
+
+async function getNewDataSourceModel(datasourceId,newSchema) {
+  return modelCreator.createModel(datasourceId, newSchema,true);
 }
 
 async function getData(datasourceId, columns, aggregationParams) {
@@ -156,9 +162,20 @@ async function deleteDatasource(id) {
   await dataSourceMetadataRepository.deleteDatasourceMetadata(id);
 }
 
+async function updateDatasource(datasourceId, updateParams) {
+  const { columnName, expression } = updateParams;
+  const { dataSourceSchema } = await dataSourceMetadataRepository.getDataSourceSchemaById(datasourceId);
+  const newDatasourceSchema = { ...dataSourceSchema, [columnName]: dbDataTypes.number };
+  const datasourceModal = await getNewDataSourceModel(datasourceId, newDatasourceSchema);
+  const result = await dataSourceRepository.addColumn(datasourceModal, expression, columnName);
+  await dataSourceMetadataRepository.updateDatasourceSchema(datasourceId, newDatasourceSchema);
+  return result;
+}
+
 module.exports = {
   getData,
   bulkDeleteDatasource,
   getJsonData,
   deleteDatasource,
+  updateDatasource,
 };

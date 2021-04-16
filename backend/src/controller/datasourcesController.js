@@ -12,7 +12,7 @@ const { EXTENDED_JSON_TYPES } = require('../constants/fileTypes');
 const { getFileExtension } = require('../utils/uploadFile');
 const { fileTypes } = require('../constants/fileTypes');
 
-router.get('/', async function (req, res) {
+router.get('/', async function(req, res) {
   const { dashboardId, projectId } = req.query;
   datasourceMetadataService
     .getDatasources({ dashboardId, projectId })
@@ -22,7 +22,7 @@ router.get('/', async function (req, res) {
     });
 });
 
-router.post('/', async function (req, res) {
+router.post('/', async function(req, res) {
   uploadDatasourceService
     .uploadFile(req.file, req.body)
     .then((data) => res.json(data))
@@ -41,7 +41,7 @@ router.post('/', async function (req, res) {
     });
 });
 
-router.get('/:id', async function (req, res) {
+router.get('/:id', async function(req, res) {
   const { columns, aggregationParams } = req.query;
   const { id: datasourceId } = req.params;
   const parseAggregationParams = aggregationParams
@@ -61,7 +61,7 @@ router.get('/:id', async function (req, res) {
     });
 });
 
-router.get('/:id/headers', function (req, res) {
+router.get('/:id/headers', function(req, res) {
   const { id: datasourceId } = req.params;
   datasourceMetadataService
     .getHeaders(datasourceId)
@@ -75,7 +75,7 @@ router.get('/:id/headers', function (req, res) {
     });
 });
 
-router.delete('/', async function (req, res) {
+router.delete('/', async function(req, res) {
   const { datasourceIds } = req.query;
   datasourceService
     .bulkDeleteDatasource(datasourceIds)
@@ -91,10 +91,26 @@ router.delete('/', async function (req, res) {
     });
 });
 
-router.delete('/:id', async function (req, res) {
+router.delete('/:id', async function(req, res) {
   const { id: datasourceId } = req.params;
   datasourceService
     .deleteDatasource(datasourceId)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      if (err instanceof DataSourceNotFoundException) {
+        sendClientError(err, res, 404);
+      } else {
+        sendServerError(err, res);
+      }
+    });
+});
+router.post('/:id/update', async function(req, res) {
+  const { id: datasourceId } = req.params;
+  const { updateParams } = req.body;
+  datasourceService
+    .updateDatasource(datasourceId, updateParams)
     .then((result) => {
       res.send(result);
     })
