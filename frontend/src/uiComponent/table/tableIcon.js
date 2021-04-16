@@ -67,9 +67,9 @@ function createTableIcon(Icon) {
 }
 
 function createTableIconWithRef(Icon) {
-  return forwardRef((_, ref) => {
+  return forwardRef(({ ...rest }, ref) => {
     const classes = tableIconStyles();
-    return <Icon fontSize="small" color="primary" classes={classes} ref={ref} />;
+    return <Icon fontSize="small" color="primary" classes={classes} ref={ref} {...rest} />;
   });
 }
 

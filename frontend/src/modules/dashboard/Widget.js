@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import { RootRef, Typography, useTheme } from '@material-ui/core';
+import { Typography, useTheme } from '@material-ui/core';
 import { toPng } from 'html-to-image';
 import { PhotoCamera } from '@material-ui/icons';
 import { ChildrenPropTypes } from '../../commanPropTypes';
@@ -60,7 +60,7 @@ function Widget({ title, onDelete, onEdit, children }) {
   const theme = useTheme();
 
   function exportHtml() {
-    toPng(ref.current).then((dataUrl) => {
+    toPng(ref.current, { quality: 1, pixelRatio: 1 }).then((dataUrl) => {
       const link = document.createElement('a');
       link.download = title;
       link.href = dataUrl;
@@ -89,9 +89,9 @@ function Widget({ title, onDelete, onEdit, children }) {
           <WidgetMenu onEdit={onEdit} onDelete={onDelete} />
         </Box>
       </Box>
-      <RootRef rootRef={ref}>
-        <Box className={classes.chartContainer}>{children}</Box>
-      </RootRef>
+      <Box className={classes.chartContainer} ref={ref}>
+        {children}
+      </Box>
     </>
   );
 }
