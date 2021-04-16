@@ -11,8 +11,9 @@ import tableIcon from '../../uiComponent/table/tableIcon';
 import DeleteConfirmationModal from '../../uiComponent/DeleteConfirmationModal';
 import useModal from '../../hook/useModal';
 import DatasourceUsageTooltip from '../../uiComponent/DatasourceUsageTooltip';
+import UpdateDataModal from '../../uiComponent/UpdateDataModal';
 
-function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
+function DashboardDataSetsTable({ dataSources, onRemove, onDelete, onAddColumn }) {
   const theme = useTheme();
   const styles = tableStyles(theme, dataSources);
   const [selectedRow, setSelectedRow] = useState();
@@ -21,14 +22,29 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
     openModal: openDeleteModal,
     closeModal: closeDeleteModal,
   } = useModal();
+  const {
+    isOpen: isUpdateModalOpen,
+    openModal: openUpdateModal,
+    closeModal: closeUpdateModal,
+  } = useModal();
 
   async function deleteDatasource() {
     closeDeleteModal();
     await onDelete(selectedRow);
   }
 
+  async function addColumn(formula, columnName) {
+    closeDeleteModal();
+    await onAddColumn(selectedRow, formula, columnName);
+  }
+
   function handleDelete(event, rowData) {
     openDeleteModal();
+    setSelectedRow(rowData);
+  }
+
+  function handleAddColumn(event, rowData) {
+    openUpdateModal();
     setSelectedRow(rowData);
   }
 
@@ -64,7 +80,6 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
                 ) : (
                   dashboardUsage
                 ),
-
             },
             {
               title: 'Widget Count',
@@ -101,6 +116,12 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
               disabled: rowData.dashboardUsage > 0,
               size: 'small',
             }),
+            () => ({
+              icon: tableIcon.Edit,
+              tooltip: 'Add Column',
+              onClick: handleAddColumn,
+              size: 'small',
+            }),
           ]}
           style={{
             ...styles.styles,
@@ -122,6 +143,17 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
           {`Are you sure you want to delete ${selectedRow ? selectedRow.name : ''} datasource ?`}
         </Typography>
       </DeleteConfirmationModal>
+
+      <UpdateDataModal
+        handleClose={closeUpdateModal}
+        title="Update Datasource"
+        open={isUpdateModalOpen}
+        updateAction={{
+          onUpdate: addColumn,
+          name: 'add column',
+          dataTestId: 'update-datasource',
+        }}
+      />
     </>
   );
 }
@@ -137,6 +169,7 @@ DashboardDataSetsTable.propTypes = {
   ).isRequired,
   onRemove: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onAddColumn: PropTypes.func.isRequired,
 };
 
 export default DashboardDataSetsTable;

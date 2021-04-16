@@ -111,6 +111,14 @@ function ManageDataset() {
       });
   }
 
+  function addColumn(checkedDatasource, columnName, expression) {
+    const { _id: checkedDatasourceId, name } = checkedDatasource;
+    api.addColumn(checkedDatasourceId, expression, columnName).then(() => {
+      enqueueSnackbar(`Successfully update ${name} datasource with new Column ${columnName}`, {
+        variant: SUCCESS,
+      });
+    });
+  }
   function deleteDatasource(checkedDatasource) {
     const { _id: checkedDatasourceId, name } = checkedDatasource;
     const updatedDataSources = dataSources
@@ -169,6 +177,7 @@ function ManageDataset() {
                   dataSources={dataSources}
                   onRemove={removeDatasource}
                   onDelete={deleteDatasource}
+                  onAddColumn={addColumn}
                 />
               )}
             </Box>

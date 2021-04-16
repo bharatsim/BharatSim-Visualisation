@@ -184,6 +184,13 @@ const api = {
       method: httpMethods.DELETE,
     });
   },
+  addColumn: async (datasourceId, expression, columnName) => {
+    return uploadData({
+      url: `${serviceURL.getDatasourceUrl(datasourceId)}/update`,
+      data: { updateParams: { columnName, expression } },
+      method: httpMethods.POST,
+    });
+  },
 };
 
 export { api };
