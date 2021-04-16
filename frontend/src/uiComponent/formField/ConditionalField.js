@@ -8,6 +8,7 @@ const Condition = ({ when, is, children }) => (
     {({ input: { value } }) => (value === is ? children : null)}
   </Field>
 );
+
 Condition.propTypes = {
   when: PropTypes.string.isRequired,
   is: PropTypes.string.isRequired,

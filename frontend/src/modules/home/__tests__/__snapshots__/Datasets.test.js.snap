@@ -153,7 +153,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-colorDisabled Component-colorDisabled-24 MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-colorDisabled makeStyles-colorDisabled-17 MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
                                 viewBox="0 0 24 24"
                               >
@@ -225,7 +225,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary Component-colorPrimary-25 MuiSvgIcon-fontSizeSmall"
+                              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary makeStyles-colorPrimary-16 MuiSvgIcon-fontSizeSmall"
                               focusable="false"
                               viewBox="0 0 24 24"
                             >
@@ -307,7 +307,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-colorDisabled Component-colorDisabled-28 MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-colorDisabled makeStyles-colorDisabled-17 MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
                                 viewBox="0 0 24 24"
                               >

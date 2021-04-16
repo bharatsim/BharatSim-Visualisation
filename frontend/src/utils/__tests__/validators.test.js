@@ -5,6 +5,7 @@ import {
   validateOpacity,
   validateToValueNumber,
   validateToValueDate,
+  validateWidth,
 } from '../validators';
 
 describe('Validators', () => {
@@ -72,7 +73,9 @@ describe('Validators', () => {
     });
 
     it('should provide message if to value is less than from value', () => {
-      expect(validateToValueDate('2001, Jan 12', '2002, Jan 12')).toEqual('To value should be greater than from value');
+      expect(validateToValueDate('2001, Jan 12', '2002, Jan 12')).toEqual(
+        'To value should be greater than from value',
+      );
     });
 
     it('should provide empty message for valid to value', () => {
@@ -99,6 +102,21 @@ describe('Validators', () => {
 
     it('should provide empty message for valid file', () => {
       expect(validateFile({ size: 1000, name: 'test.csv' })).toEqual('');
+    });
+  });
+
+  describe('validate width ', () => {
+    it('should provide message if to value is undefined', () => {
+      expect(validateWidth()).toEqual('Field is required');
+    });
+
+    it('should provide message if to value is less than or equal to 0', () => {
+      expect(validateWidth(0)).toEqual('Width should be greater than 0');
+      expect(validateWidth(-1)).toEqual('Width should be greater than 0');
+    });
+
+    it('should provide empty message for valid to value', () => {
+      expect(validateWidth(1)).toEqual('');
     });
   });
 });

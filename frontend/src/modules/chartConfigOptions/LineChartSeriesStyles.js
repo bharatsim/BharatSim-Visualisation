@@ -15,7 +15,7 @@ function LineChartSeriesStyles({ seriesConfigKey, title }) {
       <Typography variant="subtitle2">{title}</Typography>
       <Box mt={3}>
         {series ? (
-          <FieldArray name={seriesConfigKey}>
+          <FieldArray name={seriesConfigKey} subscription={{ value: true }}>
             {({ fields }) =>
               fields.map((name, index) => (
                 <LineStyleConfig

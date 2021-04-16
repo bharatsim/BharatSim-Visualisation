@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
@@ -17,9 +17,9 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import { RemoveCircleOutlineSharp } from '@material-ui/icons';
-import { withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-const tableIconStyles = withStyles((theme) => ({
+const tableIconStyles = makeStyles((theme) => ({
   colorPrimary: {
     color: theme.colors.primaryColorScale['500'],
   },
@@ -41,7 +41,7 @@ const tableIcons = {
   NextPage: createTableIcon(ChevronRight),
   PreviousPage: createTableIcon(ChevronLeft),
   ResetSearch: createTableIcon(Clear),
-  Search: createTableIcon(Search),
+  Search: createTableIconWithRef(Search),
   SortArrow: createTableIcon(ArrowUpward),
   ThirdStateCheck: createTableIcon(Remove),
   ViewColumn: createTableIcon(ViewColumn),
@@ -51,7 +51,8 @@ const tableIcons = {
 
 function createTableIcon(Icon) {
   return ({ disabled, ...rest }) => {
-    const IconWithStyles = tableIconStyles(({ classes }) => {
+    const IconWithStyles = () => {
+      const classes = tableIconStyles();
       return (
         <Icon
           fontSize="small"
@@ -60,9 +61,16 @@ function createTableIcon(Icon) {
           {...rest}
         />
       );
-    });
+    };
     return <IconWithStyles />;
   };
+}
+
+function createTableIconWithRef(Icon) {
+  return forwardRef((_, ref) => {
+    const classes = tableIconStyles();
+    return <Icon fontSize="small" color="primary" classes={classes} ref={ref} />;
+  });
 }
 
 export default tableIcons;

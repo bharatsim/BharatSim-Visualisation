@@ -7,6 +7,7 @@ import SelectField from '../../uiComponent/formField/SelectField';
 import TextField from '../../uiComponent/formField/TextField';
 import { hexToRgba } from '../../utils/helper';
 import { chartColorsPallet } from '../../theme/colorPalette';
+import { required, validateWidth } from '../../utils/validators';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -75,6 +76,7 @@ function LineStyleConfig({ name, seriesName, index }) {
           options={seriesTypeOptions}
           id="series-type"
           defaultValue="dot"
+          validate={required}
         />
       </Box>
       <Box className={`${classes.fieldContainer} ${classes.verticalFieldContainer}`}>
@@ -86,6 +88,7 @@ function LineStyleConfig({ name, seriesName, index }) {
           label="enter line thickness"
           defaultValue="1"
           InputProps={{ endAdornment: <InputAdornment position="end">Px</InputAdornment> }}
+          validate={validateWidth}
         />
       </Box>
     </Box>
@@ -94,11 +97,12 @@ function LineStyleConfig({ name, seriesName, index }) {
 
 LineStyleConfig.defaultProps = {
   index: 0,
+  seriesName: '',
 };
 
 LineStyleConfig.propTypes = {
   name: PropTypes.string.isRequired,
-  seriesName: PropTypes.string.isRequired,
+  seriesName: PropTypes.string,
   index: PropTypes.number,
 };
 

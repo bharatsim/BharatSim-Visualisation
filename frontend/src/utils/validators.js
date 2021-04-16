@@ -33,6 +33,16 @@ function validateStepSize(value) {
   return '';
 }
 
+function validateWidth(value) {
+  if (isUndefined(value)) {
+    return 'Field is required';
+  }
+  if (value <= 0) {
+    return 'Width should be greater than 0';
+  }
+  return '';
+}
+
 function validateOpacity(value) {
   if (isUndefined(value)) {
     return 'Field is required';
@@ -67,4 +77,12 @@ function required(value) {
   return isUndefined(value) ? 'Field is required' : '';
 }
 
-export { validateFile, required, validateStepSize, validateOpacity, validateToValueNumber, validateToValueDate };
+export {
+  validateFile,
+  required,
+  validateStepSize,
+  validateOpacity,
+  validateToValueNumber,
+  validateToValueDate,
+  validateWidth,
+};

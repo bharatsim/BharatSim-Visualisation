@@ -99,7 +99,7 @@ const chartConfigOptions = {
   [chartConfigOptionTypes.LINE_CHART_SERIES_STYLE]: {
     component: () => (
       <LineChartSeriesStyles
-        seriesConfigKey={chartConfigOptionTypes.Y_AXIS}
+        seriesConfigKey={`${chartConfigOptionTypes.Y_AXIS}`}
         title="Series"
         configKey="yAxisStyles"
       />
