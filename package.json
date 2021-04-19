@@ -21,7 +21,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "./scripts/pre-commit-frontend.sh && ./scripts/pre-commit-backend.sh"
+      "pre-commit": "$TALISMAN_HOME/talisman_hook_script pre-commit && ./scripts/pre-commit-frontend.sh && ./scripts/pre-commit-backend.sh"
     }
   },
   "dependencies": {
