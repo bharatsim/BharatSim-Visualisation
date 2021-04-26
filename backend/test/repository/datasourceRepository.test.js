@@ -4,11 +4,13 @@ const dbHandler = require('../db-handler');
 
 const { Schema } = mongoose;
 
-const model = new Schema({
+const schema = {
   hour: 'number',
   susceptible: 'number',
   recovered: 'number',
-});
+};
+
+const model = new Schema(schema);
 const datasourceData = [
   {
     hour: 1,
@@ -96,10 +98,11 @@ describe('get Datasource name ', () => {
         },
       }),
     );
+    data.sort((v1, v2) => v1.hour - v2.hour);
     expect(data).toEqual([
-      { recovered: 15, susceptible: 7, hour: 3 },
-      { recovered: 6, susceptible: 5, hour: 2 },
       { recovered: 7.5, susceptible: 7, hour: 1 },
+      { recovered: 6, susceptible: 5, hour: 2 },
+      { recovered: 15, susceptible: 7, hour: 3 },
     ]);
   });
   it('should return aggregated and filtered  data based on aggregations params and given datasource model', async () => {
@@ -180,5 +183,25 @@ describe('get Datasource name ', () => {
       .then((collections) => collections.map((collection) => collection.name));
 
     expect(collectionList).toEqual([]);
+  });
+
+  it('should add column for given expression', async () => {
+    const modelName = 'datasource1';
+    const Datasource = mongoose.model(modelName, model);
+    await Datasource.insertMany(datasourceDataForAggregation);
+
+    delete mongoose.connection.models[modelName];
+    mongoose.model(
+      modelName,
+      new Schema({ ...schema, column1: 'number' }, { collection: modelName, strict: false }),
+    );
+
+    await DataSourceRepository.addColumn(Datasource, { $sum: ['$recovered', '$hour'] }, 'column1');
+
+    const data = parseMongoDBResult(await Datasource.find({}));
+    const { hour: row1Hour, recovered: row1Recovered } = datasourceDataForAggregation[0];
+    const { hour: row2Hour, recovered: row2Recovered } = datasourceDataForAggregation[1];
+    expect(data[0].column1).toEqual(row1Hour + row1Recovered);
+    expect(data[1].column1).toEqual(row2Hour + row2Recovered);
   });
 });

@@ -1,19 +1,22 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-function createModel(modelName, modelSkeleton, isUpdating) {
-  if (isUpdating) {
-    //tests pending
-    delete mongoose.connection.models[modelName];
-    return mongoose.model(modelName, new Schema(modelSkeleton, { collection: modelName, strict: false }));
-  }
+function getOrCreateModel(modelName, modelSkeleton) {
   try {
     return mongoose.model(modelName);
   } catch (error) {
-    return mongoose.model(modelName, new Schema(modelSkeleton, { collection: modelName, strict: false }));
+    return mongoose.model(
+      modelName,
+      new Schema(modelSkeleton, { collection: modelName, strict: false }),
+    );
   }
 }
 
+function deleteModel(modelName) {
+  delete mongoose.connection.models[modelName];
+}
+
 module.exports = {
-  createModel,
+  getOrCreateModel,
+  deleteModel,
 };

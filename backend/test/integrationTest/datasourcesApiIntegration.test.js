@@ -1,6 +1,7 @@
 const express = require('express');
 const request = require('supertest');
 const multer = require('multer');
+const mongoose = require('mongoose');
 
 const dbHandler = require('../db-handler');
 const DataSourceMetaData = require('../../src/model/datasourceMetadata');
@@ -145,7 +146,9 @@ describe('Integration test', () => {
         .expect({ data: { susceptible: [1, 2, 3, 4, 5], hour: [0, 1, 2, 3, 4] } });
     });
     it('should get data for requested aggregation params', async () => {
-      await request(app)
+      const {
+        body: { data },
+      } = await request(app)
         .get(`/datasources/${dataSourceId}`)
         .query({
           aggregationParams: JSON.stringify({
@@ -153,8 +156,14 @@ describe('Integration test', () => {
             aggregate: { susceptible: 'sum' },
           }),
         })
-        .expect(200)
-        .expect({ data: { susceptible: [4, 3, 2, 5, 1], hour: [3, 2, 1, 4, 0] } });
+        .expect(200);
+
+      const dataMap = {};
+      data.hour.forEach((eachHour, index) => {
+        dataMap[eachHour] = data.susceptible[index];
+      });
+
+      expect(dataMap).toEqual({ 0: 1, 1: 2, 2: 3, 3: 4, 4: 5 });
     });
 
     it('should throw error if data source not found', async () => {
@@ -333,8 +342,7 @@ describe('Integration test', () => {
     });
   });
 
-  it('should delete specific datasource ', async() => {
-
+  it('should delete specific datasource ', async () => {
     async function checkMetadataExists(dataSourceId) {
       return parseDBObject(
         await DataSourceMetaData.find({
@@ -348,12 +356,9 @@ describe('Integration test', () => {
         .listCollections()
         .toArray()
         .then((collections) =>
-          collections.some((collection) =>
-            [dataSourceId.toString()].includes(collection.name),
-          ),
+          collections.some((collection) => [dataSourceId.toString()].includes(collection.name)),
         );
     }
-
 
     insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
     const { _id: dataSourceId1 } = insertedMetadata[0];
@@ -372,10 +377,7 @@ describe('Integration test', () => {
     await db.collection(dataSourceId1.toString()).insertMany(model1Data);
     await db.collection(dataSourceId2.toString()).insertMany(model1Data);
 
-    await request(app)
-      .delete('/datasources/'+dataSourceId1)
-      .expect(200)
-      .expect({});
+    await request(app).delete(`/datasources/${dataSourceId1}`).expect(200).expect({});
     const foundMetadata1 = await checkMetadataExists(dataSourceId1);
     expect(foundMetadata1).toEqual([]);
 
@@ -387,5 +389,21 @@ describe('Integration test', () => {
 
     const isMappedDatasourceCollectionPresent2 = await checkIfMappingExists(db, dataSourceId2);
     expect(isMappedDatasourceCollectionPresent2).toEqual(true);
+  });
+
+  it('should update datasource with new column using expression', async () => {
+    const updateParams = { columnName: 'newColumn', expression: { $sum: [1, '$susceptible'] } };
+
+    await request(app)
+      .post(`/datasources/${dataSourceId}/update`)
+      .send({ ...updateParams });
+
+    const UpdatedDatasourceModel = mongoose.model(dataSourceId);
+    const res = await UpdatedDatasourceModel.find({});
+    const data = parseDBObject(res);
+
+    setTimeout(() => {
+      expect(data[0].newColumn).toEqual(model1Data[0].susceptible + 1);
+    }, 1);
   });
 });

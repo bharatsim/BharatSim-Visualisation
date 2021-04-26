@@ -108,9 +108,9 @@ router.delete('/:id', async function(req, res) {
 });
 router.post('/:id/update', async function(req, res) {
   const { id: datasourceId } = req.params;
-  const { updateParams } = req.body;
+  const { columnName, expression } = req.body;
   datasourceService
-    .updateDatasource(datasourceId, updateParams)
+    .updateDatasource(datasourceId, { columnName, expression })
     .then((result) => {
       res.send(result);
     })

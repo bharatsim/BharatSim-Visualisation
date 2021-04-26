@@ -71,7 +71,7 @@ describe('upload datasource service', () => {
 
     it('should insert csv data in data source collection', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
-      createModel.createModel.mockImplementation((id) => id);
+      createModel.getOrCreateModel.mockImplementation((id) => id);
 
       await uploadDatasourceService.uploadFile(
         {
@@ -168,7 +168,7 @@ describe('upload datasource service', () => {
 
     it('should insert dashboard and datashource mapping in datasourceDashboardMap', async () => {
       dataSourceMetadataRepository.insert.mockResolvedValue({ _id: 'collectionId' });
-      createModel.createModel.mockImplementation((id) => id);
+      createModel.getOrCreateModel.mockImplementation((id) => id);
 
       await uploadDatasourceService.uploadFile(
         {
@@ -193,7 +193,7 @@ describe('upload datasource service', () => {
       dataSourceRepository.bulkInsert.mockImplementationOnce(() => {
         throw new Error();
       });
-      createModel.createModel.mockImplementation((id) => id);
+      createModel.getOrCreateModel.mockImplementation((id) => id);
 
       const result = async () => {
         await uploadDatasourceService.uploadFile(
@@ -217,7 +217,7 @@ describe('upload datasource service', () => {
       dataSourceRepository.insert.mockImplementationOnce(() => {
         throw new Error();
       });
-      createModel.createModel.mockImplementation((id) => id);
+      createModel.getOrCreateModel.mockImplementation((id) => id);
 
       try {
         await uploadDatasourceService.uploadFile(
@@ -241,7 +241,7 @@ describe('upload datasource service', () => {
       dataSourceRepository.insert.mockImplementationOnce(() => {
         throw new Error();
       });
-      createModel.createModel.mockImplementation((id) => id);
+      createModel.getOrCreateModel.mockImplementation((id) => id);
 
       const result = async () => {
         await uploadDatasourceService.uploadFile(
@@ -263,7 +263,7 @@ describe('upload datasource service', () => {
       dataSourceRepository.insert.mockImplementationOnce(() => {
         throw new Error();
       });
-      createModel.createModel.mockImplementation((id) => id);
+      createModel.getOrCreateModel.mockImplementation((id) => id);
 
       const result = async () => {
         await uploadDatasourceService.uploadFile(

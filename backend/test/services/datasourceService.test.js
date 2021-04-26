@@ -27,7 +27,8 @@ describe('datasourceService', () => {
     dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
       fileType: 'csv',
     });
-    modelCreator.createModel.mockReturnValue('DataSourceModel');
+    modelCreator.getOrCreateModel.mockReturnValue('DataSourceModel');
+    modelCreator.deleteModel.mockReturnValue();
     dataSourceRepository.getData.mockResolvedValue([
       { hour: 1, susceptible: 99 },
       { hour: 2, susceptible: 98 },
@@ -54,14 +55,14 @@ describe('datasourceService', () => {
       fileType: 'csv',
     });
     dataSourceRepository.getData.mockResolvedValue([{ hour: 1 }, { hour: 2 }, { hour: 3 }]);
-    modelCreator.createModel.mockReturnValue('DataSourceModel');
+    modelCreator.getOrCreateModel.mockReturnValue('DataSourceModel');
     const dataSourceID = 'model';
 
     const data = await datasourceService.getData(dataSourceID, ['hour']);
 
     expect(dataSourceMetadataRepository.getDataSourceSchemaById).toHaveBeenCalledWith('model');
     expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 });
-    expect(modelCreator.createModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
+    expect(modelCreator.getOrCreateModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
     expect(data).toEqual({
       data: { hour: [1, 2, 3] },
     });
@@ -84,7 +85,7 @@ describe('datasourceService', () => {
       { hour: 3, susceptible: 3 },
     ]);
 
-    modelCreator.createModel.mockReturnValue('DataSourceModel');
+    modelCreator.getOrCreateModel.mockReturnValue('DataSourceModel');
     const dataSourceID = 'model';
     const aggregationParams = {
       groupBy: ['hour'],
@@ -100,14 +101,14 @@ describe('datasourceService', () => {
       'DataSourceModel',
       aggregationParams,
     );
-    expect(modelCreator.createModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
+    expect(modelCreator.getOrCreateModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
     expect(data).toEqual({
       data: { hour: [1, 2, 3], susceptible: [5, 4, 3] },
     });
   });
   it(
     'should fetch data from database for give datasource name ' +
-    'and selected columns only for same column name',
+      'and selected columns only for same column name',
     async () => {
       dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
         dataSourceSchema: 'DataSourceSchema',
@@ -116,14 +117,14 @@ describe('datasourceService', () => {
         fileType: 'csv',
       });
       dataSourceRepository.getData.mockResolvedValue([{ hour: 1 }, { hour: 2 }, { hour: 3 }]);
-      modelCreator.createModel.mockReturnValue('DataSourceModel');
+      modelCreator.getOrCreateModel.mockReturnValue('DataSourceModel');
       const dataSourceID = 'model';
 
       const data = await datasourceService.getData(dataSourceID, ['hour', 'hour']);
 
       expect(dataSourceMetadataRepository.getDataSourceSchemaById).toHaveBeenCalledWith('model');
       expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 });
-      expect(modelCreator.createModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
+      expect(modelCreator.getOrCreateModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
       expect(data).toEqual({
         data: { hour: [1, 2, 3] },
       });
@@ -253,7 +254,7 @@ describe('datasourceService', () => {
     dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId.mockResolvedValueOnce({
       fileType: 'csv',
     });
-    modelCreator.createModel.mockReturnValue('DataSourceModel');
+    modelCreator.getOrCreateModel.mockReturnValue('DataSourceModel');
     dataSourceRepository.getData.mockResolvedValue([
       { hour: 1, susceptible: 99, exposed: 90 },
       { hour: 2, susceptible: 98, exposed: 90 },
@@ -295,7 +296,7 @@ describe('datasourceService', () => {
 
     expect(data).toEqual({ deletedCount: 2 });
   });
-  describe('mocked function testing', function() {
+  describe('mocked function testing', function () {
     beforeEach(async () => {
       jest.clearAllMocks();
       dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
@@ -305,21 +306,21 @@ describe('datasourceService', () => {
         fileType: 'csv',
       });
       dataSourceRepository.getData.mockResolvedValue([{ hour: 1 }, { hour: 2 }, { hour: 3 }]);
-      modelCreator.createModel.mockReturnValue('DataSourceModel');
+      modelCreator.getOrCreateModel.mockReturnValue('DataSourceModel');
       const dataSourceId = 'model';
       await datasourceService.getData(dataSourceId, ['hour']);
     });
 
-    it('should getDataSourceSchema to have been called with dataSource name', function() {
+    it('should getDataSourceSchema to have been called with dataSource name', function () {
       expect(dataSourceMetadataRepository.getDataSourceSchemaById).toHaveBeenCalledWith('model');
     });
 
-    it('should dataSourceRepository.getData to have been called with created model', function() {
+    it('should dataSourceRepository.getData to have been called with created model', function () {
       expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 });
     });
 
-    it('should createModel to have been called with dataSource name and schema', function() {
-      expect(modelCreator.createModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
+    it('should createModel to have been called with dataSource name and schema', function () {
+      expect(modelCreator.getOrCreateModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
     });
   });
 
@@ -445,20 +446,28 @@ describe('datasourceService', () => {
       dataSourceMetadataRepository.updateDatasourceSchema.mockResolvedValue({ n: 1 });
       dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
         column1: 'number',
-        'col2': 'String',
+        col2: 'String',
       });
       dataSourceRepository.addColumn.mockResolvedValueOnce({ n: 10, nModified: 0 });
-      modelCreator.createModel.mockReturnValue('DataSourceModel');
+      modelCreator.getOrCreateModel.mockReturnValue('DataSourceModel');
 
       const result = await datasourceService.updateDatasource('datasource1', {
-        columnName: 'newColumn', expression: { '$sum': ['col1', 1, 2, 3] },
+        columnName: 'newColumn',
+        expression: { $sum: ['col1', 1, 2, 3] },
       });
-      expect(dataSourceMetadataRepository.updateDatasourceSchema).toHaveBeenCalledWith('datasource1', {
-        'newColumn': 'Number',
-      });
-      expect(dataSourceRepository.addColumn).toHaveBeenCalledWith('DataSourceModel', {
-        '$sum': ['col1', 1, 2, 3],
-      }, 'newColumn');
+      expect(dataSourceMetadataRepository.updateDatasourceSchema).toHaveBeenCalledWith(
+        'datasource1',
+        {
+          newColumn: 'Number',
+        },
+      );
+      expect(dataSourceRepository.addColumn).toHaveBeenCalledWith(
+        'DataSourceModel',
+        {
+          $sum: ['col1', 1, 2, 3],
+        },
+        'newColumn',
+      );
       expect(result).toEqual({ n: 10, nModified: 0 });
     });
   });

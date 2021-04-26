@@ -373,7 +373,7 @@ describe('api', () => {
       datasourceService.updateDatasource.mockResolvedValue({ n: 10, nModified: 0, ok: 1 });
       await request(app)
         .post('/datasources/datasourceId/update')
-        .send({ updateParams });
+        .send({ ...updateParams });
       expect(datasourceService.updateDatasource).toHaveBeenCalledWith('datasourceId', updateParams);
     });
     it('should throw not found exception if id is not present', async () => {
@@ -383,7 +383,7 @@ describe('api', () => {
       );
       await request(app)
         .post('/datasources/datasourceId/update')
-        .send({ updateParams })
+        .send({ ...updateParams })
         .expect({ errorMessage: 'datasource with id 123 not found', errorCode: 1002 });
     });
     it('should throw technical error if error occurs while deleting', async () => {

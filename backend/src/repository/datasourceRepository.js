@@ -63,7 +63,6 @@ async function deleteDatasource(dataSourceId) {
 }
 
 async function addColumn(datasourceModal, expression, columnName) {
-  //tests pending
   return datasourceModal.updateMany({}, [{
       $set: {
         [columnName]:expression
