@@ -60,7 +60,7 @@ function GeoJsonLayer({
     });
   }
 
-  const getGeoJsonStyle = geoJSONStyle(idDataMap, mapLayerIdName, scaleBand, scale);
+  const getGeoJsonStyle = geoJSONStyle(idDataMap, mapLayerIdName, scaleBand, scale, minOfMeasure);
   return (
     <>
       <GeoJSON
