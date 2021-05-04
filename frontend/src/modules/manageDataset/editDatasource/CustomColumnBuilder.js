@@ -22,7 +22,7 @@ function validateColumnName(name, fields) {
   if (name === '') {
     return 'Column name is required.';
   }
-  return fields.includes(name) ? 'Duplicate column names are not allowed.' : '';
+  return fields.includes(name) ? 'Column Name should be unique.' : '';
 }
 
 function CustomColumnBuilder({
@@ -41,13 +41,13 @@ function CustomColumnBuilder({
     setColumnName(event.target.value);
   }
 
-  function handleOnCreateColumn(parsedExpression, expression) {
+  function handleOnCreateColumn(expression) {
     const validationError = validateColumnName(columnName, fields);
     if (validationError && !isEditMode) {
       setError(validationError);
       return;
     }
-    onColumnCreate({ parsedExpression, expression, columnName });
+    onColumnCreate({ expression, columnName });
   }
 
   return (

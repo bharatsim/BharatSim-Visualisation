@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import NavTab from './NavTab';
 import { useTabsStyles } from '../../layout/projectLayout/sideDashboardNavbar/sideDashboardNavbarCSS';
 import CustomColumnBuilder from './CustomColumnBuilder';
+import DeleteConfirmationModal from '../../../uiComponent/DeleteConfirmationModal';
+import useModal from '../../../hook/useModal';
 
 const useStyles = makeStyles((theme) => ({
   layoutContainer: {
@@ -48,8 +50,8 @@ function CustomColumnBuilderLayout({
 }) {
   const classes = useStyles();
   const tabsClasses = useTabsStyles();
-
   const containerRef = React.useRef();
+  const { openModal, isOpen, closeModal } = useModal();
 
   function setScrollToBottom() {
     setTimeout(() => {
@@ -64,64 +66,93 @@ function CustomColumnBuilderLayout({
 
   function handleDelete(event) {
     event.stopPropagation();
+    closeModal();
     onDeleteColumn(selectedTab);
   }
 
+  function openDeleteColumnModal(event) {
+    event.stopPropagation();
+    openModal();
+  }
+
   return (
-    <Box>
-      <Box py={4}>
-        <Button variant="contained" color="secondary" size="small" onClick={handleAddNewColumn}>
-          Add column
-        </Button>
+    <>
+      <Box>
+        <Box py={4}>
+          <Button variant="contained" color="secondary" size="small" onClick={handleAddNewColumn}>
+            Add column
+          </Button>
+        </Box>
+        <Box className={classes.layoutContainer}>
+          {customColumns && customColumns.length === 0 ? (
+            <Box className={classes.messageContainer}>
+              <Typography variant="subtitle2">
+                You do not have any custom column, to add custom column click on Add column button.
+              </Typography>
+            </Box>
+          ) : (
+            <>
+              <Box className={classes.navContainer} ref={containerRef}>
+                <Tabs
+                  orientation="vertical"
+                  variant="fullWidth"
+                  classes={tabsClasses}
+                  value={selectedTab}
+                  onChange={onTabChange}
+                >
+                  {customColumns.map(({ name }, index) => {
+                    const key = `${name}-${index}`;
+                    return (
+                      <Tab
+                        name={name}
+                        onDelete={openDeleteColumnModal}
+                        component={NavTab}
+                        dataTestId={name}
+                        key={key}
+                      />
+                    );
+                  })}
+                </Tabs>
+              </Box>
+              <Divider orientation="vertical" />
+              <Box
+                className={classes.formulaBuilderContainer}
+                key={`${customColumns.length}-${selectedTab}`}
+              >
+                <CustomColumnBuilder
+                  fields={fields}
+                  defaultColumnName={customColumns[selectedTab]?.name}
+                  defaultExpression={customColumns[selectedTab]?.expression}
+                  isEditMode={customColumns[selectedTab]?.isEditMode}
+                  onColumnCreate={onColumnCreate}
+                />
+              </Box>
+            </>
+          )}
+        </Box>
       </Box>
-      <Box className={classes.layoutContainer}>
-        {customColumns && customColumns.length === 0 ? (
-          <Box className={classes.messageContainer}>
-            <Typography variant="subtitle2">
-              You do not have any custom column, to add custom column click on Add column button.
+      {isOpen && (
+        <DeleteConfirmationModal
+          handleClose={closeModal}
+          title="Delete column"
+          open={isOpen}
+          deleteAction={{
+            onDelete: handleDelete,
+            name: 'Delete column',
+            dataTestId: 'delete-custom-column',
+          }}
+        >
+          <Typography variant="body2">
+            {`Are you sure you want to delete ${customColumns[selectedTab].name} column ?`}
+          </Typography>
+          <Box mt={2}>
+            <Typography variant="caption">
+              {`*Deleting ${customColumns[selectedTab].name} column will impact the widgets using it`}
             </Typography>
           </Box>
-        ) : (
-          <>
-            <Box className={classes.navContainer} ref={containerRef}>
-              <Tabs
-                orientation="vertical"
-                variant="fullWidth"
-                classes={tabsClasses}
-                value={selectedTab}
-                onChange={onTabChange}
-              >
-                {customColumns.map(({ name }, index) => {
-                  const key = `${name}-${index}`;
-                  return (
-                    <Tab
-                      name={name}
-                      onDelete={handleDelete}
-                      component={NavTab}
-                      dataTestId={name}
-                      key={key}
-                    />
-                  );
-                })}
-              </Tabs>
-            </Box>
-            <Divider orientation="vertical" />
-            <Box
-              className={classes.formulaBuilderContainer}
-              key={`${customColumns.length}-${selectedTab}`}
-            >
-              <CustomColumnBuilder
-                fields={fields}
-                defaultColumnName={customColumns[selectedTab]?.name}
-                defaultExpression={customColumns[selectedTab]?.expression}
-                isEditMode={customColumns[selectedTab]?.isEditMode}
-                onColumnCreate={onColumnCreate}
-              />
-            </Box>
-          </>
-        )}
-      </Box>
-    </Box>
+        </DeleteConfirmationModal>
+      )}
+    </>
   );
 }
 

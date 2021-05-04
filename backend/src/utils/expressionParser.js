@@ -4,9 +4,6 @@ const { invalidExpression } = require('../exceptions/errors');
 const InvalidInputException = require('../exceptions/InvalidInputException');
 
 function parseExpression(expression) {
-  if (!expression) {
-    throw new InvalidInputException(invalidExpression.errorMessage, invalidExpression.errorCode);
-  }
   const parsedExpression = parse(expression);
   return transformExpressionToFormula(parsedExpression);
 }
@@ -23,8 +20,8 @@ function transformExpressionToFormula(node) {
   const functionName = `$${node.fn}`;
   result[functionName] = [];
   if (!node.args && (node.type === 'ConstantNode' || node.type === 'SymbolNode')) {
-    if(node.type === 'SymbolNode'){
-      return getSymbolNodeValue(node)
+    if (node.type === 'SymbolNode') {
+      return getSymbolNodeValue(node);
     }
     return getConstantNodeValue(node);
   }
@@ -51,6 +48,51 @@ function transformExpressionToFormula(node) {
   return result;
 }
 
+function validateExpression(expression, fields) {
+  if (!expression.trim()) {
+    throw new InvalidInputException(invalidExpression.errorMessage, invalidExpression.errorCode);
+  }
+  try {
+    const parsedExpression = parse(expression);
+    validateFields(parsedExpression, fields);
+  } catch (e) {
+    throw new InvalidInputException(invalidExpression.errorMessage, invalidExpression.errorCode);
+  }
+}
+
+function validateField(field, fields) {
+  if (!fields.includes(field)) {
+    throw new Error();
+  }
+}
+
+function validateFields(node, fields) {
+  if (node.type === 'ConstantNode' || node.type === 'SymbolNode') {
+    if (node.type === 'SymbolNode') {
+      validateField(node.name, fields);
+      return;
+    }
+    if (node.type === 'ConstantNode' && typeof node.value === 'string') {
+      validateField(node.value, fields);
+      return;
+    }
+    return;
+  }
+
+  if (node.type === 'ParenthesisNode') {
+    validateFields(node.content, fields);
+    return;
+  }
+
+  node.args.forEach((arg) => {
+    validateFields(arg, fields);
+    if (arg.type === 'ParenthesisNode') {
+      validateFields(arg.content, fields);
+    }
+  });
+}
+
 module.exports = {
   parseExpression,
+  validateExpression,
 };

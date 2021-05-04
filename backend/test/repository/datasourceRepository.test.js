@@ -109,7 +109,7 @@ describe('get Datasource name ', () => {
       { recovered: 15, susceptible: 7, hour: 3 },
     ]);
   });
-  it('should return aggregated and filtered  data based on aggregations params and given datasource model', async () => {
+  it('should return aggregated and filtered  data based on aggregations params', async () => {
     await DataSourceModel.insertMany(datasourceDataForAggregation);
     const data = parseMongoDBResult(
       await DataSourceRepository.getAggregatedData(DataSourceModel, {

@@ -9,6 +9,7 @@ const { parseExpression } = require('../utils/expressionParser');
 const ColumnsNotFoundException = require('../exceptions/ColumnsNotFoundException');
 const DatasourceNotFoundException = require('../exceptions/DatasourceNotFoundException');
 const InvalidInputException = require('../exceptions/InvalidInputException');
+const { validateExpression } = require('../utils/expressionParser');
 const { EXTENDED_JSON_TYPES } = require('../constants/fileTypes');
 const { fileTypes } = require('../constants/fileTypes');
 const { dbDataTypes } = require('../constants/dbConstants');
@@ -166,8 +167,12 @@ async function deleteDatasource(id) {
   await dataSourceMetadataRepository.deleteDatasourceMetadata(id);
 }
 
-async function createColumnInDataSource(expression, datasourceModal, columnName) {
+async function createColumnInDataSource(expression, datasourceModal, columnName, schema) {
+  const numericalField = Object.keys(schema).filter(
+    (field) => schema[field] === dbDataTypes.number,
+  );
   try {
+    validateExpression(expression, numericalField);
     const formula = parseExpression(expression);
     return await dataSourceRepository.addColumn(datasourceModal, formula, columnName);
   } catch (error) {
@@ -183,10 +188,7 @@ async function updateDataSourceMetadata(expression, columnName, datasourceId, sc
   });
 }
 
-async function getUpdatedSchema(datasourceId, columnName) {
-  const { dataSourceSchema } = await dataSourceMetadataRepository.getDataSourceSchemaById(
-    datasourceId,
-  );
+async function getUpdatedSchema(dataSourceSchema, columnName) {
   return { ...dataSourceSchema, [columnName]: dbDataTypes.number };
 }
 
@@ -205,9 +207,17 @@ async function deleteDatasourceMetadataForColumn(datasourceId, schema, columnNam
 
 async function updateDatasource(datasourceId, newColumnMetadata) {
   const { columnName, expression } = newColumnMetadata;
-  const newDatasourceSchema = await getUpdatedSchema(datasourceId, columnName);
+  const { dataSourceSchema } = await dataSourceMetadataRepository.getDataSourceSchemaById(
+    datasourceId,
+  );
+  const newDatasourceSchema = await getUpdatedSchema(dataSourceSchema, columnName);
   const datasourceModal = await getNewDataSourceModel(datasourceId, newDatasourceSchema);
-  const datasource = await createColumnInDataSource(expression, datasourceModal, columnName);
+  const datasource = await createColumnInDataSource(
+    expression,
+    datasourceModal,
+    columnName,
+    dataSourceSchema,
+  );
   const metadata = await updateDataSourceMetadata(
     expression,
     columnName,

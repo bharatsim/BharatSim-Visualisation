@@ -125,8 +125,8 @@ describe('Integration test', () => {
         .expect(200)
         .expect({
           headers: [
-            { name: 'hour', type: 'number' },
-            { name: 'susceptible', type: 'number' },
+            { name: 'hour', type: 'Number' },
+            { name: 'susceptible', type: 'Number' },
           ],
         });
     });
@@ -345,20 +345,22 @@ describe('Integration test', () => {
   });
 
   it('should delete specific datasource ', async () => {
-    async function checkMetadataExists(dataSourceId) {
+    async function checkMetadataExists(selectedDataSourceId) {
       return parseDBObject(
         await DataSourceMetaData.find({
-          _id: { $in: [dataSourceId] },
+          _id: { $in: [selectedDataSourceId] },
         }),
       );
     }
 
-    async function checkIfMappingExists(db, dataSourceId) {
-      return await db
+    async function checkIfMappingExists(db, selectedDataSourceId) {
+      return db
         .listCollections()
         .toArray()
         .then((collections) =>
-          collections.some((collection) => [dataSourceId.toString()].includes(collection.name)),
+          collections.some((collection) =>
+            [selectedDataSourceId.toString()].includes(collection.name),
+          ),
         );
     }
 
@@ -394,7 +396,7 @@ describe('Integration test', () => {
   });
 
   it('should update datasource with new column using expression', async () => {
-    const updateParams = { columnName: 'newColumn', expression: '"susceptible" + 1'};
+    const updateParams = { columnName: 'newColumn', expression: '"susceptible" + 1' };
 
     await request(app)
       .put(`/datasources/${dataSourceId}/column`)

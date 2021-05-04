@@ -103,7 +103,7 @@ describe('<EditDataSouceModel />', () => {
     const textField = getByTestId('custom-column');
 
     expect(textField).not.toHaveAttribute('disabled');
-    expect(textField).toHaveValue('undefined column name');
+    expect(textField).toHaveValue('Untitled column name');
   });
 
   it('should throw error if column name is duplicate', async () => {
@@ -126,7 +126,7 @@ describe('<EditDataSouceModel />', () => {
 
     fireEvent.click(getByText('Create column'));
 
-    expect(getByText('Duplicate column names are not allowed.')).toBeInTheDocument();
+    expect(getByText('Column Name should be unique.')).toBeInTheDocument();
   });
 
   it('should throw error if column name is empty', async () => {
@@ -172,11 +172,11 @@ describe('<EditDataSouceModel />', () => {
 
     fireEvent.click(getByText('Create column'));
 
-    expect(queryByText('Duplicate column names are not allowed.')).toBeInTheDocument();
+    expect(queryByText('Column Name should be unique.')).toBeInTheDocument();
 
     fireEvent.change(textField, { target: { value: 'col6' } });
 
-    expect(queryByText('Duplicate column names are not allowed.')).toBeNull();
+    expect(queryByText('Column Name should be unique.')).toBeNull();
   });
 
   it('should enable disable button if column is selected', async () => {
@@ -250,6 +250,7 @@ describe('<EditDataSouceModel />', () => {
 
     expect(queryByText('Apply changes')).toBeInTheDocument();
   });
+
   it('should delete column', async () => {
     const { findAllByText, getByTestId } = render(
       <EditDataSouceModelWithProvider open handleClose={jest.fn()} datasourceId="datasourceId" />,
@@ -259,8 +260,9 @@ describe('<EditDataSouceModel />', () => {
     const col1 = getByTestId('col4');
     fireEvent.click(col1);
 
+    fireEvent.click(getByTestId('delete-col4'));
     await act(async () => {
-      fireEvent.click(getByTestId('delete-col4'));
+      fireEvent.click(getByTestId('delete-custom-column'));
     });
 
     expect(api.deleteColumn).toHaveBeenCalledWith({
@@ -279,8 +281,9 @@ describe('<EditDataSouceModel />', () => {
       fireEvent.click(getByText('Add column'));
     });
 
+    fireEvent.click(getByTestId('delete-Untitled column name'));
     await act(async () => {
-      fireEvent.click(getByTestId('delete-undefined column name'));
+      fireEvent.click(getByTestId('delete-custom-column'));
     });
 
     expect(api.deleteColumn).not.toHaveBeenCalled();
@@ -315,8 +318,9 @@ describe('<EditDataSouceModel />', () => {
     const col6 = getByTestId('col6');
     fireEvent.click(col6);
 
+    fireEvent.click(getByTestId('delete-col6'));
     await act(async () => {
-      fireEvent.click(getByTestId('delete-col6'));
+      fireEvent.click(getByTestId('delete-custom-column'));
     });
 
     expect(getByTestId('col5').className.includes('makeStyles-selected')).toBeTruthy();

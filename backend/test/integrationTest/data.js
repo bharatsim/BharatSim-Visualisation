@@ -4,8 +4,8 @@ const dataSourceMetadata = [
   {
     name: 'model_1',
     dataSourceSchema: {
-      hour: 'number',
-      susceptible: 'number',
+      hour: 'Number',
+      susceptible: 'Number',
     },
     fileSize: 123,
     fileType: 'csv',
@@ -14,8 +14,8 @@ const dataSourceMetadata = [
   {
     name: 'model_2',
     dataSourceSchema: {
-      hour_: 'number',
-      susceptible_: 'number',
+      hour_: 'Number',
+      susceptible_: 'Number',
     },
     fileSize: 123,
     fileType: 'csv',
@@ -41,8 +41,8 @@ const createModel = (modelName) => {
     return mongoose.model(modelName);
   } catch (e) {
     return mongoose.model(modelName, {
-      hour: 'number',
-      susceptible: 'number',
+      hour: 'Number',
+      susceptible: 'Number',
       city: 'string',
     });
   }

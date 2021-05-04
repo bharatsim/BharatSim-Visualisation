@@ -122,7 +122,7 @@ describe('datasourceService', () => {
     const data = await datasourceService.getData(dataSourceID, ['hour', 'hour']);
 
     expect(dataSourceMetadataRepository.getDataSourceSchemaById).toHaveBeenCalledWith('model');
-    expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 },0);
+    expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 }, 0);
     expect(modelCreator.getOrCreateModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
     expect(data).toEqual({
       data: { hour: [1, 2, 3] },
@@ -314,7 +314,7 @@ describe('datasourceService', () => {
     });
 
     it('should dataSourceRepository.getData to have been called with created model', function () {
-      expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 },0);
+      expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 }, 0);
     });
 
     it('should createModel to have been called with dataSource name and schema', function () {
@@ -448,7 +448,7 @@ describe('datasourceService', () => {
       });
       dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
         dataSourceSchema: {
-          column1: 'number',
+          column1: 'Number',
           col2: 'String',
         },
       });
@@ -457,7 +457,7 @@ describe('datasourceService', () => {
 
       const result = await datasourceService.updateDatasource('datasource1', {
         columnName: 'newColumn',
-        expression: '"col1" + 1',
+        expression: '"column1" + 1',
       });
 
       expect(result).toEqual({
@@ -466,7 +466,7 @@ describe('datasourceService', () => {
       });
 
       expect(modelCreator.getOrCreateModel).toHaveBeenCalledWith('datasource1', {
-        column1: 'number',
+        column1: 'Number',
         col2: 'String',
         newColumn: 'Number',
       });
@@ -474,8 +474,7 @@ describe('datasourceService', () => {
       expect(dataSourceMetadataRepository.updateDatasourceSchema).toHaveBeenCalledWith(
         'datasource1',
         {
-          column1: 'number',
-
+          column1: 'Number',
           col2: 'String',
           newColumn: 'Number',
         },
@@ -483,7 +482,7 @@ describe('datasourceService', () => {
       expect(dataSourceRepository.addColumn).toHaveBeenCalledWith(
         'DataSourceModel',
         {
-          $add: ['$col1', 1],
+          $add: ['$column1', 1],
         },
         'newColumn',
       );
@@ -491,7 +490,7 @@ describe('datasourceService', () => {
         'datasource1',
         {
           name: 'newColumn',
-          expression: '"col1" + 1',
+          expression: '"column1" + 1',
         },
       );
     });
@@ -552,7 +551,7 @@ describe('datasourceService', () => {
       const result = async () => {
         await datasourceService.updateDatasource('datasource1', {
           columnName: 'newColumn',
-          expression: '"col1" "col1"',
+          expression: '"column1" "column1"',
         });
       };
 

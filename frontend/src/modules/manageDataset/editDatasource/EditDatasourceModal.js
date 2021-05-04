@@ -37,7 +37,7 @@ function EditDataSourceModal({ open, handleClose, datasourceId }) {
         <DataTable data={data} schema={schema} />
         <CustomColumnBuilderLayout
           customColumns={customColumns}
-          fields={Object.keys(schema)}
+          fields={Object.keys(schema).filter((field) => schema[field] === 'Number')}
           selectedTab={selectedTab}
           onColumnCreate={onColumnCreate}
           onAddNewColumn={addNewColumn}
@@ -70,7 +70,7 @@ function EditDataSourceModal({ open, handleClose, datasourceId }) {
   function addNewColumn() {
     setCustomColumns((prev) => [
       ...prev,
-      { name: 'undefined column name', expression: '', isEditMode: false },
+      { name: 'Untitled column name', expression: '', isEditMode: false },
     ]);
     setSelectedTab(customColumns.length);
   }

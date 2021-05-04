@@ -1,5 +1,6 @@
 import { isBefore } from 'date-fns';
 
+import { parse } from 'mathjs';
 import { getFileExtension } from './fileUploadUtils';
 import { MAX_FILE_SIZE, VALID_FILE_EXTENSIONS } from '../constants/fileUpload';
 
@@ -77,6 +78,46 @@ function required(value) {
   return isUndefined(value) ? 'Field is required' : '';
 }
 
+function validateExpression(expression, fields) {
+  if (!expression.trim()) {
+    throw new Error('Expression can not be empty');
+  }
+  const parsedExpression = parse(expression);
+  validateFields(parsedExpression, fields);
+}
+
+function validateField(field, fields) {
+  if (!fields.includes(field)) {
+    throw new Error(`${field} field does not exists`);
+  }
+}
+
+function validateFields(node, fields) {
+  if (node.type === 'ConstantNode' || node.type === 'SymbolNode') {
+    if (node.type === 'SymbolNode') {
+      validateField(node.name, fields);
+      return;
+    }
+    if (node.type === 'ConstantNode' && typeof node.value === 'string') {
+      validateField(node.value, fields);
+      return;
+    }
+    return;
+  }
+
+  if (node.type === 'ParenthesisNode') {
+    validateFields(node.content, fields);
+    return;
+  }
+
+  node.args.forEach((arg) => {
+    validateFields(arg, fields);
+    if (arg.type === 'ParenthesisNode') {
+      validateFields(arg.content, fields);
+    }
+  });
+}
+
 export {
   validateFile,
   required,
@@ -85,4 +126,5 @@ export {
   validateToValueNumber,
   validateToValueDate,
   validateWidth,
+  validateExpression,
 };

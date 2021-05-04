@@ -22,7 +22,7 @@ function Table({ columns, data, title, options, components, ...rest }) {
       options={{
         rowStyle: (_, index) => styles.rowStyles(index),
         cellStyle: styles.cellStyle(),
-        actionsCellStyle: styles.cellStyle(),
+        actionsCellStyle: styles.actionCell,
         filterCellStyle: styles.cellStyle(),
         headerStyle: styles.headerStyle,
         emptyRowsWhenPaging: false,

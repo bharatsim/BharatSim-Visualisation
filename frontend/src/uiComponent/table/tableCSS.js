@@ -42,7 +42,14 @@ function tableStyles(theme, data) {
     overflow: 'hidden',
   };
 
-  return { styles, rowStyles, cellStyle, headerStyle };
+  const actionCell = {
+    ...cellStyle(),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  };
+
+  return { styles, rowStyles, cellStyle, headerStyle, actionCell };
 }
 
 export default tableStyles;

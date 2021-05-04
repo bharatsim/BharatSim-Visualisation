@@ -6,11 +6,11 @@ import Editor from 'react-simple-code-editor';
 import 'prismjs/components/prism-javascript';
 import { withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { parse } from 'mathjs';
 
 import { useStyles } from './formulaBuilderStyles';
 import List from '../List';
 import './prismTheme.css';
+import { validateExpression } from '../../utils/validators';
 
 const OperatorButton = withStyles((theme) => ({
   root: {
@@ -74,11 +74,8 @@ function FormulaBuilder({ fields, operators, buttonLabel, onClick, defaultExpres
 
   function handleCalculateFormula() {
     try {
-      if (!expression.trim()) {
-        throw new Error('Expression can not be empty');
-      }
-      const parsedExpression = parse(expression);
-      onClick(parsedExpression, expression);
+      validateExpression(expression, fields);
+      onClick(expression);
     } catch (e) {
       setError(parseError(e));
     }

@@ -44,7 +44,7 @@ describe('<FormulaBuilder />', () => {
     fireEvent.click(field1Button);
     fireEvent.click(calculateButton);
 
-    expect(onClick).toHaveBeenCalledWith(expect.anything(), ' "field1"  +  "field1" ');
+    expect(onClick).toHaveBeenCalledWith(' "field1"  +  "field1" ');
   });
 
   it('should through error if formula is wrong', () => {
