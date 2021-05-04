@@ -58,13 +58,14 @@ function validateToValueNumber(value, fromValue) {
   if (isUndefined(value)) {
     return 'Field is required';
   }
-  if (value < fromValue) {
+  if (Number(value) < Number(fromValue)) {
     return 'To value should be greater than from value';
   }
   return '';
 }
 
 function validateToValueDate(value, fromValue) {
+  console.log(value, fromValue)
   if (isUndefined(value)) {
     return 'Field is required';
   }

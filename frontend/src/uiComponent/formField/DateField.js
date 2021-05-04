@@ -31,7 +31,7 @@ function DateField({ name, label, dataTestId, validate, defaultValue, format, he
       name={name}
       validate={validate}
       defaultValue={defaultValue}
-      render={({ input:  {value, onChange, ...rest} , meta}) => (
+      render={({ input: { value, onChange, ...rest }, meta }) => (
         <KeyboardDatePicker
           label={label}
           inputVariant="filled"
@@ -42,8 +42,8 @@ function DateField({ name, label, dataTestId, validate, defaultValue, format, he
           FormHelperTextProps={{ classes: { root: classes.helperText } }}
           classes={{ root: classes.input }}
           format={format}
-          helperText={meta.error && meta.touched ? meta.error : helperText}
-          error={meta.error && meta.touched}
+          helperText={meta.error ? meta.error : helperText}
+          error={meta.error}
         />
       )}
     />

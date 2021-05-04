@@ -5,6 +5,7 @@ import { Box, Button, fade, makeStyles, Typography } from '@material-ui/core';
 import { FieldArray } from 'react-final-form-arrays';
 import { useForm } from 'react-final-form';
 import { format } from 'date-fns';
+import get from 'lodash.get';
 
 import deleteIcon from '../../assets/images/delete.svg';
 import plusIcon from '../../assets/images/plus.svg';
@@ -179,13 +180,15 @@ function AnnotationConfig({ configKey }) {
                             name={`${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.END}`}
                             label="To Value"
                             dataTestId="end-input"
-                            validate={(value) =>
+                            validate={(value, values) =>
                               validateToValueNumber(
                                 value,
-                                getFieldState(
+                                get(
+                                  values,
                                   `${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.START}`,
-                                )?.value,
-                              )}
+                                ),
+                              )
+                            }
                           />
                         </Condition>
                         <Condition
@@ -208,13 +211,15 @@ function AnnotationConfig({ configKey }) {
                             isEditMode={isEditMode}
                             defaultValue={format(currentDate(), DATE_FORMAT)}
                             format={DATE_FORMAT}
-                            validate={(value) =>
+                            validate={(value, values) =>
                               validateToValueDate(
                                 value,
-                                getFieldState(
+                                get(
+                                  values,
                                   `${name}.${annotationTypes.DATE}.${areaAnnotationConfig.START}`,
-                                )?.value,
-                              )}
+                                ),
+                              )
+                            }
                           />
                         </Condition>
                       </Box>
@@ -252,7 +257,8 @@ function AnnotationConfig({ configKey }) {
                     </Box>
                   )}
                 </Box>
-              ))}
+              ))
+            }
           </FieldArray>
           <Box className={classes.addMetricButtonContainer}>
             <Button

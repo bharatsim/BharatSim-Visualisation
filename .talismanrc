@@ -11,3 +11,5 @@ fileignoreconfig:
   checksum: ac4f7dea4475792c6c0ad379d0f286eeac89147d15a8cb9ba18344545052cb79
 - filename: frontend/src/utils/helper.js
   checksum: af33bd3c8669e6c23755b9cb888eafc19e9ea0505e4a7089f13483f92f990a90
+- filename: frontend/yarn.lock
+  checksum: 52431c3512110f87776893af29182af318d0b1b0f66fbe6f0b04655ba21ae2d9
