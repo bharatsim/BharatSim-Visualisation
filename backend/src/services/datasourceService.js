@@ -4,12 +4,15 @@ const dashboardDatasourceMapRepository = require('../repository/dashboardDatasou
 const dataSourceMetadataRepository = require('../repository/datasourceMetadataRepository');
 const modelCreator = require('../utils/modelCreator');
 const dbUtils = require('../utils/dbUtils');
+const { parseExpression } = require('../utils/expressionParser');
 
 const ColumnsNotFoundException = require('../exceptions/ColumnsNotFoundException');
 const DatasourceNotFoundException = require('../exceptions/DatasourceNotFoundException');
+const InvalidInputException = require('../exceptions/InvalidInputException');
 const { EXTENDED_JSON_TYPES } = require('../constants/fileTypes');
 const { fileTypes } = require('../constants/fileTypes');
 const { dbDataTypes } = require('../constants/dbConstants');
+const { invalidExpression } = require('../exceptions/errors');
 
 const FILE_UPLOAD_PATH = './uploads/';
 
@@ -26,10 +29,10 @@ async function getDataSourceModel(datasourceId) {
 
 async function getNewDataSourceModel(datasourceId, newSchema) {
   modelCreator.deleteModel(datasourceId);
-  return modelCreator.getOrCreateModel(datasourceId, newSchema, true);
+  return modelCreator.getOrCreateModel(datasourceId, newSchema);
 }
 
-async function getData(datasourceId, columns, aggregationParams) {
+async function getData(datasourceId, columns, aggregationParams, limit = 0) {
   const uniqueColumns = [...new Set(columns)];
   const datasourceMetadata = await dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId(
     datasourceId,
@@ -47,7 +50,7 @@ async function getData(datasourceId, columns, aggregationParams) {
     return getJsonData(datasourceMetadata);
   }
   if (datasourceMetadata.fileType === fileTypes.CSV) {
-    return getCsvData(datasourceId, uniqueColumns, aggregationParams);
+    return getCsvData(datasourceId, uniqueColumns, aggregationParams, limit);
   }
   throw new DatasourceNotFoundException(datasourceMetadata.fileId);
 }
@@ -82,12 +85,11 @@ function getJsonData(datasourceMetadata) {
   throw new DatasourceNotFoundException(datasourceMetadata.fileId);
 }
 
-async function getCsvData(datasourceId, columns, aggregationParams) {
+async function getCsvData(datasourceId, columns, aggregationParams, limit) {
   const dataSourceModel = await getDataSourceModel(datasourceId);
   const columnsMap = dbUtils.getProjectedColumns([...columns]);
   let allColumns = columns;
-  const dataRecords = await getDataRecord(aggregationParams, dataSourceModel, columnsMap);
-
+  const dataRecords = await getDataRecord(aggregationParams, dataSourceModel, columnsMap, limit);
   if (aggregationParams) {
     allColumns = [
       ...new Set([...aggregationParams.groupBy, ...Object.keys(aggregationParams.aggregate)]),
@@ -102,11 +104,11 @@ async function getCsvData(datasourceId, columns, aggregationParams) {
   return { data };
 }
 
-async function getDataRecord(aggregationParams, dataSourceModel, columnsMap) {
+async function getDataRecord(aggregationParams, dataSourceModel, columnsMap, limit) {
   if (aggregationParams) {
-    return dataSourceRepository.getAggregatedData(dataSourceModel, aggregationParams);
+    return dataSourceRepository.getAggregatedData(dataSourceModel, aggregationParams, limit);
   }
-  return dataSourceRepository.getData(dataSourceModel, columnsMap);
+  return dataSourceRepository.getData(dataSourceModel, columnsMap, limit);
 }
 
 async function deleteCsvFiles(datasourceIds) {
@@ -164,16 +166,63 @@ async function deleteDatasource(id) {
   await dataSourceMetadataRepository.deleteDatasourceMetadata(id);
 }
 
-async function updateDatasource(datasourceId, newColumnMetadata) {
-  const { columnName, expression } = newColumnMetadata;
+async function createColumnInDataSource(expression, datasourceModal, columnName) {
+  try {
+    const formula = parseExpression(expression);
+    return await dataSourceRepository.addColumn(datasourceModal, formula, columnName);
+  } catch (error) {
+    throw new InvalidInputException(invalidExpression.errorMessage, invalidExpression.errorCode);
+  }
+}
+
+async function updateDataSourceMetadata(expression, columnName, datasourceId, schema) {
+  await dataSourceMetadataRepository.updateDatasourceSchema(datasourceId, schema);
+  return dataSourceMetadataRepository.updateOrInsertCustomColumn(datasourceId, {
+    name: columnName,
+    expression,
+  });
+}
+
+async function getUpdatedSchema(datasourceId, columnName) {
   const { dataSourceSchema } = await dataSourceMetadataRepository.getDataSourceSchemaById(
     datasourceId,
   );
-  const newDatasourceSchema = { ...dataSourceSchema, [columnName]: dbDataTypes.number };
+  return { ...dataSourceSchema, [columnName]: dbDataTypes.number };
+}
+
+async function deleteColumnFromSchema(datasourceId, columnName) {
+  const { dataSourceSchema } = await dataSourceMetadataRepository.getDataSourceSchemaById(
+    datasourceId,
+  );
+  delete dataSourceSchema[columnName];
+  return dataSourceSchema;
+}
+
+async function deleteDatasourceMetadataForColumn(datasourceId, schema, columnName) {
+  await dataSourceMetadataRepository.updateDatasourceSchema(datasourceId, schema);
+  await dataSourceMetadataRepository.deleteCustomColumn(datasourceId, columnName);
+}
+
+async function updateDatasource(datasourceId, newColumnMetadata) {
+  const { columnName, expression } = newColumnMetadata;
+  const newDatasourceSchema = await getUpdatedSchema(datasourceId, columnName);
   const datasourceModal = await getNewDataSourceModel(datasourceId, newDatasourceSchema);
-  const result = await dataSourceRepository.addColumn(datasourceModal, expression, columnName);
-  await dataSourceMetadataRepository.updateDatasourceSchema(datasourceId, newDatasourceSchema);
-  return result;
+  const datasource = await createColumnInDataSource(expression, datasourceModal, columnName);
+  const metadata = await updateDataSourceMetadata(
+    expression,
+    columnName,
+    datasourceId,
+    newDatasourceSchema,
+  );
+
+  return { datasource, metadata };
+}
+
+async function deleteDatasourceColumn(datasourceId, columnName) {
+  const newDatasourceSchema = await deleteColumnFromSchema(datasourceId, columnName);
+  const datasourceModal = await getNewDataSourceModel(datasourceId, newDatasourceSchema);
+  await dataSourceRepository.deleteColumn(datasourceModal, columnName);
+  await deleteDatasourceMetadataForColumn(datasourceId, newDatasourceSchema, columnName);
 }
 
 module.exports = {
@@ -182,4 +231,5 @@ module.exports = {
   getJsonData,
   deleteDatasource,
   updateDatasource,
+  deleteDatasourceColumn,
 };

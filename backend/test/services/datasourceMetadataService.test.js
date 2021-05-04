@@ -276,4 +276,48 @@ describe('datasourceMetadataService', () => {
     });
     expect(dataSourceMetadataRepository.getDataSourceSchemaById).toHaveBeenCalledWith('model_1_id');
   });
+
+  it('should get all metadata for datasource', async () => {
+    dataSourceMetadataRepository.getDatasourcesMetadata.mockResolvedValue([
+      {
+        _id: 'id1',
+        name: 'model_1',
+        dashboardUsage: 2,
+        widgetUsage: 1,
+        usage: [
+          {
+            dashboards: ['dashboard1', 'dashboard2'],
+            project: {
+              id: 1,
+              name: 'project2',
+            },
+          },
+        ],
+      },
+    ]);
+
+    const dataSourceId = 'id1';
+
+    const data = await datasourceMetadataService.getDatasourceMetadata(dataSourceId);
+
+    expect(data).toEqual({
+      datasourceMetaData: {
+        _id: 'id1',
+        name: 'model_1',
+        dashboardUsage: 2,
+        widgetUsage: 1,
+        usage: [
+          {
+            dashboards: ['dashboard1', 'dashboard2'],
+            project: {
+              id: 1,
+              name: 'project2',
+            },
+          },
+        ],
+      },
+    });
+
+    expect(dataSourceMetadataRepository.getDatasourcesMetadata).toHaveBeenCalledWith({_id: 'id1'});
+  });
 });

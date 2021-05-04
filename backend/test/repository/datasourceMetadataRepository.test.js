@@ -15,6 +15,7 @@ const dataSourceMetadata = [
     fileSize: 123,
     fileType: 'csv',
     fileId: 'fileidByMulter',
+    customColumns: [],
   },
   {
     name: 'model_2',
@@ -25,6 +26,7 @@ const dataSourceMetadata = [
     fileSize: 123,
     fileType: 'csv',
     fileId: 'fileidByMulter',
+    customColumns: [],
   },
 ];
 
@@ -41,7 +43,7 @@ describe('Datasource metadata repository', () => {
     await dbHandler.closeDatabase();
   });
 
-  describe('getDataSourceNames', function() {
+  describe('getDataSourceNames', function () {
     it('should return names of all present data sources', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
       const expectedResult = insertedMetadata.map((metadata) => ({
@@ -55,7 +57,7 @@ describe('Datasource metadata repository', () => {
     });
   });
 
-  describe('get DataSource metadata by dashboard id', function() {
+  describe('get DataSource metadata by dashboard id', function () {
     it('should return DataSource metadata for given datasource id', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
 
@@ -67,6 +69,7 @@ describe('Datasource metadata repository', () => {
         createdAt: metadata.createdAt.toISOString(),
         updatedAt: metadata.updatedAt.toISOString(),
         fileId: 'fileidByMulter',
+        customColumns: [],
       }));
 
       const insertedIds = insertedMetadata.map((metadata) => metadata.id.toString());
@@ -89,6 +92,7 @@ describe('Datasource metadata repository', () => {
       createdAt: metadata.createdAt.toISOString(),
       updatedAt: metadata.updatedAt.toISOString(),
       fileId: 'fileidByMulter',
+      customColumns: [],
     }))[0];
 
     const insertedIds = insertedMetadata.map((metadata) => metadata.id.toString());
@@ -100,7 +104,7 @@ describe('Datasource metadata repository', () => {
     expect(dataSources).toEqual([expectedResult]);
   });
 
-  describe('get DataSource Schema By Id', function() {
+  describe('get DataSource Schema By Id', function () {
     it('should return datasource schema for given datasource name for csv', async () => {
       const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
       const { _id: dataSourceId } = insertedMetadata[0];
@@ -130,7 +134,7 @@ describe('Datasource metadata repository', () => {
     });
   });
 
-  describe('get all datasources', function() {
+  describe('get all datasources', function () {
     it('should return all datasources', async () => {
       await DataSourceMetaData.insertMany(dataSourceMetadata);
       const schema = parseMongoDBResult(
@@ -162,6 +166,7 @@ describe('Datasource metadata repository', () => {
       fileSize: 123,
       fileType: 'csv',
       fileId: 'fileIdByMulter',
+      customColumns: [],
     });
 
     const result = parseMongoDBResult(
@@ -179,6 +184,7 @@ describe('Datasource metadata repository', () => {
       createdAt: expect.anything(),
       updatedAt: expect.anything(),
       fileId: 'fileIdByMulter',
+      customColumns: [],
     });
   });
 
@@ -234,13 +240,115 @@ describe('Datasource metadata repository', () => {
         susceptible: 'number',
         newColumn: 'number',
       });
-      const firstDatasourceMetadata = await DataSourceMetaDataRepository.getDataSourceSchemaById(firstMetadataId);
+      const firstDatasourceMetadata = await DataSourceMetaDataRepository.getDataSourceSchemaById(
+        firstMetadataId,
+      );
 
       expect(firstDatasourceMetadata.dataSourceSchema).toEqual({
         hour: 'number',
         susceptible: 'number',
         newColumn: 'number',
       });
+    });
+  });
+  describe('custom column CRUD', () => {
+    it('should add new custom column', async () => {
+      const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
+      const { _id: firstMetadataId } = insertedMetadata[0];
+      await DataSourceMetaDataRepository.addCustomColumn(firstMetadataId, {
+        name: 'column1',
+        expression: '1 + 2',
+      });
+      const firstDatasourceMetadata = parseMongoDBResult(
+        await DataSourceMetaDataRepository.getDatasourcesMetadata(
+          { _id: firstMetadataId },
+          { 'customColumns._id': 0 },
+        ),
+      )[0];
+
+      expect(firstDatasourceMetadata.customColumns).toEqual([
+        {
+          name: 'column1',
+          expression: '1 + 2',
+        },
+      ]);
+    });
+
+    it('should update custom column', async () => {
+      const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
+      const { _id: firstMetadataId } = insertedMetadata[0];
+      await DataSourceMetaDataRepository.addCustomColumn(firstMetadataId, {
+        name: 'column1',
+        expression: '1 + 2',
+      });
+      await DataSourceMetaDataRepository.updateOrInsertCustomColumn(firstMetadataId, {
+        name: 'column1',
+        expression: '1 + 5',
+      });
+
+      const firstDatasourceMetadata = parseMongoDBResult(
+        await DataSourceMetaDataRepository.getDatasourcesMetadata(
+          { _id: firstMetadataId },
+          { 'customColumns._id': 0 },
+        ),
+      )[0];
+
+      expect(firstDatasourceMetadata.customColumns).toEqual([
+        {
+          name: 'column1',
+          expression: '1 + 5',
+        },
+      ]);
+    });
+
+    it('should add new custom column if column name is not found', async () => {
+      const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
+      const { _id: firstMetadataId } = insertedMetadata[0];
+      await DataSourceMetaDataRepository.addCustomColumn(firstMetadataId, {
+        name: 'column1',
+        expression: '1 + 2',
+      });
+      await DataSourceMetaDataRepository.updateOrInsertCustomColumn(firstMetadataId, {
+        name: 'column2',
+        expression: '1 + 5',
+      });
+
+      const firstDatasourceMetadata = parseMongoDBResult(
+        await DataSourceMetaDataRepository.getDatasourcesMetadata(
+          { _id: firstMetadataId },
+          { 'customColumns._id': 0 },
+        ),
+      )[0];
+
+      expect(firstDatasourceMetadata.customColumns).toEqual([
+        {
+          name: 'column1',
+          expression: '1 + 2',
+        },
+        {
+          name: 'column2',
+          expression: '1 + 5',
+        },
+      ]);
+    });
+
+    it('should delete custom column', async () => {
+      const insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
+      const { _id: firstMetadataId } = insertedMetadata[0];
+      await DataSourceMetaDataRepository.addCustomColumn(firstMetadataId, {
+        name: 'column1',
+        expression: '1 + 2',
+      });
+      await DataSourceMetaDataRepository.deleteCustomColumn(firstMetadataId, 'column1');
+
+      const firstDatasourceMetadata = parseMongoDBResult(
+        await DataSourceMetaDataRepository.getDatasourcesMetadata(
+          { _id: firstMetadataId },
+          { 'customColumns._id': 0 },
+        ),
+      )[0];
+
+      expect(firstDatasourceMetadata.customColumns).toEqual([]);
     });
   });
 });

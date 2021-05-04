@@ -23,7 +23,7 @@ function changeRecordDimensionToArray(records) {
   const parsedRecords = parseDBObject(records);
   const columns = Object.keys(parsedRecords[0]);
   return columns.reduce((acc, column) => {
-    acc[column] = records.map((row) => row[column]);
+    acc[column] = parsedRecords.map((record) => record[column]);
     return acc;
   }, {});
 }

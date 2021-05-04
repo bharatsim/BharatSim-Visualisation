@@ -51,6 +51,10 @@ const errors = {
     errorCode: 1014,
     errorMessage: 'Request is not complete',
   },
+  invalidExpression: {
+    errorCode: 1015,
+    errorMessage: 'Given expression for column is invalid',
+  },
 };
 
 module.exports = errors;

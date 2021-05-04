@@ -30,4 +30,6 @@ global.document.createRange = () => ({
   },
 });
 
+window.scrollTo = jest.fn();
+
 global.URL.createObjectURL = jest.fn();

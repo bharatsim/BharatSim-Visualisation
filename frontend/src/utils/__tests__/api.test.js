@@ -140,7 +140,7 @@ describe('API', () => {
 
   it('should call datasources/data api to get data for given datasource', () => {
     const expectedParameter = {
-      query: { columns: 'columns' },
+      query: { columns: 'columns', limit: 0 },
       url: '/api/dataSources/id',
       isCustomErrorHandler: true,
       isCustomLoader: true,
@@ -334,5 +334,39 @@ describe('API', () => {
     });
 
     expect(uploadData).toHaveBeenCalledWith(expectedParameter);
+  });
+
+  it('should call add column api to add new custom column', () => {
+    const expectedParameter = {
+      url: '/api/dataSources/datasourceId1/column',
+      method: 'put',
+      data: { columnName: 'col1', expression: '1 + 10' },
+    };
+
+    api.addColumn('datasourceId1', '1 + 10', 'col1');
+
+    expect(uploadData).toHaveBeenCalledWith(expectedParameter);
+  });
+
+  it('should call delete column', () => {
+    const expectedParameter = {
+      url: '/api/dataSources/datasourceId1/column',
+      method: 'delete',
+      data: { columnName: 'col1' },
+    };
+
+    api.deleteColumn({ datasourceId: 'datasourceId1', columnName: 'col1' });
+
+    expect(uploadData).toHaveBeenCalledWith(expectedParameter);
+  });
+
+  it('should call get metadata for datasource', () => {
+    const expectedParameter = {
+      url: '/api/dataSources/datasourceId/metadata',
+    };
+
+    api.getDataSourceMetaData('datasourceId');
+
+    expect(fetchData).toHaveBeenCalledWith(expectedParameter);
   });
 });

@@ -12,6 +12,7 @@ import withSnackBar from '../../../hoc/snackbar/withSnackBar';
 
 const mockHistoryPush = jest.fn();
 const mockHistoryReplace = jest.fn();
+jest.mock('../editDatasource/EditDatasourceModal', () => () => <div>Edit datasource modal</div>);
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -30,7 +31,7 @@ jest.mock('../../../utils/api', () => ({
           createdAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           dashboardId: '5f9952ede93dbd234a39d82f',
           fileSize: 125005,
-          fileType: 'csv',
+          fileType: 'json',
           name: 'csv-file-name',
           updatedAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           dashboardUsage: 1,
@@ -70,7 +71,7 @@ jest.mock('../../../utils/api', () => ({
           createdAt: 'Fri Oct 20 2020 15:45:07 GMT+0530',
           dashboardId: '5f9952ede93dbd234a39d82f',
           fileSize: 125005,
-          fileType: 'csv',
+          fileType: 'json',
           name: 'csv-file-name',
           dashboardUsage: 1,
           usage: [{ project: { name: 'project1', id: 1 }, dashboards: ['dashboard2'] }],
@@ -369,5 +370,33 @@ describe('Manage datasets', () => {
     });
 
     expect(getAllByText('csv-file-name-5').length).toBe(1);
+  });
+
+  it('should hide edit button if file type is not csv', async () => {
+    const { findByText, getAllByText } = render(<ComponentWithProvider />);
+    await findByText('Configure Dashboard Data');
+    await findByText('Dataset Library');
+
+    const rowOneName = getAllByText('csv-file-name')[0];
+    const rowOne = within(rowOneName.parentNode);
+
+    const removeButton = rowOne.queryByTitle('Edit datasource');
+
+    expect(removeButton).toBeNull();
+  });
+
+  it('should open edit modal on click of edit button', async () => {
+    const { findByText, getAllByText, queryByText } = render(<ComponentWithProvider />);
+    await findByText('Configure Dashboard Data');
+    await findByText('Dataset Library');
+
+    const rowOneName = getAllByText('csv-file-name-4')[0];
+    const rowOne = within(rowOneName.parentNode);
+
+    const editButton = rowOne.queryByTitle('Edit datasource');
+
+    fireEvent.click(editButton);
+
+    expect(queryByText('Edit datasource modal')).toBeInTheDocument();
   });
 });

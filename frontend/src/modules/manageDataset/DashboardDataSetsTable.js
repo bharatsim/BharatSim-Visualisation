@@ -11,9 +11,9 @@ import tableIcon from '../../uiComponent/table/tableIcon';
 import DeleteConfirmationModal from '../../uiComponent/DeleteConfirmationModal';
 import useModal from '../../hook/useModal';
 import DatasourceUsageTooltip from '../../uiComponent/DatasourceUsageTooltip';
-import UpdateDataModal from '../../uiComponent/UpdateDataModal';
+import EditDataSourceModal from './editDatasource/EditDatasourceModal';
 
-function DashboardDataSetsTable({ dataSources, onRemove, onDelete, onAddColumn }) {
+function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
   const theme = useTheme();
   const styles = tableStyles(theme, dataSources);
   const [selectedRow, setSelectedRow] = useState();
@@ -23,9 +23,9 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete, onAddColumn }
     closeModal: closeDeleteModal,
   } = useModal();
   const {
-    isOpen: isUpdateModalOpen,
-    openModal: openUpdateModal,
-    closeModal: closeUpdateModal,
+    isOpen: isEditModalOpen,
+    openModal: openEdtModal,
+    closeModal: closeEditModal,
   } = useModal();
 
   async function deleteDatasource() {
@@ -33,20 +33,17 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete, onAddColumn }
     await onDelete(selectedRow);
   }
 
-  async function addColumn(formula, columnName) {
-    closeDeleteModal();
-    await onAddColumn(selectedRow, formula, columnName);
-  }
-
   function handleDelete(event, rowData) {
     openDeleteModal();
     setSelectedRow(rowData);
   }
 
-  function handleAddColumn(event, rowData) {
-    openUpdateModal();
+  function handleEdit(event, rowData) {
+    openEdtModal();
     setSelectedRow(rowData);
   }
+
+  const { _id: selectedDataSourceId } = selectedRow || {};
 
   return (
     <>
@@ -103,6 +100,13 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete, onAddColumn }
           }}
           actions={[
             (rowData) => ({
+              icon: tableIcon.Edit,
+              tooltip: 'Edit datasource',
+              onClick: handleEdit,
+              size: 'small',
+              hidden: rowData.fileType !== 'csv',
+            }),
+            (rowData) => ({
               icon: tableIcon.RemoveRow,
               tooltip: 'Remove datasource from dashboard',
               onClick: (event, row) => onRemove(row),
@@ -114,12 +118,6 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete, onAddColumn }
               tooltip: 'Delete Datasource',
               onClick: handleDelete,
               disabled: rowData.dashboardUsage > 0,
-              size: 'small',
-            }),
-            () => ({
-              icon: tableIcon.Edit,
-              tooltip: 'Add Column',
-              onClick: handleAddColumn,
               size: 'small',
             }),
           ]}
@@ -143,17 +141,13 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete, onAddColumn }
           {`Are you sure you want to delete ${selectedRow ? selectedRow.name : ''} datasource ?`}
         </Typography>
       </DeleteConfirmationModal>
-
-      <UpdateDataModal
-        handleClose={closeUpdateModal}
-        title="Update Datasource"
-        open={isUpdateModalOpen}
-        updateAction={{
-          onUpdate: addColumn,
-          name: 'add column',
-          dataTestId: 'update-datasource',
-        }}
-      />
+      {isEditModalOpen && selectedRow && (
+        <EditDataSourceModal
+          open={isEditModalOpen}
+          handleClose={closeEditModal}
+          datasourceId={selectedDataSourceId}
+        />
+      )}
     </>
   );
 }
@@ -169,7 +163,6 @@ DashboardDataSetsTable.propTypes = {
   ).isRequired,
   onRemove: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  onAddColumn: PropTypes.func.isRequired,
 };
 
 export default DashboardDataSetsTable;

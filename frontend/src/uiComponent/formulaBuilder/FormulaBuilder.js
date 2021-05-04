@@ -49,9 +49,10 @@ function setCursor(textArea, position) {
 }
 
 function parseError(error) {
-  const errorType = error.name || 'error';
-  const errorPos = error.message.search(/\(char [0-9]*\)/g);
-  return `${errorType}: ${error.message.slice(0, errorPos)}`;
+  const errorType = error.name;
+  let errorCharPosition = error.message.search(/\(char [0-9]*\)/g);
+  errorCharPosition = errorCharPosition < 0 ? undefined : errorCharPosition;
+  return `${errorType}: ${error.message.slice(0, errorCharPosition)}`;
 }
 
 function getFormattedCode(code, type) {
@@ -61,9 +62,9 @@ function getFormattedCode(code, type) {
   }[type];
 }
 
-function FormulaBuilder({ fields, operators, buttonLabel, onClick }) {
+function FormulaBuilder({ fields, operators, buttonLabel, onClick, defaultExpression }) {
   const classes = useStyles();
-  const [expression, setExpression] = useState('');
+  const [expression, setExpression] = useState(defaultExpression);
   const [error, setError] = useState('');
 
   const ref = useRef();
@@ -72,8 +73,10 @@ function FormulaBuilder({ fields, operators, buttonLabel, onClick }) {
   }, []);
 
   function handleCalculateFormula() {
-    console.log(expression)
     try {
+      if (!expression.trim()) {
+        throw new Error('Expression can not be empty');
+      }
       const parsedExpression = parse(expression);
       onClick(parsedExpression, expression);
     } catch (e) {
@@ -97,7 +100,7 @@ function FormulaBuilder({ fields, operators, buttonLabel, onClick }) {
   }
 
   function digitAndOperatorOnly(evt) {
-    const charCode = evt.which ? evt.which : evt.keyCode;
+    const charCode = evt.which;
     const isNumber = charCode >= 48 && charCode <= 57;
     const isOperator = operators.includes(evt.key);
     const isSpace = charCode === 32;
@@ -138,7 +141,10 @@ function FormulaBuilder({ fields, operators, buttonLabel, onClick }) {
       <Box className={classes.actionContainer}>
         <Box className={classes.operatorContainer}>
           {operators.map((operator) => (
-            <OperatorButton onClick={() => handleClick(operator, typeOfCode.OPERATOR)} key={operator}>
+            <OperatorButton
+              onClick={() => handleClick(operator, typeOfCode.OPERATOR)}
+              key={operator}
+            >
               {operator}
             </OperatorButton>
           ))}
@@ -155,11 +161,13 @@ FormulaBuilder.propTypes = {
   fields: PropTypes.arrayOf(PropTypes.string).isRequired,
   operators: PropTypes.arrayOf(PropTypes.string).isRequired,
   buttonLabel: PropTypes.string,
+  defaultExpression: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 };
 
 FormulaBuilder.defaultProps = {
   buttonLabel: 'Calculate',
+  defaultExpression: '',
 };
 
 export default FormulaBuilder;

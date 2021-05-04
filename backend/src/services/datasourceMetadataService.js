@@ -117,7 +117,15 @@ async function getDatasources({ projectId, dashboardId }) {
   return { dataSources };
 }
 
+async function getDatasourceMetadata(datasourceId) {
+  const datasourceMetaData = await dataSourceMetadataRepository.getDatasourcesMetadata({
+    _id: datasourceId,
+  });
+  return { datasourceMetaData: datasourceMetaData[0] };
+}
+
 module.exports = {
   getHeaders,
   getDatasources,
+  getDatasourceMetadata,
 };

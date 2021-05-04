@@ -90,13 +90,17 @@ describe('get Datasource name ', () => {
   it('should return aggregated data based on aggregations params and given datasource model', async () => {
     await DataSourceModel.insertMany(datasourceDataForAggregation);
     const data = parseMongoDBResult(
-      await DataSourceRepository.getAggregatedData(DataSourceModel, {
-        groupBy: ['hour'],
-        aggregate: {
-          recovered: 'avg',
-          susceptible: 'sum',
+      await DataSourceRepository.getAggregatedData(
+        DataSourceModel,
+        {
+          groupBy: ['hour'],
+          aggregate: {
+            recovered: 'avg',
+            susceptible: 'sum',
+          },
         },
-      }),
+        0,
+      ),
     );
     data.sort((v1, v2) => v1.hour - v2.hour);
     expect(data).toEqual([
@@ -203,5 +207,18 @@ describe('get Datasource name ', () => {
     const { hour: row2Hour, recovered: row2Recovered } = datasourceDataForAggregation[1];
     expect(data[0].column1).toEqual(row1Hour + row1Recovered);
     expect(data[1].column1).toEqual(row2Hour + row2Recovered);
+  });
+
+  it('should delete column with given column name', async () => {
+    const modelName = 'datasource3';
+    const Datasource = mongoose.model(modelName, model);
+    await Datasource.insertMany(datasourceDataForAggregation);
+
+    await DataSourceRepository.deleteColumn(Datasource, 'hour');
+
+    const data = parseMongoDBResult(await Datasource.find({}));
+
+    expect(data[0].hour).toEqual(undefined);
+    expect(data[1].hour).toEqual(undefined);
   });
 });

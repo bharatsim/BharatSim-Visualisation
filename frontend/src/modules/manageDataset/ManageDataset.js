@@ -35,6 +35,79 @@ function ManageDataset() {
     selectedDashboardMetadata: { _id: selectedDashboardId, name: selectedDashboardName },
   } = useContext(projectLayoutContext);
 
+  useEffect(() => {
+    fetchDataSources();
+    fetchDatasets();
+  }, []);
+
+  const uploadFilePage = `/projects/${projectMetadata.id}/upload-dataset`;
+
+  const isEmptyDashboards = dataSources && dataSources.length === 0;
+
+  return (
+    <Box>
+      <ProjectHeader />
+      <DashboardHeaderBar>
+        <Box className={classes.configureProjectDataBar}>
+          <Typography variant="h6"> Configure Dashboard Data</Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={openDashboard}
+            disabled={isEmptyDashboards}
+          >
+            Go to dashboard
+          </Button>
+        </Box>
+      </DashboardHeaderBar>
+      <Box className={classes.dashboardDataContainer}>
+        {dataSources && (
+          <>
+            <Box className={classes.dashboardDataContainerTitle}>
+              <Typography variant="subtitle2"> Manage Dashboard Dataset</Typography>
+              <Button
+                color="secondary"
+                variant="contained"
+                size="small"
+                startIcon={<img src={plusIcon} alt="icon" />}
+                onClick={openUploadDatasets}
+              >
+                Upload Data
+              </Button>
+            </Box>
+            <Box className={classes.dashboardDataHeader}>
+              <Typography variant="subtitle2">{`${projectMetadata.name} :: ${selectedDashboardName}`}</Typography>
+            </Box>
+            <Box className={classes.dashboardDataBody}>
+              {dataSources.length === 0 ? (
+                <NoDataSetPresentMessage projectMetadataId={projectMetadata.id} />
+              ) : (
+                <DashboardDataSetsTable
+                  dataSources={dataSources}
+                  onRemove={removeDatasource}
+                  onDelete={deleteDatasource}
+                />
+              )}
+            </Box>
+          </>
+        )}
+        {globalDataSources && dataSources && globalDataSources.length > 0 && (
+          <Box mt={10}>
+            <Typography variant="subtitle2">Add from dataset Library</Typography>
+            <Box mt={2}>
+              <GlobalDatasetTable
+                dataSources={getUniqueGlobalDatasources(dataSources, globalDataSources)}
+                onAddDatasourceClick={addDatasource}
+                selectedDatasources={dataSources}
+              />
+            </Box>
+          </Box>
+        )}
+      </Box>
+    </Box>
+  );
+
   async function fetchDataSources() {
     const { dataSources: fetchedDataSources } = await api.getDatasources(
       selectedDashboardId,
@@ -50,13 +123,6 @@ function ManageDataset() {
     setGlobalDataSources(fetchedDataSources);
   }
 
-  useEffect(() => {
-    fetchDataSources();
-    fetchDatasets();
-  }, []);
-
-  const uploadFilePage = `/projects/${projectMetadata.id}/upload-dataset`;
-
   function openUploadDatasets() {
     history.push(uploadFilePage);
   }
@@ -64,8 +130,6 @@ function ManageDataset() {
   function openDashboard() {
     history.push(`/projects/${projectMetadata.id}/dashboard`);
   }
-
-  const isEmptyDashboards = dataSources && dataSources.length === 0;
 
   function uncheckedAllDatasources() {
     const updatedGlobalDatasources = globalDataSources.map(({ tableData, ...rest }) => rest);
@@ -111,14 +175,6 @@ function ManageDataset() {
       });
   }
 
-  function addColumn(checkedDatasource, columnName, expression) {
-    const { _id: checkedDatasourceId, name } = checkedDatasource;
-    api.addColumn(checkedDatasourceId, expression, columnName).then(() => {
-      enqueueSnackbar(`Successfully update ${name} datasource with new Column ${columnName}`, {
-        variant: SUCCESS,
-      });
-    });
-  }
   function deleteDatasource(checkedDatasource) {
     const { _id: checkedDatasourceId, name } = checkedDatasource;
     const updatedDataSources = dataSources
@@ -133,71 +189,6 @@ function ManageDataset() {
       setGlobalDataSources(updatedGlobalDataSources);
     });
   }
-
-  return (
-    <Box>
-      <ProjectHeader />
-      <DashboardHeaderBar>
-        <Box className={classes.configureProjectDataBar}>
-          <Typography variant="h6"> Configure Dashboard Data</Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={openDashboard}
-            disabled={isEmptyDashboards}
-          >
-            Go to dashboard
-          </Button>
-        </Box>
-      </DashboardHeaderBar>
-      <Box className={classes.dashboardDataContainer}>
-        {dataSources && (
-          <>
-            <Box className={classes.dashboardDataContainerTitle}>
-              <Typography variant="subtitle2"> Manage Dashboard Dataset</Typography>
-              <Button
-                color="secondary"
-                variant="contained"
-                size="small"
-                startIcon={<img src={plusIcon} alt="icon" />}
-                onClick={openUploadDatasets}
-              >
-                Upload Data
-              </Button>
-            </Box>
-            <Box className={classes.dashboardDataHeader}>
-              <Typography variant="subtitle2">{`${projectMetadata.name} :: ${selectedDashboardName}`}</Typography>
-            </Box>
-            <Box className={classes.dashboardDataBody}>
-              {dataSources.length === 0 ? (
-                <NoDataSetPresentMessage projectMetadataId={projectMetadata.id} />
-              ) : (
-                <DashboardDataSetsTable
-                  dataSources={dataSources}
-                  onRemove={removeDatasource}
-                  onDelete={deleteDatasource}
-                  onAddColumn={addColumn}
-                />
-              )}
-            </Box>
-          </>
-        )}
-        {globalDataSources && dataSources && globalDataSources.length > 0 && (
-          <Box mt={10}>
-            <Typography variant="subtitle2">Add from dataset Library</Typography>
-            <Box mt={2}>
-              <GlobalDatasetTable
-                dataSources={getUniqueGlobalDatasources(dataSources, globalDataSources)}
-                onAddDatasourceClick={addDatasource}
-                selectedDatasources={dataSources}
-              />
-            </Box>
-          </Box>
-        )}
-      </Box>
-    </Box>
-  );
 }
 
 export default ManageDataset;

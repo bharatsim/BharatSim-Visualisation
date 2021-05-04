@@ -1,0 +1,454 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EditDataSouceModel /> should match snapshot with table and empty custom column 1`] = `
+<div
+  aria-labelledby="customized-dialog-title"
+  class="MuiPaper-root MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm MuiPaper-elevation24 MuiPaper-rounded"
+  role="dialog"
+>
+  <div
+    class="MuiDialogTitle-root Component-root-2"
+    id="customized-dialog-title"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-4 Component-titleContainer-3"
+    >
+      <h5
+        class="MuiTypography-root MuiTypography-h5"
+      >
+        Custom Column
+      </h5>
+      <button
+        aria-label="close"
+        class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-5"
+        data-testid="button-icon-close"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    class="MuiDialogContent-root WithStyles(ForwardRef(DialogContent))-root-6 MuiDialogContent-dividers"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-7 makeStyles-container-1"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-8"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
+          style="position: relative; box-shadow: none; border: 1px solid; border-color: #594ab73d; border-radius: 4px; overflow: hidden;"
+        >
+          <div
+            class="Component-horizontalScrollContainer-13"
+            style="overflow-x: auto; position: relative;"
+          >
+            <div>
+              <div
+                style="max-height: 300px; overflow-y: auto;"
+              >
+                <div>
+                  <table
+                    class="MuiTable-root"
+                    style="table-layout: auto;"
+                  >
+                    <thead
+                      class="MuiTableHead-root"
+                    >
+                      <tr
+                        class="MuiTableRow-root MuiTableRow-head"
+                      >
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MTableHeader-header-17 MuiTableCell-alignLeft"
+                          scope="col"
+                          style="padding: 4px 8px 4px 8px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
+                        >
+                          <span
+                            aria-disabled="false"
+                            class="MuiButtonBase-root MuiTableSortLabel-root"
+                            role="button"
+                            tabindex="0"
+                          >
+                            col1
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-colorPrimary makeStyles-colorPrimary-27 MuiSvgIcon-fontSizeSmall"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                              />
+                            </svg>
+                          </span>
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MTableHeader-header-17 MuiTableCell-alignLeft"
+                          scope="col"
+                          style="padding: 4px 8px 4px 8px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
+                        >
+                          <span
+                            aria-disabled="false"
+                            class="MuiButtonBase-root MuiTableSortLabel-root"
+                            role="button"
+                            tabindex="0"
+                          >
+                            col2
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-colorPrimary makeStyles-colorPrimary-27 MuiSvgIcon-fontSizeSmall"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                              />
+                            </svg>
+                          </span>
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MTableHeader-header-17 MuiTableCell-alignLeft"
+                          scope="col"
+                          style="padding: 4px 8px 4px 8px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
+                        >
+                          <span
+                            aria-disabled="false"
+                            class="MuiButtonBase-root MuiTableSortLabel-root"
+                            role="button"
+                            tabindex="0"
+                          >
+                            col3
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-colorPrimary makeStyles-colorPrimary-27 MuiSvgIcon-fontSizeSmall"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                              />
+                            </svg>
+                          </span>
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MTableHeader-header-17 MuiTableCell-alignLeft"
+                          scope="col"
+                          style="padding: 4px 8px 4px 8px; text-align: left; flex-direction: row; font-family: \\"Rubik\\", sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.25; letter-spacing: 0.00938em; box-sizing: border-box;"
+                        >
+                          <span
+                            aria-disabled="false"
+                            class="MuiButtonBase-root MuiTableSortLabel-root"
+                            role="button"
+                            tabindex="0"
+                          >
+                            col4
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc MuiSvgIcon-colorPrimary makeStyles-colorPrimary-27 MuiSvgIcon-fontSizeSmall"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                              />
+                            </svg>
+                          </span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <thead>
+                      <tr
+                        class="MuiTableRow-root makeStyles-root-16"
+                      >
+                        <td
+                          class="MuiTableCell-root makeStyles-root-14"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-caption"
+                          >
+                            Datatype
+                          </span>
+                          <h6
+                            class="MuiTypography-root MuiTypography-subtitle1 makeStyles-subtitle1-15"
+                          >
+                            Number
+                          </h6>
+                        </td>
+                        <td
+                          class="MuiTableCell-root makeStyles-root-14"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-caption"
+                          >
+                            Datatype
+                          </span>
+                          <h6
+                            class="MuiTypography-root MuiTypography-subtitle1 makeStyles-subtitle1-15"
+                          >
+                            Number
+                          </h6>
+                        </td>
+                        <td
+                          class="MuiTableCell-root makeStyles-root-14"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-caption"
+                          >
+                            Datatype
+                          </span>
+                          <h6
+                            class="MuiTypography-root MuiTypography-subtitle1 makeStyles-subtitle1-15"
+                          >
+                            Number
+                          </h6>
+                        </td>
+                        <td
+                          class="MuiTableCell-root makeStyles-root-14"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-caption"
+                          >
+                            Datatype
+                          </span>
+                          <h6
+                            class="MuiTypography-root MuiTypography-subtitle1 makeStyles-subtitle1-15"
+                          >
+                            Number
+                          </h6>
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="MuiTableBody-root"
+                    >
+                      <tr
+                        class="MuiTableRow-root"
+                        index="0"
+                        level="0"
+                        path="0"
+                        style="transition: all ease 300ms; height: 32px; background-color: transparent; border-bottom: 1px solid #594ab73D;"
+                      >
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="1"
+                        >
+                          1
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="6"
+                        >
+                          6
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="1"
+                        >
+                          1
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                        />
+                      </tr>
+                      <tr
+                        class="MuiTableRow-root"
+                        index="1"
+                        level="0"
+                        path="1"
+                        style="transition: all ease 300ms; height: 32px; background-color: rgb(240, 238, 249); border-bottom: 1px solid #594ab73D;"
+                      >
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="2"
+                        >
+                          2
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="7"
+                        >
+                          7
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="2"
+                        >
+                          2
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                        />
+                      </tr>
+                      <tr
+                        class="MuiTableRow-root"
+                        index="2"
+                        level="0"
+                        path="2"
+                        style="transition: all ease 300ms; height: 32px; background-color: transparent; border-bottom: 1px solid #594ab73D;"
+                      >
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="3"
+                        >
+                          3
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="8"
+                        >
+                          8
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="3"
+                        >
+                          3
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                        />
+                      </tr>
+                      <tr
+                        class="MuiTableRow-root"
+                        index="3"
+                        level="0"
+                        path="3"
+                        style="transition: all ease 300ms; height: 32px; background-color: rgb(240, 238, 249); border-bottom: 1px solid #594ab73D;"
+                      >
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="4"
+                        >
+                          4
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="9"
+                        >
+                          9
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="4"
+                        >
+                          4
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                        />
+                      </tr>
+                      <tr
+                        class="MuiTableRow-root"
+                        index="4"
+                        level="0"
+                        path="4"
+                        style="transition: all ease 300ms; height: 32px; background-color: transparent;"
+                      >
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="5"
+                        >
+                          5
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="10"
+                        >
+                          10
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                          value="5"
+                        >
+                          5
+                        </td>
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                          style="color: rgba(52, 58, 64, 0.64); box-sizing: border-box; font-size: 0.875rem; font-family: \\"Roboto\\", sans-serif; font-weight: 400; height: 32px; padding: 8px 12px; text-align: left; line-height: 1; letter-spacing: 0.01071em;"
+                        />
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-23"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-24"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              Add column
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-25 makeStyles-layoutContainer-18"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-26 makeStyles-messageContainer-21"
+          >
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2"
+            >
+              You do not have any custom column, to add custom column click on Add column button.
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

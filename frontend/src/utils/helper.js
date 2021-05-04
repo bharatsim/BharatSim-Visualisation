@@ -158,6 +158,17 @@ function rgbaToHex(rgba) {
   return chrome(Object.values(rgba)).hex();
 }
 
+function transformColumnsDataToRows(data) {
+  const dataKeys = Object.keys(data);
+  return data[dataKeys[0]].map((_, index) => {
+    return dataKeys.reduce((row, key) => {
+      // eslint-disable-next-line no-param-reassign
+      row[key] = data[key][index];
+      return row;
+    }, {});
+  });
+}
+
 export {
   transformDataForHeatMap,
   debounce,
@@ -170,4 +181,5 @@ export {
   uniqueObjectsBy,
   hexToRgba,
   rgbaToHex,
+  transformColumnsDataToRows,
 };

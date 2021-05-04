@@ -69,6 +69,7 @@ describe('Integration test', () => {
         updatedAt: metadata.updatedAt.toISOString(),
         fileId: 'fileIdByMulter',
         dashboardUsage: 0,
+        customColumns: [],
         widgetUsage: 0,
         usage: [],
       }));
@@ -101,6 +102,7 @@ describe('Integration test', () => {
         name: metadata.name,
         fileSize: metadata.fileSize,
         fileType: metadata.fileType,
+        customColumns: [],
         createdAt: metadata.createdAt.toISOString(),
         updatedAt: metadata.updatedAt.toISOString(),
         fileId: 'fileIdByMulter',
@@ -392,10 +394,10 @@ describe('Integration test', () => {
   });
 
   it('should update datasource with new column using expression', async () => {
-    const updateParams = { columnName: 'newColumn', expression: { $sum: [1, '$susceptible'] } };
+    const updateParams = { columnName: 'newColumn', expression: '"susceptible" + 1'};
 
     await request(app)
-      .post(`/datasources/${dataSourceId}/update`)
+      .put(`/datasources/${dataSourceId}/column`)
       .send({ ...updateParams });
 
     const UpdatedDatasourceModel = mongoose.model(dataSourceId);

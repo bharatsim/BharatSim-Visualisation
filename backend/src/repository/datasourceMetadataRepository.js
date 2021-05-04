@@ -62,13 +62,62 @@ async function getDatasourcesMetadata(filter = {}, project = {}) {
 }
 
 async function updateDatasourceSchema(datasourceId, newSchema) {
-  return DataSourceMetadata.updateOne({ _id: datasourceId }, {
-    $set: {
-      dataSourceSchema: {
-        ...newSchema,
+  return DataSourceMetadata.updateOne(
+    { _id: datasourceId },
+    {
+      $set: {
+        dataSourceSchema: newSchema,
       },
     },
-  });
+  );
+}
+
+async function addCustomColumn(datasourceId, { name, expression }) {
+  return DataSourceMetadata.updateOne(
+    { _id: datasourceId },
+    {
+      $push: {
+        customColumns: {
+          name,
+          expression,
+        },
+      },
+    },
+  );
+}
+
+async function updateCustomColumn(datasourceId, { name, expression }) {
+  return DataSourceMetadata.updateOne(
+    { _id: datasourceId, 'customColumns.name': name },
+    {
+      $set: {
+        'customColumns.$.expression': expression,
+      },
+    },
+  );
+}
+
+async function findCustomColumn(datasourceId, columnName) {
+  return DataSourceMetadata.findOne({ _id: datasourceId, 'customColumns.name': columnName });
+}
+
+async function deleteCustomColumn(datasourceId, columnName) {
+  return DataSourceMetadata.updateOne(
+    { _id: datasourceId },
+    {
+      $pull: {
+        customColumns: { name: columnName },
+      },
+    },
+  );
+}
+
+async function updateOrInsertCustomColumn(datasourceId, { name, expression }) {
+  const isPresent = await findCustomColumn(datasourceId, name);
+  if (isPresent) {
+    return updateCustomColumn(datasourceId, { name, expression });
+  }
+  return addCustomColumn(datasourceId, { name, expression });
 }
 
 module.exports = {
@@ -83,4 +132,7 @@ module.exports = {
   filterDatasourceIds,
   getAllExceptDatasourceIds,
   updateDatasourceSchema,
+  addCustomColumn,
+  deleteCustomColumn,
+  updateOrInsertCustomColumn,
 };

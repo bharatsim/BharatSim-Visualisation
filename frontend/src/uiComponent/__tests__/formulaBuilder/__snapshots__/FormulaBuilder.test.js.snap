@@ -1,0 +1,170 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FormulaBuilder /> should match snapshot of component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-11"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-12 makeStyles-mainContainer-1"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-13 makeStyles-container-2 makeStyles-containerEditor-3"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1"
+        >
+          Formula
+        </h6>
+        <div
+          class="makeStyles-editor-4"
+          data-testid="textarea"
+          style="position: relative; text-align: left; box-sizing: border-box; padding: 0px; overflow: hidden;"
+        >
+          <textarea
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            class="npm__react-simple-code-editor__textarea"
+            data-gramm="false"
+            placeholder="Type your formula…"
+            spellcheck="false"
+            style="margin: 0px; border: 0px; background: none; box-sizing: inherit; display: inherit; font-family: inherit; font-style: inherit; font-variant-ligatures: inherit; font-weight: inherit; letter-spacing: inherit; line-height: inherit; tab-size: inherit; text-indent: inherit; text-rendering: inherit; text-transform: inherit; white-space: pre-wrap; word-break: keep-all; overflow-wrap: break-word; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; resize: none; overflow: hidden; padding: 10px 10px 10px 10px;"
+          />
+          <pre
+            aria-hidden="true"
+            style="margin: 0px; border: 0px; background: none; box-sizing: inherit; display: inherit; font-family: inherit; font-style: inherit; font-variant-ligatures: inherit; font-weight: inherit; letter-spacing: inherit; line-height: inherit; tab-size: inherit; text-indent: inherit; text-rendering: inherit; text-transform: inherit; white-space: pre-wrap; word-break: keep-all; overflow-wrap: break-word; position: relative; pointer-events: none; padding: 10px 10px 10px 10px;"
+          >
+            <br />
+          </pre>
+          <style
+            type="text/css"
+          >
+            
+/**
+ * Reset the text fill color so that placeholder is visible
+ */
+.npm__react-simple-code-editor__textarea:empty {
+  -webkit-text-fill-color: inherit !important;
+}
+
+/**
+ * Hack to apply on some CSS on IE10 and IE11
+ */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /**
+    * IE doesn't support '-webkit-text-fill-color'
+    * So we use 'color: transparent' to make the text transparent on IE
+    * Unlike other browsers, it doesn't affect caret color in IE
+    */
+  .npm__react-simple-code-editor__textarea {
+    color: transparent !important;
+  }
+
+  .npm__react-simple-code-editor__textarea::selection {
+    background-color: #accef7 !important;
+    color: transparent !important;
+  }
+}
+
+          </style>
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-14 makeStyles-errorContainer-8"
+        />
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-15 makeStyles-container-2 makeStyles-containerFunctions-6"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1"
+        >
+          Fields
+        </h6>
+        <div
+          class="MuiBox-root MuiBox-root-19 makeStyles-mainContainer-16"
+        >
+          <ul
+            class="MuiList-root makeStyles-root-18 MuiList-padding"
+          >
+            <li
+              class="MuiListItem-root makeStyles-root-17 MuiListItem-gutters"
+            >
+              field1
+            </li>
+            <li
+              class="MuiListItem-root makeStyles-root-17 MuiListItem-gutters"
+            >
+              field2
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-20 makeStyles-actionContainer-10"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-21 makeStyles-operatorContainer-5"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root WithStyles(ForwardRef(Button))-root-22 MuiButton-text"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            +
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+        <button
+          class="MuiButtonBase-root MuiButton-root WithStyles(ForwardRef(Button))-root-22 MuiButton-text"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            -
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+        <button
+          class="MuiButtonBase-root MuiButton-root WithStyles(ForwardRef(Button))-root-22 MuiButton-text"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            *
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          calculate
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;

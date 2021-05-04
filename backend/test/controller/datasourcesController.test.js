@@ -5,7 +5,6 @@ const fs = require('fs');
 
 const datasourceMetadataService = require('../../src/services/datasourceMetadataService');
 const datasourceService = require('../../src/services/datasourceService');
-const dashboardService = require('../../src/services/dashboardService');
 const uploadDatasourceService = require('../../src/services/uploadDatasourceService');
 const dataSourcesRoutes = require('../../src/controller/datasourcesController');
 
@@ -115,7 +114,12 @@ describe('api', () => {
         .get('/datasources/datasourceId')
         .expect(200)
         .expect({ data: { exposed: [2, 3], hour: [1, 2] } });
-      expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', undefined, undefined);
+      expect(datasourceService.getData).toHaveBeenCalledWith(
+        'datasourceId',
+        undefined,
+        undefined,
+        0,
+      );
     });
 
     it('should get data for requested columns', async () => {
@@ -128,6 +132,7 @@ describe('api', () => {
         'datasourceId',
         ['expose', 'hour'],
         undefined,
+        0,
       );
     });
     it('should get data for requested aggregatedParams only', async () => {
@@ -138,10 +143,15 @@ describe('api', () => {
         })
         .expect(200)
         .expect({ data: { exposed: [2, 3], hour: [1, 2] } });
-      expect(datasourceService.getData).toHaveBeenCalledWith('datasourceId', undefined, {
-        aggregate: { exposed: 'sum' },
-        groupBy: ['hour'],
-      });
+      expect(datasourceService.getData).toHaveBeenCalledWith(
+        'datasourceId',
+        undefined,
+        {
+          aggregate: { exposed: 'sum' },
+          groupBy: ['hour'],
+        },
+        0,
+      );
     });
 
     it('should throw error if data source not found', async () => {
@@ -161,6 +171,7 @@ describe('api', () => {
         'datasourceId',
         ['expose', 'hour'],
         undefined,
+        0,
       );
     });
 
@@ -178,6 +189,7 @@ describe('api', () => {
         'datasourceId',
         ['exposeed', 'hour'],
         undefined,
+        0,
       );
     });
 
@@ -194,6 +206,7 @@ describe('api', () => {
         'datasourceId',
         ['expose', 'hour'],
         undefined,
+        0,
       );
     });
   });
@@ -222,7 +235,7 @@ describe('api', () => {
     });
   });
 
-  describe('Post /datasources', function() {
+  describe('Post /datasources', function () {
     it('should upload file csv successfully', async () => {
       await request(app)
         .post('/datasources')
@@ -367,30 +380,68 @@ describe('api', () => {
         .expect({ errorMessage: 'datasource with id 123 not found', errorCode: 1002 });
     });
   });
-  describe('post /datasources/:id/update', () => {
+  describe('put /datasources/:id/column', () => {
     it('should add column in database with given column name and expression', async () => {
-      const updateParams = { columnName: 'newColumn', expression: { '$sum': ['1', '$col1'] } };
+      const updateParams = { columnName: 'newColumn', expression: '1 + 2' };
       datasourceService.updateDatasource.mockResolvedValue({ n: 10, nModified: 0, ok: 1 });
       await request(app)
-        .post('/datasources/datasourceId/update')
+        .put('/datasources/datasourceId/column')
         .send({ ...updateParams });
       expect(datasourceService.updateDatasource).toHaveBeenCalledWith('datasourceId', updateParams);
     });
-    it('should throw not found exception if id is not present', async () => {
-      const updateParams = { columnName: 'newColumn', expression: { '$sum': ['1', '$col1'] } };
+    it('should throw invalid input if expression is not correct', async () => {
+      const updateParams = { columnName: 'newColumn', expression: '1 + 2 2' };
       datasourceService.updateDatasource.mockRejectedValueOnce(
-        new DataSourceNotFoundException('123'),
+        new InvalidInputException('error', 1234),
       );
       await request(app)
-        .post('/datasources/datasourceId/update')
+        .put('/datasources/datasourceId/column')
         .send({ ...updateParams })
-        .expect({ errorMessage: 'datasource with id 123 not found', errorCode: 1002 });
+        .expect({ errorMessage: 'Invalid Input - error', errorCode: 1234 });
     });
     it('should throw technical error if error occurs while deleting', async () => {
       datasourceService.updateDatasource.mockRejectedValueOnce(new Error());
 
       await request(app)
-        .post('/datasources/datasourceId/update')
+        .put('/datasources/datasourceId/column')
+        .expect(500)
+        .expect({ errorMessage: 'Technical error ', errorCode: 1003 });
+    });
+  });
+  describe('delete /datasources/:id/column', () => {
+    it('should delete column from datasource', async () => {
+      const updateParams = { columnName: 'newColumn' };
+      datasourceService.deleteDatasourceColumn.mockResolvedValue({});
+      await request(app)
+        .delete('/datasources/datasourceId/column')
+        .send({ ...updateParams });
+      expect(datasourceService.deleteDatasourceColumn).toHaveBeenCalledWith(
+        'datasourceId',
+        'newColumn',
+      );
+    });
+
+    it('should throw technical error if error occurs while deleting', async () => {
+      datasourceService.deleteDatasourceColumn.mockRejectedValueOnce(new Error());
+      await request(app)
+        .delete('/datasources/datasourceId/column')
+        .expect(500)
+        .expect({ errorMessage: 'Technical error ', errorCode: 1003 });
+    });
+  });
+
+  describe('get /datasources/:id/metadata', () => {
+    it('should get metadata of datasource', async () => {
+      datasourceMetadataService.getDatasourceMetadata.mockResolvedValue('metadata');
+      await request(app).get('/datasources/datasourceId/metadata').expect('metadata');
+
+      expect(datasourceMetadataService.getDatasourceMetadata).toHaveBeenCalledWith('datasourceId');
+    });
+
+    it('should throw technical error if error occurs while deleting', async () => {
+      datasourceMetadataService.getDatasourceMetadata.mockRejectedValueOnce(new Error());
+      await request(app)
+        .get('/datasources/datasourceId/metadata')
         .expect(500)
         .expect({ errorMessage: 'Technical error ', errorCode: 1003 });
     });

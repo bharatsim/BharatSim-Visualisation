@@ -7,6 +7,7 @@ import {
   rgbaToHex,
   shapeFileFilter,
   transformChoroplethData,
+  transformColumnsDataToRows,
   transformDataForHeatMap,
   uniqueObjectsBy,
 } from '../helper';
@@ -239,6 +240,20 @@ describe('Helpers', () => {
       });
 
       expect(hex).toEqual(expectedHex);
+    });
+  });
+
+  describe('transformColumnsDataToRows', () => {
+    it('should return array of rows from data with column', () => {
+      const data = { col1: [1, 2, 3, 4], col2: [1, 2, 3, 4], col3: [1, 2, 3, 4] };
+      const expectedData = [
+        { col1: 1, col2: 1, col3: 1 },
+        { col1: 2, col2: 2, col3: 2 },
+        { col1: 3, col2: 3, col3: 3 },
+        { col1: 4, col2: 4, col3: 4 },
+      ];
+
+      expect(transformColumnsDataToRows(data)).toEqual(expectedData);
     });
   });
 });

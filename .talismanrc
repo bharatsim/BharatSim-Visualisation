@@ -1,0 +1,9 @@
+fileignoreconfig:
+- filename: backend/yarn.lock
+  checksum: c97e427da0d3a7a758f2018e3c3d249f4a9b94e2295763d262fe67fc7aa300e5
+- filename: frontend/src/modules/manageDataset/editDatasource/CustomColumnBuilderLayout.js
+  checksum: 5d8781b0a22c7b59e7a7dcc851bf4bafa6c617ab839999c5586cfb9a7ff390a2
+- filename: frontend/src/uiComponent/formulaBuilder/FormulaBuilder.js
+  checksum: ac4f7dea4475792c6c0ad379d0f286eeac89147d15a8cb9ba18344545052cb79
+- filename: frontend/src/utils/helper.js
+  checksum: af33bd3c8669e6c23755b9cb888eafc19e9ea0505e4a7089f13483f92f990a90

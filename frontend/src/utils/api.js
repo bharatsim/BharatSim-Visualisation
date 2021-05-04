@@ -116,10 +116,10 @@ const api = {
       url: serviceURL.DATA_SOURCES,
     }),
 
-  getData: async (datasource, columns) =>
+  getData: async (datasource, columns, limit = 0) =>
     fetchData({
       url: serviceURL.getDatasourceUrl(datasource),
-      query: { columns },
+      query: { columns, limit },
       isCustomLoader: true,
       isCustomErrorHandler: true,
     }),
@@ -186,9 +186,21 @@ const api = {
   },
   addColumn: async (datasourceId, expression, columnName) => {
     return uploadData({
-      url: `${serviceURL.getDatasourceUrl(datasourceId)}/update`,
-      data: { updateParams: { columnName, expression } },
-      method: httpMethods.POST,
+      url: `${serviceURL.getDatasourceUrl(datasourceId)}/column`,
+      data: { columnName, expression },
+      method: httpMethods.PUT,
+    });
+  },
+  getDataSourceMetaData: async (datasourceId) => {
+    return fetchData({
+      url: `${serviceURL.getDatasourceUrl(datasourceId)}/metadata`,
+    });
+  },
+  deleteColumn: async ({ columnName, datasourceId }) => {
+    return uploadData({
+      url: `${serviceURL.getDatasourceUrl(datasourceId)}/column`,
+      data: { columnName },
+      method: httpMethods.DELETE,
     });
   },
 };

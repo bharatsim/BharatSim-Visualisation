@@ -70,6 +70,23 @@ describe('<FormulaBuilder />', () => {
     expect(queryByText('SyntaxError: Unexpected operator "')).not.toBeNull();
   });
 
+  it('should through error if formula is empty', () => {
+    const onClick = jest.fn();
+    const { getByText, queryByText } = render(
+      <FormulaBuilderWithProviders
+        operators={operator}
+        onClick={onClick}
+        fields={fields}
+        buttonLabel="calculate"
+      />,
+    );
+
+    const calculateButton = getByText('calculate');
+    fireEvent.click(calculateButton);
+
+    expect(queryByText('Error: Expression can not be empty')).not.toBeNull();
+  });
+
   it('should not allow other digit, opertor and space to type', async () => {
     const onClick = jest.fn();
     render(
@@ -86,5 +103,63 @@ describe('<FormulaBuilder />', () => {
     userEvent.type(textArea, 'ab=}|@');
 
     expect(textArea).toHaveValue('');
+  });
+
+  it('should allow digit, operator and space to type', async () => {
+    const onClick = jest.fn();
+    render(
+      <FormulaBuilderWithProviders
+        operators={operator}
+        onClick={onClick}
+        fields={fields}
+        buttonLabel="calculate"
+      />,
+    );
+
+    const textArea = document.querySelector('.npm__react-simple-code-editor__textarea');
+
+    await userEvent.type(textArea, ' 12 + 13');
+
+    expect(textArea).toHaveValue('12 + 13 ');
+  });
+
+  it('should remove error on change of expression', () => {
+    const onClick = jest.fn();
+    const { getByText, queryByText } = render(
+      <FormulaBuilderWithProviders
+        operators={operator}
+        onClick={onClick}
+        fields={fields}
+        buttonLabel="calculate"
+      />,
+    );
+
+    const calculateButton = getByText('calculate');
+    fireEvent.click(calculateButton);
+    const textArea = document.querySelector('.npm__react-simple-code-editor__textarea');
+
+    expect(queryByText('Error: Expression can not be empty')).not.toBeNull();
+    userEvent.type(textArea, ' 12 + 13');
+    expect(queryByText('Error: Expression can not be empty')).toBeNull();
+  });
+
+  it('should remove error on click of any field', () => {
+    const onClick = jest.fn();
+    const { getByText, queryByText } = render(
+      <FormulaBuilderWithProviders
+        operators={operator}
+        onClick={onClick}
+        fields={fields}
+        buttonLabel="calculate"
+      />,
+    );
+
+    const calculateButton = getByText('calculate');
+    fireEvent.click(calculateButton);
+
+    expect(queryByText('Error: Expression can not be empty')).not.toBeNull();
+    const field1Button = getByText('field1');
+    fireEvent.click(field1Button);
+    expect(queryByText('Error: Expression can not be empty')).toBeNull();
   });
 });

@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<List /> should match snapshot with list item 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-4 makeStyles-mainContainer-1"
+  >
+    <ul
+      class="MuiList-root makeStyles-root-3 MuiList-padding"
+    >
+      <li
+        class="MuiListItem-root makeStyles-root-2 MuiListItem-gutters"
+      >
+        field1
+      </li>
+      <li
+        class="MuiListItem-root makeStyles-root-2 MuiListItem-gutters"
+      >
+        field2
+      </li>
+    </ul>
+  </div>
+</div>
+`;
