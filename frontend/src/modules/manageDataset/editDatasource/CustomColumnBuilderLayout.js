@@ -52,6 +52,7 @@ function CustomColumnBuilderLayout({
   const tabsClasses = useTabsStyles();
   const containerRef = React.useRef();
   const { openModal, isOpen, closeModal } = useModal();
+  const shouldDisableAddColumn = customColumns.some((column) => !column.isEditMode);
 
   function setScrollToBottom() {
     setTimeout(() => {
@@ -70,16 +71,28 @@ function CustomColumnBuilderLayout({
     onDeleteColumn(selectedTab);
   }
 
-  function openDeleteColumnModal(event) {
-    event.stopPropagation();
+  function openDeleteColumnModal() {
     openModal();
+  }
+
+  function handleColumnDelete() {
+    if (customColumns[selectedTab].isEditMode) {
+      openDeleteColumnModal();
+    }
+    onDeleteColumn(selectedTab);
   }
 
   return (
     <>
       <Box>
         <Box py={4}>
-          <Button variant="contained" color="secondary" size="small" onClick={handleAddNewColumn}>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            onClick={handleAddNewColumn}
+            disabled={shouldDisableAddColumn}
+          >
             Add column
           </Button>
         </Box>
@@ -105,7 +118,7 @@ function CustomColumnBuilderLayout({
                     return (
                       <Tab
                         name={name}
-                        onDelete={openDeleteColumnModal}
+                        onDelete={handleColumnDelete}
                         component={NavTab}
                         dataTestId={name}
                         key={key}
@@ -147,7 +160,7 @@ function CustomColumnBuilderLayout({
           </Typography>
           <Box mt={2}>
             <Typography variant="caption">
-              {`*Deleting ${customColumns[selectedTab].name} column will impact the widgets using it`}
+              {`*Deleting ${customColumns[selectedTab].name} will impact the widgets using this column`}
             </Typography>
           </Box>
         </DeleteConfirmationModal>

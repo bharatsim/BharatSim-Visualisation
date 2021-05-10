@@ -70,7 +70,7 @@ function EditDataSourceModal({ open, handleClose, datasourceId }) {
   function addNewColumn() {
     setCustomColumns((prev) => [
       ...prev,
-      { name: 'Untitled column name', expression: '', isEditMode: false },
+      { name: 'Untitled column', expression: '', isEditMode: false },
     ]);
     setSelectedTab(customColumns.length);
   }

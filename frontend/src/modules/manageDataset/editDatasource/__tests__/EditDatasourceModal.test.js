@@ -103,7 +103,7 @@ describe('<EditDataSouceModel />', () => {
     const textField = getByTestId('custom-column');
 
     expect(textField).not.toHaveAttribute('disabled');
-    expect(textField).toHaveValue('Untitled column name');
+    expect(textField).toHaveValue('Untitled column');
   });
 
   it('should throw error if column name is duplicate', async () => {
@@ -271,7 +271,7 @@ describe('<EditDataSouceModel />', () => {
     });
   });
 
-  it('should delete column which are not saved yet', async () => {
+  it('should delete column which are not saved yet without showing a modal', async () => {
     const { findAllByText, getByTestId, getByText, queryByTestId } = render(
       <EditDataSouceModelWithProvider open handleClose={jest.fn()} datasourceId="datasourceId" />,
     );
@@ -281,13 +281,9 @@ describe('<EditDataSouceModel />', () => {
       fireEvent.click(getByText('Add column'));
     });
 
-    fireEvent.click(getByTestId('delete-Untitled column name'));
-    await act(async () => {
-      fireEvent.click(getByTestId('delete-custom-column'));
-    });
-
+    fireEvent.click(getByTestId('delete-Untitled column'));
     expect(api.deleteColumn).not.toHaveBeenCalled();
-    expect(queryByTestId('undefined column name')).toBeNull();
+    expect(queryByTestId('Untitled column')).toBeNull();
   });
 
   it('should delete column operation should select prev column of deleted column', async () => {

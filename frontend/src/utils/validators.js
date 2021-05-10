@@ -65,7 +65,6 @@ function validateToValueNumber(value, fromValue) {
 }
 
 function validateToValueDate(value, fromValue) {
-  console.log(value, fromValue)
   if (isUndefined(value)) {
     return 'Field is required';
   }

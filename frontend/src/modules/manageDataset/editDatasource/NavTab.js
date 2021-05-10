@@ -25,6 +25,11 @@ const NavBarTab = forwardRef(function NavBarTab(
   const labelClasses = useLabelStyle({ isSelected });
   const theme = useTheme();
 
+  function handleDelete(event) {
+    event.stopPropagation();
+    onDelete();
+  }
+
   return (
     <Box
       onClick={onClick}
@@ -35,7 +40,7 @@ const NavBarTab = forwardRef(function NavBarTab(
       <Box className={clsx([classes.iconLabelWrapper, labelClasses.label])}>{name}</Box>
       <Box pr={2}>
         {isSelected && (
-          <IconButton onClick={onDelete} data-testid={`delete-${dataTestId}`}>
+          <IconButton onClick={handleDelete} data-testid={`delete-${dataTestId}`}>
             <DeleteOutlined fontSize="small" htmlColor={theme.palette.background.paper} />
           </IconButton>
         )}
