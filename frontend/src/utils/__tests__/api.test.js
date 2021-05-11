@@ -11,11 +11,18 @@ describe('API', () => {
     jest.clearAllMocks();
   });
   it('should call save dashboard api with provided data', () => {
-    const data = { charts: [], layout: [], dashboardId: 'id', name: 'name', count: 0 };
+    const data = { charts: [], layout: [], dashboardId: 'id', name: 'name', count: 0, notes: '' };
 
     const expectedParameter = {
       data: JSON.stringify({
-        dashboardData: { charts: [], layout: [], dashboardId: 'id', name: 'name', count: 0 },
+        dashboardData: {
+          charts: [],
+          layout: [],
+          dashboardId: 'id',
+          name: 'name',
+          count: 0,
+          notes: '',
+        },
       }),
       headers: { 'content-type': 'application/json' },
       url: '/api/dashboard',

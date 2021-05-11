@@ -21,15 +21,5 @@ global.mockPropsCapture = (props) => {
   });
 };
 
-global.document.createRange = () => ({
-  setStart: () => {},
-  setEnd: () => {},
-  commonAncestorContainer: {
-    nodeName: 'BODY',
-    ownerDocument: document,
-  },
-});
-
 window.scrollTo = jest.fn();
-
 global.URL.createObjectURL = jest.fn();

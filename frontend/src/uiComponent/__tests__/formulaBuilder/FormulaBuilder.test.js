@@ -118,9 +118,9 @@ describe('<FormulaBuilder />', () => {
 
     const textArea = document.querySelector('.npm__react-simple-code-editor__textarea');
 
-    await userEvent.type(textArea, ' 12 + 13');
+    await userEvent.type(textArea, '12 + 13');
 
-    expect(textArea).toHaveValue('12 + 13 ');
+    expect(textArea).toHaveValue('12 + 13');
   });
 
   it('should remove error on change of expression', () => {

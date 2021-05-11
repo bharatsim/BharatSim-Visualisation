@@ -240,6 +240,7 @@ describe('<Dashboard />', () => {
 
     expect(mockHistoryPush).toHaveBeenCalledWith('/projects/1/configure-dataset');
   });
+
   it('should navigate to configure data on click if no data sources are uploaded', async () => {
     api.getDatasources.mockResolvedValueOnce({
       dataSources: [],
@@ -249,6 +250,42 @@ describe('<Dashboard />', () => {
     await findByText('dashboard1');
 
     expect(mockHistoryPush).toHaveBeenCalledWith('/projects/1/configure-dataset');
+  });
+
+  it('should have notes/insight section', async () => {
+    const { getByText, findByText } = render(<DashboardWithProviders />);
+    await findByText('dashboard1');
+
+    const notes = getByText('Click to add insights/notes');
+
+    expect(notes).toBeInTheDocument();
+  });
+
+  it('should open notes section on click on notes', async () => {
+    const { findByText, getByRole } = render(<DashboardWithProviders />);
+    await findByText('dashboard1');
+
+    const textbox = getByRole('textbox');
+
+    fireEvent.focus(textbox);
+
+    const toolbar = document.querySelector('.rdw-editor-toolbar');
+
+    expect(toolbar).toBeInTheDocument();
+  });
+
+  it('should close notes section on click outside', async () => {
+    const { findByText, getByRole } = render(<DashboardWithProviders />);
+    await findByText('dashboard1');
+
+    const textbox = getByRole('textbox');
+    fireEvent.focus(textbox);
+
+    fireEvent.blur(textbox);
+
+    const toolbar = document.querySelector('.rdw-editor-toolbar');
+
+    expect(toolbar).toBeNull();
   });
 
   describe('auto save', () => {
@@ -360,7 +397,7 @@ describe('<Dashboard />', () => {
 
       expect(mockDispatch).toHaveBeenLastCalledWith({
         type: 'UPDATE_DASHBOARD',
-        payload: { dashboard: { ...initialDashboardState } },
+        payload: { dashboard: { ...initialDashboardState, notes: '' } },
       });
     });
 
@@ -390,6 +427,7 @@ describe('<Dashboard />', () => {
             dashboardId: 'id1',
             layout: [],
             name: 'dashboard1',
+            notes: '',
           },
         },
       });

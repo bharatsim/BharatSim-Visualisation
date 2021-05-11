@@ -26,7 +26,9 @@ const dashboard = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'project',
     },
+    notes: { type: String, default: '' },
   },
+
   { collection: 'dashboard' },
 );
 

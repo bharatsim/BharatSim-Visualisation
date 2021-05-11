@@ -24,6 +24,7 @@ const dashboardData = {
   charts: [chart],
   layout: [],
   count: 0,
+  notes: '',
   projectId: '313233343536373839303132',
 };
 

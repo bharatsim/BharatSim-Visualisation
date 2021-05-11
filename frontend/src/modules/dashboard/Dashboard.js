@@ -17,8 +17,10 @@ import { renderWidget } from './renderWidget';
 import DashboardHeader from './DashboardHeader';
 import { fetchDashboard, updateDashboard as updateDashboardAction } from './actions';
 import { api } from '../../utils/api';
+import Notes from '../../uiComponent/Notes';
 
 const COLUMNS = 12;
+const ROW_HEIGHT = 130;
 
 const GridLayout = WidthProvider(ReactGridLayout);
 
@@ -34,24 +36,34 @@ const useStyles = makeStyles((theme) => {
         borderRadius: theme.spacing(1),
       },
     },
+    notes: {
+      borderTop: `1px solid ${theme.colors.tableBorder}`,
+      height: ({ isToolbarOpen }) => (isToolbarOpen ? theme.spacing(60) : theme.spacing(16)),
+      paddingBottom: theme.spacing(4),
+    },
     gridContainer: {
-      height: `calc(100vh - ${theme.spacing(40)}px)`,
+      height: ({ isToolbarOpen }) =>
+        isToolbarOpen
+          ? `calc(100vh - ${theme.spacing(100)}px)`
+          : `calc(100vh - ${theme.spacing(56)}px)`,
       overflowY: 'scroll',
     },
   };
 });
 
 function Dashboard() {
-  const classes = useStyles();
   const { isOpen, closeModal, openModal } = useModal();
+  const { isOpen: isToolbarOpen, closeModal: closeToolBar, openModal: openToolbar } = useModal();
   const { selectedDashboardMetadata, projectMetadata } = useContext(projectLayoutContext);
   const { name: dashboardName, _id: dashboardId } = selectedDashboardMetadata;
+
+  const classes = useStyles({ isToolbarOpen });
 
   const dashboard = useSelector((state) => state.dashboards.dashboards[dashboardId]);
   const autoSaveStatus = useSelector((state) => state.dashboards.autoSaveStatus[dashboardId]);
   const dispatch = useDispatch();
 
-  const { layout = [], charts = [], count: chartsCount = 0 } = dashboard || {};
+  const { layout = [], charts = [], count: chartsCount = 0, notes = '' } = dashboard || {};
   const [dataSources, setDataSources] = useState(null);
   const [chartToEdit, setChartToEdit] = useState(null);
   const history = useHistory();
@@ -116,9 +128,21 @@ function Dashboard() {
     });
   }
 
+  function updateNotes(newNotes) {
+    updateDashboard({
+      charts,
+      layout,
+      dashboardId,
+      name: dashboardName,
+      count: chartsCount,
+      notes: newNotes,
+    });
+  }
+
   function onLayoutChange(changedLayout) {
     updateDashboard({
       charts,
+      notes,
       layout: changedLayout,
       dashboardId,
       name: dashboardName,
@@ -128,9 +152,10 @@ function Dashboard() {
 
   function onDeleteWidget(id) {
     updateDashboard({
-      charts: charts.filter((chart) => chart.layout.i !== id),
       layout,
       dashboardId,
+      notes,
+      charts: charts.filter((chart) => chart.layout.i !== id),
       name: dashboardName,
       count: chartsCount,
     });
@@ -147,6 +172,7 @@ function Dashboard() {
       charts,
       layout,
       dashboardId,
+      notes,
       name: dashboardName,
       count: chartsCount,
     });
@@ -157,32 +183,44 @@ function Dashboard() {
   }
 
   return (
-    <Box>
-      <ProjectHeader />
-      <DashboardHeader
-        onAddChartClick={openModal}
-        dashboardName={dashboardName}
-        autoSaveConfig={{ ...autoSaveStatus, onRetry: retrySave }}
-        isSaveDisable={charts.length === 0}
-      />
-      <Box pt={3} className={classes.gridContainer}>
-        {charts.length === 0 ? (
-          <Box p={8} display="inline-flex">
-            <CreateNewChartWidget openChartConfig={openModal} />
-          </Box>
-        ) : (
-          <GridLayout
-            layout={layout}
-            onLayoutChange={onLayoutChange}
-            className={classes.reactGridLayout}
-            margin={[32, 32]}
-            draggableHandle=".dragHandler"
-          >
-            {charts.map((item) => {
-              return renderWidget(item, dashboardId, onDeleteWidget, onEditWidget, layout);
-            })}
-          </GridLayout>
-        )}
+    <>
+      <Box className={classes.mainContainer}>
+        <ProjectHeader />
+        <DashboardHeader
+          onAddChartClick={openModal}
+          dashboardName={dashboardName}
+          autoSaveConfig={{ ...autoSaveStatus, onRetry: retrySave }}
+          isSaveDisable={charts.length === 0}
+        />
+        <Box pt={3} className={classes.gridContainer}>
+          {charts.length === 0 ? (
+            <Box p={8} display="inline-flex">
+              <CreateNewChartWidget openChartConfig={openModal} />
+            </Box>
+          ) : (
+            <GridLayout
+              layout={layout}
+              onLayoutChange={onLayoutChange}
+              className={classes.reactGridLayout}
+              rowHeight={ROW_HEIGHT}
+              margin={[32, 32]}
+              draggableHandle=".dragHandler"
+            >
+              {charts.map((item) => {
+                return renderWidget(item, dashboardId, onDeleteWidget, onEditWidget, layout);
+              })}
+            </GridLayout>
+          )}
+        </Box>
+        <Box className={classes.notes}>
+          <Notes
+            toolbar={isToolbarOpen}
+            openToolBar={openToolbar}
+            closeToolbar={closeToolBar}
+            onBlur={updateNotes}
+            text={notes}
+          />
+        </Box>
       </Box>
       {isOpen && (
         <ChartConfigurationWizard
@@ -192,7 +230,7 @@ function Dashboard() {
           onApply={onApply}
         />
       )}
-    </Box>
+    </>
   );
 }
 

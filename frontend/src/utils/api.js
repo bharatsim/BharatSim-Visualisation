@@ -15,12 +15,12 @@ function formDataBuilder(data) {
 }
 
 const api = {
-  saveDashboard: async ({ charts, layout, dashboardId, name, count }) => {
+  saveDashboard: async ({ charts, layout, dashboardId, name, count, notes = '' }) => {
     return uploadData({
       url: serviceURL.DASHBOARD_URL,
       headers: headerBuilder({ contentType: contentTypes.JSON }),
       data: JSON.stringify({
-        dashboardData: { charts, layout, dashboardId, name, count },
+        dashboardData: { charts, layout, dashboardId, name, count, notes },
       }),
       isCustomErrorHandler: true,
       isCustomLoader: true,

@@ -56,6 +56,7 @@ describe('DashboardRepository', function () {
       ],
       layout: [],
       count: 0,
+      notes: '',
       projectId: '313233343536373839303133',
     });
   });
@@ -77,6 +78,7 @@ describe('DashboardRepository', function () {
         },
       ],
       layout: [],
+      notes: '',
       projectId: '313233343536373839303133',
       count: 0,
     });
@@ -137,6 +139,7 @@ describe('DashboardRepository', function () {
       count: 0,
       layout: [],
       name: 'dashboard1',
+      notes: '',
       projectId: '313233343536373839303133',
     });
   });
