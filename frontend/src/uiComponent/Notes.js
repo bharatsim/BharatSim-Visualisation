@@ -18,6 +18,23 @@ const useStyles = makeStyles(() => ({
     background: theme.palette.background.paper,
     padding: theme.spacing(0, 4),
   },
+  toolbar: {
+    background: theme.colors.primaryColorScale['50'],
+    '& > * > .rdw-option-wrapper': {
+      background: theme.colors.primaryColorScale['50'],
+    },
+    '& > * > .rdw-option-wrapper:hover': {
+      boxShadow: `1px 1px 0px ${theme.colors.primaryColorScale['200']}`,
+    },
+    '& > * > .rdw-option-active:hover': {
+      background: theme.colors.primaryColorScale['50'],
+      boxShadow: `1px 1px 0px ${theme.colors.primaryColorScale['200']} inset`,
+    },
+    '& > * > .rdw-option-active': {
+      background: theme.colors.primaryColorScale['100'],
+      boxShadow: `1px 1px 0px ${theme.colors.primaryColorScale['200']} inset`,
+    },
+  },
 }));
 
 function serializeRichText(editorState) {
@@ -53,9 +70,23 @@ function Notes({ toolbar, closeToolbar, openToolBar, text, onBlur }) {
       toolbarHidden={!toolbar}
       wrapperClassName={classes.container}
       editorClassName={classes.editor}
+      toolbarClassName={classes.toolbar}
       onFocus={openToolBar}
       onBlur={handleBlur}
       placeholder="Click to add insights/notes"
+      toolbar={{
+        options: [
+          'inline',
+          'blockType',
+          'fontSize',
+          'fontFamily',
+          'list',
+          'textAlign',
+          'colorPicker',
+          'link',
+          'history',
+        ],
+      }}
     />
   );
 }
