@@ -10,9 +10,15 @@ const configs = {
   responsive: true,
 };
 
+const fontSize = {
+  small: 10,
+  medium: 14,
+  large: 18,
+};
+
 const font = {
   family: 'Roboto',
-  size: 10,
+  size: fontSize.small,
   weight: 400,
 };
 
@@ -43,15 +49,18 @@ const tooltip = (yCol, color) => ({
 });
 
 const axisStyles = {
-  color: colors.grayScale['400'],
-  zerolinecolor: colors.grayScale['200'],
-  linewidth: 0.5,
-  gridwidth: 0.5,
-  zerolinewidth: 0.5,
+  color: colors.grayScale['600'],
+  zerolinecolor: colors.grayScale['300'],
+  linewidth: 2,
+  gridwidth: 2,
+  zerolinewidth: 2,
   showline: true,
   tickwidth: 1,
   automargin: true,
   autotypenumbers: 'strict',
+  tickfont: {
+    size: 14,
+  },
 };
 
 function getLabelPosition(start, end, type) {
@@ -116,15 +125,19 @@ function layoutConfig(
     },
     legend: {
       font: {
-        color: colors.grayScale['400'],
+        color: colors.grayScale['600'],
         ...font,
-        size: 12,
+        size: fontSize.medium,
       },
     },
     datarevision: revision,
     xaxis: {
       type: xAxisType,
-      title: { text: xColumn, standoff: 8, font: { ...font, weight: 700, size: 14 } },
+      title: {
+        text: xColumn,
+        standoff: 8,
+        font: { ...font, weight: 700, size: fontSize.medium, color: colors.grayScale['800'] },
+      },
       ...axisStyles,
     },
     yaxis: {

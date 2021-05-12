@@ -150,9 +150,9 @@ describe('Common chart styles', () => {
         "height": undefined,
         "legend": Object {
           "font": Object {
-            "color": "#929599",
+            "color": "#61666b",
             "family": "Roboto",
-            "size": 12,
+            "size": 14,
             "weight": 400,
           },
         },
@@ -226,13 +226,17 @@ describe('Common chart styles', () => {
         "xaxis": Object {
           "automargin": true,
           "autotypenumbers": "strict",
-          "color": "#929599",
-          "gridwidth": 0.5,
-          "linewidth": 0.5,
+          "color": "#61666b",
+          "gridwidth": 2,
+          "linewidth": 2,
           "showline": true,
+          "tickfont": Object {
+            "size": 14,
+          },
           "tickwidth": 1,
           "title": Object {
             "font": Object {
+              "color": "#343A40",
               "family": "Roboto",
               "size": 14,
               "weight": 700,
@@ -241,24 +245,27 @@ describe('Common chart styles', () => {
             "text": "xColumn",
           },
           "type": "date",
-          "zerolinecolor": "#c5c7cb",
-          "zerolinewidth": 0.5,
+          "zerolinecolor": "#abaeb2",
+          "zerolinewidth": 2,
         },
         "yaxis": Object {
           "automargin": true,
           "autotypenumbers": "strict",
-          "color": "#929599",
-          "gridwidth": 0.5,
-          "linewidth": 0.5,
+          "color": "#61666b",
+          "gridwidth": 2,
+          "linewidth": 2,
           "showline": true,
+          "tickfont": Object {
+            "size": 14,
+          },
           "ticklabelposition": "outside",
           "tickwidth": 1,
           "title": Object {
             "standoff": 8,
           },
           "type": "log",
-          "zerolinecolor": "#c5c7cb",
-          "zerolinewidth": 0.5,
+          "zerolinecolor": "#abaeb2",
+          "zerolinewidth": 2,
         },
       }
     `);
