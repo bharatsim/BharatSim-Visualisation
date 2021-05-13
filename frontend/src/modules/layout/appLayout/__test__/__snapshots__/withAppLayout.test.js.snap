@@ -12,7 +12,8 @@ exports[`<Header /> should match snapshot 1`] = `
       >
         <img
           alt="logo"
-          src="PlaceholderLogo.svg"
+          src="logo.svg"
+          width="200"
         />
       </div>
     </header>
