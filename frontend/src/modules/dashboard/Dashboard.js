@@ -17,10 +17,10 @@ import { renderWidget } from './renderWidget';
 import DashboardHeader from './DashboardHeader';
 import { fetchDashboard, updateDashboard as updateDashboardAction } from './actions';
 import { api } from '../../utils/api';
-import Notes from '../../uiComponent/Notes';
+import NotesModal from './NotesModal';
 
 const COLUMNS = 12;
-const ROW_HEIGHT = 130;
+const ROW_HEIGHT = 145;
 
 const GridLayout = WidthProvider(ReactGridLayout);
 
@@ -36,28 +36,20 @@ const useStyles = makeStyles((theme) => {
         borderRadius: theme.spacing(1),
       },
     },
-    notes: {
-      borderTop: `1px solid ${theme.colors.tableBorder}`,
-      height: ({ isToolbarOpen }) => (isToolbarOpen ? theme.spacing(60) : theme.spacing(16)),
-      paddingBottom: theme.spacing(4),
-    },
     gridContainer: {
-      height: ({ isToolbarOpen }) =>
-        isToolbarOpen
-          ? `calc(100vh - ${theme.spacing(100)}px)`
-          : `calc(100vh - ${theme.spacing(56)}px)`,
+      height: `calc(100vh - ${theme.spacing(40)}px)`,
       overflowY: 'scroll',
+      paddingBottom: theme.spacing(17),
     },
   };
 });
 
 function Dashboard() {
   const { isOpen, closeModal, openModal } = useModal();
-  const { isOpen: isToolbarOpen, closeModal: closeToolBar, openModal: openToolbar } = useModal();
   const { selectedDashboardMetadata, projectMetadata } = useContext(projectLayoutContext);
   const { name: dashboardName, _id: dashboardId } = selectedDashboardMetadata;
 
-  const classes = useStyles({ isToolbarOpen });
+  const classes = useStyles();
 
   const dashboard = useSelector((state) => state.dashboards.dashboards[dashboardId]);
   const autoSaveStatus = useSelector((state) => state.dashboards.autoSaveStatus[dashboardId]);
@@ -212,15 +204,6 @@ function Dashboard() {
             </GridLayout>
           )}
         </Box>
-        <Box className={classes.notes}>
-          <Notes
-            toolbar={isToolbarOpen}
-            openToolBar={openToolbar}
-            closeToolbar={closeToolBar}
-            onBlur={updateNotes}
-            text={notes}
-          />
-        </Box>
       </Box>
       {isOpen && (
         <ChartConfigurationWizard
@@ -230,6 +213,7 @@ function Dashboard() {
           onApply={onApply}
         />
       )}
+      <NotesModal text={notes} saveNotes={updateNotes} />
     </>
   );
 }

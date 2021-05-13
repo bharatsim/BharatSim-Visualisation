@@ -256,36 +256,22 @@ describe('<Dashboard />', () => {
     const { getByText, findByText } = render(<DashboardWithProviders />);
     await findByText('dashboard1');
 
-    const notes = getByText('Click to add insights/notes');
+    const notes = getByText('Insights');
 
     expect(notes).toBeInTheDocument();
   });
 
   it('should open notes section on click on notes', async () => {
-    const { findByText, getByRole } = render(<DashboardWithProviders />);
+    const { findByText, getByText } = render(<DashboardWithProviders />);
     await findByText('dashboard1');
 
-    const textbox = getByRole('textbox');
+    const notes = getByText('Insights');
 
-    fireEvent.focus(textbox);
+    fireEvent.click(notes);
 
     const toolbar = document.querySelector('.rdw-editor-toolbar');
 
     expect(toolbar).toBeInTheDocument();
-  });
-
-  it('should close notes section on click outside', async () => {
-    const { findByText, getByRole } = render(<DashboardWithProviders />);
-    await findByText('dashboard1');
-
-    const textbox = getByRole('textbox');
-    fireEvent.focus(textbox);
-
-    fireEvent.blur(textbox);
-
-    const toolbar = document.querySelector('.rdw-editor-toolbar');
-
-    expect(toolbar).toBeNull();
   });
 
   describe('auto save', () => {

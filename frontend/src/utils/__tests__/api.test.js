@@ -11,7 +11,7 @@ describe('API', () => {
     jest.clearAllMocks();
   });
   it('should call save dashboard api with provided data', () => {
-    const data = { charts: [], layout: [], dashboardId: 'id', name: 'name', count: 0, notes: '' };
+    const data = { charts: [], layout: [], dashboardId: 'id', name: 'name', count: 0 };
 
     const expectedParameter = {
       data: JSON.stringify({
@@ -22,6 +22,37 @@ describe('API', () => {
           name: 'name',
           count: 0,
           notes: '',
+        },
+      }),
+      headers: { 'content-type': 'application/json' },
+      url: '/api/dashboard',
+      isCustomErrorHandler: true,
+      isCustomLoader: true,
+    };
+
+    api.saveDashboard(data);
+
+    expect(uploadData).toHaveBeenCalledWith(expectedParameter);
+  });
+  it('should call save dashboard api with provided notes data', () => {
+    const data = {
+      charts: [],
+      layout: [],
+      dashboardId: 'id',
+      name: 'name',
+      count: 0,
+      notes: 'notes',
+    };
+
+    const expectedParameter = {
+      data: JSON.stringify({
+        dashboardData: {
+          charts: [],
+          layout: [],
+          dashboardId: 'id',
+          name: 'name',
+          count: 0,
+          notes: 'notes',
         },
       }),
       headers: { 'content-type': 'application/json' },

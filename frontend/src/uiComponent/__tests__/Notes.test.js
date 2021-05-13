@@ -12,44 +12,6 @@ describe('<Notes />', () => {
     expect(queryByText('Click to add insights/notes')).not.toBeNull();
   });
 
-  it('should call open toolbar callback on focus', () => {
-    const openToolBar = jest.fn();
-    const { getByRole } = render(
-      <Notes onBlur={jest.fn()} closeToolbar={jest.fn()} openToolBar={openToolBar} />,
-    );
-
-    const textBox = getByRole('textbox');
-
-    fireEvent.focus(textBox);
-
-    expect(openToolBar).toHaveBeenCalled();
-  });
-
-  it('should call close toolbar callback on away event', () => {
-    const closeToolbar = jest.fn();
-    const { getByRole } = render(
-      <Notes onBlur={jest.fn()} closeToolbar={closeToolbar} openToolBar={jest.fn()} />,
-    );
-
-    const textBox = getByRole('textbox');
-
-    fireEvent.focus(textBox);
-
-    fireEvent.blur(textBox);
-
-    expect(closeToolbar).toHaveBeenCalled();
-  });
-
-  it('should show toolbar if showToolbar is true', () => {
-    const closeToolbar = jest.fn();
-    render(
-      <Notes onBlur={jest.fn()} closeToolbar={closeToolbar} openToolBar={jest.fn()} toolbar />,
-    );
-    const toolbar = document.querySelector('.rdw-editor-toolbar');
-
-    expect(toolbar).not.toBeNull();
-  });
-
   it('should call onblur with serialize text', () => {
     const closeToolbar = jest.fn();
     const onBlur = jest.fn();

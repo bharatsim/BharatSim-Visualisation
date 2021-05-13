@@ -11,7 +11,11 @@ function useModal() {
     setIsOpen(true);
   }
 
-  return { isOpen, openModal, closeModal };
+  function toggle() {
+    setIsOpen(!isOpen);
+  }
+
+  return { isOpen, openModal, closeModal, toggle };
 }
 
 export default useModal;

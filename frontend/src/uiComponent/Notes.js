@@ -12,7 +12,8 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     background: theme.palette.background.paper,
     borderRadius: theme.spacing(1),
-    height: '100%',
+    height: theme.spacing(60),
+    width: '100%',
   },
   editor: {
     background: theme.palette.background.paper,
@@ -50,7 +51,7 @@ function deserializeRichText(editorState) {
   return EditorState.createWithContent(parsedState);
 }
 
-function Notes({ toolbar, closeToolbar, openToolBar, text, onBlur }) {
+function Notes({ text, onBlur }) {
   const classes = useStyles();
   const [editorState, setEditorState] = useState(() => deserializeRichText(text));
 
@@ -60,18 +61,15 @@ function Notes({ toolbar, closeToolbar, openToolBar, text, onBlur }) {
 
   function handleBlur() {
     onBlur(serializeRichText(editorState));
-    closeToolbar();
   }
 
   return (
     <Editor
       editorState={editorState}
       onEditorStateChange={handleChange}
-      toolbarHidden={!toolbar}
       wrapperClassName={classes.container}
       editorClassName={classes.editor}
       toolbarClassName={classes.toolbar}
-      onFocus={openToolBar}
       onBlur={handleBlur}
       placeholder="Click to add insights/notes"
       toolbar={{
@@ -92,15 +90,11 @@ function Notes({ toolbar, closeToolbar, openToolBar, text, onBlur }) {
 }
 
 Notes.defaultProps = {
-  toolbar: false,
   text: '',
 };
 
 Notes.propTypes = {
-  toolbar: PropTypes.bool,
   text: PropTypes.string,
-  openToolBar: PropTypes.func.isRequired,
-  closeToolbar: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
 };
 
