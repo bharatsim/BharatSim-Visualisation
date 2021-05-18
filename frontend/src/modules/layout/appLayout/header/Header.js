@@ -15,7 +15,7 @@ function Header() {
   return (
     <Box className={classes.mainContainer} component="header" cursor="pointer">
       <Box className={classes.logo} onClick={openLandingPage}>
-        <img src={bharatSimLogo} alt="logo" width={200} />
+        <img src={bharatSimLogo} alt="logo" width={180} />
       </Box>
     </Box>
   );

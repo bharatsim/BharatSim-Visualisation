@@ -13,7 +13,7 @@ exports[`<App /> should match snapshot 1`] = `
         <img
           alt="logo"
           src="logo.svg"
-          width="200"
+          width="180"
         />
       </div>
     </header>
