@@ -68,7 +68,7 @@ describe('api', () => {
 
   afterAll(() => {
     if (fs.existsSync(TEST_FILE_UPLOAD_PATH)) {
-      fs.rmdirSync(TEST_FILE_UPLOAD_PATH, { recursive: true });
+      fs.rmSync(TEST_FILE_UPLOAD_PATH);
     }
   });
 

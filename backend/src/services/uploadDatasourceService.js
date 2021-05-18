@@ -36,7 +36,7 @@ async function insertCSVData(metadataId, data) {
 
 function deleteUploadedFile(filePath) {
   if (fs.existsSync(filePath)) {
-    fs.rmdirSync(filePath, { recursive: true });
+    fs.rmSync(filePath);
   }
 }
 

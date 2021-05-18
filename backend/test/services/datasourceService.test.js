@@ -17,7 +17,7 @@ jest.mock('../../src/services/dashboardService');
 
 jest.spyOn(fs, 'readFileSync');
 jest.spyOn(fs, 'existsSync');
-jest.spyOn(fs, 'rmdirSync');
+jest.spyOn(fs, 'rmSync');
 
 describe('datasourceService', () => {
   afterEach(() => {
@@ -325,7 +325,7 @@ describe('datasourceService', () => {
   describe('should delete all json and extended datasources for given dashboard id', () => {
     beforeEach(async () => {
       fs.existsSync.mockReturnValue(true);
-      fs.rmdirSync.mockReturnValueOnce(true);
+      fs.rmSync.mockReturnValue(true);
       dataSourceMetadataRepository.bulkDeleteDatasourceMetadata.mockResolvedValue({
         deleted: 1,
       });
@@ -341,8 +341,8 @@ describe('datasourceService', () => {
     });
     it('should delete all the json files present in server', async () => {
       await datasourceService.bulkDeleteDatasource(['dashboardId']);
-      expect(fs.rmdirSync).toHaveBeenCalledTimes(2);
-      expect(fs.rmdirSync).toHaveBeenCalledWith('./uploads/multerId', { recursive: true });
+      expect(fs.rmSync).toHaveBeenCalledTimes(2);
+      expect(fs.rmSync).toHaveBeenCalledWith('./uploads/multerId');
       expect(dataSourceMetadataRepository.bulkDeleteDatasourceMetadata).toHaveBeenCalledWith([
         'dashboardId',
       ]);
@@ -361,7 +361,7 @@ describe('datasourceService', () => {
       await datasourceService.deleteDatasource('datasource1');
 
       expect(dataSourceRepository.deleteDatasource).toHaveBeenCalledWith('datasource1');
-      expect(fs.rmdirSync).not.toHaveBeenCalled();
+      expect(fs.rmSync).not.toHaveBeenCalled();
       expect(
         dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping,
       ).toHaveBeenCalledWith('datasource1');
@@ -378,7 +378,7 @@ describe('datasourceService', () => {
       });
       await datasourceService.deleteDatasource('datasource1');
 
-      expect(fs.rmdirSync).toHaveBeenCalledWith('./uploads/datasource1', { recursive: true });
+      expect(fs.rmSync).toHaveBeenCalledWith('./uploads/datasource1');
       expect(dataSourceRepository.deleteDatasource).not.toHaveBeenCalled();
       expect(
         dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping,
@@ -397,7 +397,7 @@ describe('datasourceService', () => {
       await datasourceService.deleteDatasource('datasource1');
 
       expect(dataSourceRepository.deleteDatasource).not.toHaveBeenCalled();
-      expect(fs.rmdirSync).toHaveBeenCalledWith('./uploads/datasource1', { recursive: true });
+      expect(fs.rmSync).toHaveBeenCalledWith('./uploads/datasource1');
       expect(
         dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping,
       ).toHaveBeenCalledWith('datasource1');
@@ -415,7 +415,7 @@ describe('datasourceService', () => {
       await datasourceService.deleteDatasource('datasource1');
 
       expect(dataSourceRepository.deleteDatasource).not.toHaveBeenCalled();
-      expect(fs.rmdirSync).not.toHaveBeenCalledWith();
+      expect(fs.rmSync).not.toHaveBeenCalledWith();
       expect(
         dashboardDatasourceMapRepository.deleteDataSourceDashboardMapping,
       ).toHaveBeenCalledWith('datasource1');

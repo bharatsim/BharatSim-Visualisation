@@ -292,7 +292,7 @@ describe('upload datasource service', () => {
 
       uploadDatasourceService.deleteUploadedFile('path');
 
-      expect(fs.rmdirSync).toHaveBeenCalledWith('path', { recursive: true });
+      expect(fs.rmSync).toHaveBeenCalledWith('path');
     });
 
     it('should not delete file if given path not exist', () => {
@@ -300,7 +300,7 @@ describe('upload datasource service', () => {
 
       uploadDatasourceService.deleteUploadedFile('path');
 
-      expect(fs.rmdirSync).not.toHaveBeenCalled();
+      expect(fs.rmSync).not.toHaveBeenCalled();
     });
   });
 });

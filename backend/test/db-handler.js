@@ -54,7 +54,7 @@ const clearDatabase = async () => {
 
 function clearTestUpload(extension) {
   if (fs.existsSync(`${TEST_FILE_UPLOAD_PATH}-${extension}`)) {
-    return fs.rmdirSync(`${TEST_FILE_UPLOAD_PATH}-${extension}`, { recursive: true });
+    return fs.rmSync(`${TEST_FILE_UPLOAD_PATH}-${extension}`, { recursive: true });
   }
 }
 

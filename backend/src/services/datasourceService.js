@@ -125,7 +125,7 @@ async function deleteCsvFiles(datasourceIds) {
 
 function deleteJsonFileFromFileSystem(fileId) {
   if (fs.existsSync(`${FILE_UPLOAD_PATH}${fileId}`)) {
-    fs.rmdirSync(`${FILE_UPLOAD_PATH}${fileId}`, { recursive: true });
+    fs.rmSync(`${FILE_UPLOAD_PATH}${fileId}`);
   }
 }
 
