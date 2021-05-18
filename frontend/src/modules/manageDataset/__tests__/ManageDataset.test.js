@@ -286,7 +286,7 @@ describe('Manage datasets', () => {
     const rowOneName = getAllByText('csv-file-name')[0];
     const rowOne = within(rowOneName.parentNode);
 
-    const removeButton = rowOne.getByTitle('Remove datasource from dashboard').childNodes[0];
+    const removeButton = rowOne.getByTitle('Remove datasource').childNodes[0];
 
     expect(removeButton).toHaveAttribute('disabled', '');
   });
@@ -358,7 +358,7 @@ describe('Manage datasets', () => {
     const file5NameFromDashboard = file5[0];
     const rowForFile5 = within(file5NameFromDashboard.parentNode);
 
-    const removeButton = rowForFile5.getByTitle('Remove datasource from dashboard');
+    const removeButton = rowForFile5.getByTitle('Remove datasource');
 
     fireEvent.click(removeButton);
 

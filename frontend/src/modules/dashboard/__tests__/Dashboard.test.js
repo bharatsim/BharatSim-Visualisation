@@ -102,6 +102,7 @@ const initialDashboardState = {
   dashboardId: 'id1',
   layout: [],
   name: 'dashboard1',
+  notes: '',
 };
 
 const mockDispatch = jest.fn();

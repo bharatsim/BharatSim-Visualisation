@@ -62,6 +62,7 @@ function DatasetTableToolBar(props) {
           color="secondary"
           size="small"
           onClick={handleAddToDatasourceClick}
+          disabled={selectedRows.length <= 0}
         >
           Add to dashboard
         </Button>

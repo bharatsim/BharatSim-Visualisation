@@ -93,6 +93,7 @@ function Dashboard() {
       dashboardId,
       name: dashboardName,
       count: chartsCount + 1,
+      notes,
     });
     onCloseModal();
   }

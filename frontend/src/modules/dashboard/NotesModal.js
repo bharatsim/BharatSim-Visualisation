@@ -36,6 +36,7 @@ function NotesModal({ text, saveNotes }) {
       <Popover
         open={isOpen}
         onClose={closeModal}
+        anchorEl={anchorEl}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right',

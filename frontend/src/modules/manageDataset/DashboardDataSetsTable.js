@@ -108,7 +108,7 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
             }),
             (rowData) => ({
               icon: tableIcon.RemoveRow,
-              tooltip: 'Remove datasource from dashboard',
+              tooltip: 'Remove datasource',
               onClick: (event, row) => onRemove(row),
               size: 'small',
               disabled: rowData.widgetUsage > 0,
