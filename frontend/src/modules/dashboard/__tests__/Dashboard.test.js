@@ -87,6 +87,10 @@ const initialDashboardState = {
           annotationToggle: false,
           annotations: [undefined],
         },
+        axisConfig: {
+          xAxisTitle: 'column1',
+          yAxisTitle: undefined,
+        },
       },
       layout: {
         h: 2,
@@ -324,6 +328,7 @@ describe('<Dashboard />', () => {
       const expectedState = initialDashboardState;
       expectedState.charts[0].config.chartName = 'edited chart name';
       expectedState.count = 2;
+      expectedState.charts[0].config.axisConfig.yAxisTitle = '';
 
       expect(mockDispatch).toHaveBeenLastCalledWith({
         type: 'UPDATE_DASHBOARD',

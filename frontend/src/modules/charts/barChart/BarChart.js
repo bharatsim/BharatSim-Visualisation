@@ -20,7 +20,7 @@ import useToggle from '../../../hook/useToggle';
 import { rgbaToHex } from '../../../utils/helper';
 
 function BarChart({ config, layout }) {
-  const { xAxis, yAxis, dataSource, annotation } = config;
+  const { xAxis, yAxis, dataSource, annotation, axisConfig } = config;
   const { columnName: xColumn, type: xAxisType } = xAxis;
   const { annotations, annotationToggle } = annotation || {};
   const yColumns = getYaxisNames(yAxis);
@@ -94,6 +94,16 @@ function BarChart({ config, layout }) {
     return { data };
   }, [xColumn, xAxisType, yAxisType, fetchedData]);
 
+  const chartLayout = layoutConfig({
+    xColumn,
+    xAxisType,
+    yAxisType,
+    annotations,
+    annotationToggle,
+    revision,
+    axisConfig,
+  });
+
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
       <ChartFullSizeWrapper>
@@ -101,14 +111,7 @@ function BarChart({ config, layout }) {
         {fetchedData && (
           <Plot
             key={Math.random()}
-            layout={layoutConfig(
-              xColumn,
-              xAxisType,
-              yAxisType,
-              annotations,
-              annotationToggle,
-              revision,
-            )}
+            layout={chartLayout}
             data={chartMemo.data}
             useResizeHandler
             style={{ width: '100%', height: '100%' }}
@@ -147,6 +150,10 @@ BarChart.propTypes = {
         }),
       ),
     }),
+    axisConfig: PropTypes.shape({
+      xAxisTitle: PropTypes.string,
+      yAxisTitle: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   layout: PropTypes.shape({ h: PropTypes.number, w: PropTypes.number }).isRequired,
 };

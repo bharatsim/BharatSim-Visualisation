@@ -110,7 +110,7 @@ exports[`chart config selector should match snapshot 1`] = `
             class="MuiBox-root MuiBox-root-20"
           >
             <div
-              class="MuiBox-root MuiBox-root-33"
+              class="MuiBox-root MuiBox-root-41"
             >
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2"
@@ -119,7 +119,7 @@ exports[`chart config selector should match snapshot 1`] = `
               </h6>
             </div>
             <div
-              class="MuiFormControl-root makeStyles-formControl-41"
+              class="MuiFormControl-root makeStyles-formControl-49"
             >
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
@@ -176,7 +176,95 @@ exports[`chart config selector should match snapshot 1`] = `
                 class="MuiBox-root MuiBox-root-25"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-26"
+                  class="MuiBox-root MuiBox-root-28"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-29"
+                  >
+                    <h6
+                      class="MuiTypography-root MuiTypography-subtitle2"
+                    >
+                      Axis
+                    </h6>
+                  </div>
+                  <div
+                    class="MuiBox-root MuiBox-root-30 makeStyles-fieldContainer-26 makeStyles-verticalFieldContainer-27"
+                  >
+                    <h6
+                      class="MuiTypography-root MuiTypography-subtitle2"
+                    >
+                      X Axis
+                    </h6>
+                    <div
+                      class="MuiFormControl-root MuiTextField-root makeStyles-input-19"
+                    >
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+                        data-shrink="false"
+                      >
+                        Enter X axis label
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                      >
+                        <input
+                          aria-invalid="false"
+                          class="MuiInputBase-input MuiFilledInput-input"
+                          data-testid="x-axis-title"
+                          name="axisConfig.xAxisTitle"
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                      
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root MuiBox-root-31 makeStyles-fieldContainer-26 makeStyles-verticalFieldContainer-27"
+                  >
+                    <h6
+                      class="MuiTypography-root MuiTypography-subtitle2"
+                    >
+                      Y Axis
+                    </h6>
+                    <div
+                      class="MuiFormControl-root MuiTextField-root makeStyles-input-19"
+                    >
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+                        data-shrink="false"
+                      >
+                        Enter Y axis label
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                      >
+                        <input
+                          aria-invalid="false"
+                          class="MuiInputBase-input MuiFilledInput-input"
+                          data-testid="y-axis-title"
+                          name="axisConfig.yAxisTitle"
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr
+                class="MuiDivider-root"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-32"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-33"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-34"
                 >
                   <h6
                     class="MuiTypography-root MuiTypography-subtitle2"
@@ -184,10 +272,10 @@ exports[`chart config selector should match snapshot 1`] = `
                     Series
                   </h6>
                   <div
-                    class="MuiBox-root MuiBox-root-27"
+                    class="MuiBox-root MuiBox-root-35"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-28"
+                      class="MuiBox-root MuiBox-root-36"
                     >
                       <h6
                         class="MuiTypography-root MuiTypography-subtitle2"
@@ -203,16 +291,16 @@ exports[`chart config selector should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-29 makeStyles-footer-1"
+          class="MuiBox-root MuiBox-root-37 makeStyles-footer-1"
         >
           <hr
             class="MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-30"
+            class="MuiBox-root MuiBox-root-38"
           >
             <div
-              class="MuiBox-root MuiBox-root-32 makeStyles-buttonGroup-31"
+              class="MuiBox-root MuiBox-root-40 makeStyles-buttonGroup-39"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"

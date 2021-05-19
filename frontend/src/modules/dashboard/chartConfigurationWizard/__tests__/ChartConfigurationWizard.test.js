@@ -130,6 +130,9 @@ describe('Chart configuration wizard', () => {
           annotationToggle: false,
           annotations: [undefined],
         },
+        axisConfig: {
+          xAxisTitle: 'column1',
+        },
       },
       ['id2'],
     );
@@ -184,6 +187,9 @@ describe('Chart configuration wizard', () => {
         annotation: {
           annotationToggle: false,
           annotations: [undefined],
+        },
+        axisConfig: {
+          xAxisTitle: 'column1',
         },
       },
       ['id2'],

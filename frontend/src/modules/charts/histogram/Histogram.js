@@ -12,7 +12,7 @@ import { ChartFullSizeWrapper, configs, layoutConfig, tooltip } from '../chartSt
 import { rgbaToHex } from '../../../utils/helper';
 
 function Histogram({ config }) {
-  const { measure, dataSource, color: rgbaColor } = config;
+  const { measure, dataSource, color: rgbaColor, axisConfig } = config;
   const [fetchedData, setFetchedData] = useState();
   const {
     loadingState,
@@ -64,12 +64,14 @@ function Histogram({ config }) {
     return { data };
   }, [measure, fetchedData, rgbaColor]);
 
+  const layout = layoutConfig({ xColumn: measure, axisConfig });
+
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
       <ChartFullSizeWrapper>
         {fetchedData && (
           <Plot
-            layout={layoutConfig(measure)}
+            layout={layout}
             data={chartMemo.data}
             useResizeHandler
             style={{ width: '100%', height: '100%' }}
@@ -86,6 +88,10 @@ Histogram.propTypes = {
     dataSource: PropTypes.string.isRequired,
     measure: PropTypes.string.isRequired,
     color: PropTypes.shape.isRequired,
+    axisConfig: PropTypes.shape({
+      xAxisTitle: PropTypes.string,
+      yAxisTitle: PropTypes.string,
+    }).isRequired,
   }).isRequired,
 };
 

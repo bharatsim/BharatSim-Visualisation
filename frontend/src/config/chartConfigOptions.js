@@ -12,6 +12,7 @@ import AnnotationConfig from '../modules/chartConfigOptions/AnnotationConfig';
 import LineChartSeriesStyles from '../modules/chartConfigOptions/LineChartSeriesStyles';
 import HistogramStyleConfig from '../modules/chartConfigOptions/HistogramStyles';
 import BarChartSeriesStyles from '../modules/chartConfigOptions/BarChartSeriesStyle';
+import AxisConfig from '../modules/chartConfigOptions/AxisConfig';
 
 const chartConfigOptions = {
   [chartConfigOptionTypes.X_AXIS]: {
@@ -117,6 +118,22 @@ const chartConfigOptions = {
   [chartConfigOptionTypes.HISTOGRAM_CHART_SERIES_STYLE]: {
     component: () => (
       <HistogramStyleConfig seriesConfigKey={chartConfigOptionTypes.MEASURE} title="Series" />
+    ),
+  },
+  [chartConfigOptionTypes.AXIS_CONFIG]: {
+    component: () => (
+      <AxisConfig
+        configKey={chartConfigOptionTypes.AXIS_CONFIG}
+        xAxis={`${chartConfigOptionTypes.X_AXIS}.columnName`}
+      />
+    ),
+  },
+  [chartConfigOptionTypes.HISTOGRAM_AXIS_CONFIG]: {
+    component: () => (
+      <AxisConfig
+        configKey={chartConfigOptionTypes.AXIS_CONFIG}
+        xAxis={`${chartConfigOptionTypes.MEASURE}`}
+      />
     ),
   },
 };

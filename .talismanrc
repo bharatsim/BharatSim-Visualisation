@@ -3,6 +3,12 @@ fileignoreconfig:
   checksum: c51497b6f04189bcd0ec0dd9c2947982cda53e17f6480f93b2d5c6e851ab0c01
 - filename: backend/yarn.lock
   checksum: c97e427da0d3a7a758f2018e3c3d249f4a9b94e2295763d262fe67fc7aa300e5
+- filename: frontend/src/config/chartConfigOptions.js
+  checksum: 0111ee1d7152c95f6db14ed61a7f85a92fb62426be8907385f2eea0daae1a6e6
+- filename: frontend/src/modules/chartConfigOptions/AxisConfig.js
+  checksum: cfa7b986598103f58b31718bfec4e6b55a0a737f91357893b52db273d5359940
+- filename: frontend/src/modules/chartConfigOptions/__tests__/AxisConfig.test.js
+  checksum: 9e134812605494a2fc11f44770a751e15807c31b61ef3891061e14dab5ca1f4e
 - filename: frontend/src/modules/manageDataset/editDatasource/CustomColumnBuilderLayout.js
   checksum: 2a6e3bf2621212045cb20bdecd140e46c8001a6783c126796e84cbd0b197a094
 - filename: frontend/src/modules/manageDataset/editDatasource/EditDatasourceModal.js

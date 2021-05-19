@@ -101,14 +101,16 @@ function createAnnotation(annotations, annotationToggle) {
     : {};
 }
 
-function layoutConfig(
+function layoutConfig({
   xColumn,
   xAxisType,
   yAxisType,
   annotations = [],
-  annotationToggel = false,
+  annotationToggle = false,
   revision,
-) {
+  axisConfig = {},
+}) {
+  const { xAxisTitle, yAxisTitle } = axisConfig;
   return {
     showlegend: true,
     colorway: chartColorsPallet[1],
@@ -134,19 +136,23 @@ function layoutConfig(
     xaxis: {
       type: xAxisType,
       title: {
-        text: xColumn,
+        text: xAxisTitle || xColumn,
         standoff: 8,
         font: { ...font, weight: 700, size: fontSize.medium, color: colors.grayScale['800'] },
       },
       ...axisStyles,
     },
     yaxis: {
-      title: { standoff: 8 },
       ticklabelposition: 'outside',
       type: yAxisType,
+      title: {
+        text: yAxisTitle,
+        standoff: 8,
+        font: { ...font, weight: 700, size: fontSize.medium, color: colors.grayScale['800'] },
+      },
       ...axisStyles,
     },
-    ...createAnnotation(annotations, annotationToggel),
+    ...createAnnotation(annotations, annotationToggle),
   };
 }
 

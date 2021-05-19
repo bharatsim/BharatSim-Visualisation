@@ -24,7 +24,7 @@ import LogScaleSwitch from '../../../uiComponent/LogScaleSwitch';
 import { rgbaToHex } from '../../../utils/helper';
 
 function LineChart({ config, layout }) {
-  const { xAxis, yAxis, dataSource, annotation } = config;
+  const { xAxis, yAxis, dataSource, annotation, axisConfig } = config;
   const { columnName: xColumn, type: xAxisType } = xAxis;
   const { annotations, annotationToggle } = annotation || {};
   const yColumns = getYaxisNames(yAxis);
@@ -98,20 +98,23 @@ function LineChart({ config, layout }) {
     return { data, n: Math.random() };
   }, [xColumn, xAxisType, yAxisType, fetchedData, annotations]);
 
+  const chartLayout = layoutConfig({
+    xColumn,
+    xAxisType,
+    yAxisType,
+    annotations,
+    annotationToggle,
+    revision,
+    axisConfig,
+  });
+
   return (
     <LoaderOrError message={message} loadingState={loadingState} errorAction={onErrorAction}>
       <ChartFullSizeWrapper>
         <LogScaleSwitch onChange={() => toggleState()} isChecked={isLogScale} />
         {fetchedData && (
           <Plot
-            layout={layoutConfig(
-              xColumn,
-              xAxisType,
-              yAxisType,
-              annotations,
-              annotationToggle,
-              revision,
-            )}
+            layout={chartLayout}
             data={chartMemo.data}
             useResizeHandler
             revision={revision}
@@ -151,6 +154,10 @@ LineChart.propTypes = {
         }),
       ),
     }),
+    axisConfig: PropTypes.shape({
+      xAxisTitle: PropTypes.string,
+      yAxisTitle: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   layout: PropTypes.shape({ h: PropTypes.number, w: PropTypes.number }).isRequired,
 };
