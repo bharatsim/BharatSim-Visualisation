@@ -147,7 +147,7 @@ function layoutConfig({
       type: yAxisType,
       title: {
         text: yAxisTitle,
-        standoff: 8,
+        standoff: 16,
         font: { ...font, weight: 700, size: fontSize.medium, color: colors.grayScale['800'] },
       },
       ...axisStyles,

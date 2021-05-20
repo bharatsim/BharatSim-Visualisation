@@ -33,6 +33,10 @@ describe('BarChart', () => {
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
+          axisConfig: {
+            xAxisTitle: 'xAxisTestTitle',
+            yAxisTitle: 'yAxisTestTitle',
+          },
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -50,6 +54,10 @@ describe('BarChart', () => {
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
+          axisConfig: {
+            xAxisTitle: 'xAxisTestTitle',
+            yAxisTitle: 'yAxisTestTitle',
+          },
         }}
         layout={{ h: 4, w: 3 }}
       />,
@@ -70,6 +78,10 @@ describe('BarChart', () => {
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
+          axisConfig: {
+            xAxisTitle: 'xAxisTestTitle',
+            yAxisTitle: 'yAxisTestTitle',
+          },
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -83,6 +95,10 @@ describe('BarChart', () => {
           dataSource: 'dataSource',
           xAxis: { columnName: 'hourNew', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
+          axisConfig: {
+            xAxisTitle: 'xAxisTestTitle',
+            yAxisTitle: 'yAxisTestTitle',
+          },
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -100,6 +116,10 @@ describe('BarChart', () => {
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
+          axisConfig: {
+            xAxisTitle: 'xAxisTestTitle',
+            yAxisTitle: 'yAxisTestTitle',
+          },
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -113,6 +133,10 @@ describe('BarChart', () => {
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
+          axisConfig: {
+            xAxisTitle: 'xAxisTestTitle',
+            yAxisTitle: 'yAxisTestTitle',
+          },
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -130,6 +154,10 @@ describe('BarChart', () => {
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
+          axisConfig: {
+            xAxisTitle: 'xAxisTestTitle',
+            yAxisTitle: 'yAxisTestTitle',
+          },
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -147,6 +175,10 @@ describe('BarChart', () => {
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
+          axisConfig: {
+            xAxisTitle: 'xAxisTestTitle',
+            yAxisTitle: 'yAxisTestTitle',
+          },
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -166,6 +198,10 @@ describe('BarChart', () => {
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
+          axisConfig: {
+            xAxisTitle: 'xAxisTestTitle',
+            yAxisTitle: 'yAxisTestTitle',
+          },
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -184,6 +220,10 @@ describe('BarChart', () => {
           dataSource: 'dataSource',
           xAxis: { columnName: 'hour', type: 'linear' },
           yAxis: [{ type: 'number', name: 'exposed', color: { r: 1, g: 1, b: 1, a: 1 } }],
+          axisConfig: {
+            xAxisTitle: 'xAxisTestTitle',
+            yAxisTitle: 'yAxisTestTitle',
+          },
         }}
         layout={{ h: 1, w: 2 }}
       />,
