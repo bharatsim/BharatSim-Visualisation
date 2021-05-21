@@ -10,11 +10,18 @@ import useLoader from '../../../hook/useLoader';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import { chartConfigOptionTypes } from '../../../constants/chartConfigOptionTypes';
 import { useFormContext } from '../../../contexts/FormContext';
+import { compareArrayByValues } from '../../../utils/helper';
+
+function isMatchingHeaders(newHeaders, prevHeaders) {
+  const newColumns = newHeaders.headers.map(({ name }) => name);
+  const prevColumns = prevHeaders.headers.map(({ name }) => name);
+  return compareArrayByValues(newColumns, prevColumns);
+}
 
 function ConfigSelector() {
   const [fetchedCsvHeaders, setFetchedCsvHeaders] = useState();
-  const { chartType, isEditMode } = useFormContext();
-  const { getFieldState, change } = useForm();
+  const { chartType } = useFormContext();
+  const { getFieldState, reset } = useForm();
 
   const dataSourceId = getFieldState(chartConfigOptionTypes.DATASOURCE)?.value;
 
@@ -27,18 +34,31 @@ function ConfigSelector() {
   } = useLoader();
 
   useEffect(() => {
-    if (!isEditMode) configOptionsKeysForSelectedChart.forEach((key) => change(key));
     if (dataSourceId) fetchCsvHeaders();
   }, [dataSourceId]);
+
+  function resetConfig() {
+    const chartName = getFieldState(chartConfigOptionTypes.CHART_NAME)?.value;
+    reset({
+      [chartConfigOptionTypes.DATASOURCE]: dataSourceId,
+      [chartConfigOptionTypes.CHART_NAME]: chartName,
+    });
+  }
+
+  function onFetchCsvHeaderSuccess(resData) {
+    const shouldResetConfig = fetchedCsvHeaders && !isMatchingHeaders(resData, fetchedCsvHeaders);
+    if (shouldResetConfig) {
+      resetConfig();
+    }
+    stopLoaderAfterSuccess();
+    setFetchedCsvHeaders(resData);
+  }
 
   async function fetchCsvHeaders() {
     startLoader();
     api
       .getCsvHeaders(dataSourceId)
-      .then((resData) => {
-        stopLoaderAfterSuccess();
-        setFetchedCsvHeaders(resData);
-      })
+      .then(onFetchCsvHeaderSuccess)
       .catch(() => {
         stopLoaderAfterError('Unable to fetch data source headers');
       });

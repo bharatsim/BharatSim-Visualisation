@@ -101,8 +101,9 @@ function AnnotationConfig({ configKey }) {
   )?.value;
 
   useEffect(() => {
-    if (!isEditMode) push(annotationConfigKey);
-  }, []);
+    if (showAnnotationConfig && !getFieldState(annotationConfigKey)?.value)
+      push(annotationConfigKey);
+  }, [showAnnotationConfig]);
 
   return (
     <Box>
@@ -187,8 +188,7 @@ function AnnotationConfig({ configKey }) {
                                   values,
                                   `${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.START}`,
                                 ),
-                              )
-                            }
+                              )}
                           />
                         </Condition>
                         <Condition
@@ -218,8 +218,7 @@ function AnnotationConfig({ configKey }) {
                                   values,
                                   `${name}.${annotationTypes.DATE}.${areaAnnotationConfig.START}`,
                                 ),
-                              )
-                            }
+                              )}
                           />
                         </Condition>
                       </Box>
@@ -257,8 +256,7 @@ function AnnotationConfig({ configKey }) {
                     </Box>
                   )}
                 </Box>
-              ))
-            }
+              ))}
           </FieldArray>
           <Box className={classes.addMetricButtonContainer}>
             <Button

@@ -169,6 +169,18 @@ function transformColumnsDataToRows(data) {
   });
 }
 
+function compareArrayByValues(arr1, arr2) {
+  if (!arr1 || !arr2) {
+    return false;
+  }
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  arr1.sort();
+  arr2.sort();
+  return arr1.every((item, index) => item === arr2[index]);
+}
+
 export {
   transformDataForHeatMap,
   debounce,
@@ -182,4 +194,5 @@ export {
   hexToRgba,
   rgbaToHex,
   transformColumnsDataToRows,
+  compareArrayByValues,
 };

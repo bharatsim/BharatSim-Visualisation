@@ -9,6 +9,8 @@ fileignoreconfig:
   checksum: cfa7b986598103f58b31718bfec4e6b55a0a737f91357893b52db273d5359940
 - filename: frontend/src/modules/chartConfigOptions/__tests__/AxisConfig.test.js
   checksum: 9e134812605494a2fc11f44770a751e15807c31b61ef3891061e14dab5ca1f4e
+- filename: frontend/src/modules/dashboard/dashboardConfigSelector/__tests__/ConfigSelector.test.js
+  checksum: 7ee885b9350ca5358b7290f8ebc18a56df99c4ca7a1e336882da21fc3da5be9f
 - filename: frontend/src/modules/manageDataset/editDatasource/CustomColumnBuilderLayout.js
   checksum: 2a6e3bf2621212045cb20bdecd140e46c8001a6783c126796e84cbd0b197a094
 - filename: frontend/src/modules/manageDataset/editDatasource/EditDatasourceModal.js

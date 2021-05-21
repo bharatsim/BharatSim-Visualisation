@@ -66,10 +66,22 @@ describe('<AnnotationConfig />', () => {
     jest.clearAllMocks();
   });
 
-  it('should not add extra dropbox if form is in edit mode', () => {
+  it('should not add extra annotation config if form already have one or more config field', () => {
     const onSubmit = jest.fn();
     const renderedContainer = render(<FormForAnnotationConfig onSubmit={onSubmit} isEditMode />);
     const { getAllByText } = renderedContainer;
+    const labelInputFields = getAllByText('Enter label');
+
+    expect(labelInputFields.length).toBe(1);
+  });
+
+  it('should add annotation config form if annotation is on and for has zero annotation field', () => {
+    const onSubmit = jest.fn();
+    const renderedContainer = render(<FormForAnnotationConfig onSubmit={onSubmit} />);
+    const { getAllByText, getByRole } = renderedContainer;
+    getByRole('checkbox').click();
+    fireEvent.change(getByRole('checkbox'), { target: { checked: true } });
+
     const labelInputFields = getAllByText('Enter label');
 
     expect(labelInputFields.length).toBe(1);

@@ -38,7 +38,7 @@ function AxisConfig({ configKey, xAxis }) {
   const xAxisLabelField = getFieldState(xAxisLabelName);
 
   useEffect(() => {
-    if (!xAxisLabelField && !xAxisNameField) return;
+    if (!xAxisLabelField || !xAxisNameField) return;
     if (!xAxisLabelField.dirty && !xAxisNameField.dirty) {
       change(xAxisLabelName, xAxisLabelField.initial || xAxisNameField.value);
       return;

@@ -29,17 +29,17 @@ const TestForm = ({ onSubmit, isEditMode }) => {
       render={({ handleSubmit }) => (
         <FormProvider
           value={{
-              isEditMode: !!isEditMode,
-              registerDatasource: jest.fn(),
-              unRegisterDatasource: jest.fn(),
-            }}
+            isEditMode: !!isEditMode,
+            registerDatasource: jest.fn(),
+            unRegisterDatasource: jest.fn(),
+          }}
         >
           <form onSubmit={handleSubmit}>
             <YAxisChartConfig configKey={configKey} headers={headers} isEditMode={isEditMode} />
             <button type="submit">submit</button>
           </form>
         </FormProvider>
-        )}
+      )}
     />
   );
 };
@@ -51,13 +51,22 @@ describe('<YAxisConfig />', () => {
     jest.clearAllMocks();
   });
 
-  it('should not add extra dropbox if form is in edit mode', async () => {
+  it('should not add extra dropbox if form already has one or more yaxis field', async () => {
     const onSubmit = jest.fn();
     const renderedContainer = render(<FormForYAxisConfig onSubmit={onSubmit} isEditMode />);
     const { getAllByText } = renderedContainer;
     const yAxisDropdown = getAllByText('select y axis');
 
     expect(yAxisDropdown.length).toBe(2);
+  });
+
+  it('should add dropbox if form has zero yaxis field', async () => {
+    const onSubmit = jest.fn();
+    const renderedContainer = render(<FormForYAxisConfig onSubmit={onSubmit} />);
+    const { getAllByText } = renderedContainer;
+    const yAxisDropdown = getAllByText('select y axis');
+
+    expect(yAxisDropdown.length).toBe(1);
   });
 
   it('should call on submit with y axis filedArray config', async () => {

@@ -8,7 +8,6 @@ import plusIcon from '../../assets/images/plus.svg';
 import deleteIcon from '../../assets/images/delete.svg';
 import IconButton from '../../uiComponent/IconButton';
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
-import { useFormContext } from '../../contexts/FormContext';
 import DropDownField from '../../uiComponent/formField/SelectField';
 import { required } from '../../utils/validators';
 
@@ -36,13 +35,13 @@ const useStyles = makeStyles((theme) => {
 
 function YAxisChartConfig({ headers, configKey }) {
   const classes = useStyles();
-  const { isEditMode } = useFormContext();
+  const { getFieldState } = useForm();
   const {
     mutators: { push },
   } = useForm();
 
   useEffect(() => {
-    if (!isEditMode) {
+    if (!getFieldState(configKey)?.value) {
       push(configKey);
     }
   }, []);
@@ -73,8 +72,7 @@ function YAxisChartConfig({ headers, configKey }) {
                 </IconButton>
               )}
             </Box>
-          ))
-        }
+          ))}
       </FieldArray>
       <Box className={classes.addMetricButtonContainer}>
         <Button

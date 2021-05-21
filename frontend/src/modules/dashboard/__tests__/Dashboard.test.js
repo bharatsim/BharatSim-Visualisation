@@ -85,11 +85,9 @@ const initialDashboardState = {
         ],
         annotation: {
           annotationToggle: false,
-          annotations: [undefined],
         },
         axisConfig: {
           xAxisTitle: 'column1',
-          yAxisTitle: undefined,
         },
       },
       layout: {
@@ -352,6 +350,7 @@ describe('<Dashboard />', () => {
 
       expect(getByText('Unable to save the dashboard')).toBeInTheDocument();
     });
+
     it('should show saving state while saving the dashboard', async () => {
       const mockNewState = {
         dashboards: {
@@ -368,6 +367,7 @@ describe('<Dashboard />', () => {
 
       expect(getByText('Saving...')).toBeInTheDocument();
     });
+
     it('should call retry action on click of retry button if  any error while saving the dashboard', async () => {
       const mockNewState = {
         dashboards: {

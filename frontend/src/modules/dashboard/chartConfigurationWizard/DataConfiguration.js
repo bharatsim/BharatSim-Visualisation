@@ -6,11 +6,9 @@ import TextField from '../../../uiComponent/formField/TextField';
 import { chartConfigOptionTypes } from '../../../constants/chartConfigOptionTypes';
 import DatasourceSelector from '../dashboardConfigSelector/DatasourceSelector';
 import ConfigSelector from '../dashboardConfigSelector/ConfigSelector';
-import { useFormContext } from '../../../contexts/FormContext';
 
 function DataConfiguration() {
   const { getFieldState } = useForm();
-  const { isEditMode } = useFormContext();
   const showOtherConfig = getFieldState(chartConfigOptionTypes.DATASOURCE)?.value;
   return (
     <>
@@ -28,7 +26,6 @@ function DataConfiguration() {
       <Divider />
       <Box px={2} py={6}>
         <DatasourceSelector
-          disabled={isEditMode}
           name={chartConfigOptionTypes.DATASOURCE}
           header="Data Source"
           id="dropdown-dataSources"

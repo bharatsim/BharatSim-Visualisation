@@ -128,7 +128,6 @@ describe('Chart configuration wizard', () => {
         ],
         annotation: {
           annotationToggle: false,
-          annotations: [undefined],
         },
         axisConfig: {
           xAxisTitle: 'column1',
@@ -186,7 +185,6 @@ describe('Chart configuration wizard', () => {
         ],
         annotation: {
           annotationToggle: false,
-          annotations: [undefined],
         },
         axisConfig: {
           xAxisTitle: 'column1',
@@ -195,6 +193,7 @@ describe('Chart configuration wizard', () => {
       ['id2'],
     );
   });
+
   it('should disable apply button if any config is not selected', async () => {
     const onApplyMock = jest.fn();
     const renderedComponent = render(

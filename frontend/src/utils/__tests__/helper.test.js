@@ -1,4 +1,5 @@
 import {
+  compareArrayByValues,
   convertObjectArrayToOptionStructure,
   debounce,
   formatToUnits,
@@ -169,6 +170,7 @@ describe('Helpers', () => {
       expect(actualData).toEqual(expectedData);
     });
   });
+
   describe('formatToUnits', () => {
     it('should format 1000 to 1k', () => {
       expect(formatToUnits(1000)).toEqual('1K');
@@ -229,6 +231,7 @@ describe('Helpers', () => {
       });
     });
   });
+
   describe('hexToRgba', () => {
     it('should return rgba of given hex', () => {
       const expectedHex = '#ea3535';
@@ -254,6 +257,50 @@ describe('Helpers', () => {
       ];
 
       expect(transformColumnsDataToRows(data)).toEqual(expectedData);
+    });
+  });
+
+  describe('compare array by values', () => {
+    it('should return false if one of the array is undefined', () => {
+      const array1 = [];
+      const array2 = undefined;
+
+      expect(compareArrayByValues(array1, array2)).toBeFalsy();
+    });
+
+    it('should return false if both of the array is undefined', () => {
+      const array1 = undefined;
+      const array2 = undefined;
+
+      expect(compareArrayByValues(array1, array2)).toBeFalsy();
+    });
+
+    it('should return false if arrays have mismatch length', () => {
+      const array1 = [1, 2, 3];
+      const array2 = [1, 2];
+
+      expect(compareArrayByValues(array1, array2)).toBeFalsy();
+    });
+
+    it('should return false if array has different values', () => {
+      const array1 = ['1', '2', '3'];
+      const array2 = ['5', '2', '4'];
+
+      expect(compareArrayByValues(array1, array2)).toBeFalsy();
+    });
+
+    it('should return true if array has similar values in same order', () => {
+      const array1 = ['1', '2', '3'];
+      const array2 = ['1', '2', '3'];
+
+      expect(compareArrayByValues(array1, array2)).toBeTruthy();
+    });
+
+    it('should return true if array has similar values in different order', () => {
+      const array1 = ['1', '2', '3'];
+      const array2 = ['2', '3', '1'];
+
+      expect(compareArrayByValues(array1, array2)).toBeTruthy();
     });
   });
 });

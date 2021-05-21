@@ -4,6 +4,10 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
 <div>
   <form>
     <input
+      name="chartName"
+      value=""
+    />
+    <input
       name="dataSource"
       value="datasourceID"
     />
@@ -30,20 +34,6 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
         >
           <div>
             select y axis
-          </div>
-        </div>
-        <hr
-          class="MuiDivider-root"
-        />
-      </div>
-      <div
-        class="MuiBox-root MuiBox-root-7"
-      >
-        <div
-          class="MuiBox-root MuiBox-root-8"
-        >
-          <div>
-            annotation
           </div>
         </div>
         
