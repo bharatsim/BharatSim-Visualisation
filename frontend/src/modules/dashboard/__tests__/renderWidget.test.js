@@ -28,17 +28,17 @@ describe('Create element', () => {
   it('should provide element with data-grid', () => {
     const Chart = withThemeProvider(() => (
       <div>
-        {renderWidget(
-          {
+        {renderWidget({
+          chart: {
             layout: { i: 'id-1' },
             chartType: 'Linechart',
             config: { chartName: 'title' },
           },
-          'dashboardId',
-          jest.fn(),
-          jest.fn(),
-          [{ i: 'id-1-Linechart-dashboardId' }],
-        )}
+          dashboardId: 'dashboardId',
+          onDelete: jest.fn(),
+          onEdit: jest.fn(),
+          dashboardLayout: [{ i: 'id-1-Linechart-dashboardId' }],
+        })}
       </div>
     ));
 
@@ -51,17 +51,17 @@ describe('Create element', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     const Chart = withThemeProvider(() => (
       <div>
-        {renderWidget(
-          {
+        {renderWidget({
+          chart: {
             layout: { i: 'id-1' },
             chartType: 'error',
             config: { chartName: 'title' },
           },
-          'dashboardId',
-          jest.fn(),
-          jest.fn(),
-          [{ i: 'id-1-Linechart-dashboardId' }],
-        )}
+          dashboardId: 'dashboardId',
+          onDelete: jest.fn(),
+          onEdit: jest.fn(),
+          dashboardLayout: [{ i: 'id-1-Linechart-dashboardId' }],
+        })}
       </div>
     ));
 

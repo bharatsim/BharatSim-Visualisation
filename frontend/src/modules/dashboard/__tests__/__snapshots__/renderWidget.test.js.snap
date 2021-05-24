@@ -58,6 +58,32 @@ exports[`Create element should provide element with data-grid 1`] = `
             />
           </button>
           <button
+            class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-11 makeStyles-icon-6"
+            data-testid="duplicate-button"
+            tabindex="0"
+            title="take snapshot"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                color="#797d82"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11l-6-6zM8 21V7h6v5h5v9H8z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+          <button
             class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-11 makeStyles-root-12"
             data-testid="widget-menu"
             tabindex="0"

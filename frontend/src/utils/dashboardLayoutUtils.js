@@ -1,6 +1,6 @@
 export function getNewWidgetLayout(numberOfWidgetAdded, cols, count) {
   return createLayout({
-    id: `widget-${count}`,
+    id: createWidgetId(count),
     xPosition: (numberOfWidgetAdded * 6) % cols,
     yPosition: Infinity, // puts it at the bottom
     width: 6,
@@ -8,7 +8,11 @@ export function getNewWidgetLayout(numberOfWidgetAdded, cols, count) {
   });
 }
 
-function createLayout({ id, xPosition, yPosition, width, height }) {
+export function createWidgetId(count) {
+  return `widget-${count}`;
+}
+
+export function createLayout({ id, xPosition, yPosition, width, height }) {
   return {
     i: id,
     x: xPosition,

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import { Typography, useTheme } from '@material-ui/core';
 import { toPng } from 'html-to-image';
-import { PhotoCamera } from '@material-ui/icons';
+import { FileCopyOutlined, PhotoCamera } from '@material-ui/icons';
 import { ChildrenPropTypes } from '../../commanPropTypes';
 import dragIcon from '../../assets/images/dragIcon.svg';
 import WidgetMenu from './WidgetMenu';
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Widget({ title, onDelete, onEdit, children }) {
+function Widget({ title, onDelete, onEdit, children, onDuplicate }) {
   const classes = useStyles();
   const ref = useRef();
   const theme = useTheme();
@@ -86,6 +86,14 @@ function Widget({ title, onDelete, onEdit, children }) {
           >
             <PhotoCamera fontSize="small" htmlColor={theme.colors.grayScale['500']} />
           </IconButton>
+          <IconButton
+            onClick={onDuplicate}
+            title="take snapshot"
+            data-testid="duplicate-button"
+            classes={{ root: classes.icon }}
+          >
+            <FileCopyOutlined fontSize="small" htmlColor={theme.colors.grayScale['500']} />
+          </IconButton>
           <WidgetMenu onEdit={onEdit} onDelete={onDelete} />
         </Box>
       </Box>
@@ -100,6 +108,7 @@ Widget.propTypes = {
   title: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
+  onDuplicate: PropTypes.func.isRequired,
   children: ChildrenPropTypes.isRequired,
 };
 export default Widget;

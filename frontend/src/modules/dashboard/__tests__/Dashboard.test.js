@@ -59,60 +59,69 @@ const mockState = {
   },
 };
 
-const initialDashboardState = {
-  charts: [
-    {
-      chartType: 'lineChart',
-      config: {
-        chartName: 'chart name',
-        dataSource: 'id2',
-        xAxis: {
-          columnName: 'column1',
-          type: '-',
-        },
-        yAxis: [
-          {
-            color: {
-              a: 1,
-              b: 246,
-              g: 201,
-              r: 77,
-            },
-            name: 'column2',
-            seriesType: 'dot',
-            seriesWidth: '1',
-          },
-        ],
-        annotation: {
-          annotationToggle: false,
-        },
-        axisConfig: {
-          xAxisTitle: 'column1',
-        },
-      },
-      layout: {
-        h: 2,
-        i: 'widget-0',
-        w: 6,
-        x: 0,
-        y: Infinity,
-      },
-      dataSourceIds: ['id2'],
-    },
-  ],
-  count: 1,
-  dashboardId: 'id1',
-  layout: [],
-  name: 'dashboard1',
-  notes: '',
-};
-
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(() => mockDispatch),
   useSelector: jest.fn().mockImplementation((selector) => selector(mockState)),
 }));
+
+const mockChart = [
+  {
+    chartType: 'lineChart',
+    config: {
+      chartName: 'chart name',
+      dataSource: 'id2',
+      xAxis: {
+        columnName: 'column1',
+        type: '-',
+      },
+      yAxis: [
+        {
+          color: {
+            a: 1,
+            b: 246,
+            g: 201,
+            r: 77,
+          },
+          name: 'column2',
+          seriesType: 'dot',
+          seriesWidth: '1',
+        },
+      ],
+      annotation: {
+        annotationToggle: false,
+      },
+      axisConfig: {
+        xAxisTitle: 'column1',
+      },
+    },
+    layout: {
+      h: 2,
+      i: 'widget-0',
+      w: 6,
+      x: 0,
+      y: Infinity,
+    },
+    dataSourceIds: ['id2'],
+  },
+];
+const mockDashboard = {
+  charts: mockChart,
+  count: 1,
+  dashboardId: 'id1',
+  layout: [
+    {
+      h: 2,
+      i: 'widget-0-lineChart-id1',
+      w: 6,
+      x: 0,
+      y: Infinity,
+    },
+  ],
+  name: 'dashboard1',
+  notes: '',
+};
 
 describe('<Dashboard />', () => {
   const DashboardWithProviders = withRouter(withThemeProvider(withProjectLayout(Dashboard)));
@@ -286,9 +295,74 @@ describe('<Dashboard />', () => {
 
       await addChart(renderedComponent);
 
+      const expectedData = { ...mockDashboard };
+      expectedData.layout = [];
+
       expect(mockDispatch).toHaveBeenLastCalledWith({
         type: 'UPDATE_DASHBOARD',
-        payload: { dashboard: initialDashboardState },
+        payload: { dashboard: expectedData },
+      });
+    });
+
+    it('should duplicate chart and auto save', async () => {
+      const mockNewState = {
+        dashboards: {
+          autoSaveStatus: { id1: {} },
+          dashboards: { id1: { ...mockDashboard } },
+        },
+      };
+      useSelector.mockImplementation((selector) => selector(mockNewState));
+      const renderedComponent = rtlRender(<DashboardWithProviders />);
+      const { findByText, getAllByTestId } = renderedComponent;
+
+      await findByText('dashboard1');
+
+      await act(async () => {
+        fireEvent.click(getAllByTestId('duplicate-button')[0]);
+      });
+      const expectedData = { ...mockDashboard };
+      expectedData.charts = expectedData.charts.concat({
+        chartType: 'lineChart',
+        config: {
+          chartName: 'chart name',
+          dataSource: 'id2',
+          xAxis: {
+            columnName: 'column1',
+            type: '-',
+          },
+          yAxis: [
+            {
+              color: {
+                a: 1,
+                b: 246,
+                g: 201,
+                r: 77,
+              },
+              name: 'column2',
+              seriesType: 'dot',
+              seriesWidth: '1',
+            },
+          ],
+          annotation: {
+            annotationToggle: false,
+          },
+          axisConfig: {
+            xAxisTitle: 'column1',
+          },
+        },
+        layout: {
+          h: 2,
+          i: 'widget-1',
+          w: 6,
+          x: 6,
+          y: Infinity,
+        },
+        dataSourceIds: ['id2'],
+      });
+      expectedData.count = 2;
+      expect(mockDispatch).toHaveBeenLastCalledWith({
+        type: 'UPDATE_DASHBOARD',
+        payload: { dashboard: expectedData },
       });
     });
 
@@ -296,7 +370,7 @@ describe('<Dashboard />', () => {
       const mockNewState = {
         dashboards: {
           autoSaveStatus: { id1: {} },
-          dashboards: { id1: initialDashboardState },
+          dashboards: { id1: { ...mockDashboard } },
         },
       };
       useSelector.mockImplementation((selector) => selector(mockNewState));
@@ -323,7 +397,7 @@ describe('<Dashboard />', () => {
 
       fireEvent.click(applyButton);
 
-      const expectedState = initialDashboardState;
+      const expectedState = mockDashboard;
       expectedState.charts[0].config.chartName = 'edited chart name';
       expectedState.count = 2;
       expectedState.charts[0].config.axisConfig.yAxisTitle = '';
@@ -338,7 +412,7 @@ describe('<Dashboard />', () => {
       const mockNewState = {
         dashboards: {
           autoSaveStatus: { id1: { saving: false, error: true, lastSaved: new Date() } },
-          dashboards: { id1: initialDashboardState },
+          dashboards: { id1: { ...mockDashboard } },
         },
       };
       useSelector.mockImplementation((selector) => selector(mockNewState));
@@ -355,7 +429,7 @@ describe('<Dashboard />', () => {
       const mockNewState = {
         dashboards: {
           autoSaveStatus: { id1: { saving: true, error: false, lastSaved: null } },
-          dashboards: { id1: initialDashboardState },
+          dashboards: { id1: { ...mockDashboard } },
         },
       };
       useSelector.mockImplementation((selector) => selector(mockNewState));
@@ -372,7 +446,7 @@ describe('<Dashboard />', () => {
       const mockNewState = {
         dashboards: {
           autoSaveStatus: { id1: { saving: false, error: true, lastSaved: new Date() } },
-          dashboards: { id1: initialDashboardState },
+          dashboards: { id1: { ...mockDashboard } },
         },
       };
       useSelector.mockImplementation((selector) => selector(mockNewState));
@@ -389,7 +463,7 @@ describe('<Dashboard />', () => {
 
       expect(mockDispatch).toHaveBeenLastCalledWith({
         type: 'UPDATE_DASHBOARD',
-        payload: { dashboard: { ...initialDashboardState, notes: '' } },
+        payload: { dashboard: { ...mockDashboard, notes: '' } },
       });
     });
 
@@ -397,7 +471,7 @@ describe('<Dashboard />', () => {
       const mockNewState = {
         dashboards: {
           autoSaveStatus: { id1: {} },
-          dashboards: { id1: initialDashboardState },
+          dashboards: { id1: { ...mockDashboard, count: 1 } },
         },
       };
       useSelector.mockImplementation((selector) => selector(mockNewState));
@@ -410,14 +484,15 @@ describe('<Dashboard />', () => {
       fireEvent.click(getByText('Delete Chart'));
       fireEvent.click(getByTestId('delete-chart-confirm'));
 
+      expect(mockDispatch).toHaveBeenCalledTimes(3);
       expect(mockDispatch).toHaveBeenLastCalledWith({
         type: 'UPDATE_DASHBOARD',
         payload: {
           dashboard: {
             charts: [],
-            count: 2,
+            count: 1,
             dashboardId: 'id1',
-            layout: [],
+            layout: expect.any(Array),
             name: 'dashboard1',
             notes: '',
           },

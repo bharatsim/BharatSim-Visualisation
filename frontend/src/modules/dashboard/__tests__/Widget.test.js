@@ -12,7 +12,12 @@ describe('<Widget />', () => {
   const WidgetWithProvider = withThemeProvider(Widget);
   it('should match snapshot', async () => {
     const { container } = render(
-      <WidgetWithProvider title="Line Chart" onDelete={() => {}} onEdit={() => {}}>
+      <WidgetWithProvider
+        title="Line Chart"
+        onDelete={() => {}}
+        onEdit={() => {}}
+        onDuplicate={jest.fn()}
+      >
         Line Chart
       </WidgetWithProvider>,
     );
@@ -23,7 +28,12 @@ describe('<Widget />', () => {
   it('should delete widget', () => {
     const onDeleteMock = jest.fn();
     const { getByTestId, getByText } = render(
-      <WidgetWithProvider title="Line Chart" onDelete={onDeleteMock} onEdit={() => {}}>
+      <WidgetWithProvider
+        title="Line Chart"
+        onDelete={onDeleteMock}
+        onEdit={() => {}}
+        onDuplicate={jest.fn()}
+      >
         Line Chart
       </WidgetWithProvider>,
     );
@@ -37,7 +47,12 @@ describe('<Widget />', () => {
     const onDeleteMock = jest.fn();
     const onEditMock = jest.fn();
     const { getByTestId } = render(
-      <WidgetWithProvider title="Line Chart" onDelete={onDeleteMock} onEdit={onEditMock}>
+      <WidgetWithProvider
+        title="Line Chart"
+        onDelete={onDeleteMock}
+        onEdit={onEditMock}
+        onDuplicate={jest.fn()}
+      >
         Line Chart
       </WidgetWithProvider>,
     );
@@ -47,11 +62,36 @@ describe('<Widget />', () => {
     expect(onEditMock).toBeCalled();
   });
 
+  it('should duplicate widget', () => {
+    const onDeleteMock = jest.fn();
+    const onEditMock = jest.fn();
+    const onDuplicate = jest.fn();
+    const { getByTestId } = render(
+      <WidgetWithProvider
+        title="Line Chart"
+        onDelete={onDeleteMock}
+        onEdit={onEditMock}
+        onDuplicate={onDuplicate}
+      >
+        Line Chart
+      </WidgetWithProvider>,
+    );
+
+    fireEvent.click(getByTestId('duplicate-button'));
+
+    expect(onDuplicate).toBeCalled();
+  });
+
   it('should cancel delete', () => {
     const onDeleteMock = jest.fn();
 
     const { getByTestId, getByText } = render(
-      <WidgetWithProvider title="Line Chart" onDelete={onDeleteMock} onEdit={() => {}}>
+      <WidgetWithProvider
+        title="Line Chart"
+        onDelete={onDeleteMock}
+        onEdit={() => {}}
+        onDuplicate={jest.fn()}
+      >
         Line Chart
       </WidgetWithProvider>,
     );
@@ -64,7 +104,12 @@ describe('<Widget />', () => {
     const onDeleteMock = jest.fn();
 
     const { getByTestId } = render(
-      <WidgetWithProvider title="Line Chart" onDelete={onDeleteMock} onEdit={() => {}}>
+      <WidgetWithProvider
+        title="Line Chart"
+        onDelete={onDeleteMock}
+        onEdit={() => {}}
+        onDuplicate={jest.fn()}
+      >
         Line Chart
       </WidgetWithProvider>,
     );

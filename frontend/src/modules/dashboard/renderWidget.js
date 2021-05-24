@@ -5,9 +5,20 @@ import renderChart from '../charts/renderChart';
 import Widget from './Widget';
 import Error from '../loaderOrError/Error';
 
-export function renderWidget(chart, dashboardId, onDelete, onEdit, dashboardLayout) {
+function isNullOrUndefined(value) {
+  return value === null || value === undefined;
+}
+
+export function renderWidget({
+  chart,
+  dashboardId,
+  onDelete,
+  onEdit,
+  dashboardLayout,
+  onDuplicate,
+}) {
   const { layout, chartType, config } = chart;
-  const updatedLayout = { ...layout, y: layout.y ? layout.y : Infinity };
+  const updatedLayout = { ...layout, y: isNullOrUndefined(layout.y) ? Infinity : layout.y };
   const chartId = `${updatedLayout.i}-${chartType}-${dashboardId}`;
   const chartLayout = dashboardLayout.find((l) => l.i === chartId) || updatedLayout;
   return (
@@ -20,6 +31,7 @@ export function renderWidget(chart, dashboardId, onDelete, onEdit, dashboardLayo
         title={config.chartName}
         onDelete={() => onDelete(layout.i)}
         onEdit={() => onEdit(layout.i)}
+        onDuplicate={() => onDuplicate(layout.i, chartId)}
         chartId={layout.i}
       >
         <ErrorBoundary

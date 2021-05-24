@@ -1,5 +1,5 @@
 import Box from '@material-ui/core/Box';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import ReactGridLayout, { WidthProvider } from 'react-grid-layout';
@@ -11,7 +11,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import useModal from '../../hook/useModal';
 import ChartConfigurationWizard from './chartConfigurationWizard/ChartConfigurationWizard';
-import { getNewWidgetLayout } from '../../utils/dashboardLayoutUtils';
+import { createLayout, createWidgetId, getNewWidgetLayout } from '../../utils/dashboardLayoutUtils';
 import CreateNewChartWidget from './CreateNewChartWidget';
 import { renderWidget } from './renderWidget';
 import DashboardHeader from './DashboardHeader';
@@ -59,6 +59,7 @@ function Dashboard() {
   const [dataSources, setDataSources] = useState(null);
   const [chartToEdit, setChartToEdit] = useState(null);
   const history = useHistory();
+  const gridContainerRef = useRef();
 
   async function fetchDataSources() {
     api.getDatasources(dashboardId, false, false).then((resData) => {
@@ -96,6 +97,34 @@ function Dashboard() {
       notes,
     });
     onCloseModal();
+  }
+
+  function createDuplicateChart(chart, widgetLayout) {
+    const { layout: chartLayout, ...rest } = chart;
+    return {
+      ...rest,
+      layout: createLayout({
+        id: createWidgetId(chartsCount),
+        xPosition: widgetLayout.x + widgetLayout.w,
+        yPosition: widgetLayout.y,
+        width: widgetLayout.w,
+        height: widgetLayout.h,
+      }),
+    };
+  }
+
+  function onDuplicate(chartId, widgetId) {
+    const selectedChart = charts.find((chart) => chart.layout.i === chartId);
+    const widgetLayout = layout.find((widget) => widget.i === widgetId);
+    const duplicateChart = createDuplicateChart(selectedChart, widgetLayout);
+    updateDashboard({
+      charts: charts.concat(duplicateChart),
+      layout,
+      dashboardId,
+      name: dashboardName,
+      count: chartsCount + 1,
+      notes,
+    });
   }
 
   function onCloseModal() {
@@ -185,7 +214,7 @@ function Dashboard() {
           autoSaveConfig={{ ...autoSaveStatus, onRetry: retrySave }}
           isSaveDisable={charts.length === 0}
         />
-        <Box pt={3} className={classes.gridContainer}>
+        <Box pt={3} className={classes.gridContainer} ref={gridContainerRef}>
           {charts.length === 0 ? (
             <Box p={8} display="inline-flex">
               <CreateNewChartWidget openChartConfig={openModal} />
@@ -200,7 +229,14 @@ function Dashboard() {
               draggableHandle=".dragHandler"
             >
               {charts.map((item) => {
-                return renderWidget(item, dashboardId, onDeleteWidget, onEditWidget, layout);
+                return renderWidget({
+                  chart: item,
+                  dashboardId,
+                  onDelete: onDeleteWidget,
+                  onEdit: onEditWidget,
+                  dashboardLayout: layout,
+                  onDuplicate,
+                });
               })}
             </GridLayout>
           )}
