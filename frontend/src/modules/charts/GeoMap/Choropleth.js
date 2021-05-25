@@ -71,6 +71,7 @@ function Choropleth({ config }) {
     referenceId,
     mapLayer,
     choroplethConfig,
+    dataSource,
   ]);
 
   function onClickOfFeature(event) {

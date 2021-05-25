@@ -53,7 +53,7 @@ function BarChart({ config, layout }) {
 
   useEffect(() => {
     fetchData();
-  }, [xColumn, yAxisDeps]);
+  }, [xColumn, yAxisDeps, dataSource]);
 
   const memoizeConfig = useDeepCompareMemoize(config);
   useEffect(() => {

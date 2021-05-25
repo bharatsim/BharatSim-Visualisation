@@ -37,7 +37,7 @@ function Histogram({ config }) {
 
   useEffect(() => {
     fetchData();
-  }, [measure]);
+  }, [measure, dataSource]);
 
   const onErrorAction = {
     name: 'Retry',

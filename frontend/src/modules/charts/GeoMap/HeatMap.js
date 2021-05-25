@@ -45,7 +45,7 @@ function HeatMap({ config }) {
 
   useEffect(() => {
     fetchData();
-  }, [latitude, longitude, geoMetricSeries, timeMetrics]);
+  }, [latitude, longitude, geoMetricSeries, timeMetrics, dataSource]);
 
   const locationPoints = useMemo(
     () =>
