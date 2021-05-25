@@ -3,6 +3,7 @@ import { renderWithRedux as render } from '../../../testUtil';
 import Home from '../Home';
 import { api } from '../../../utils/api';
 import withSnackBar from '../../../hoc/snackbar/withSnackBar';
+import withThemeProvider from '../../../theme/withThemeProvider';
 
 jest.mock('../../../utils/api', () => ({
   api: {
@@ -11,7 +12,7 @@ jest.mock('../../../utils/api', () => ({
 }));
 
 describe('Home', () => {
-  const HomeWithProviders = withSnackBar(Home);
+  const HomeWithProviders = withThemeProvider(withSnackBar(Home));
   it('should match snapshot for new user', async () => {
     api.getProjects.mockResolvedValue({ projects: [] });
     const { container, findByText } = render(<HomeWithProviders />);

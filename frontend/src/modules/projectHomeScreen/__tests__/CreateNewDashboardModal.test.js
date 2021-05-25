@@ -13,7 +13,7 @@ jest.mock('../../../utils/api', () => ({
 }));
 describe('<CreateNewDashboardModal />', () => {
   const CreateNewDashboardModalComponent = withOverlayLoaderOrError(
-    withSnackBar(withThemeProvider(withProjectLayout(CreateNewDashboardModal))),
+    withThemeProvider(withSnackBar(withProjectLayout(CreateNewDashboardModal))),
   );
   afterEach(() => {
     jest.clearAllMocks();

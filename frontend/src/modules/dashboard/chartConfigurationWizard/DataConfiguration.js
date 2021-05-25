@@ -30,6 +30,7 @@ function DataConfiguration() {
           header="Data Source"
           id="dropdown-dataSources"
           label="select data source"
+          helperText="Data-source change may or may-not reset the chart configuration"
         />
       </Box>
       {showOtherConfig && (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render as rtlRender } from '@testing-library/react';
+import { act, fireEvent } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import Dashboard from '../Dashboard';
 import withThemeProvider from '../../../theme/withThemeProvider';
@@ -11,6 +11,7 @@ import {
 } from '../../../testUtil';
 import { api } from '../../../utils/api';
 import { ProjectLayoutProvider } from '../../../contexts/projectLayoutContext';
+import withSnackBar from '../../../hoc/snackbar/withSnackBar';
 
 jest.mock('../../charts/lineChart/LineChart', () => () => (
   <>
@@ -56,6 +57,9 @@ const mockState = {
   dashboards: {
     autoSaveStatus: { id1: {} },
     dashboards: { id1: { name: 'dashboard1', _id: 'id1' } },
+  },
+  snackBar: {
+    notifications: [],
   },
 };
 
@@ -124,7 +128,9 @@ const mockDashboard = {
 };
 
 describe('<Dashboard />', () => {
-  const DashboardWithProviders = withRouter(withThemeProvider(withProjectLayout(Dashboard)));
+  const DashboardWithProviders = withRouter(
+    withThemeProvider(withSnackBar(withProjectLayout(Dashboard))),
+  );
   beforeAll(() => {
     jest.useFakeTimers();
     jest.setTimeout(10000);
@@ -288,7 +294,7 @@ describe('<Dashboard />', () => {
 
   describe('auto save', () => {
     it('should add chart and auto save', async () => {
-      const renderedComponent = rtlRender(<DashboardWithProviders />);
+      const renderedComponent = render(<DashboardWithProviders />);
       const { findByText } = renderedComponent;
 
       await findByText('dashboard1');
@@ -306,13 +312,14 @@ describe('<Dashboard />', () => {
 
     it('should duplicate chart and auto save', async () => {
       const mockNewState = {
+        ...mockState,
         dashboards: {
           autoSaveStatus: { id1: {} },
           dashboards: { id1: { ...mockDashboard } },
         },
       };
       useSelector.mockImplementation((selector) => selector(mockNewState));
-      const renderedComponent = rtlRender(<DashboardWithProviders />);
+      const renderedComponent = render(<DashboardWithProviders />);
       const { findByText, getAllByTestId } = renderedComponent;
 
       await findByText('dashboard1');
@@ -368,13 +375,14 @@ describe('<Dashboard />', () => {
 
     it('should edit chart and auto save', async () => {
       const mockNewState = {
+        ...mockState,
         dashboards: {
           autoSaveStatus: { id1: {} },
           dashboards: { id1: { ...mockDashboard } },
         },
       };
       useSelector.mockImplementation((selector) => selector(mockNewState));
-      const renderedComponent = rtlRender(<DashboardWithProviders />);
+      const renderedComponent = render(<DashboardWithProviders />);
       const { getByText, findByText, getByTestId } = renderedComponent;
 
       await findByText('dashboard1');
@@ -410,6 +418,7 @@ describe('<Dashboard />', () => {
 
     it('should show error if any while saving the dashboard', async () => {
       const mockNewState = {
+        ...mockState,
         dashboards: {
           autoSaveStatus: { id1: { saving: false, error: true, lastSaved: new Date() } },
           dashboards: { id1: { ...mockDashboard } },
@@ -427,6 +436,7 @@ describe('<Dashboard />', () => {
 
     it('should show saving state while saving the dashboard', async () => {
       const mockNewState = {
+        ...mockState,
         dashboards: {
           autoSaveStatus: { id1: { saving: true, error: false, lastSaved: null } },
           dashboards: { id1: { ...mockDashboard } },
@@ -444,6 +454,7 @@ describe('<Dashboard />', () => {
 
     it('should call retry action on click of retry button if  any error while saving the dashboard', async () => {
       const mockNewState = {
+        ...mockState,
         dashboards: {
           autoSaveStatus: { id1: { saving: false, error: true, lastSaved: new Date() } },
           dashboards: { id1: { ...mockDashboard } },
@@ -469,13 +480,14 @@ describe('<Dashboard />', () => {
 
     it('should delete the widget and autoSave', async () => {
       const mockNewState = {
+        ...mockState,
         dashboards: {
           autoSaveStatus: { id1: {} },
           dashboards: { id1: { ...mockDashboard, count: 1 } },
         },
       };
       useSelector.mockImplementation((selector) => selector(mockNewState));
-      const renderedComponent = rtlRender(<DashboardWithProviders />);
+      const renderedComponent = render(<DashboardWithProviders />);
       const { getByText, findByText, getByTestId } = renderedComponent;
 
       await findByText('dashboard1');

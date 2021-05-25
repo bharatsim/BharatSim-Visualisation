@@ -18,7 +18,7 @@ jest.mock('../../../../utils/api', () => ({
 
 describe('Dashboard Navbar', () => {
   const DashboardNavbarWithTheme = withOverlayLoaderOrError(
-    withSnackBar(withThemeProvider(DashboardNavbar)),
+    withThemeProvider(withSnackBar(withSnackBar(DashboardNavbar))),
   );
   afterEach(() => {
     jest.clearAllMocks();

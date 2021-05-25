@@ -13,10 +13,10 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
     />
     <div>
       <div
-        class="MuiBox-root MuiBox-root-3"
+        class="MuiBox-root MuiBox-root-9"
       >
         <div
-          class="MuiBox-root MuiBox-root-4"
+          class="MuiBox-root MuiBox-root-10"
         >
           <div>
             select x axis
@@ -27,10 +27,10 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
         />
       </div>
       <div
-        class="MuiBox-root MuiBox-root-5"
+        class="MuiBox-root MuiBox-root-11"
       >
         <div
-          class="MuiBox-root MuiBox-root-6"
+          class="MuiBox-root MuiBox-root-12"
         >
           <div>
             select y axis

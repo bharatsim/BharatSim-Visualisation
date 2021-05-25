@@ -4,11 +4,11 @@ exports[`<App /> should match snapshot 1`] = `
 <div>
   <div>
     <header
-      class="MuiBox-root MuiBox-root-8 makeStyles-mainContainer-6"
+      class="MuiBox-root MuiBox-root-9 makeStyles-mainContainer-7"
       cursor="pointer"
     >
       <div
-        class="MuiBox-root MuiBox-root-9 makeStyles-logo-7"
+        class="MuiBox-root MuiBox-root-10 makeStyles-logo-8"
       >
         <img
           alt="logo"
@@ -18,7 +18,7 @@ exports[`<App /> should match snapshot 1`] = `
       </div>
     </header>
     <div
-      class="makeStyles-root-10"
+      class="makeStyles-root-11"
     >
       App Routes
     </div>

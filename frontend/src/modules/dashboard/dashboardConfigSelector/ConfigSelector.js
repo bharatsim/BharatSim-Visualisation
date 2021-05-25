@@ -3,6 +3,7 @@ import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import { useForm } from 'react-final-form';
 
+import { useSnackbar } from 'notistack';
 import chartConfigs from '../../../config/chartConfigs';
 import { api } from '../../../utils/api';
 import chartConfigOptions from '../../../config/chartConfigOptions';
@@ -11,6 +12,7 @@ import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import { chartConfigOptionTypes } from '../../../constants/chartConfigOptionTypes';
 import { useFormContext } from '../../../contexts/FormContext';
 import { compareArrayByValues } from '../../../utils/helper';
+import snackbarVariant from '../../../constants/snackbarVariant';
 
 function isMatchingHeaders(newHeaders, prevHeaders) {
   const newColumns = newHeaders.headers.map(({ name }) => name);
@@ -22,6 +24,7 @@ function ConfigSelector() {
   const [fetchedCsvHeaders, setFetchedCsvHeaders] = useState();
   const { chartType } = useFormContext();
   const { getFieldState, reset } = useForm();
+  const { enqueueSnackbar } = useSnackbar();
 
   const dataSourceId = getFieldState(chartConfigOptionTypes.DATASOURCE)?.value;
 
@@ -49,6 +52,9 @@ function ConfigSelector() {
     const shouldResetConfig = fetchedCsvHeaders && !isMatchingHeaders(resData, fetchedCsvHeaders);
     if (shouldResetConfig) {
       resetConfig();
+      enqueueSnackbar('Configuration wizard form got reset for new data-source selection', {
+        variant: snackbarVariant.INFO,
+      });
     }
     stopLoaderAfterSuccess();
     setFetchedCsvHeaders(resData);

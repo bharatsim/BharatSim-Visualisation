@@ -3,13 +3,13 @@
 exports[`Home should match snapshot for existing users 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-24 makeStyles-mainContainer-23"
+    class="MuiBox-root MuiBox-root-26 makeStyles-mainContainer-25"
   >
     <div
-      class="MuiBox-root MuiBox-root-26"
+      class="MuiBox-root MuiBox-root-28"
     >
       <div
-        class="MuiBox-root MuiBox-root-27"
+        class="MuiBox-root MuiBox-root-29"
       >
         <div
           class="MuiTabs-root"
@@ -57,13 +57,13 @@ exports[`Home should match snapshot for existing users 1`] = `
               </button>
             </div>
             <span
-              class="PrivateTabIndicator-root-28 PrivateTabIndicator-colorPrimary-29 MuiTabs-indicator"
+              class="PrivateTabIndicator-root-30 PrivateTabIndicator-colorPrimary-31 MuiTabs-indicator"
               style="left: 0px; width: 0px;"
             />
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-33 makeStyles-buttonGroup-32"
+          class="MuiBox-root MuiBox-root-35 makeStyles-buttonGroup-34"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
@@ -82,7 +82,7 @@ exports[`Home should match snapshot for existing users 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-34 makeStyles-projectListContainer-25"
+        class="MuiBox-root MuiBox-root-36 makeStyles-projectListContainer-27"
       >
         <div
           aria-labelledby="simple-tab-0"
@@ -96,13 +96,13 @@ exports[`Home should match snapshot for existing users 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
             >
               <div
-                class="MuiBox-root MuiBox-root-37"
+                class="MuiBox-root MuiBox-root-39"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-38 makeStyles-cardContainer-36"
+                  class="MuiBox-root MuiBox-root-40 makeStyles-cardContainer-38"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-39 makeStyles-titleContainer-35"
+                    class="MuiBox-root MuiBox-root-41 makeStyles-titleContainer-37"
                   >
                     <h6
                       class="MuiTypography-root MuiTypography-subtitle2"
@@ -110,7 +110,7 @@ exports[`Home should match snapshot for existing users 1`] = `
                       project1
                     </h6>
                     <button
-                      class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-40"
+                      class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-42"
                       data-testid="project-menu"
                       tabindex="0"
                       type="button"
@@ -151,18 +151,18 @@ exports[`Home should match snapshot for existing users 1`] = `
 exports[`Home should match snapshot for new user 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-7 makeStyles-mainContainer-6"
+    class="MuiBox-root MuiBox-root-8 makeStyles-mainContainer-7"
   >
     <div
-      class="MuiBox-root MuiBox-root-12 makeStyles-mainContainer-8"
+      class="MuiBox-root MuiBox-root-13 makeStyles-mainContainer-9"
     >
       <h4
-        class="MuiTypography-root makeStyles-textCentered-9 MuiTypography-h4"
+        class="MuiTypography-root makeStyles-textCentered-10 MuiTypography-h4"
       >
         Welcome to BharatSim
       </h4>
       <div
-        class="MuiBox-root MuiBox-root-13 makeStyles-itemsCentered-11"
+        class="MuiBox-root MuiBox-root-14 makeStyles-itemsCentered-12"
       >
         <img
           alt="logo"
@@ -170,24 +170,24 @@ exports[`Home should match snapshot for new user 1`] = `
         />
       </div>
       <div
-        class="MuiBox-root MuiBox-root-14 makeStyles-introTextContainer-10"
+        class="MuiBox-root MuiBox-root-15 makeStyles-introTextContainer-11"
       >
         <h6
-          class="MuiTypography-root makeStyles-textCentered-9 MuiTypography-subtitle2"
+          class="MuiTypography-root makeStyles-textCentered-10 MuiTypography-subtitle2"
         >
           Vision
         </h6>
         <p
-          class="MuiTypography-root makeStyles-textCentered-9 MuiTypography-body2"
+          class="MuiTypography-root makeStyles-textCentered-10 MuiTypography-body2"
         >
           The vision for BharatSim is to build an India scale agent based framework that would enable modellers from various fields of study like epidemiology, disaster management, economics etc to advise policy makers and institutions.
         </p>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-15 makeStyles-itemsCentered-11"
+        class="MuiBox-root MuiBox-root-16 makeStyles-itemsCentered-12"
       >
         <div
-          class="MuiBox-root MuiBox-root-17 makeStyles-buttonGroup-16"
+          class="MuiBox-root MuiBox-root-18 makeStyles-buttonGroup-17"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge"

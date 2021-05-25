@@ -32,6 +32,10 @@ const colors = {
     secondary: 'rgba(255, 255, 255, 0.8)',
     disabled: 'rgba(255, 255, 255, 0.6)',
   },
+  info: {
+    border: '#A9E4FF',
+    banner: '#CDEFFF',
+  },
 };
 
 const muiColorPalette = {
@@ -52,15 +56,15 @@ const muiColorPalette = {
     light: '#FF8B66',
   },
   warning: {
-    light: '#FFB74D',
-    main: '#FF9800',
-    dark: '#F57C00',
+    light: '#FFC36A',
+    main: '#FD9827',
+    dark: '#F37C22',
     contrastText: 'rgba(0, 0, 0, 0.87)',
   },
   info: {
-    light: '#0F74D5',
+    light: '#70D2FF',
     main: '#2593FC',
-    dark: '#70D2FF',
+    dark: '#0F74D4',
   },
   success: {
     light: '#9EED7E',

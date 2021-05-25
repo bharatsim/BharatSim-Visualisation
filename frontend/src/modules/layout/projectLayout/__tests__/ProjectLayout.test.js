@@ -55,8 +55,8 @@ describe('Project', () => {
     jest.clearAllMocks();
   });
 
-  const Component = withSnackBar(
-    withThemeProvider(() => (
+  const Component = withThemeProvider(
+    withSnackBar(() => (
       <ProjectLayout>
         <DummyComponent />
       </ProjectLayout>

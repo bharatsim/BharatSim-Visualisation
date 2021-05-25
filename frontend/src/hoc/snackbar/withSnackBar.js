@@ -24,6 +24,17 @@ const useSnackBarStyles = makeStyles((theme) => ({
     opacity: 1,
     minWidth: theme.spacing(120),
   },
+  variantInfo: {
+    backgroundColor: `${theme.colors.info.banner} !important`,
+    borderColor: `${theme.colors.info.border}`,
+    border: '1px solid',
+    color: `${theme.palette.info.dark} !important`,
+    ...theme.typography.body2,
+    borderRadius: theme.spacing(1),
+    boxShadow: 'unset',
+    opacity: 1,
+    minWidth: theme.spacing(120),
+  },
   variantError: {
     backgroundColor: `#FBE9E4 !important`,
     borderColor: `${theme.palette.error.light}33`,

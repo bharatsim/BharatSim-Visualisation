@@ -1,10 +1,16 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 
 import ChartConfigurationWizard from '../ChartConfigurationWizard';
 import withThemeProvider from '../../../../theme/withThemeProvider';
-import { selectDropDownOption, withProjectLayout, withRouter } from '../../../../testUtil';
+import {
+  selectDropDownOption,
+  withProjectLayout,
+  withRouter,
+  renderWithRedux as render,
+} from '../../../../testUtil';
+import withSnackBar from '../../../../hoc/snackbar/withSnackBar';
 
 jest.mock('../../../../utils/api', () => ({
   api: {
@@ -24,7 +30,7 @@ jest.mock('../../../../utils/api', () => ({
 }));
 
 const ComponentWithProvider = withThemeProvider(
-  withRouter(withProjectLayout(ChartConfigurationWizard)),
+  withSnackBar(withRouter(withProjectLayout(ChartConfigurationWizard))),
 );
 
 describe('Chart configuration wizard', () => {

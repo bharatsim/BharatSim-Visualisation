@@ -7,11 +7,11 @@ exports[`<CreateNewDashboardModal /> should match snapshot 1`] = `
   role="dialog"
 >
   <div
-    class="MuiDialogTitle-root Component-root-7"
+    class="MuiDialogTitle-root Component-root-8"
     id="customized-dialog-title"
   >
     <div
-      class="MuiBox-root MuiBox-root-9 Component-titleContainer-8"
+      class="MuiBox-root MuiBox-root-10 Component-titleContainer-9"
     >
       <h5
         class="MuiTypography-root MuiTypography-h5"
@@ -20,7 +20,7 @@ exports[`<CreateNewDashboardModal /> should match snapshot 1`] = `
       </h5>
       <button
         aria-label="close"
-        class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-10"
+        class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-11"
         data-testid="button-icon-close"
         tabindex="0"
         type="button"
@@ -46,13 +46,13 @@ exports[`<CreateNewDashboardModal /> should match snapshot 1`] = `
     </div>
   </div>
   <div
-    class="MuiDialogContent-root WithStyles(ForwardRef(DialogContent))-root-11 MuiDialogContent-dividers"
+    class="MuiDialogContent-root WithStyles(ForwardRef(DialogContent))-root-12 MuiDialogContent-dividers"
   >
     <div
-      class="MuiBox-root MuiBox-root-12 makeStyles-addProjectModal-6"
+      class="MuiBox-root MuiBox-root-13 makeStyles-addProjectModal-7"
     >
       <div
-        class="MuiBox-root MuiBox-root-13"
+        class="MuiBox-root MuiBox-root-14"
       >
         <div
           class="MuiGrid-root MuiGrid-container MuiGrid-grid-xl-12"
@@ -61,10 +61,10 @@ exports[`<CreateNewDashboardModal /> should match snapshot 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
           >
             <div
-              class="MuiBox-root MuiBox-root-19 makeStyles-labelContainer-17"
+              class="MuiBox-root MuiBox-root-20 makeStyles-labelContainer-18"
             >
               <label
-                class="makeStyles-label-18"
+                class="makeStyles-label-19"
                 for="project-title"
               >
                 Project Title
@@ -86,14 +86,14 @@ exports[`<CreateNewDashboardModal /> should match snapshot 1`] = `
                 <input
                   aria-describedby="project-title-helper-text"
                   aria-invalid="false"
-                  class="MuiInputBase-input MuiFilledInput-input makeStyles-inputField-15"
+                  class="MuiInputBase-input MuiFilledInput-input makeStyles-inputField-16"
                   id="project-title"
                   type="text"
                   value="Untitled Project"
                 />
               </div>
               <p
-                class="MuiFormHelperText-root makeStyles-helperText-14 MuiFormHelperText-contained MuiFormHelperText-filled"
+                class="MuiFormHelperText-root makeStyles-helperText-15 MuiFormHelperText-contained MuiFormHelperText-filled"
                 id="project-title-helper-text"
               >
                 Specify the name of the project
@@ -109,10 +109,10 @@ exports[`<CreateNewDashboardModal /> should match snapshot 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
         >
           <div
-            class="MuiBox-root MuiBox-root-20 makeStyles-labelContainer-17"
+            class="MuiBox-root MuiBox-root-21 makeStyles-labelContainer-18"
           >
             <label
-              class="makeStyles-label-18"
+              class="makeStyles-label-19"
               for="dashboard-title"
             >
               Dashboard Title
@@ -134,14 +134,14 @@ exports[`<CreateNewDashboardModal /> should match snapshot 1`] = `
               <input
                 aria-describedby="dashboard-title-helper-text"
                 aria-invalid="false"
-                class="MuiInputBase-input MuiFilledInput-input makeStyles-inputField-15"
+                class="MuiInputBase-input MuiFilledInput-input makeStyles-inputField-16"
                 id="dashboard-title"
                 type="text"
                 value="Untitled Dashboard"
               />
             </div>
             <p
-              class="MuiFormHelperText-root makeStyles-helperText-14 MuiFormHelperText-contained MuiFormHelperText-filled"
+              class="MuiFormHelperText-root makeStyles-helperText-15 MuiFormHelperText-contained MuiFormHelperText-filled"
               id="dashboard-title-helper-text"
             >
               Specify the name of the dashboard
@@ -152,10 +152,10 @@ exports[`<CreateNewDashboardModal /> should match snapshot 1`] = `
     </div>
   </div>
   <div
-    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-21 MuiDialogActions-spacing"
+    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-22 MuiDialogActions-spacing"
   >
     <div
-      class="MuiBox-root MuiBox-root-23 makeStyles-buttonGroup-22"
+      class="MuiBox-root MuiBox-root-24 makeStyles-buttonGroup-23"
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary Mui-focusVisible Mui-focusVisible"
@@ -193,11 +193,11 @@ exports[`<CreateNewDashboardModal /> should match snapshot only with dashboard t
   role="dialog"
 >
   <div
-    class="MuiDialogTitle-root Component-root-30"
+    class="MuiDialogTitle-root Component-root-32"
     id="customized-dialog-title"
   >
     <div
-      class="MuiBox-root MuiBox-root-32 Component-titleContainer-31"
+      class="MuiBox-root MuiBox-root-34 Component-titleContainer-33"
     >
       <h5
         class="MuiTypography-root MuiTypography-h5"
@@ -206,7 +206,7 @@ exports[`<CreateNewDashboardModal /> should match snapshot only with dashboard t
       </h5>
       <button
         aria-label="close"
-        class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-33"
+        class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-35"
         data-testid="button-icon-close"
         tabindex="0"
         type="button"
@@ -232,10 +232,10 @@ exports[`<CreateNewDashboardModal /> should match snapshot only with dashboard t
     </div>
   </div>
   <div
-    class="MuiDialogContent-root WithStyles(ForwardRef(DialogContent))-root-34 MuiDialogContent-dividers"
+    class="MuiDialogContent-root WithStyles(ForwardRef(DialogContent))-root-36 MuiDialogContent-dividers"
   >
     <div
-      class="MuiBox-root MuiBox-root-35 makeStyles-addProjectModal-29"
+      class="MuiBox-root MuiBox-root-37 makeStyles-addProjectModal-31"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-grid-xl-12"
@@ -244,10 +244,10 @@ exports[`<CreateNewDashboardModal /> should match snapshot only with dashboard t
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
         >
           <div
-            class="MuiBox-root MuiBox-root-41 makeStyles-labelContainer-39"
+            class="MuiBox-root MuiBox-root-43 makeStyles-labelContainer-41"
           >
             <label
-              class="makeStyles-label-40"
+              class="makeStyles-label-42"
               for="dashboard-title"
             >
               Dashboard Title
@@ -269,14 +269,14 @@ exports[`<CreateNewDashboardModal /> should match snapshot only with dashboard t
               <input
                 aria-describedby="dashboard-title-helper-text"
                 aria-invalid="false"
-                class="MuiInputBase-input MuiFilledInput-input makeStyles-inputField-37"
+                class="MuiInputBase-input MuiFilledInput-input makeStyles-inputField-39"
                 id="dashboard-title"
                 type="text"
                 value="Untitled Dashboard"
               />
             </div>
             <p
-              class="MuiFormHelperText-root makeStyles-helperText-36 MuiFormHelperText-contained MuiFormHelperText-filled"
+              class="MuiFormHelperText-root makeStyles-helperText-38 MuiFormHelperText-contained MuiFormHelperText-filled"
               id="dashboard-title-helper-text"
             >
               Specify the name of the dashboard
@@ -287,10 +287,10 @@ exports[`<CreateNewDashboardModal /> should match snapshot only with dashboard t
     </div>
   </div>
   <div
-    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-42 MuiDialogActions-spacing"
+    class="MuiDialogActions-root WithStyles(ForwardRef(DialogActions))-root-44 MuiDialogActions-spacing"
   >
     <div
-      class="MuiBox-root MuiBox-root-44 makeStyles-buttonGroup-43"
+      class="MuiBox-root MuiBox-root-46 makeStyles-buttonGroup-45"
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary Mui-focusVisible Mui-focusVisible"

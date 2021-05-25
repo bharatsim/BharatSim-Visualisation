@@ -3,13 +3,13 @@
 exports[`ProjectMetadataCard should match snapshot ProjectMetadataCard 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-8"
+    class="MuiBox-root MuiBox-root-9"
   >
     <div
-      class="MuiBox-root MuiBox-root-9 makeStyles-cardContainer-7"
+      class="MuiBox-root MuiBox-root-10 makeStyles-cardContainer-8"
     >
       <div
-        class="MuiBox-root MuiBox-root-10 makeStyles-titleContainer-6"
+        class="MuiBox-root MuiBox-root-11 makeStyles-titleContainer-7"
       >
         <h6
           class="MuiTypography-root MuiTypography-subtitle2"
@@ -17,7 +17,7 @@ exports[`ProjectMetadataCard should match snapshot ProjectMetadataCard 1`] = `
           projectName
         </h6>
         <button
-          class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-11"
+          class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-12"
           data-testid="project-menu"
           tabindex="0"
           type="button"

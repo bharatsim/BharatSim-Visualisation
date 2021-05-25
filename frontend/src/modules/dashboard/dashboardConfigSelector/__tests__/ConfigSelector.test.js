@@ -1,13 +1,15 @@
-import { render } from '@testing-library/react';
 import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import { Field, Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import { renderWithRedux as render } from '../../../../testUtil';
 
 import ConfigSelector from '../ConfigSelector';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import { api } from '../../../../utils/api';
 import { FormProvider } from '../../../../contexts/FormContext';
+import withSnackBar from '../../../../hoc/snackbar/withSnackBar';
+import withRedux from '../../../../hoc/redux/withRedux';
 
 jest.mock('../../../../utils/api', () => ({
   api: {
@@ -57,7 +59,7 @@ jest.mock('../../../../config/chartConfigs', () => ({
   },
 }));
 
-const ConfigSelectorWithProvider = withThemeProvider(ConfigSelector);
+const ConfigSelectorWithProvider = withRedux(withThemeProvider(withSnackBar(ConfigSelector)));
 
 const TestForConfigSelector = ({
   onSubmit,
@@ -297,6 +299,11 @@ describe('<ConfigSelector />', () => {
       expect.anything(),
       expect.anything(),
     );
+
+    // show snackbar for reset
+    expect(
+      getByText('Configuration wizard form got reset for new data-source selection'),
+    ).toBeInTheDocument();
   });
 
   it(`should not reset config on change of datasource id  if headers for datasource are same`, async () => {

@@ -5,7 +5,7 @@ import withThemeProvider from '../../../theme/withThemeProvider';
 import withSnackBar from '../../../hoc/snackbar/withSnackBar';
 
 describe('ProjectMetadataCard', () => {
-  const ProjectMetadataCardWithProviders = withSnackBar(withThemeProvider(ProjectMetadataCard));
+  const ProjectMetadataCardWithProviders = withThemeProvider(withSnackBar(ProjectMetadataCard));
   it('should match snapshot ProjectMetadataCard', async () => {
     const { container } = render(
       <ProjectMetadataCardWithProviders
