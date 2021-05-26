@@ -1,30 +1,30 @@
 import React from 'react';
 import { useForm } from 'react-final-form';
 
-import { Box, Divider, Typography } from '@material-ui/core';
+import { Box, Divider } from '@material-ui/core';
 import TextField from '../../../uiComponent/formField/TextField';
 import { chartConfigOptionTypes } from '../../../constants/chartConfigOptionTypes';
 import DatasourceSelector from '../dashboardConfigSelector/DatasourceSelector';
 import ConfigSelector from '../dashboardConfigSelector/ConfigSelector';
+import FieldContainer from '../../../uiComponent/formField/FieldContainer';
 
 function DataConfiguration() {
   const { getFieldState } = useForm();
   const showOtherConfig = getFieldState(chartConfigOptionTypes.DATASOURCE)?.value;
   return (
     <>
-      <Box px={2} pb={6}>
-        <Box mb={2}>
-          <Typography variant="subtitle2">Chart Name</Typography>
-        </Box>
-        <TextField
-          name={chartConfigOptionTypes.CHART_NAME}
-          label="Add chart name"
-          type="text"
-          dataTestId="chart-name-input"
-        />
+      <Box pb={4}>
+        <FieldContainer title="Chart Name">
+          <TextField
+            name={chartConfigOptionTypes.CHART_NAME}
+            label="Add chart name"
+            type="text"
+            dataTestId="chart-name-input"
+          />
+        </FieldContainer>
       </Box>
       <Divider />
-      <Box px={2} py={6}>
+      <Box py={4}>
         <DatasourceSelector
           name={chartConfigOptionTypes.DATASOURCE}
           header="Data Source"
@@ -36,7 +36,7 @@ function DataConfiguration() {
       {showOtherConfig && (
         <>
           <Divider />
-          <Box pt={6}>
+          <Box pt={4}>
             <ConfigSelector />
           </Box>
         </>

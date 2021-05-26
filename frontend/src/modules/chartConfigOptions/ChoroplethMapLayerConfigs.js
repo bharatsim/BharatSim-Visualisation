@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from '@material-ui/icons';
 import { useForm } from 'react-final-form';
 
 import DatasourceSelector from '../dashboard/dashboardConfigSelector/DatasourceSelector';
@@ -12,6 +13,8 @@ import { api } from '../../utils/api';
 import useLoader, { loaderStates } from '../../hook/useLoader';
 import { useFormContext } from '../../contexts/FormContext';
 import { required } from '../../utils/validators';
+import FieldContainer from '../../uiComponent/formField/FieldContainer';
+import FieldsContainer from '../../uiComponent/formField/FieldsContainer';
 
 const useStyles = makeStyles((theme) => ({
   caption: {
@@ -59,29 +62,29 @@ function ChoroplethMapLayerConfig({ headers, configKey, shouldShowReferenceIdCon
   }, [dataSourceId]);
 
   return (
-    <Box>
-      <Box pl={2} pb={4} pt={1}>
-        <DatasourceSelector
-          disable={isEditMode}
-          name={`${configKey}.${choroplethConfigTypes.MAP_LAYER}`}
-          datasourceFilter={shapeFileFilter}
-          noDataSourcePresentMessage="Before we can create any GIS visualization, we‘ll need some GIS layer data."
-          header="Map Layer"
-          id="gisMapLayer-dropdown"
-          label="select map layer"
-          helperText="file format: GeoJson, topojson"
-          validate={required}
-        />
-      </Box>
+    <FieldsContainer>
+      <DatasourceSelector
+        disable={isEditMode}
+        name={`${configKey}.${choroplethConfigTypes.MAP_LAYER}`}
+        datasourceFilter={shapeFileFilter}
+        noDataSourcePresentMessage="Before we can create any GIS visualization, we‘ll need some GIS layer data."
+        header="Map Layer"
+        id="gisMapLayer-dropdown"
+        label="select map layer"
+        helperText="file format: GeoJson, topojson"
+        validate={required}
+      />
       <LoaderOrError message={message} loadingState={loadingState} fullWidth>
-        <Box>
-          <Box pl={2} pb={4}>
-            <Typography variant="subtitle2">Geo ID Mapping</Typography>
-            <Typography variant="caption" classes={{ caption: classes.caption }}>
-              Select common column by which you want to join the map file with dataset
-            </Typography>
-          </Box>
-          <Box display="flex">
+        <FieldsContainer>
+          <FieldContainer>
+            <Box>
+              <Typography variant="subtitle2">Geo ID Mapping</Typography>
+              <Typography variant="caption" classes={{ caption: classes.caption }}>
+                Select common column by which you want to join the map file with dataset
+              </Typography>
+            </Box>
+          </FieldContainer>
+          <FieldsContainer orientation="horizontal">
             <HeadersSelector
               label="select map layer id"
               headers={geoJsonProperties || []}
@@ -92,7 +95,10 @@ function ChoroplethMapLayerConfig({ headers, configKey, shouldShowReferenceIdCon
               disabled={!dataSourceId}
               validate={required}
             />
-            <Box pt={13}>=</Box>
+            <Box pt={10}>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <Link />
+            </Box>
             <HeadersSelector
               label="select data layer id"
               headers={headers}
@@ -103,25 +109,23 @@ function ChoroplethMapLayerConfig({ headers, configKey, shouldShowReferenceIdCon
               disabled={!dataSourceId}
               validate={required}
             />
-          </Box>
+          </FieldsContainer>
           {shouldShowReferenceIdConfig && (
-            <Box pt={2}>
-              <HeadersSelector
-                label="select reference id"
-                headers={geoJsonProperties || []}
-                id="reference id"
-                title={`Reference ID for Level ${levelIndex}`}
-                configKey={`${configKey}.${choroplethConfigTypes.REFERENCE_ID}`}
-                border={false}
-                disabled={!dataSourceId}
-                helperText="Select the field to link the current drill down level with the preceding level."
-                validate={required}
-              />
-            </Box>
+            <HeadersSelector
+              label="select reference id"
+              headers={geoJsonProperties || []}
+              id="reference id"
+              title={`Reference ID for Level ${levelIndex}`}
+              configKey={`${configKey}.${choroplethConfigTypes.REFERENCE_ID}`}
+              border={false}
+              disabled={!dataSourceId}
+              helperText="link the current drill down level with the preceding level."
+              validate={required}
+            />
           )}
-        </Box>
+        </FieldsContainer>
       </LoaderOrError>
-    </Box>
+    </FieldsContainer>
   );
 }
 

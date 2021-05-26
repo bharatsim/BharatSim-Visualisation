@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 import ChoroplethMapLayerConfig from './ChoroplethMapLayerConfigs';
@@ -10,26 +9,19 @@ import RadioButtonsField from '../../uiComponent/formField/RadioButtonField';
 import { useFormContext } from '../../contexts/FormContext';
 import { required } from '../../utils/validators';
 import Condition from '../../uiComponent/formField/ConditionalField';
+import FieldContainer from '../../uiComponent/formField/FieldContainer';
 
 const choroplethConfigTypes = {
   CHOROPLETH_TYPE: 'choroplethType',
   MAP_LAYER_CONFIG: 'mapLayerConfig',
 };
 
-const useStyles = makeStyles({
-  radioButtonContainer: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-});
-
 function ChoroplethConfigs({ headers, configKey }) {
-  const classes = useStyles();
   const { isEditMode } = useFormContext();
 
   return (
     <Box>
-      <Box pl={2} className={classes.radioButtonContainer}>
+      <FieldContainer inline>
         <RadioButtonsField
           name={`${configKey}.${choroplethConfigTypes.CHOROPLETH_TYPE}`}
           options={[
@@ -41,7 +33,7 @@ function ChoroplethConfigs({ headers, configKey }) {
           defaultValue={choroplethTypes.SINGLE_LEVEL}
           validate={required}
         />
-      </Box>
+      </FieldContainer>
       <Condition
         when={`${configKey}.${choroplethConfigTypes.CHOROPLETH_TYPE}`}
         is={choroplethTypes.DRILL_DOWN}

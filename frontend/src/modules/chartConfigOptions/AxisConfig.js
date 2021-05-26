@@ -1,29 +1,9 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-final-form';
 import PropTypes from 'prop-types';
-
-import { Box, makeStyles, Typography } from '@material-ui/core';
 import TextField from '../../uiComponent/formField/TextField';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    fieldContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      '& + &': {
-        marginTop: theme.spacing(4),
-      },
-    },
-    verticalFieldContainer: {
-      '& > * + *': {
-        marginTop: theme.spacing(1),
-      },
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-    },
-  };
-});
+import FieldsContainer from '../../uiComponent/formField/FieldsContainer';
+import FieldContainer from '../../uiComponent/formField/FieldContainer';
 
 const axisConfig = {
   X_AXIS_NAME: 'xAxisTitle',
@@ -31,7 +11,6 @@ const axisConfig = {
 };
 
 function AxisConfig({ configKey, xAxis }) {
-  const classes = useStyles();
   const { getFieldState, change } = useForm();
   const xAxisNameField = getFieldState(xAxis);
   const xAxisLabelName = `${configKey}.${axisConfig.X_AXIS_NAME}`;
@@ -47,29 +26,24 @@ function AxisConfig({ configKey, xAxis }) {
   }, [xAxisNameField?.value]);
 
   return (
-    <Box>
-      <Box mb={2}>
-        <Typography variant="subtitle2">Axis</Typography>
-      </Box>
-      <Box className={`${classes.fieldContainer} ${classes.verticalFieldContainer}`}>
-        <Typography variant="subtitle2">X Axis</Typography>
+    <FieldsContainer title="Axis">
+      <FieldContainer title="X Axis">
         <TextField
           name={`${configKey}.${axisConfig.X_AXIS_NAME}`}
           dataTestId="x-axis-title"
           label="Enter X axis label"
           defaultValue=""
         />
-      </Box>
-      <Box className={`${classes.fieldContainer} ${classes.verticalFieldContainer}`}>
-        <Typography variant="subtitle2">Y Axis</Typography>
+      </FieldContainer>
+      <FieldContainer title="Y Axis">
         <TextField
           name={`${configKey}.${axisConfig.Y_AXIS_NAME}`}
           dataTestId="y-axis-title"
           label="Enter Y axis label"
           defaultValue=""
         />
-      </Box>
-    </Box>
+      </FieldContainer>
+    </FieldsContainer>
   );
 }
 

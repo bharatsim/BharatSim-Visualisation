@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { useForm } from 'react-final-form';
 
 import { api } from '../../../utils/api';
@@ -12,6 +12,7 @@ import LoaderOrError from '../../loaderOrError/LoaderOrError';
 import NoDataSetPresentMessage from '../../manageDataset/NoDatatSetPresentMessage';
 import DropDownField from '../../../uiComponent/formField/SelectField';
 import { useFormContext } from '../../../contexts/FormContext';
+import FieldContainer from '../../../uiComponent/formField/FieldContainer';
 
 function DatasourceSelector({
   name: datasourceKey,
@@ -83,10 +84,7 @@ function DatasourceSelector({
       fullWidth
     >
       {isDataSourcePresent ? (
-        <>
-          <Box mb={2}>
-            <Typography variant="subtitle2">{header}</Typography>
-          </Box>
+        <FieldContainer title={header}>
           <DropDownField
             id={id}
             options={convertObjectArrayToOptionStructure(dataSources, 'name', '_id')}
@@ -96,7 +94,7 @@ function DatasourceSelector({
             helperText={helperText}
             validate={validate}
           />
-        </>
+        </FieldContainer>
       ) : (
         <Box>
           <NoDataSetPresentMessage

@@ -9,7 +9,7 @@ import ChartConfigSelectorStep from './ChartConfigSelectorStep';
 
 const useDrawerStyles = makeStyles((theme) => ({
   paper: {
-    width: '45vw',
+    width: `max(${theme.spacing(147)}px, 45vw)`,
     borderRadius: theme.spacing(1),
     marginTop: theme.spacing(16),
     height: `calc(100vh - ${theme.spacing(16)}px)`,

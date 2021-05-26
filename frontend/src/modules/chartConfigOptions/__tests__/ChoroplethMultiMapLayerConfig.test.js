@@ -50,17 +50,17 @@ const TestForChoroplethMultiMapLayerConfig = ({ onSubmit, isEditMode }) => {
       render={({ handleSubmit }) => (
         <FormProvider
           value={{
-              isEditMode: !!isEditMode,
-              registerDatasource: mockRegisterDatasource,
-              unRegisterDatasource: mockUnRegisterDatasource,
-            }}
+            isEditMode: !!isEditMode,
+            registerDatasource: mockRegisterDatasource,
+            unRegisterDatasource: mockUnRegisterDatasource,
+          }}
         >
           <form onSubmit={handleSubmit}>
             <ComponentWithProvider {...props} />
             <button type="submit">submit</button>
           </form>
         </FormProvider>
-        )}
+      )}
     />
   );
 };
@@ -81,7 +81,7 @@ describe('<ChoroplethMultiMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    fireEvent.click(getByText('Add Level'));
+    fireEvent.click(getByText('Add level'));
 
     await findByText('select map layer');
 
@@ -94,7 +94,7 @@ describe('<ChoroplethMultiMapLayerConfigs />', () => {
 
     await findByText('select map layer');
 
-    fireEvent.click(getByText('Add Level'));
+    fireEvent.click(getByText('Add level'));
 
     await findByText('select map layer');
 
@@ -102,28 +102,10 @@ describe('<ChoroplethMultiMapLayerConfigs />', () => {
 
     expect(level2).toBeInTheDocument();
 
-    fireEvent.click(getByTestId('delete-level-2'));
+    fireEvent.click(getByTestId('delete-button-1'));
 
     expect(level2).not.toBeInTheDocument();
     expect(mockUnRegisterDatasource).toHaveBeenCalledWith('mapLayerConfig.[1].mapLayer');
-  });
-  it('should only allow delete to be present on last level config', async () => {
-    const renderComponent = render(<TestForChoroplethMultiMapLayerConfig onSubmit={jest.fn()} />);
-    const { findByText, getByText, getByTestId, queryByTestId } = renderComponent;
-
-    fireEvent.click(getByText('Add Level'));
-    const level2 = await findByText('Drill Down - Level 2');
-    expect(level2).toBeInTheDocument();
-
-    fireEvent.click(getByText('Add Level'));
-    const level3 = await findByText('Drill Down - Level 3');
-    expect(level3).toBeInTheDocument();
-
-    const level2DeleteButton = queryByTestId('delete-level-2');
-    expect(level2DeleteButton).toBe(null);
-
-    fireEvent.click(getByTestId('delete-level-3'));
-    expect(level3).not.toBeInTheDocument();
   });
 
   it('should call on submit with selected data', async () => {

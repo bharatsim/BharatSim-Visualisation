@@ -71,120 +71,136 @@ exports[`chart config selector should match snapshot 1`] = `
             class="MuiBox-root MuiBox-root-15"
           >
             <div
-              class="MuiBox-root MuiBox-root-16"
+              class="MuiBox-root MuiBox-root-20 makeStyles-mainContainer-16"
             >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2"
-              >
-                Chart Name
-              </h6>
-            </div>
-            <div
-              class="MuiFormControl-root MuiTextField-root makeStyles-input-19"
-            >
-              <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-filled"
-                data-shrink="true"
-              >
-                Add chart name
-              </label>
               <div
-                class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                class="MuiBox-root MuiBox-root-21"
               >
-                <input
-                  aria-invalid="false"
-                  class="MuiInputBase-input MuiFilledInput-input"
-                  data-testid="chart-name-input"
-                  name="chartName"
-                  type="text"
-                  value="Untitled Chart"
-                />
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle2"
+                >
+                  Chart Name
+                </h6>
               </div>
-              
+              <div
+                class="MuiBox-root MuiBox-root-22 makeStyles-fieldContainer-18"
+              >
+                <div
+                  class="MuiFormControl-root MuiTextField-root makeStyles-input-25"
+                >
+                  <label
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-filled"
+                    data-shrink="true"
+                  >
+                    Add chart name
+                  </label>
+                  <div
+                    class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                  >
+                    <input
+                      aria-invalid="false"
+                      class="MuiInputBase-input MuiFilledInput-input"
+                      data-testid="chart-name-input"
+                      name="chartName"
+                      type="text"
+                      value="Untitled Chart"
+                    />
+                  </div>
+                  
+                </div>
+              </div>
             </div>
           </div>
           <hr
             class="MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-20"
+            class="MuiBox-root MuiBox-root-26"
           >
             <div
-              class="MuiBox-root MuiBox-root-41"
+              class="MuiBox-root MuiBox-root-67 makeStyles-mainContainer-16"
             >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2"
-              >
-                Data Source
-              </h6>
-            </div>
-            <div
-              class="MuiFormControl-root makeStyles-formControl-49"
-            >
-              <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
-                data-shrink="false"
-                id="dropdown-label"
-              >
-                select data source
-              </label>
               <div
-                class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
-                data-testid="dropdown-dataSources"
+                class="MuiBox-root MuiBox-root-68"
+              >
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle2"
+                >
+                  Data Source
+                </h6>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-69 makeStyles-fieldContainer-18"
               >
                 <div
-                  aria-haspopup="listbox"
-                  aria-labelledby="dropdown-label dropdown-dataSources"
-                  class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
-                  id="dropdown-dataSources"
-                  role="button"
-                  tabindex="0"
+                  class="MuiFormControl-root makeStyles-formControl-70"
                 >
-                  <span>
-                    ​
-                  </span>
+                  <label
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+                    data-shrink="false"
+                    id="dropdown-label"
+                  >
+                    select data source
+                  </label>
+                  <div
+                    class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                    data-testid="dropdown-dataSources"
+                  >
+                    <div
+                      aria-haspopup="listbox"
+                      aria-labelledby="dropdown-label dropdown-dataSources"
+                      class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-filled MuiInputBase-input MuiFilledInput-input"
+                      id="dropdown-dataSources"
+                      role="button"
+                      tabindex="0"
+                    >
+                      <span>
+                        ​
+                      </span>
+                    </div>
+                    <input
+                      aria-hidden="true"
+                      class="MuiSelect-nativeInput"
+                      tabindex="-1"
+                      value=""
+                    />
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M7 10l5 5 5-5z"
+                      />
+                    </svg>
+                  </div>
+                  <p
+                    class="MuiFormHelperText-root makeStyles-helperText-72 MuiFormHelperText-contained"
+                  >
+                    Data-source change may or may-not reset the chart configuration
+                  </p>
                 </div>
-                <input
-                  aria-hidden="true"
-                  class="MuiSelect-nativeInput"
-                  tabindex="-1"
-                  value=""
-                />
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconFilled"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M7 10l5 5 5-5z"
-                  />
-                </svg>
               </div>
-              <p
-                class="MuiFormHelperText-root makeStyles-helperText-51 MuiFormHelperText-contained"
-              >
-                Data-source change may or may-not reset the chart configuration
-              </p>
             </div>
           </div>
           
         </div>
         <div
-          class="MuiBox-root MuiBox-root-23 makeStyles-hide-6"
+          class="MuiBox-root MuiBox-root-29 makeStyles-hide-6"
         >
           <div>
             <div
-              class="MuiBox-root MuiBox-root-24"
+              class="MuiBox-root MuiBox-root-30"
             >
               <div
-                class="MuiBox-root MuiBox-root-25"
+                class="MuiBox-root MuiBox-root-31"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-28"
+                  class="MuiBox-root MuiBox-root-35"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-29"
+                    class="MuiBox-root MuiBox-root-36 makeStyles-textContainer-34"
                   >
                     <h6
                       class="MuiTypography-root MuiTypography-subtitle2"
@@ -193,67 +209,87 @@ exports[`chart config selector should match snapshot 1`] = `
                     </h6>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-30 makeStyles-fieldContainer-26 makeStyles-verticalFieldContainer-27"
+                    class="MuiBox-root MuiBox-root-37 makeStyles-fieldsContainerVertical-32"
                   >
-                    <h6
-                      class="MuiTypography-root MuiTypography-subtitle2"
-                    >
-                      X Axis
-                    </h6>
                     <div
-                      class="MuiFormControl-root MuiTextField-root makeStyles-input-19"
+                      class="MuiBox-root MuiBox-root-38 makeStyles-mainContainer-16"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
-                        data-shrink="false"
-                      >
-                        Enter X axis label
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                        class="MuiBox-root MuiBox-root-39"
                       >
-                        <input
-                          aria-invalid="false"
-                          class="MuiInputBase-input MuiFilledInput-input"
-                          data-testid="x-axis-title"
-                          name="axisConfig.xAxisTitle"
-                          type="text"
-                          value=""
-                        />
+                        <h6
+                          class="MuiTypography-root MuiTypography-subtitle2"
+                        >
+                          X Axis
+                        </h6>
                       </div>
-                      
+                      <div
+                        class="MuiBox-root MuiBox-root-40 makeStyles-fieldContainer-18"
+                      >
+                        <div
+                          class="MuiFormControl-root MuiTextField-root makeStyles-input-25"
+                        >
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+                            data-shrink="false"
+                          >
+                            Enter X axis label
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                          >
+                            <input
+                              aria-invalid="false"
+                              class="MuiInputBase-input MuiFilledInput-input"
+                              data-testid="x-axis-title"
+                              name="axisConfig.xAxisTitle"
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                          
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root MuiBox-root-31 makeStyles-fieldContainer-26 makeStyles-verticalFieldContainer-27"
-                  >
-                    <h6
-                      class="MuiTypography-root MuiTypography-subtitle2"
-                    >
-                      Y Axis
-                    </h6>
                     <div
-                      class="MuiFormControl-root MuiTextField-root makeStyles-input-19"
+                      class="MuiBox-root MuiBox-root-41 makeStyles-mainContainer-16"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
-                        data-shrink="false"
-                      >
-                        Enter Y axis label
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                        class="MuiBox-root MuiBox-root-42"
                       >
-                        <input
-                          aria-invalid="false"
-                          class="MuiInputBase-input MuiFilledInput-input"
-                          data-testid="y-axis-title"
-                          name="axisConfig.yAxisTitle"
-                          type="text"
-                          value=""
-                        />
+                        <h6
+                          class="MuiTypography-root MuiTypography-subtitle2"
+                        >
+                          Y Axis
+                        </h6>
                       </div>
-                      
+                      <div
+                        class="MuiBox-root MuiBox-root-43 makeStyles-fieldContainer-18"
+                      >
+                        <div
+                          class="MuiFormControl-root MuiTextField-root makeStyles-input-25"
+                        >
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+                            data-shrink="false"
+                          >
+                            Enter Y axis label
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                          >
+                            <input
+                              aria-invalid="false"
+                              class="MuiInputBase-input MuiFilledInput-input"
+                              data-testid="y-axis-title"
+                              name="axisConfig.yAxisTitle"
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                          
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -263,30 +299,39 @@ exports[`chart config selector should match snapshot 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root MuiBox-root-32"
+              class="MuiBox-root MuiBox-root-44"
             >
               <div
-                class="MuiBox-root MuiBox-root-33"
+                class="MuiBox-root MuiBox-root-45"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-34"
+                  class="MuiBox-root MuiBox-root-50 makeStyles-mainContainer-16"
                 >
-                  <h6
-                    class="MuiTypography-root MuiTypography-subtitle2"
-                  >
-                    Series
-                  </h6>
                   <div
-                    class="MuiBox-root MuiBox-root-35"
+                    class="MuiBox-root MuiBox-root-51"
+                  >
+                    <h6
+                      class="MuiTypography-root MuiTypography-subtitle2"
+                    >
+                      Series
+                    </h6>
+                  </div>
+                  <div
+                    class="MuiBox-root MuiBox-root-52 makeStyles-fieldContainer-18"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-36"
+                      class="MuiBox-root MuiBox-root-53 makeStyles-fieldArrayContainer-48"
                     >
-                      <h6
-                        class="MuiTypography-root MuiTypography-subtitle2"
+                      <div
+                        class="MuiBox-root MuiBox-root-54 makeStyles-fallbackText-49"
                       >
-                        Select Y axis measure to add styles
-                      </h6>
+                        <h6
+                          class="MuiTypography-root MuiTypography-subtitle2"
+                        >
+                          Select Y axis measure to add styles
+                        </h6>
+                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -296,16 +341,16 @@ exports[`chart config selector should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-37 makeStyles-footer-1"
+          class="MuiBox-root MuiBox-root-55 makeStyles-footer-1"
         >
           <hr
             class="MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-38"
+            class="MuiBox-root MuiBox-root-56"
           >
             <div
-              class="MuiBox-root MuiBox-root-40 makeStyles-buttonGroup-39"
+              class="MuiBox-root MuiBox-root-58 makeStyles-buttonGroup-57"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"

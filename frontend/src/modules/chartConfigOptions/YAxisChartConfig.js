@@ -1,40 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, fade, makeStyles, Typography } from '@material-ui/core';
 import { useForm } from 'react-final-form';
-import { FieldArray } from 'react-final-form-arrays';
-
-import plusIcon from '../../assets/images/plus.svg';
-import deleteIcon from '../../assets/images/delete.svg';
-import IconButton from '../../uiComponent/IconButton';
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
 import DropDownField from '../../uiComponent/formField/SelectField';
 import { required } from '../../utils/validators';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    fieldContainer: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      padding: theme.spacing(2),
-      borderColor: fade(theme.colors.primaryColorScale['500'], 0.24),
-      border: '1px solid',
-      borderRadius: theme.spacing(1),
-      marginBottom: theme.spacing(4),
-      '&:last-child': {
-        marginBottom: 0,
-      },
-    },
-    addMetricButtonContainer: {
-      display: 'flex',
-      justifyContent: 'flex-end',
-      marginTop: theme.spacing(4),
-    },
-  };
-});
+import FieldArrayContainer from '../../uiComponent/formField/FieldArrayContainer';
+import FieldContainer from '../../uiComponent/formField/FieldContainer';
 
 function YAxisChartConfig({ headers, configKey }) {
-  const classes = useStyles();
   const { getFieldState } = useForm();
   const {
     mutators: { push },
@@ -47,45 +20,26 @@ function YAxisChartConfig({ headers, configKey }) {
   }, []);
 
   return (
-    <>
-      <Box mb={1} pl={2}>
-        <Typography variant="subtitle2">Y-axis</Typography>
-      </Box>
-      <FieldArray name={configKey}>
-        {({ fields }) =>
-          fields.map((name, index) => (
-            <Box className={classes.fieldContainer} key={name}>
-              <DropDownField
-                options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
-                id={`y-axis-dropdown-${index}`}
-                label="select y axis"
-                name={`${name}.name`}
-                validations={{ required: 'Required' }}
-                validate={required}
-              />
-              {fields.length > 1 && (
-                <IconButton
-                  onClick={() => fields.remove(index)}
-                  data-testid={`delete-button-${index}`}
-                >
-                  <img src={deleteIcon} alt="delete-icon" />
-                </IconButton>
-              )}
-            </Box>
-          ))}
-      </FieldArray>
-      <Box className={classes.addMetricButtonContainer}>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="small"
-          onClick={() => push(configKey)}
-          startIcon={<img src={plusIcon} alt="icon" />}
-        >
-          Add Metric
-        </Button>
-      </Box>
-    </>
+    <FieldArrayContainer
+      title="Y-axis"
+      configKey={configKey}
+      addButtonTitle="Add Metric"
+      onAddClick={() => push(configKey)}
+      field={(name, index) => {
+        return (
+          <FieldContainer>
+            <DropDownField
+              options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
+              id={`y-axis-dropdown-${index}`}
+              label="select y axis"
+              name={`${name}.name`}
+              validations={{ required: 'Required' }}
+              validate={required}
+            />
+          </FieldContainer>
+        );
+      }}
+    />
   );
 }
 

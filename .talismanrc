@@ -5,8 +5,24 @@ fileignoreconfig:
   checksum: c97e427da0d3a7a758f2018e3c3d249f4a9b94e2295763d262fe67fc7aa300e5
 - filename: frontend/src/config/chartConfigOptions.js
   checksum: 0111ee1d7152c95f6db14ed61a7f85a92fb62426be8907385f2eea0daae1a6e6
+- filename: frontend/src/modules/chartConfigOptions/AnnotationConfig.js
+  checksum: 38c72d02a71e96b214d035fe2a8f80dfc3cb96111c831b7b42811b515d2ea324
 - filename: frontend/src/modules/chartConfigOptions/AxisConfig.js
   checksum: cfa7b986598103f58b31718bfec4e6b55a0a737f91357893b52db273d5359940
+- filename: frontend/src/modules/chartConfigOptions/BarChartSeriesStyle.js
+  checksum: f51063724512271ce348be722a5bdd6ce630ab95ed27b4603db98a69f420f5b6
+- filename: frontend/src/modules/chartConfigOptions/ChoroplethMapLayerConfigs.js
+  checksum: 277e674a91781764e16423e9d1612120396f858d51d4e2ce3df93c6f409292d9
+- filename: frontend/src/modules/chartConfigOptions/ChoroplethMultiMapLayerConfig.js
+  checksum: 2b331731f73325bc603888d6cf24360fdd91534aa2b6ae1f9d1d355530146f4d
+- filename: frontend/src/modules/chartConfigOptions/GeoDimensionsConfig.js
+  checksum: dc02c898e8a4e24859305bde75bc5cfa945177df7ea1d9625dfd8d155653728c
+- filename: frontend/src/modules/chartConfigOptions/LineChartSeriesStyles.js
+  checksum: edcd9209a06b0526d2bc0dd781809de4bc063dd3082d28af33a9bbe72caef11f
+- filename: frontend/src/modules/chartConfigOptions/XAxisConfig.js
+  checksum: 5d7de27556b77566591bb63f30a4e84582d4fc86bd083f1db529ffba3dc91f5a
+- filename: frontend/src/modules/chartConfigOptions/YAxisChartConfig.js
+  checksum: b43e3bcb9f7605b3dd1563c868cdd67972041531c50c9e2b397a249535fb9e59
 - filename: frontend/src/modules/chartConfigOptions/__tests__/AxisConfig.test.js
   checksum: 9e134812605494a2fc11f44770a751e15807c31b61ef3891061e14dab5ca1f4e
 - filename: frontend/src/modules/dashboard/dashboardConfigSelector/__tests__/ConfigSelector.test.js
@@ -17,6 +33,8 @@ fileignoreconfig:
   checksum: 9dc382fb7e724fdd4b6d897dff331416ed0b0c24da49ce5dd8b553c7d498aaed
 - filename: frontend/src/uiComponent/__tests__/Notes.test.js
   checksum: d7cde6aabb30787cd684a18f290a9a366cf38a6364f5d74ea02a3b73c2de1e87
+- filename: frontend/src/uiComponent/formField/FieldArrayContainer.js
+  checksum: 218eeff0c29c9fa2ea0823f712a2f77c8adc591a9bd42d3eff0d7552957845af
 - filename: frontend/src/uiComponent/formulaBuilder/FormulaBuilder.js
   checksum: ac4f7dea4475792c6c0ad379d0f286eeac89147d15a8cb9ba18344545052cb79
 - filename: frontend/src/utils/helper.js

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Box, Typography } from '@material-ui/core';
 
 import BarStylesConfig from './BarStylesConfig';
+import FieldsContainer from '../../uiComponent/formField/FieldsContainer';
 
 function HistogramStyles({ seriesConfigKey, title }) {
   const { getFieldState } = useForm();
@@ -11,18 +12,17 @@ function HistogramStyles({ seriesConfigKey, title }) {
   const series = getFieldState(seriesConfigKey)?.value;
 
   return (
-    <Box>
-      <Typography variant="subtitle2">{title}</Typography>
-      <Box mt={3}>
-        {series ? (
-          <BarStylesConfig name="" seriesName={series} />
-        ) : (
-          <Box>
-            <Typography variant="subtitle2">Select measure to add styles</Typography>
-          </Box>
-        )}
-      </Box>
-    </Box>
+    <FieldsContainer title={title}>
+      {series ? (
+        <BarStylesConfig name="" seriesName={series} />
+      ) : (
+        <Box textAlign="center">
+          <Typography variant="subtitle2" align="center">
+            Select measure to add styles
+          </Typography>
+        </Box>
+      )}
+    </FieldsContainer>
   );
 }
 

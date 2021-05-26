@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, fade, InputAdornment, makeStyles, Typography } from '@material-ui/core';
+import { InputAdornment } from '@material-ui/core';
 
 import PropTypes from 'prop-types';
 import ColorPickerField from '../../uiComponent/formField/ColorPickerField';
@@ -8,38 +8,8 @@ import TextField from '../../uiComponent/formField/TextField';
 import { hexToRgba } from '../../utils/helper';
 import { chartColorsPallet } from '../../theme/colorPalette';
 import { required, validateWidth } from '../../utils/validators';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    fieldContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      '& + &': {
-        marginTop: theme.spacing(4),
-      },
-    },
-    verticalFieldContainer: {
-      '& > * + *': {
-        marginTop: theme.spacing(1),
-      },
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-    },
-    configContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      borderColor: fade(theme.colors.primaryColorScale['500'], 0.24),
-      border: '1px solid',
-      borderRadius: theme.spacing(1),
-      marginBottom: theme.spacing(4),
-      '&:last-child': {
-        marginBottom: 0,
-      },
-      padding: theme.spacing(2),
-    },
-  };
-});
+import FieldContainer from '../../uiComponent/formField/FieldContainer';
+import FieldsContainer from '../../uiComponent/formField/FieldsContainer';
 
 const seriesStyleConfig = {
   COLOR: 'color',
@@ -57,19 +27,14 @@ const seriesTypeOptions = [
 ];
 
 function LineStyleConfig({ name, seriesName, index }) {
-  const classes = useStyles();
   const defaultColor = hexToRgba(chartColorsPallet[2][index]);
   return (
-    <Box className={classes.configContainer}>
-      <Box className={classes.fieldContainer}>
-        <Typography variant="subtitle2">Series name:&nbsp;</Typography>
-        <Typography variant="body1">{seriesName}</Typography>
-      </Box>
-      <Box className={classes.fieldContainer}>
+    <FieldsContainer>
+      <FieldContainer title={`Series name: ${seriesName}`} />
+      <FieldContainer>
         <ColorPickerField name={`${name}.${seriesStyleConfig.COLOR}`} defaultValue={defaultColor} />
-      </Box>
-      <Box className={`${classes.fieldContainer} ${classes.verticalFieldContainer}`}>
-        <Typography variant="subtitle2">Line Style</Typography>
+      </FieldContainer>
+      <FieldContainer title="Line Style">
         <SelectField
           label="select line type"
           name={`${name}.${seriesStyleConfig.SERIES_TYPE}`}
@@ -78,9 +43,8 @@ function LineStyleConfig({ name, seriesName, index }) {
           defaultValue="dot"
           validate={required}
         />
-      </Box>
-      <Box className={`${classes.fieldContainer} ${classes.verticalFieldContainer}`}>
-        <Typography variant="subtitle2">Line Thickness</Typography>
+      </FieldContainer>
+      <FieldContainer title="Line Thickness">
         <TextField
           name={`${name}.${seriesStyleConfig.SERIES_WIDTH}`}
           dataTestId="series-width"
@@ -90,8 +54,8 @@ function LineStyleConfig({ name, seriesName, index }) {
           InputProps={{ endAdornment: <InputAdornment position="end">Px</InputAdornment> }}
           validate={validateWidth}
         />
-      </Box>
-    </Box>
+      </FieldContainer>
+    </FieldsContainer>
   );
 }
 

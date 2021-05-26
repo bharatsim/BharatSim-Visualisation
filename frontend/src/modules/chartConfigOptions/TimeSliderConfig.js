@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, makeStyles, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { useForm } from 'react-final-form';
 
 import { convertObjectArrayToOptionStructure } from '../../utils/helper';
@@ -11,30 +11,10 @@ import DropDownField from '../../uiComponent/formField/SelectField';
 import RadioButtonsField from '../../uiComponent/formField/RadioButtonField';
 import TextField from '../../uiComponent/formField/TextField';
 import { required, validateStepSize } from '../../utils/validators';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    fieldContainer: {
-      display: 'flex',
-      padding: theme.spacing(2),
-      '& > *': {
-        marginRight: theme.spacing(12),
-      },
-    },
-    timeFieldContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    headerContainer: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-  };
-});
+import FieldContainer from '../../uiComponent/formField/FieldContainer';
+import FieldsContainer from '../../uiComponent/formField/FieldsContainer';
 
 function TimeSliderConfig({ headers, configKey }) {
-  const classes = useStyles();
-
   const { getFieldState } = useForm();
 
   const showSliderConfig = getFieldState(`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`)
@@ -44,23 +24,19 @@ function TimeSliderConfig({ headers, configKey }) {
 
   return (
     <Box>
-      <Box mb={1} pl={2} className={classes.headerContainer}>
-        <Typography variant="subtitle2">Time Dimension</Typography>
-        <Box ml={2}>
-          <SwitchField
-            dataTestId="toggle-time-slider"
-            name={`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`}
-            onLabel="Yes"
-            offLabel="No"
-            validate={required}
-          />
-        </Box>
-      </Box>
+      <FieldContainer title="Time Dimension" inline>
+        <SwitchField
+          dataTestId="toggle-time-slider"
+          name={`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`}
+          onLabel="Yes"
+          offLabel="No"
+          validate={required}
+        />
+      </FieldContainer>
       {showSliderConfig && (
-        <>
-          <Box className={classes.fieldContainer}>
-            <Box>
-              <Typography variant="body1">Time</Typography>
+        <Box mt={3}>
+          <FieldsContainer>
+            <FieldContainer title="Time">
               <DropDownField
                 options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
                 id="timeMetrics"
@@ -68,41 +44,38 @@ function TimeSliderConfig({ headers, configKey }) {
                 name={`${configKey}.${timeSliderConfig.TIME_METRICS}`}
                 validate={required}
               />
-            </Box>
-          </Box>
-          <Box className={[classes.fieldContainer, classes.timeFieldContainer].join(' ')}>
-            <Box>
-              <Typography variant="body1">Time Interval</Typography>
-              <RadioButtonsField
-                defaultValue={timeIntervalStrategies.DEFAULT_INTERVALS}
-                name={`${configKey}.${timeSliderConfig.STRATEGY}`}
-                options={[
-                  {
-                    value: timeIntervalStrategies.DEFAULT_INTERVALS,
-                    label: 'Use predefined interval',
-                  },
-                  {
-                    value: timeIntervalStrategies.STEP_SIZE,
-                    label: 'Specify step size',
-                  },
-                ]}
-                validate={required}
-              />
-            </Box>
-            <Box>
-              {selectedIntervalStrategy === 'stepSize' && (
-                <TextField
-                  type="number"
-                  defaultValue={1}
-                  name={`${configKey}.${timeSliderConfig.STEP_SIZE}`}
-                  label="select step size"
-                  dataTestId="stepsize-input-box"
-                  validate={validateStepSize}
+            </FieldContainer>
+            <FieldContainer title="Time Interval">
+              <FieldsContainer>
+                <RadioButtonsField
+                  defaultValue={timeIntervalStrategies.DEFAULT_INTERVALS}
+                  name={`${configKey}.${timeSliderConfig.STRATEGY}`}
+                  options={[
+                    {
+                      value: timeIntervalStrategies.DEFAULT_INTERVALS,
+                      label: 'Use predefined interval',
+                    },
+                    {
+                      value: timeIntervalStrategies.STEP_SIZE,
+                      label: 'Specify step size',
+                    },
+                  ]}
+                  validate={required}
                 />
-              )}
-            </Box>
-          </Box>
-        </>
+                {selectedIntervalStrategy === 'stepSize' && (
+                  <TextField
+                    type="number"
+                    defaultValue={1}
+                    name={`${configKey}.${timeSliderConfig.STEP_SIZE}`}
+                    label="select step size"
+                    dataTestId="stepsize-input-box"
+                    validate={validateStepSize}
+                  />
+                )}
+              </FieldsContainer>
+            </FieldContainer>
+          </FieldsContainer>
+        </Box>
       )}
     </Box>
   );
