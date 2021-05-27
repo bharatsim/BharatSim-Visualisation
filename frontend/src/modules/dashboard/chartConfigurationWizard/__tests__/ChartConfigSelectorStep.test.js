@@ -8,8 +8,8 @@ jest.mock('../../../../utils/api', () => ({
   api: {
     getDatasources: jest.fn().mockResolvedValue({
       dataSources: [
-        { name: 'datasource1', _id: 'id1' },
-        { name: 'datasource2', _id: 'id2' },
+        { name: 'datasource1', _id: 'id1', fileType: 'csv' },
+        { name: 'datasource2', _id: 'id2', fileType: 'csv' },
       ],
     }),
     getCsvHeaders: jest.fn().mockResolvedValue({

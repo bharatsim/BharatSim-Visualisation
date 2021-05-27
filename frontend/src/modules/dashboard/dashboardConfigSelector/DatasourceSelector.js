@@ -55,10 +55,10 @@ function DatasourceSelector({
       .getDatasources(selectedDashboardId)
       .then(({ dataSources }) => {
         stopLoaderAfterSuccess();
-
         if (datasourceFilter) {
           const filteredDatasources = dataSources.filter(datasourceFilter);
           setFetchedDatasources(filteredDatasources);
+          return;
         }
         setFetchedDatasources(dataSources);
       })

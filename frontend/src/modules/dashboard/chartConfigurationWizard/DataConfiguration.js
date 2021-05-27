@@ -7,6 +7,8 @@ import { chartConfigOptionTypes } from '../../../constants/chartConfigOptionType
 import DatasourceSelector from '../dashboardConfigSelector/DatasourceSelector';
 import ConfigSelector from '../dashboardConfigSelector/ConfigSelector';
 import FieldContainer from '../../../uiComponent/formField/FieldContainer';
+import { required } from '../../../utils/validators';
+import { datasourceFileFilter } from '../../../utils/helper';
 
 function DataConfiguration() {
   const { getFieldState } = useForm();
@@ -31,6 +33,8 @@ function DataConfiguration() {
           id="dropdown-dataSources"
           label="Select data source"
           helperText="Data-source change may or may-not reset the chart configuration"
+          datasourceFilter={datasourceFileFilter}
+          validate={required}
         />
       </Box>
       {showOtherConfig && (

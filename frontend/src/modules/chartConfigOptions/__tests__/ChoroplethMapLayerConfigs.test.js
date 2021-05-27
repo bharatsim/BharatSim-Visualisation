@@ -21,8 +21,8 @@ jest.mock('../../../utils/api', () => ({
     }),
     getDatasources: jest.fn().mockResolvedValue({
       dataSources: [
-        { name: 'datasource1', _id: 'd_id1' },
-        { name: 'datasource2', _id: 'd_id2' },
+        { name: 'datasource1', _id: 'd_id1', fileType: 'geojson' },
+        { name: 'datasource2', _id: 'd_id2', fileType: 'geojson' },
       ],
     }),
   },

@@ -1,6 +1,7 @@
 import {
   compareArrayByValues,
   convertObjectArrayToOptionStructure,
+  datasourceFileFilter,
   debounce,
   formatToUnits,
   getLatLngCenter,
@@ -195,10 +196,26 @@ describe('Helpers', () => {
     });
 
     it('should return true if file is shape file ', () => {
-      const file = { name: 'csv file', fileType: 'geojson' };
+      const file = { name: 'json file', fileType: 'geojson' };
       const isShapeFile = shapeFileFilter(file);
 
       expect(isShapeFile).toEqual(true);
+    });
+  });
+
+  describe('filter for datasource file', () => {
+    it('should return false if file is not datasource file ', () => {
+      const file = { name: 'json file', fileType: 'json' };
+      const isDatasourceFile = datasourceFileFilter(file);
+
+      expect(isDatasourceFile).toEqual(false);
+    });
+
+    it('should return true if file is datasource file ', () => {
+      const file = { name: 'csv file', fileType: 'csv' };
+      const isDatasourceFile = datasourceFileFilter(file);
+
+      expect(isDatasourceFile).toEqual(true);
     });
   });
 

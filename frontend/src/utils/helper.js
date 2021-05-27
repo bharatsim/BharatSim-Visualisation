@@ -119,9 +119,14 @@ function transformChoroplethData(ids, measure, timeMetrics, selectedTick) {
 }
 
 const GISShapeLayerFileTypes = ['geojson'];
+const datasourceFileTypes = ['csv'];
 
 function shapeFileFilter(dataSource) {
   return GISShapeLayerFileTypes.includes(dataSource.fileType);
+}
+
+function datasourceFileFilter(dataSource) {
+  return datasourceFileTypes.includes(dataSource.fileType);
 }
 
 function formatToUnits(number, precision = 0) {
@@ -195,4 +200,5 @@ export {
   rgbaToHex,
   transformColumnsDataToRows,
   compareArrayByValues,
+  datasourceFileFilter,
 };

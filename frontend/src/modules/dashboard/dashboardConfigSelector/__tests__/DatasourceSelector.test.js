@@ -1,4 +1,4 @@
-import { act, render } from '@testing-library/react';
+import { act, render, within } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import React from 'react';
 import { Form } from 'react-final-form';
@@ -9,13 +9,14 @@ import { selectDropDownOption, withProjectLayout, withRouter } from '../../../..
 import { api } from '../../../../utils/api';
 import withThemeProvider from '../../../../theme/withThemeProvider';
 import { FormProvider } from '../../../../contexts/FormContext';
+import { datasourceFileFilter } from '../../../../utils/helper';
 
 jest.mock('../../../../utils/api', () => ({
   api: {
     getDatasources: jest.fn().mockResolvedValue({
       dataSources: [
-        { name: 'datasource1', _id: 'id1' },
-        { name: 'datasource2', _id: 'id2' },
+        { name: 'datasource1', _id: 'id1', type: 'csv' },
+        { name: 'datasource2', _id: 'id2', type: 'json' },
       ],
     }),
   },
@@ -38,10 +39,10 @@ const TestForm = ({ onSubmit, isEditMode, filter }) => {
       render={({ handleSubmit }) => (
         <FormProvider
           value={{
-              isEditMode: !!isEditMode,
-              registerDatasource: jest.fn(),
-              unRegisterDatasource: jest.fn(),
-            }}
+            isEditMode: !!isEditMode,
+            registerDatasource: jest.fn(),
+            unRegisterDatasource: jest.fn(),
+          }}
         >
           <form onSubmit={handleSubmit}>
             <DatasourceSelector
@@ -55,7 +56,7 @@ const TestForm = ({ onSubmit, isEditMode, filter }) => {
             <button type="submit">submit</button>
           </form>
         </FormProvider>
-        )}
+      )}
     />
   );
 };
@@ -72,7 +73,7 @@ describe('<DatasourceSelector />', () => {
 
     await findByText('Data Source');
 
-    await selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource1');
+    selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource1');
 
     await act(async () => {
       fireEvent.click(renderedComponent.getByText('submit'));
@@ -98,16 +99,31 @@ describe('<DatasourceSelector />', () => {
     expect(dropDown).toHaveClass('Mui-disabled');
   });
 
-  it('should call filter on dataSources if filer is present', async () => {
-    const filter = jest.fn();
+  it('should show only filtered datasources', async () => {
+    api.getDatasources.mockResolvedValueOnce({
+      dataSources: [
+        { name: 'datasource1', _id: 'id1', fileType: 'csv' },
+        { name: 'datasource2', _id: 'id2', fileType: 'json' },
+        { name: 'datasource3', _id: 'id2', fileType: 'csv' },
+        { name: 'datasource4', _id: 'id2', fileType: 'csv' },
+      ],
+    });
     const renderedComponent = render(
-      <FormForDatasourceSelector onSubmit={jest.fn()} isEditMode filter={filter} />,
+      <FormForDatasourceSelector onSubmit={jest.fn()} filter={datasourceFileFilter} />,
     );
-    const { findByText } = renderedComponent;
+
+    const { findByText, getByTestId, getByRole, queryByText } = renderedComponent;
 
     await findByText('Data Source');
 
-    expect(filter).toHaveBeenCalled();
+    const dropDown = getByTestId('dropdown-dataSources');
+    fireEvent.mouseDown(within(dropDown).getByRole('button'));
+
+    const options = getByRole('listbox');
+
+    expect(options.childNodes.length).toEqual(3);
+    expect(queryByText('datasource2')).toBeNull();
+    expect(queryByText('datasource1')).not.toBeNull();
   });
 
   it('should show loader while fetching data', async () => {
