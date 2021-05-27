@@ -48,7 +48,7 @@ const tooltip = (yCol, color) => ({
   hovertemplate: `${yCol}: %{y}<extra></extra>`,
 });
 
-const axisStyles = {
+const axisStyles = (title) => ({
   color: colors.grayScale['600'],
   zerolinecolor: colors.grayScale['300'],
   linewidth: 2,
@@ -61,7 +61,17 @@ const axisStyles = {
   tickfont: {
     size: 14,
   },
-};
+  title: {
+    text: title,
+    standoff: 16,
+    font: {
+      ...font,
+      weight: 700,
+      size: fontSize.medium,
+      color: colors.grayScale['800'],
+    },
+  },
+});
 
 function getLabelPosition(start, end, type) {
   if (type === annotationTypes.NUMERIC) {
@@ -135,22 +145,12 @@ function layoutConfig({
     datarevision: revision,
     xaxis: {
       type: xAxisType,
-      title: {
-        text: xAxisTitle || xColumn,
-        standoff: 8,
-        font: { ...font, weight: 700, size: fontSize.medium, color: colors.grayScale['800'] },
-      },
-      ...axisStyles,
+      ...axisStyles(xAxisTitle || xColumn),
     },
     yaxis: {
       ticklabelposition: 'outside',
       type: yAxisType,
-      title: {
-        text: yAxisTitle,
-        standoff: 16,
-        font: { ...font, weight: 700, size: fontSize.medium, color: colors.grayScale['800'] },
-      },
-      ...axisStyles,
+      ...axisStyles(yAxisTitle),
     },
     ...createAnnotation(annotations, annotationToggle),
   };
