@@ -52,11 +52,10 @@ function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setS
   }
 
   function onCsvParse(csvData) {
-    const { data, errors } = csvData;
-    if (errors.length > 0) {
-      setError(
-        'Failed to Import file due to parsing error. Please review the file and ensure that its a valid CSV file.',
-      );
+    const { data } = csvData;
+    const validationError = validateCSVFile(csvData);
+    if (validationError) {
+      setError(validationError);
       setErrorStep(0);
       return;
     }
@@ -64,6 +63,20 @@ function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setS
     const schema = createSchema(data[0]);
     setSchema(schema);
     handleNext();
+  }
+
+  function validateCSVFile(csvData) {
+    const {
+      errors,
+      meta: { fields },
+    } = csvData;
+    if (errors.length > 0) {
+      return 'Failed to Import file due to parsing error. Please review the file and ensure that its a valid CSV file.';
+    }
+    if (fields.includes('_id')) {
+      return 'Failed to Import file due to wrong column name. Please change _id column name';
+    }
+    return '';
   }
 
   function readCsv(file) {

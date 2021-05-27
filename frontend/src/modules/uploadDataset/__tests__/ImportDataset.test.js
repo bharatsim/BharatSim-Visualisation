@@ -6,7 +6,11 @@ import * as fileUtils from '../../../utils/fileUploadUtils';
 import { renderWithRedux as render } from '../../../testUtil';
 
 jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
-  const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
+  const data = {
+    data: [{ col1: 'row1', col2: 1 }],
+    errors: [],
+    meta: { fields: ['col1', 'col2'] },
+  };
   onComplete(data);
 });
 
@@ -165,7 +169,11 @@ describe('Import Dataset', () => {
   });
   it('should set error for any parsing error in given csv file', () => {
     jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
-      const data = { data: [{ col1: 'row1', col2: 1 }], errors: ['error'] };
+      const data = {
+        data: [{ col1: 'row1', col2: 1 }],
+        errors: ['error'],
+        meta: { fields: ['col1', 'col2'] },
+      };
       onComplete(data);
     });
     const { getByTestId, queryByText } = render(
@@ -219,7 +227,11 @@ describe('Import Dataset', () => {
   });
   it('should set validation error for given file if size exceed limit of 300mb', () => {
     jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
-      const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
+      const data = {
+        data: [{ col1: 'row1', col2: 1 }],
+        errors: [],
+        meta: { fields: ['col1', 'col2'] },
+      };
       onComplete(data);
     });
     const { getByTestId, queryByText } = render(
@@ -244,7 +256,11 @@ describe('Import Dataset', () => {
   });
   it('should set validation error for given file if type if not supported', () => {
     jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
-      const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
+      const data = {
+        data: [{ col1: 'row1', col2: 1 }],
+        errors: [],
+        meta: { fields: ['col1', 'col2'] },
+      };
       onComplete(data);
     });
     const { getByTestId, queryByText } = render(
@@ -263,6 +279,31 @@ describe('Import Dataset', () => {
     });
 
     expect(queryByText('Failed to Import file, the format is not supported')).toBeInTheDocument();
+    expect(setErrorStepMock).toHaveBeenCalledWith(0);
+  });
+  it('should set validation error for given file if csv file has _id as column', () => {
+    jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
+      const data = { data: [{ _id: 'row1', col2: 1 }], errors: [], meta: { fields: ['_id'] } };
+      onComplete(data);
+    });
+    const { getByTestId, queryByText } = render(
+      <Component
+        setFile={setFileMock}
+        handleNext={handleNextMock}
+        setPreviewData={setPreviewDataMock}
+        setErrorStep={setErrorStepMock}
+        setSchema={setSchemaMock}
+      />,
+    );
+    const inputComponent = getByTestId('file-input');
+
+    fireEvent.change(inputComponent, {
+      target: { files: [{ name: 'file.csv', size: '120843092' }] },
+    });
+
+    expect(
+      queryByText('Failed to Import file due to wrong column name. Please change _id column name'),
+    ).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
   });
 });

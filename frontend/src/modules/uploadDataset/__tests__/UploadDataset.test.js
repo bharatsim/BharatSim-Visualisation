@@ -11,7 +11,11 @@ import withSnackBar from '../../../hoc/snackbar/withSnackBar';
 import withOverlayLoaderOrError from '../../../hoc/loaderWithError/withOverlayLoaderOrError';
 
 jest.spyOn(fileUtils, 'parseCsv').mockImplementation((csvFile, previewLimit, onComplete) => {
-  const data = { data: [{ col1: 'row1', col2: 1 }], errors: [] };
+  const data = {
+    data: [{ col1: 'row1', col2: 1 }],
+    errors: [],
+    meta: { fields: ['col1', 'col2'] },
+  };
   onComplete(data);
 });
 
