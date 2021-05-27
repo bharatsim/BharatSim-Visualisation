@@ -31,7 +31,7 @@ function YAxisChartConfig({ headers, configKey }) {
             <DropDownField
               options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
               id={`y-axis-dropdown-${index}`}
-              label="select y axis"
+              label="Select y axis"
               name={`${name}.name`}
               validations={{ required: 'Required' }}
               validate={required}

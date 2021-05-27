@@ -41,7 +41,7 @@ const chartConfigOptions = {
       <HeaderSelector
         headers={headers}
         id="dropdown-geo-metric-series"
-        label="select metric"
+        label="Select metric"
         title="Geo Metric"
         configKey={chartConfigOptionTypes.GEO_METRIC_SERIES}
       />
@@ -55,7 +55,7 @@ const chartConfigOptions = {
       <HeaderSelector
         headers={headers}
         id="gis-region-id"
-        label="select region id"
+        label="Select region id"
         title="GIS Region Id"
         configKey={chartConfigOptionTypes.GIS_REGION_ID}
       />
@@ -66,7 +66,7 @@ const chartConfigOptions = {
       <HeaderSelector
         headers={headers}
         id="gis-measure"
-        label="select measure"
+        label="Select measure"
         title="Measure/Metrics"
         configKey={chartConfigOptionTypes.GIS_MEASURE}
       />
@@ -88,7 +88,7 @@ const chartConfigOptions = {
       <HeaderSelector
         headers={headers}
         id="measure"
-        label="select measure"
+        label="Select measure"
         title="Measure/Metrics"
         configKey={chartConfigOptionTypes.MEASURE}
       />

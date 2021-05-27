@@ -60,7 +60,7 @@ describe('Chart configuration wizard', () => {
     await findByText('Data Source');
     expect(getByTestId('chart-name-input')).toHaveValue('line chart with config');
 
-    await findByText('select x axis');
+    await findByText('Select x axis');
     const xAxisDropdown = within(getByTestId('x-axis-dropdown'));
     const yAxisDropdown = within(getByTestId('y-axis-dropdown-0'));
 
@@ -99,7 +99,7 @@ describe('Chart configuration wizard', () => {
     });
 
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
-    await findByText('select x axis');
+    await findByText('Select x axis');
     selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
     selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 
@@ -156,7 +156,7 @@ describe('Chart configuration wizard', () => {
     await findByText('Data Source');
 
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
-    await findByText('select x axis');
+    await findByText('Select x axis');
     selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
     selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 
@@ -213,7 +213,7 @@ describe('Chart configuration wizard', () => {
     await findByText('Data Source');
 
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
-    await findByText('select x axis');
+    await findByText('Select x axis');
     selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
 
     const applyButton = getByText('Apply').closest('button');

@@ -76,11 +76,11 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     const renderComponent = render(<TestForChoroplethMapLayerConfig onSubmit={jest.fn()} />);
     const { findByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 
-    await findByText('select map layer id');
+    await findByText('Select map layer id');
 
     expect(api.getCsvHeaders).toHaveBeenCalledWith('d_id1');
     expect(api.getDatasources).toHaveBeenCalledWith('id1');
@@ -91,11 +91,11 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     );
     const { findByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 
-    await findByText('select map layer id');
+    await findByText('Select map layer id');
 
     expect(api.getCsvHeaders).toHaveBeenCalledWith('d_id1');
     expect(api.getDatasources).toHaveBeenCalledWith('id1');
@@ -107,9 +107,9 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     );
     const { findByText, getByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
-    expect(getByText('select reference id')).toBeInTheDocument();
+    expect(getByText('Select reference id')).toBeInTheDocument();
   });
 
   it('should show reference id selected dropdown with title Reference ID for Level 2', async () => {
@@ -122,7 +122,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     );
     const { findByText, getByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     expect(getByText('Reference ID for Level 2')).toBeInTheDocument();
   });
@@ -131,7 +131,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     const renderComponent = render(<TestForChoroplethMapLayerConfig onSubmit={jest.fn()} />);
     const { findByText, getByTestId } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     expect(getByTestId('mapLayerId')).toHaveClass('Mui-disabled');
   });
@@ -141,7 +141,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     const renderComponent = render(<TestForChoroplethMapLayerConfig onSubmit={onSubmit} />);
     const { findByText, getByTestId, findByTestId, getByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 
@@ -171,7 +171,7 @@ describe('<ChoroplethMapLayerConfigs />', () => {
     const renderComponent = render(<TestForChoroplethMapLayerConfig onSubmit={jest.fn()} />);
     const { findByText, getByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 

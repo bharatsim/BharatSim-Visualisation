@@ -16,7 +16,6 @@ exports[`Existing User Home Screen should match snapshot for given projects 1`] 
           style="overflow: hidden;"
         >
           <div
-            aria-label="disabled tabs example"
             class="MuiTabs-flexContainer"
             role="tablist"
           >

@@ -27,19 +27,19 @@ const TestForm = ({ onSubmit }) => (
     render={({ handleSubmit }) => (
       <FormProvider
         value={{
-              isEditMode: false,
-              registerDatasource: jest.fn(),
-              unRegisterDatasource: jest.fn(),
-            }}
+          isEditMode: false,
+          registerDatasource: jest.fn(),
+          unRegisterDatasource: jest.fn(),
+        }}
       >
         <form onSubmit={handleSubmit}>
           <MapLayerSelector />
           <button type="submit">submit</button>
         </form>
       </FormProvider>
-        )}
+    )}
   />
-  );
+);
 
 describe('<MapLayerSelector />', () => {
   const MapLayerSelectorConfig = withRouter(withProjectLayout(withThemeProvider(TestForm)));
@@ -53,7 +53,7 @@ describe('<MapLayerSelector />', () => {
     const renderedContainer = render(<MapLayerSelectorConfig onSubmit={onSubmit} />);
     const { findByText } = renderedContainer;
 
-    await findByText('select GIS shape layer source');
+    await findByText('Select GIS shape layer source');
 
     selectDropDownOption(renderedContainer, 'gisShapeLayer-dropdown', 'datasource1');
 

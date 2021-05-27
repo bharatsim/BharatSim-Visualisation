@@ -19,7 +19,6 @@ exports[`Home should match snapshot for existing users 1`] = `
             style="overflow: hidden;"
           >
             <div
-              aria-label="disabled tabs example"
               class="MuiTabs-flexContainer"
               role="tablist"
             >

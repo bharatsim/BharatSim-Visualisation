@@ -47,12 +47,7 @@ function ExistingUserHomeScreen({ recentProjects, setRecentProjects }) {
   return (
     <Box>
       <Box display="flex" justifyContent="space-between">
-        <Tabs
-          value={selectedTab}
-          indicatorColor="primary"
-          aria-label="disabled tabs example"
-          onChange={onTabChange}
-        >
+        <Tabs value={selectedTab} indicatorColor="primary" onChange={onTabChange}>
           <Tab label="Recent Projects" value={0} />
           <Tab label="Datasets" value={1} />
         </Tabs>

@@ -36,7 +36,7 @@ function LineStyleConfig({ name, seriesName, index }) {
       </FieldContainer>
       <FieldContainer title="Line Style">
         <SelectField
-          label="select line type"
+          label="Select line type"
           name={`${name}.${seriesStyleConfig.SERIES_TYPE}`}
           options={seriesTypeOptions}
           id="series-type"
@@ -49,7 +49,7 @@ function LineStyleConfig({ name, seriesName, index }) {
           name={`${name}.${seriesStyleConfig.SERIES_WIDTH}`}
           dataTestId="series-width"
           type="number"
-          label="enter line thickness"
+          label="Enter line thickness"
           defaultValue="1"
           InputProps={{ endAdornment: <InputAdornment position="end">Px</InputAdornment> }}
           validate={validateWidth}

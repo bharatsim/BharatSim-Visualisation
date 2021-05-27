@@ -55,7 +55,7 @@ describe('<YAxisConfig />', () => {
     const onSubmit = jest.fn();
     const renderedContainer = render(<FormForYAxisConfig onSubmit={onSubmit} isEditMode />);
     const { getAllByText } = renderedContainer;
-    const yAxisDropdown = getAllByText('select y axis');
+    const yAxisDropdown = getAllByText('Select y axis');
 
     expect(yAxisDropdown.length).toBe(2);
   });
@@ -64,7 +64,7 @@ describe('<YAxisConfig />', () => {
     const onSubmit = jest.fn();
     const renderedContainer = render(<FormForYAxisConfig onSubmit={onSubmit} />);
     const { getAllByText } = renderedContainer;
-    const yAxisDropdown = getAllByText('select y axis');
+    const yAxisDropdown = getAllByText('Select y axis');
 
     expect(yAxisDropdown.length).toBe(1);
   });

@@ -30,7 +30,7 @@ function XAxisConfig({ headers, configKey }) {
       <DropDownField
         id="x-axis-dropdown"
         key="dropdown-x-axis"
-        label="select x axis"
+        label="Select x axis"
         title="x axis"
         options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
         name={`${configKey}.${xAxisConfigNames.NAME}`}
@@ -39,7 +39,7 @@ function XAxisConfig({ headers, configKey }) {
       />
       <DropDownField
         id="x-axis-type-dropdown"
-        label="select x axis type"
+        label="Select x axis type"
         key="dropdown-x-axis-type"
         title="x axis type"
         options={axisTypeOptions}

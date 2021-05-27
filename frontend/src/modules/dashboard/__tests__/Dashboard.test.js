@@ -155,7 +155,7 @@ describe('<Dashboard />', () => {
       target: { value: 'chart name' },
     });
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
-    await findByText('select x axis');
+    await findByText('Select x axis');
     selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
     selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 

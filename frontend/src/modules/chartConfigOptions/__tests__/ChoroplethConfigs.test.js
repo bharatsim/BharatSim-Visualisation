@@ -48,17 +48,17 @@ const TestForChoroplethConfigs = ({ onSubmit, isEditMode, leveIndex }) => {
       render={({ handleSubmit }) => (
         <FormProvider
           value={{
-              isEditMode: !!isEditMode,
-              registerDatasource: jest.fn(),
-              unRegisterDatasource: jest.fn(),
-            }}
+            isEditMode: !!isEditMode,
+            registerDatasource: jest.fn(),
+            unRegisterDatasource: jest.fn(),
+          }}
         >
           <form onSubmit={handleSubmit}>
             <ComponentWithProvider {...props} />
             <button type="submit">submit</button>
           </form>
         </FormProvider>
-        )}
+      )}
     />
   );
 };
@@ -68,7 +68,7 @@ describe('<ChoroplethConfigs />', () => {
     const renderComponent = render(<TestForChoroplethConfigs onSubmit={jest.fn()} />);
     const { findByText, queryByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     expect(queryByText('Drill down - Level 1 (Top Level)')).toBeNull();
   });
@@ -77,13 +77,13 @@ describe('<ChoroplethConfigs />', () => {
     const renderComponent = render(<TestForChoroplethConfigs onSubmit={jest.fn()} />);
     const { findByText, getByText, getAllByRole } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     const radioButtons = getAllByRole('radio');
     fireEvent.click(radioButtons[1]);
     fireEvent.change(radioButtons[1], { target: { checked: true } });
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     expect(getByText('Drill Down - Level 1 (Top Level)')).toBeInTheDocument();
   });
@@ -92,7 +92,7 @@ describe('<ChoroplethConfigs />', () => {
     const renderComponent = render(<TestForChoroplethConfigs onSubmit={jest.fn()} isEditMode />);
     const { findByText, getByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
     const MultiLevelDrillDownOption = getByText('Multi level Drill down');
     const SingleChoropleth = getByText('Single level');
 
@@ -105,7 +105,7 @@ describe('<ChoroplethConfigs />', () => {
     const renderComponent = render(<TestForChoroplethConfigs onSubmit={onSubmit} />);
     const { findByText, getByTestId, findByTestId, getByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 

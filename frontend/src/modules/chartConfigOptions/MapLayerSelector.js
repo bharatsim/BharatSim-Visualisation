@@ -15,7 +15,7 @@ function MapLayerSelector() {
       noDataSourcePresentMessage="Before we can create any GIS visualization, we‘ll need some GIS layer data."
       header="GIS shape layer"
       id="gisShapeLayer-dropdown"
-      label="select GIS shape layer source"
+      label="Select GIS shape layer source"
       disabled={isEditMode}
       validate={required}
     />

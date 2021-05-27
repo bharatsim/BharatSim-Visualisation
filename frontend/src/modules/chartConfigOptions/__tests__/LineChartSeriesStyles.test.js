@@ -37,7 +37,7 @@ const TestForm = ({ onSubmit, initialValues }) => {
 
 describe('<LineChartStyles />', () => {
   const FormForLineStyleConfigDropdown = withThemeProvider(TestForm);
-  it('should show message of select y axis to add style', () => {
+  it('should show message of Select y axis to add style', () => {
     const onSubmit = jest.fn();
     const { getByText } = render(<FormForLineStyleConfigDropdown onSubmit={onSubmit} />);
 

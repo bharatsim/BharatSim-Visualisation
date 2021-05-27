@@ -86,7 +86,6 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
                   <Tabs
                     value={selectedTab}
                     indicatorColor="primary"
-                    aria-label="disabled tabs example"
                     onChange={(_, value) => setSelectedTab(value)}
                   >
                     <Tab label="Data" classes={{ root: classes.tabRoot }} />

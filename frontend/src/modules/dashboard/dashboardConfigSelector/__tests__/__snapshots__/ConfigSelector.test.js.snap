@@ -19,7 +19,7 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
           class="MuiBox-root MuiBox-root-10"
         >
           <div>
-            select x axis
+            Select x axis
           </div>
         </div>
         <hr
@@ -33,7 +33,7 @@ exports[`<ConfigSelector /> should match snapshot for configs for line chart 1`]
           class="MuiBox-root MuiBox-root-12"
         >
           <div>
-            select y axis
+            Select y axis
           </div>
         </div>
         

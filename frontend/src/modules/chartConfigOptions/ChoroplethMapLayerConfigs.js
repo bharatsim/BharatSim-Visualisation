@@ -70,7 +70,7 @@ function ChoroplethMapLayerConfig({ headers, configKey, shouldShowReferenceIdCon
         noDataSourcePresentMessage="Before we can create any GIS visualization, we‘ll need some GIS layer data."
         header="Map Layer"
         id="gisMapLayer-dropdown"
-        label="select map layer"
+        label="Select map layer"
         helperText="file format: GeoJson, topojson"
         validate={required}
       />
@@ -86,7 +86,7 @@ function ChoroplethMapLayerConfig({ headers, configKey, shouldShowReferenceIdCon
           </FieldContainer>
           <FieldsContainer orientation="horizontal">
             <HeadersSelector
-              label="select map layer id"
+              label="Select map layer id"
               headers={geoJsonProperties || []}
               id="mapLayerId"
               title="Map Layer ID"
@@ -100,7 +100,7 @@ function ChoroplethMapLayerConfig({ headers, configKey, shouldShowReferenceIdCon
               <Link />
             </Box>
             <HeadersSelector
-              label="select data layer id"
+              label="Select data layer id"
               headers={headers}
               id="dataLayerId"
               title="Data Layer ID"
@@ -112,7 +112,7 @@ function ChoroplethMapLayerConfig({ headers, configKey, shouldShowReferenceIdCon
           </FieldsContainer>
           {shouldShowReferenceIdConfig && (
             <HeadersSelector
-              label="select reference id"
+              label="Select reference id"
               headers={geoJsonProperties || []}
               id="reference id"
               title={`Reference ID for Level ${levelIndex}`}

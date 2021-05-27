@@ -26,10 +26,10 @@ function MockComponent({ name }) {
 }
 jest.mock('../../../../config/chartConfigOptions', () => ({
   xAxis: {
-    component: () => <div>select x axis</div>,
+    component: () => <div>Select x axis</div>,
   },
   yAxis: {
-    component: () => <div>select y axis</div>,
+    component: () => <div>Select y axis</div>,
   },
   annotation: {
     component: () => <div>annotation</div>,
@@ -108,7 +108,7 @@ describe('<ConfigSelector />', () => {
       />,
     );
 
-    await findByText('select x axis');
+    await findByText('Select x axis');
 
     expect(container).toMatchSnapshot();
   });
@@ -127,7 +127,7 @@ describe('<ConfigSelector />', () => {
         onSubmit={jest.fn()}
       />,
     );
-    await renderedComponent.findByText('select x axis');
+    await renderedComponent.findByText('Select x axis');
 
     expect(api.getCsvHeaders).toHaveBeenCalledWith('datasourceID');
   });
@@ -142,7 +142,7 @@ describe('<ConfigSelector />', () => {
       />,
     );
 
-    await findByText('select x axis');
+    await findByText('Select x axis');
 
     rerender(
       <TestForConfigSelector
@@ -153,7 +153,7 @@ describe('<ConfigSelector />', () => {
       />,
     );
 
-    await findByText('select x axis');
+    await findByText('Select x axis');
 
     expect(api.getCsvHeaders).toHaveBeenLastCalledWith('datasourceID2');
     expect(api.getCsvHeaders).toHaveBeenCalledTimes(2);
@@ -177,7 +177,7 @@ describe('<ConfigSelector />', () => {
 
     expect(loaderComponent).not.toBeNull();
 
-    await renderedComponent.findByText('select x axis');
+    await renderedComponent.findByText('Select x axis');
   });
 
   it('should show error if error occur while fetching data', async () => {
@@ -221,7 +221,7 @@ describe('<ConfigSelector />', () => {
     const retryButton = getByText('Retry').closest('button');
     fireEvent.click(retryButton);
 
-    await findByText('select x axis');
+    await findByText('Select x axis');
 
     expect(api.getCsvHeaders).toHaveBeenCalled();
   });

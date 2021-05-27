@@ -70,7 +70,7 @@ describe('<ChoroplethMultiMapLayerConfigs />', () => {
     const renderComponent = render(<TestForChoroplethMultiMapLayerConfig onSubmit={jest.fn()} />);
     const { getByText, findByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     expect(getByText('Drill Down - Level 1 (Top Level)')).toBeInTheDocument();
   });
@@ -79,11 +79,11 @@ describe('<ChoroplethMultiMapLayerConfigs />', () => {
     const renderComponent = render(<TestForChoroplethMultiMapLayerConfig onSubmit={jest.fn()} />);
     const { findByText, getByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     fireEvent.click(getByText('Add level'));
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     expect(getByText('Drill Down - Level 2')).toBeInTheDocument();
   });
@@ -92,11 +92,11 @@ describe('<ChoroplethMultiMapLayerConfigs />', () => {
     const renderComponent = render(<TestForChoroplethMultiMapLayerConfig onSubmit={jest.fn()} />);
     const { findByText, getByText, getByTestId } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     fireEvent.click(getByText('Add level'));
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     const level2 = getByText('Drill Down - Level 2');
 
@@ -113,7 +113,7 @@ describe('<ChoroplethMultiMapLayerConfigs />', () => {
     const renderComponent = render(<TestForChoroplethMultiMapLayerConfig onSubmit={onSubmit} />);
     const { findByText, getByTestId, findByTestId, getByText } = renderComponent;
 
-    await findByText('select map layer');
+    await findByText('Select map layer');
 
     selectDropDownOption(renderComponent, 'gisMapLayer-dropdown', 'datasource1');
 

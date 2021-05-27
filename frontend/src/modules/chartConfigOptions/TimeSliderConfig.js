@@ -40,7 +40,7 @@ function TimeSliderConfig({ headers, configKey }) {
               <DropDownField
                 options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
                 id="timeMetrics"
-                label="select Time Metrics"
+                label="Select Time Metrics"
                 name={`${configKey}.${timeSliderConfig.TIME_METRICS}`}
                 validate={required}
               />
@@ -67,7 +67,7 @@ function TimeSliderConfig({ headers, configKey }) {
                     type="number"
                     defaultValue={1}
                     name={`${configKey}.${timeSliderConfig.STEP_SIZE}`}
-                    label="select step size"
+                    label="Select step size"
                     dataTestId="stepsize-input-box"
                     validate={validateStepSize}
                   />

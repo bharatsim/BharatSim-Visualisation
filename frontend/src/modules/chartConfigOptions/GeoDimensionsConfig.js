@@ -11,7 +11,7 @@ function GeoDimensionsConfig({ headers, configKey }) {
     <FieldsContainer title="Geo Dimension" orientation="horizontal">
       <HeaderSelector
         id="latitude"
-        label="select latitude"
+        label="Select latitude"
         title="Latitude"
         headers={headers}
         configKey={`${configKey}.${geoDimensionsField.LAT}`}
@@ -20,7 +20,7 @@ function GeoDimensionsConfig({ headers, configKey }) {
       />
       <HeaderSelector
         id="longitude"
-        label="select longitude"
+        label="Select longitude"
         title="Longitude"
         headers={headers}
         configKey={`${configKey}.${geoDimensionsField.LON}`}

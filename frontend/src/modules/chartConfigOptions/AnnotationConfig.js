@@ -101,7 +101,7 @@ function AnnotationConfig({ configKey }) {
                     name={`${name}.${areaAnnotationConfig.TYPE}`}
                     options={annotationTypeOptions}
                     id="type-of-annotation-value"
-                    label="select type"
+                    label="Select type"
                     validate={required}
                     defaultValue={annotationTypes.NUMERIC}
                   />
