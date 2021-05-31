@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { fade, Typography } from '@material-ui/core';
 import { formatToUnits } from '../../utils/helper';
+import { PRECISION } from '../../constants/charts';
 
 const HALF_OF_SCALE_LABEL_POINT_SIZE = 10;
 
@@ -58,12 +59,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getLegendLabels(scalePoint, min, max, disablePercentageScale) {
-  const label = Number(scalePoint).toFixed(2) * 100;
+  const label = Number(scalePoint).toFixed(PRECISION) * 100;
   if (min !== undefined && label === 0) {
-    return formatToUnits(min);
+    return formatToUnits(min, PRECISION);
   }
   if (max !== undefined && label === 100) {
-    return formatToUnits(max);
+    return formatToUnits(max, PRECISION);
   }
   if (disablePercentageScale) {
     return '';

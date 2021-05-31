@@ -185,6 +185,12 @@ describe('Helpers', () => {
     it('should format 10023 to 10.023k with 3 as  precision', () => {
       expect(formatToUnits(10023, 3)).toEqual('10.023K');
     });
+    it('should format 10000 to 10k with without decimal', () => {
+      expect(formatToUnits(10000, 3)).toEqual('10K');
+    });
+    it('should format 12345 to 12.35k with with decimal', () => {
+      expect(formatToUnits(12345, 2)).toEqual('12.35K');
+    });
   });
 
   describe('filter for shape file', () => {

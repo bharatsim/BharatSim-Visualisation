@@ -13,3 +13,5 @@ export const chartGroups = {
   Histogram: [chartTypes.HISTOGRAM],
   'Geo Chart': [chartTypes.HEAT_MAP, chartTypes.CHOROPLETH_MAP],
 };
+
+export const PRECISION = 2;

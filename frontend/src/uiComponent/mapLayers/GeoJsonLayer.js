@@ -8,17 +8,17 @@ import {
   resetHighlight,
   zoomToFeature,
 } from '../../utils/ChoroplethUtil';
-import { formatToUnits } from '../../utils/helper';
+import { PRECISION } from '../../constants/charts';
 
 function renderToolTip(feature, idDataMap, measureName, mapLayerIdName, sumOfValues) {
   const measureValue = idDataMap[feature.properties[mapLayerIdName]];
-  const measureValueInPercentage = ((measureValue / sumOfValues) * 100).toFixed(2);
+  const measureValueInPercentage = ((measureValue / sumOfValues) * 100).toFixed(PRECISION);
   return `
       <div>
          <h5 style='margin:0;text-align: center'>
             ${mapLayerIdName}: ${feature.properties[mapLayerIdName]}
          </h5>
-         <span>${measureName}: ${formatToUnits(measureValue, 2)}</span><br />          
+         <span>${measureName}: ${measureValue}</span><br />          
          <span>${measureValueInPercentage}% of total ${measureName}</span>  
       </div>
     `;

@@ -1,5 +1,6 @@
 import chrome from 'chroma-js';
 import { INDIA_CENTER } from '../constants/geoMap';
+import { PRECISION } from '../constants/charts';
 
 function convertObjectArrayToOptionStructure(objectArray, displayNameKey, valueKey) {
   return objectArray.map((objectElement) => ({
@@ -10,7 +11,7 @@ function convertObjectArrayToOptionStructure(objectArray, displayNameKey, valueK
 
 function convertFileSizeToMB(fileSize) {
   const BYTE_TO_MB_CONVERTOR_UNIT = 1024 * 1024;
-  return `${(fileSize / BYTE_TO_MB_CONVERTOR_UNIT).toFixed(2)}MB`;
+  return `${(fileSize / BYTE_TO_MB_CONVERTOR_UNIT).toFixed(PRECISION)}MB`;
 }
 
 function debounce(fn, delay) {
@@ -131,11 +132,11 @@ function datasourceFileFilter(dataSource) {
 
 function formatToUnits(number, precision = 0) {
   const abbrev = ['', 'K', 'M', 'B', 'T'];
-  const unrangifiedOrder = Math.floor(Math.log10(Math.abs(number)) / 3);
+  const unrangifiedOrder = Math.floor(Math.abs(Math.log10(Math.abs(number))) / 3);
   const order = Math.max(0, Math.min(unrangifiedOrder, abbrev.length - 1));
   const suffix = abbrev[order];
-
-  return (number / 10 ** (order * 3)).toFixed(precision) + suffix;
+  const value = number / 10 ** (order * 3);
+  return `${Number.isInteger(value) ? value : value.toFixed(precision)}${suffix}`;
 }
 
 function uniqueObjectsBy(objects, property) {

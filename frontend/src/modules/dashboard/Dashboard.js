@@ -1,5 +1,5 @@
 import Box from '@material-ui/core/Box';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import ReactGridLayout, { WidthProvider } from 'react-grid-layout';
@@ -59,7 +59,6 @@ function Dashboard() {
   const [dataSources, setDataSources] = useState(null);
   const [chartToEdit, setChartToEdit] = useState(null);
   const history = useHistory();
-  const gridContainerRef = useRef();
 
   async function fetchDataSources() {
     api.getDatasources(dashboardId, false, false).then((resData) => {
@@ -214,7 +213,7 @@ function Dashboard() {
           autoSaveConfig={{ ...autoSaveStatus, onRetry: retrySave }}
           isSaveDisable={charts.length === 0}
         />
-        <Box pt={3} className={classes.gridContainer} ref={gridContainerRef}>
+        <Box pt={3} className={classes.gridContainer}>
           {charts.length === 0 ? (
             <Box p={8} display="inline-flex">
               <CreateNewChartWidget openChartConfig={openModal} />
