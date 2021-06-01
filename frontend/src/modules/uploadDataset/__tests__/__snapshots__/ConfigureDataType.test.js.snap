@@ -102,7 +102,7 @@ exports[`<ConfigureDatatype /> should match snapshot for json file preview 1`] =
             <span
               class="MuiChip-label MuiChip-labelSmall"
             >
-              filename.json
+              filename.geojson
             </span>
           </div>
         </div>

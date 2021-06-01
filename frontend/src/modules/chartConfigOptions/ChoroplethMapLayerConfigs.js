@@ -71,7 +71,7 @@ function ChoroplethMapLayerConfig({ headers, configKey, shouldShowReferenceIdCon
         header="Map Layer"
         id="gisMapLayer-dropdown"
         label="Select map layer"
-        helperText="file format: GeoJson, topojson"
+        helperText="file format: GeoJson"
         validate={required}
       />
       <LoaderOrError message={message} loadingState={loadingState} fullWidth>

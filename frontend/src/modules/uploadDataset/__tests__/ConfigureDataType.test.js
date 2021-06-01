@@ -29,7 +29,7 @@ describe('<ConfigureDatatype />', () => {
           { col1: 'abcd', col2: 1234 },
         ]}
         schema={{ col1: 'string', col2: 'number' }}
-        selectedFile={new File([''], 'filename.json')}
+        selectedFile={new File([''], 'filename.geojson')}
       />,
     );
     expect(container).toMatchSnapshot();

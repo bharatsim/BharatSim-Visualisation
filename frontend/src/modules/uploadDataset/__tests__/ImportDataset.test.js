@@ -101,11 +101,11 @@ describe('Import Dataset', () => {
     const inputComponent = getByTestId('file-input');
 
     fireEvent.change(inputComponent, {
-      target: { files: [{ name: 'test.json', size: '10' }] },
+      target: { files: [{ name: 'test.geojson', size: '10' }] },
     });
 
     expect(fileUtils.parseJson).toHaveBeenCalledWith(
-      { name: 'test.json', size: '10' },
+      { name: 'test.geojson', size: '10' },
       expect.any(Function, () => {}),
     );
   });
@@ -149,7 +149,7 @@ describe('Import Dataset', () => {
 
     expect(setPreviewDataMock).toHaveBeenCalledWith([{ col1: 'row1', col2: 1 }]);
   });
-  it('should set preview data for json file', () => {
+  it('should set preview data for geojson file', () => {
     const { getByTestId } = render(
       <Component
         setFile={setFileMock}
@@ -162,7 +162,7 @@ describe('Import Dataset', () => {
     const inputComponent = getByTestId('file-input');
 
     fireEvent.change(inputComponent, {
-      target: { files: [{ name: 'test.json', size: '10' }] },
+      target: { files: [{ name: 'test.geojson', size: '10' }] },
     });
 
     expect(setPreviewDataMock).toHaveBeenCalledWith([{ col1: 'row1', col2: 1 }]);
@@ -215,12 +215,12 @@ describe('Import Dataset', () => {
     const inputComponent = getByTestId('file-input');
 
     fireEvent.change(inputComponent, {
-      target: { files: [{ name: 'test.json', size: '10' }] },
+      target: { files: [{ name: 'test.geojson', size: '10' }] },
     });
 
     expect(
       queryByText(
-        'Failed to Import file due to parsing error. Please review the file and ensure that its a valid JSON Data.',
+        'Failed to Import file due to parsing error. Please review the file and ensure that its a valid GEO JSON Data.',
       ),
     ).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);

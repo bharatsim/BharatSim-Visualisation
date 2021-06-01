@@ -270,7 +270,7 @@ exports[`Upload Dataset should match snapshot for upload dataset component 1`] =
                   >
                     Browse
                     <input
-                      accept=".geojson,.topojson,.json,.csv"
+                      accept=".geojson,.csv"
                       data-testid="file-input"
                       style="display: none;"
                       type="file"

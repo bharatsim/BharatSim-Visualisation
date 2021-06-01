@@ -8,10 +8,7 @@ import { EXTENDED_JSON_TYPES } from '../../constants/fileUpload';
 
 function ConfigureDatatype({ selectedFile, previewData, schema }) {
   function getViewerComponent() {
-    if (
-      getFileExtension(selectedFile) === 'json' ||
-      EXTENDED_JSON_TYPES.includes(getFileExtension(selectedFile))
-    ) {
+    if (EXTENDED_JSON_TYPES.includes(getFileExtension(selectedFile))) {
       return <JsonPreview selectedFile={selectedFile} previewData={previewData} />;
     }
     if (getFileExtension(selectedFile) === 'csv') {

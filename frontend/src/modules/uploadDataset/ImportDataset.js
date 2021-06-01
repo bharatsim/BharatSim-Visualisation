@@ -35,13 +35,13 @@ function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setS
   const classes = useStyles();
   const [error, setError] = useState();
   const previewLimit = 100;
-  const fileParsers = { csv: readCsv, json: readJson, geojson: readJson, topojson: readJson };
+  const fileParsers = { csv: readCsv, geojson: readJson };
 
   function onJsonParse(jsonData) {
     const { data, errors } = jsonData;
     if (errors.length > 0) {
       setError(
-        'Failed to Import file due to parsing error. Please review the file and ensure that its a valid JSON Data.',
+        'Failed to Import file due to parsing error. Please review the file and ensure that its a valid GEO JSON Data.',
       );
       setErrorStep(0);
       return;
