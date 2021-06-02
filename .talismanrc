@@ -2,7 +2,7 @@ fileignoreconfig:
 - filename: backend/src/services/datasourceService.js
   checksum: c51497b6f04189bcd0ec0dd9c2947982cda53e17f6480f93b2d5c6e851ab0c01
 - filename: backend/yarn.lock
-  checksum: c97e427da0d3a7a758f2018e3c3d249f4a9b94e2295763d262fe67fc7aa300e5
+  checksum: fcfa75b2b0b4a9f007a83a7ceb4861f2e529328f942e0e926963c14baf1258ae
 - filename: frontend/src/config/chartConfigOptions.js
   checksum: 0111ee1d7152c95f6db14ed61a7f85a92fb62426be8907385f2eea0daae1a6e6
 - filename: frontend/src/modules/chartConfigOptions/AnnotationConfig.js
@@ -40,4 +40,9 @@ fileignoreconfig:
 - filename: frontend/src/utils/helper.js
   checksum: af33bd3c8669e6c23755b9cb888eafc19e9ea0505e4a7089f13483f92f990a90
 - filename: frontend/yarn.lock
-  checksum: 7a6b0a6c9a22443a60e69309da4f725ba165d115b9ceff6df10a8d931eb8ad10
+  checksum: 7f4ff8835dd4c6219b266c307628e0286395f974c7b427050f91309a3630dda7
+- filename: yarn.lock
+  checksum: 970e31cbd32c94606ab01b8e3c238c7a7ca572af093b17c4128276c07b626205
+scopeconfig:
+  - scope: node
+

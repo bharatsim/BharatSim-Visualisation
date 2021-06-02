@@ -7,7 +7,7 @@
     "dev-frontend": "yarn --cwd ./frontend start",
     "dev-backend": "docker-compose up -d db && yarn --cwd ./backend start",
     "dev": "concurrently \"yarn dev-backend\" \"yarn dev-frontend\"",
-    "install-deps": "concurrently \"yarn --cwd ./backend\" \"yarn --cwd ./frontend\"",
+    "install-deps": "yarn --cwd ./backend && yarn --cwd ./frontend",
     "build": "yarn install-deps && yarn --cwd ./frontend build && cp -a ./frontend/build/. ./backend/public/",
     "start": "yarn --cwd ./backend start",
     "test": "concurrently \"yarn --cwd ./backend test\" \"yarn --cwd ./frontend test\"",
