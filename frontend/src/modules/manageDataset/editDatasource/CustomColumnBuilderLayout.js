@@ -78,6 +78,7 @@ function CustomColumnBuilderLayout({
   function handleColumnDelete() {
     if (customColumns[selectedTab].isEditMode) {
       openDeleteColumnModal();
+      return;
     }
     onDeleteColumn(selectedTab);
   }
