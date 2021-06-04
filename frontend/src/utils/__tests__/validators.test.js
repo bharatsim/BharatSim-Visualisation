@@ -7,6 +7,8 @@ import {
   validateToValueDate,
   validateWidth,
   validateExpression,
+  validateColumnName,
+  validateCSVFile,
 } from '../validators';
 
 describe('Validators', () => {
@@ -168,6 +170,107 @@ describe('Validators', () => {
         };
         expect(res).not.toThrowError();
       });
+    });
+  });
+  describe('Validate csv file', () => {
+    it('should provide error message is there is any parsing error', () => {
+      const csvData = {
+        errors: ['error'],
+        meta: { fields: ['id', 'column1'] },
+      };
+
+      const error = validateCSVFile(csvData);
+
+      expect(error).toEqual(
+        'Failed to Import file due to parsing error,' +
+          ' Please review the file and ensure that its a valid CSV file',
+      );
+    });
+
+    it('should provide error message if column name start without alphabet', () => {
+      const csvData = {
+        errors: [],
+        meta: { fields: ['1id', 'column1'] },
+      };
+
+      const error = validateCSVFile(csvData);
+
+      expect(error).toEqual(
+        'Failed to Import file due to invalid column name, ' +
+          'Column name should be start with alphabets',
+      );
+    });
+
+    it('should provide error message if column name contain special character', () => {
+      const csvData = {
+        errors: [],
+        meta: { fields: ['id', 'column1$'] },
+      };
+
+      const error = validateCSVFile(csvData);
+
+      expect(error).toEqual(
+        'Failed to Import file due to invalid column name, ' +
+          'Column name can include alphabets, numbers, -, _ or space',
+      );
+    });
+
+    it('should not provide error message if file is correct', () => {
+      const csvData = {
+        errors: [],
+        meta: { fields: ['id', 'column'] },
+      };
+
+      const error = validateCSVFile(csvData);
+
+      expect(error).toEqual('');
+    });
+  });
+
+  describe('validate column name', () => {
+    it('should provide error if name is empty', () => {
+      const columnName = '';
+      const fields = ['col1', 'col2'];
+
+      const error = validateColumnName(columnName, fields);
+
+      expect(error).toEqual('Column name is required');
+    });
+
+    it('should provide error if column name start with alphabets', () => {
+      const columnName = '_columnName';
+      const fields = ['col1', 'col2'];
+
+      const error = validateColumnName(columnName, fields);
+
+      expect(error).toEqual('Column name should be start with alphabets');
+    });
+
+    it('should provide error if column name contain special character', () => {
+      const columnName = 'columneName%%';
+      const fields = ['col1', 'col2'];
+
+      const error = validateColumnName(columnName, fields);
+
+      expect(error).toEqual('Column name can include alphabets, numbers, -, _ or space');
+    });
+
+    it('should provide error if column name is not unique', () => {
+      const columnName = 'col1';
+      const fields = ['col1', 'col2'];
+
+      const error = validateColumnName(columnName, fields);
+
+      expect(error).toEqual('Column Name should be unique');
+    });
+
+    it('should provide error if column name valid', () => {
+      const columnName = 'col3';
+      const fields = ['col1', 'col2'];
+
+      const error = validateColumnName(columnName, fields);
+
+      expect(error).toEqual('');
     });
   });
 });

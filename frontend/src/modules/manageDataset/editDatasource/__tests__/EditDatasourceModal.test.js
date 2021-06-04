@@ -126,57 +126,7 @@ describe('<EditDataSouceModel />', () => {
 
     fireEvent.click(getByText('Create column'));
 
-    expect(getByText('Column Name should be unique.')).toBeInTheDocument();
-  });
-
-  it('should throw error if column name is empty', async () => {
-    const { findAllByText, getByTestId, getByText } = render(
-      <EditDataSouceModelWithProvider open handleClose={jest.fn()} datasourceId="datasourceId" />,
-    );
-    await findAllByText('col1');
-
-    await act(async () => {
-      fireEvent.click(getByText('Add column'));
-    });
-
-    await findAllByText('Custom column name');
-
-    const textField = getByTestId('custom-column');
-    const textArea = document.querySelector(EDITOR_TEXTAREA);
-
-    fireEvent.change(textField, { target: { value: '' } });
-    fireEvent.change(textArea, { target: { value: '1 + 10' } });
-
-    fireEvent.click(getByText('Create column'));
-
-    expect(getByText('Column name is required.')).toBeInTheDocument();
-  });
-
-  it('should remove error once column name is change', async () => {
-    const { findAllByText, getByTestId, getByText, queryByText } = render(
-      <EditDataSouceModelWithProvider open handleClose={jest.fn()} datasourceId="datasourceId" />,
-    );
-    await findAllByText('col1');
-
-    await act(async () => {
-      fireEvent.click(getByText('Add column'));
-    });
-
-    await findAllByText('Custom column name');
-
-    const textField = getByTestId('custom-column');
-    const textArea = document.querySelector(EDITOR_TEXTAREA);
-
-    fireEvent.change(textField, { target: { value: 'col1' } });
-    fireEvent.change(textArea, { target: { value: '1 + 10' } });
-
-    fireEvent.click(getByText('Create column'));
-
-    expect(queryByText('Column Name should be unique.')).toBeInTheDocument();
-
-    fireEvent.change(textField, { target: { value: 'col6' } });
-
-    expect(queryByText('Column Name should be unique.')).toBeNull();
+    expect(getByText('Column Name should be unique')).toBeInTheDocument();
   });
 
   it('should enable disable button if column is selected', async () => {

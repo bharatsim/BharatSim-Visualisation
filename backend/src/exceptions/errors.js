@@ -35,10 +35,10 @@ const errors = {
     errorCode: 1010,
     errorMessage: 'File type does not match',
   },
-  csvParsingError: {
+  csvParsingError: (error) => ({
     errorCode: 1011,
-    errorMessage: 'Error while parsing csv',
-  },
+    errorMessage: `Error while parsing csv - ${error}`,
+  }),
   projectNotFound: {
     errorCode: 1012,
     errorMessage: 'Project with given id not found',
@@ -55,6 +55,10 @@ const errors = {
     errorCode: 1015,
     errorMessage: 'Given expression for column is invalid',
   },
+  invalidColumnName: (error) => ({
+    errorCode: 1016,
+    errorMessage: `Invalid column name-${error}`,
+  }),
 };
 
 module.exports = errors;

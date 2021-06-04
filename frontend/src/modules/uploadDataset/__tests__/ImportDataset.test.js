@@ -193,7 +193,7 @@ describe('Import Dataset', () => {
 
     expect(
       queryByText(
-        'Failed to Import file due to parsing error. Please review the file and ensure that its a valid CSV file.',
+        'Failed to Import file due to parsing error, Please review the file and ensure that its a valid CSV file',
       ),
     ).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
@@ -302,7 +302,9 @@ describe('Import Dataset', () => {
     });
 
     expect(
-      queryByText('Failed to Import file due to wrong column name. Please change _id column name'),
+      queryByText(
+        'Failed to Import file due to invalid column name, Column name should be start with alphabets',
+      ),
     ).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
   });

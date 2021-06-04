@@ -24,6 +24,7 @@ function parseCsv(csvFile, previewLimit, onComplete, onError) {
     preview: previewLimit,
     complete: onComplete,
     error: onError,
+    transformHeader: (header) => header.toString().trim(),
   });
 }
 

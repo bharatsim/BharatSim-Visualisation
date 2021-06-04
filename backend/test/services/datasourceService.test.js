@@ -533,6 +533,33 @@ describe('datasourceService', () => {
       );
     });
 
+    it('should throw error if column name is wrong', async () => {
+      dataSourceMetadataRepository.updateDatasourceSchema.mockResolvedValue({ n: 1 });
+      dataSourceMetadataRepository.updateOrInsertCustomColumn.mockResolvedValue({
+        n: 10,
+        nModified: 0,
+      });
+      dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
+        dataSourceSchema: {
+          column1: 'number',
+          col2: 'String',
+        },
+      });
+      dataSourceRepository.addColumn.mockResolvedValueOnce({ n: 10, nModified: 0 });
+      modelCreator.getOrCreateModel.mockReturnValue('DataSourceModel');
+
+      const result = async () => {
+        await datasourceService.updateDatasource('datasource1', {
+          columnName: 'newColumn%',
+          expression: '"column1" "column1"',
+        });
+      };
+
+      await expect(result).rejects.toThrow(
+        new InvalidInputException('Invalid column name-Column name can include alphabets, numbers, -, _ or space', 1016),
+      );
+    });
+
     it('should throw error if expression is wrong', async () => {
       dataSourceMetadataRepository.updateDatasourceSchema.mockResolvedValue({ n: 1 });
       dataSourceMetadataRepository.updateOrInsertCustomColumn.mockResolvedValue({

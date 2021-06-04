@@ -8,6 +8,9 @@ services:
       - ./data/db:/data/db
     env_file:
       - .env
+#   for development only
+#    ports:
+#      - 27017:27017
   app:
     links:
       - mongodb

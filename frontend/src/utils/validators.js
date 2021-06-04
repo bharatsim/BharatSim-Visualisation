@@ -4,6 +4,9 @@ import { parse } from 'mathjs';
 import { getFileExtension } from './fileUploadUtils';
 import { MAX_FILE_SIZE, VALID_FILE_EXTENSIONS } from '../constants/fileUpload';
 
+const invalidCharRgx = /[^A-Za-z0-9-_ ]/g;
+const invalidStartingCharRgx = /^[^A-Za-z]/g;
+
 function isUndefined(value) {
   return value === null || value === undefined || value === '';
 }
@@ -118,6 +121,39 @@ function validateFields(node, fields) {
   });
 }
 
+function validateColumnName(name, fields) {
+  if (name === '') {
+    return 'Column name is required';
+  }
+  if (name.match(invalidStartingCharRgx)) {
+    return 'Column name should be start with alphabets';
+  }
+  if (name.match(invalidCharRgx)) {
+    return 'Column name can include alphabets, numbers, -, _ or space';
+  }
+  return fields.includes(name) ? 'Column Name should be unique' : '';
+}
+
+function validateCSVFile(csvData) {
+  const {
+    errors,
+    meta: { fields },
+  } = csvData;
+  if (errors.length > 0) {
+    return 'Failed to Import file due to parsing error, Please review the file and ensure that its a valid CSV file';
+  }
+  if (fields.some((field) => field.match(invalidStartingCharRgx))) {
+    return 'Failed to Import file due to invalid column name, Column name should be start with alphabets';
+  }
+  if (fields.some((field) => field.match(invalidCharRgx))) {
+    return (
+      'Failed to Import file due to invalid column name, ' +
+      'Column name can include alphabets, numbers, -, _ or space'
+    );
+  }
+  return '';
+}
+
 export {
   validateFile,
   required,
@@ -127,4 +163,6 @@ export {
   validateToValueDate,
   validateWidth,
   validateExpression,
+  validateColumnName,
+  validateCSVFile,
 };

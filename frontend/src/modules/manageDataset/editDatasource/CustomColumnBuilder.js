@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Box, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FormulaBuilder from '../../../uiComponent/formulaBuilder/FormulaBuilder';
+import { validateColumnName } from '../../../utils/validators';
 
 const operators = ['+', '-', '*', '/', '%', '(', ')'];
 
@@ -17,13 +18,6 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(19),
   },
 }));
-
-function validateColumnName(name, fields) {
-  if (name === '') {
-    return 'Column name is required.';
-  }
-  return fields.includes(name) ? 'Column Name should be unique.' : '';
-}
 
 function CustomColumnBuilder({
   fields,

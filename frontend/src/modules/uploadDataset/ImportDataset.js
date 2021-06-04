@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import fileImportIcon from '../../assets/images/importFileIcon.svg';
 import { createSchema, getFileExtension, parseCsv, parseJson } from '../../utils/fileUploadUtils';
 import ErrorBar from '../../uiComponent/ErrorBar';
-import { validateFile } from '../../utils/validators';
+import { validateCSVFile, validateFile } from '../../utils/validators';
 import { VALID_FILE_EXTENSIONS } from '../../constants/fileUpload';
 
 const useStyles = makeStyles((theme) => {
@@ -63,20 +63,6 @@ function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setS
     const schema = createSchema(data[0]);
     setSchema(schema);
     handleNext();
-  }
-
-  function validateCSVFile(csvData) {
-    const {
-      errors,
-      meta: { fields },
-    } = csvData;
-    if (errors.length > 0) {
-      return 'Failed to Import file due to parsing error. Please review the file and ensure that its a valid CSV file.';
-    }
-    if (fields.includes('_id')) {
-      return 'Failed to Import file due to wrong column name. Please change _id column name';
-    }
-    return '';
   }
 
   function readCsv(file) {
