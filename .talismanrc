@@ -1,4 +1,6 @@
 fileignoreconfig:
+- filename: .env
+  checksum: 0c4e42a30c0d565e68aad64f0c66455301e8fa860e45c50dcb4822b1f2ecc76a
 - filename: backend/src/services/datasourceService.js
   checksum: c51497b6f04189bcd0ec0dd9c2947982cda53e17f6480f93b2d5c6e851ab0c01
 - filename: backend/yarn.lock
@@ -44,5 +46,4 @@ fileignoreconfig:
 - filename: yarn.lock
   checksum: 970e31cbd32c94606ab01b8e3c238c7a7ca572af093b17c4128276c07b626205
 scopeconfig:
-  - scope: node
-
+- scope: node
