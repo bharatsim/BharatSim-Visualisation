@@ -130,7 +130,8 @@ function AnnotationConfig({ configKey }) {
                             values,
                             `${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.START}`,
                           ),
-                        )}
+                        )
+                      }
                     />
                   </Condition>
                   <Condition
@@ -160,7 +161,8 @@ function AnnotationConfig({ configKey }) {
                             values,
                             `${name}.${annotationTypes.DATE}.${areaAnnotationConfig.START}`,
                           ),
-                        )}
+                        )
+                      }
                     />
                   </Condition>
                 </FieldContainer>

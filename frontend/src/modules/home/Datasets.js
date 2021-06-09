@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Tooltip, Typography, useTheme, withStyles } from '@material-ui/core';
+import { Box, Typography, useTheme } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import Table from '../../uiComponent/table/Table';
 import fileTypes from '../../constants/fileTypes';

@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
-const datasourceMetadataService = require('../services/datasourceMetadataService.js');
-const datasourceService = require('../services/datasourceService.js');
-const uploadDatasourceService = require('../services/uploadDatasourceService.js');
+const datasourceMetadataService = require('../services/datasourceMetadataService');
+const datasourceService = require('../services/datasourceService');
+const uploadDatasourceService = require('../services/uploadDatasourceService');
 const DataSourceNotFoundException = require('../exceptions/DatasourceNotFoundException');
 const ColumnsNotFoundException = require('../exceptions/ColumnsNotFoundException');
 const { sendServerError, sendClientError } = require('../exceptions/exceptionUtils');

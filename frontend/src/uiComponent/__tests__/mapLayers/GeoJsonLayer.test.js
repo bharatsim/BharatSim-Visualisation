@@ -5,9 +5,7 @@ import GeoJsonLayer from '../../mapLayers/GeoJsonLayer';
 
 jest.mock('../../mapLayers/MapBoundController', () => ({ props }) => (
   <div>
-    Map bound controller 
-    {' '}
-    <pre>{JSON.stringify(props)}</pre>
+    Map bound controller <pre>{JSON.stringify(props)}</pre>
   </div>
 ));
 

@@ -524,9 +524,10 @@ describe('datasourceService', () => {
         'DataSourceModel',
         'columnName',
       );
-      expect(
-        dataSourceMetadataRepository.updateDatasourceSchema,
-      ).toHaveBeenCalledWith('datasource1', { col2: 'String', column1: 'number' });
+      expect(dataSourceMetadataRepository.updateDatasourceSchema).toHaveBeenCalledWith(
+        'datasource1',
+        { col2: 'String', column1: 'number' },
+      );
       expect(dataSourceMetadataRepository.deleteCustomColumn).toHaveBeenCalledWith(
         'datasource1',
         'columnName',
@@ -556,7 +557,10 @@ describe('datasourceService', () => {
       };
 
       await expect(result).rejects.toThrow(
-        new InvalidInputException('Invalid column name-Column name can include alphabets, numbers, -, _ or space', 1016),
+        new InvalidInputException(
+          'Invalid column name-Column name can include alphabets, numbers, -, _ or space',
+          1016,
+        ),
       );
     });
 

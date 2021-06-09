@@ -5,8 +5,7 @@ import { format, isAfter } from 'date-fns';
 
 import withThemeProvider from '../../../theme/withThemeProvider';
 import DateField from '../../formField/DateField';
-import { required } from '../../../utils/validators';
-import { DATE_FORMAT, } from '../../../constants/annotations';
+import { DATE_FORMAT } from '../../../constants/annotations';
 
 jest.mock('@material-ui/pickers', () => ({
   KeyboardDatePicker: jest.fn(({ value, onChange, error, helperText, ...rest }) => (
@@ -14,32 +13,30 @@ jest.mock('@material-ui/pickers', () => ({
       {/* eslint-disable-next-line no-undef */}
       <pre>{mockPropsCapture(rest)}</pre>
       <input value={value} onChange={onChange} data-testid="date-input" />
-      {error && helperText }
+      {error && helperText}
     </div>
   )),
 }));
 
-const TestForm = ({ onSubmit, isEditMode }) => {
-  return (
-    <Form
-      onSubmit={onSubmit}
-      render={({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
-          <DateField
-            name="dateField"
-            label="To Value"
-            dataTestId="end-input"
-            validate={(value) => isAfter(new Date(value),new Date('2010, Jan 1')) ? 'Error': ''}
-            isEditMode={isEditMode}
-            defaultValue={format(new Date(1900, 1, 1, 0, 0, 0, 0), DATE_FORMAT)}
-            format={DATE_FORMAT}
-          />
-          <button type="submit">submit</button>
-        </form>
-      )}
-    />
-  );
-};
+const TestForm = ({ onSubmit, isEditMode }) => (
+  <Form
+    onSubmit={onSubmit}
+    render={({ handleSubmit }) => (
+      <form onSubmit={handleSubmit}>
+        <DateField
+          name="dateField"
+          label="To Value"
+          dataTestId="end-input"
+          validate={(value) => (isAfter(new Date(value), new Date('2010, Jan 1')) ? 'Error' : '')}
+          isEditMode={isEditMode}
+          defaultValue={format(new Date(1900, 1, 1, 0, 0, 0, 0), DATE_FORMAT)}
+          format={DATE_FORMAT}
+        />
+        <button type="submit">submit</button>
+      </form>
+    )}
+  />
+);
 
 describe('<DateField  />', () => {
   const DateFieldForm = withThemeProvider(TestForm);
@@ -81,6 +78,6 @@ describe('<DateField  />', () => {
 
     fireEvent.click(getByText('submit'));
 
-    expect(getByText('Error')).toBeInTheDocument()
+    expect(getByText('Error')).toBeInTheDocument();
   });
 });

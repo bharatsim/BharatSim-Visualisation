@@ -5,7 +5,6 @@ import { Field } from 'react-final-form';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import { DATE_FORMAT } from '../../constants/annotations';
-import MuiTextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => {
   return {

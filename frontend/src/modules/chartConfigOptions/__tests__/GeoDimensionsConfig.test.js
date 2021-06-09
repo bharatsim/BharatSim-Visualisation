@@ -28,17 +28,17 @@ const TestForm = ({ onSubmit }) => {
       render={({ handleSubmit }) => (
         <FormProvider
           value={{
-              isEditMode: false,
-              registerDatasource: jest.fn(),
-              unRegisterDatasource: jest.fn(),
-            }}
+            isEditMode: false,
+            registerDatasource: jest.fn(),
+            unRegisterDatasource: jest.fn(),
+          }}
         >
           <form onSubmit={handleSubmit}>
             <GeoDimensionsConfig headers={props.headers} configKey={props.configKey} />
             <button type="submit">submit</button>
           </form>
         </FormProvider>
-        )}
+      )}
     />
   );
 };

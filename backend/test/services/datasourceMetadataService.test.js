@@ -318,6 +318,8 @@ describe('datasourceMetadataService', () => {
       },
     });
 
-    expect(dataSourceMetadataRepository.getDatasourcesMetadata).toHaveBeenCalledWith({_id: 'id1'});
+    expect(dataSourceMetadataRepository.getDatasourcesMetadata).toHaveBeenCalledWith({
+      _id: 'id1',
+    });
   });
 });

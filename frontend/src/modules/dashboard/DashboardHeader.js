@@ -64,11 +64,11 @@ function AutoSaveStatus({ saving, error, lastSaved, onRetry }) {
       classes={{ message: classes.autoSaveErrorMessage }}
       color="warning"
       icon={false}
-      action={(
+      action={
         <Button className={classes.RetryButton} onClick={onRetry}>
           Retry
         </Button>
-      )}
+      }
     >
       {AUTOSAVE_ERROR_MESSAGE}
     </Alert>

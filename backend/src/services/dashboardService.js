@@ -2,7 +2,7 @@ const { getProjectedColumns, parseDBObject } = require('../utils/dbUtils');
 const InvalidInputException = require('../exceptions/InvalidInputException');
 const { deleteDatasourceMapping } = require('../repository/dashboardDatasourceMapRepository');
 const dashboardRepository = require('../repository/dashboardRepository');
-const { DATASOURCE_USAGE_COUNT_FILTER_STRING } = require('../constants/dbConstants');
+
 const {
   updateDashboardInvalidInput,
   insertDashboardInvalidInput,

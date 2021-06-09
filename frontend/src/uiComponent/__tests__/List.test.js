@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/dom';
 import List from '../List';
 import withThemeProvider from '../../theme/withThemeProvider';
-import { fireEvent } from '@testing-library/dom';
 
 const ListWithProvider = withThemeProvider(List);
 

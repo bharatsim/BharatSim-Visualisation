@@ -32,7 +32,7 @@ function validateCSVFile(csvData) {
     return 'Column name should be start with alphabets';
   }
   if (fields.some((field) => field.match(invalidCharRgx))) {
-    return ('Column name can include alphabets, numbers, -, _ or space');
+    return 'Column name can include alphabets, numbers, -, _ or space';
   }
   return '';
 }

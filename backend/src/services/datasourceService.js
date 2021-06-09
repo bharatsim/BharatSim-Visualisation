@@ -9,7 +9,7 @@ const { parseExpression } = require('../utils/expressionParser');
 const ColumnsNotFoundException = require('../exceptions/ColumnsNotFoundException');
 const DatasourceNotFoundException = require('../exceptions/DatasourceNotFoundException');
 const InvalidInputException = require('../exceptions/InvalidInputException');
-const {validateColumnName} = require("../utils/csvParser");
+const { validateColumnName } = require('../utils/csvParser');
 const { validateExpression } = require('../utils/expressionParser');
 const { EXTENDED_JSON_TYPES } = require('../constants/fileTypes');
 const { fileTypes } = require('../constants/fileTypes');
@@ -36,9 +36,8 @@ async function getNewDataSourceModel(datasourceId, newSchema) {
 
 async function getData(datasourceId, columns, aggregationParams, limit = 0) {
   const uniqueColumns = [...new Set(columns)];
-  const datasourceMetadata = await dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId(
-    datasourceId,
-  );
+  const datasourceMetadata =
+    await dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId(datasourceId);
   if (!datasourceMetadata) {
     throw new DatasourceNotFoundException(datasourceId);
   }
@@ -147,9 +146,8 @@ async function bulkDeleteDatasource(datasourceIds) {
 }
 
 async function deleteDatasource(id) {
-  const datasourceMetadata = await dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId(
-    id,
-  );
+  const datasourceMetadata =
+    await dataSourceMetadataRepository.getDatasourceMetadataForDatasourceId(id);
 
   if (!datasourceMetadata) {
     throw new DatasourceNotFoundException(id);
@@ -211,10 +209,13 @@ async function updateDatasource(datasourceId, newColumnMetadata) {
   const { dataSourceSchema } = await dataSourceMetadataRepository.getDataSourceSchemaById(
     datasourceId,
   );
-  const error = validateColumnName(columnName,Object.keys(dataSourceSchema));
-  if(error){
-    const invalidColumnNameError = invalidColumnName(error)
-    throw new InvalidInputException(invalidColumnNameError.errorMessage, invalidColumnNameError.errorCode)
+  const error = validateColumnName(columnName, Object.keys(dataSourceSchema));
+  if (error) {
+    const invalidColumnNameError = invalidColumnName(error);
+    throw new InvalidInputException(
+      invalidColumnNameError.errorMessage,
+      invalidColumnNameError.errorCode,
+    );
   }
   const newDatasourceSchema = await getUpdatedSchema(dataSourceSchema, columnName);
   const datasourceModal = await getNewDataSourceModel(datasourceId, newDatasourceSchema);

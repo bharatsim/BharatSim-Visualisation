@@ -20,7 +20,8 @@ function DummyComponent() {
             errorTitle: 'Error title',
             helperText: 'Connect to internet',
             onErrorModalButtonClick: jest.fn(),
-          })}
+          })
+        }
       >
         showError
       </Button>

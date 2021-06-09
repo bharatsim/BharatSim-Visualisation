@@ -2,12 +2,10 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const customColumn = new Schema(
-  {
-    name: String,
-    expression: String,
-  },
-);
+const customColumn = new Schema({
+  name: String,
+  expression: String,
+});
 
 const datasourceMetadata = new Schema(
   {
@@ -30,7 +28,7 @@ const datasourceMetadata = new Schema(
     fileId: {
       type: String,
     },
-    customColumns: [customColumn]
+    customColumns: [customColumn],
   },
   { collection: 'datasourceMetadata', timestamps: true },
 );

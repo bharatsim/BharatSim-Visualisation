@@ -25,7 +25,7 @@ const TestForm = ({ onSubmit, defaultValue }) => {
           />
           <button type="submit">submit</button>
         </form>
-        )}
+      )}
     />
   );
 };

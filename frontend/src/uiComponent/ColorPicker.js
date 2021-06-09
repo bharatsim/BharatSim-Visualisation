@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   colorBoxContainer: {
     display: 'flex',
     marginLeft: theme.spacing(2),
-  }
+  },
 }));
 
 function ColorPicker({ onChange, value }) {

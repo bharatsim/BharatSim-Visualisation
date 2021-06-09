@@ -70,7 +70,8 @@ function FieldArrayContainer({
                     </IconButton>
                   )}
                 </Box>
-              ))}
+              ))
+            }
           </FieldArray>
         ) : (
           <Box className={classes.fallbackText}>

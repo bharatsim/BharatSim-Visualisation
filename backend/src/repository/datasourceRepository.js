@@ -6,12 +6,8 @@ async function getData(datasourceModel, columnsMap, limit = 0) {
 }
 
 async function getAggregatedData(datasourceModel, aggregationParams) {
-  const {
-    aggregateParam,
-    groupByParam,
-    projectAggregateParam,
-    projectGroupByParam,
-  } = transformAggregationParams(aggregationParams);
+  const { aggregateParam, groupByParam, projectAggregateParam, projectGroupByParam } =
+    transformAggregationParams(aggregationParams);
   const { filter } = aggregationParams;
 
   return datasourceModel.aggregate([

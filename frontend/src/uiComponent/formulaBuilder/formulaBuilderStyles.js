@@ -37,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
   containerFields: {
     flex: 0.2,
   },
-  errorContainer:{
-    height: theme.spacing(5)
+  errorContainer: {
+    height: theme.spacing(5),
   },
   helperText: {
     marginLeft: 0,
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   actionContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-  }
+  },
 }));
 
 export { useStyles };

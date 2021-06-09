@@ -60,13 +60,13 @@ function DeleteProjectConfirmationModal({
               control={<Radio />}
               classes={radioClasses}
               data-testid="yes-radio-button"
-              label={(
+              label={
                 <RadioLabel
                   header="Yes, delete all the dataset associated with this Project"
                   description="Any dataset that is not linked to another project
                     or dashboard will be permanently deleted from the dataset library."
                 />
-              )}
+              }
             />
           </Box>
           <FormControlLabel
@@ -74,13 +74,13 @@ function DeleteProjectConfirmationModal({
             control={<Radio />}
             classes={radioClasses}
             data-testid="no-radio-button"
-            label={(
+            label={
               <RadioLabel
                 header="No, keep the dataset in the dataset library"
                 description="The dataset will be unlinked from the dashboards and the project and
                     will be available in the dataset library."
               />
-            )}
+            }
           />
         </RadioGroup>
       </FormControl>

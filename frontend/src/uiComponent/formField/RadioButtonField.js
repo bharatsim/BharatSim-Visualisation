@@ -31,7 +31,7 @@ function RadioButtonsField({ options, name, vertical, disabled, defaultValue, va
               label={option.label}
               key={`option-${option.value}`}
               name={name}
-              control={(
+              control={
                 <Field
                   name={name}
                   type="radio"
@@ -50,7 +50,7 @@ function RadioButtonsField({ options, name, vertical, disabled, defaultValue, va
                     />
                   )}
                 />
-              )}
+              }
             />
           );
         })}

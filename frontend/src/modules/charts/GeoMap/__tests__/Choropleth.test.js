@@ -40,13 +40,11 @@ jest.mock('../../../../utils/api', () => ({
     getAggregatedGeoJson: jest
       .fn()
       .mockImplementation(() => Promise.resolve({ data: mockGeoJson })),
-    getAggregatedData: jest
-      .fn()
-      .mockImplementation(() =>
-        Promise.resolve({
-          data: { regionId: [1, 2, 3], infected: [2, 4, 6], timeTick: [1, 2, 3] },
-        }),
-      ),
+    getAggregatedData: jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        data: { regionId: [1, 2, 3], infected: [2, 4, 6], timeTick: [1, 2, 3] },
+      }),
+    ),
   },
 }));
 
@@ -324,14 +322,16 @@ describe('Choropleth', () => {
   });
 
   it('should rerender when prop value changes', async () => {
-    api.getAggregatedData.mockImplementation(() => Promise.resolve({
+    api.getAggregatedData.mockImplementation(() =>
+      Promise.resolve({
         data: {
           regionId: [1, 2, 3],
           infected: [2, 4, 6],
           day: [1, 2, 3],
           infectedNew: [1, 2, 3],
         },
-      }));
+      }),
+    );
 
     const { findByTestId, rerender } = render(
       <ChoroplethWithProvider

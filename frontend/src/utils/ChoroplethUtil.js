@@ -30,7 +30,8 @@ function geoJSONStyle(idDataMap, mapLayerIdName, scaleBand, scale, minOfMeasure)
     .map((key) => scale[key]);
   const getColor = chroma.scale(colors);
   return (feature) => {
-    const gradientPercentage = (idDataMap[feature.properties[mapLayerIdName]] - minOfMeasure) / scaleBand;
+    const gradientPercentage =
+      (idDataMap[feature.properties[mapLayerIdName]] - minOfMeasure) / scaleBand;
     return {
       color: '#1f2021',
       weight: 1,

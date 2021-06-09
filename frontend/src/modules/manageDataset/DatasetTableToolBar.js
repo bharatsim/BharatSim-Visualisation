@@ -44,11 +44,11 @@ function DatasetTableToolBar(props) {
     <Box className={classes.root}>
       <MTableToolbar
         {...props}
-        title={(
+        title={
           <Typography variant="subtitle2" className={classes.subtitle2}>
             Dataset Library
           </Typography>
-        )}
+        }
         showTextRowsSelected={false}
         classes={tableToolbarClasses}
         searchFieldAlignment="left"

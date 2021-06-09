@@ -26,17 +26,17 @@ const TestForm = ({ onSubmit }) => {
       render={({ handleSubmit }) => (
         <FormProvider
           value={{
-              isEditMode: false,
-              registerDatasource: jest.fn(),
-              unRegisterDatasource: jest.fn(),
-            }}
+            isEditMode: false,
+            registerDatasource: jest.fn(),
+            unRegisterDatasource: jest.fn(),
+          }}
         >
           <form onSubmit={handleSubmit}>
             <XAxisConfig configKey={props.configKey} headers={props.headers} />
             <button type="submit">submit</button>
           </form>
         </FormProvider>
-        )}
+      )}
     />
   );
 };

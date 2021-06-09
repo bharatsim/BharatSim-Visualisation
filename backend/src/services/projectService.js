@@ -67,9 +67,8 @@ async function deleteProject(projectId) {
     throw new NotFoundException(projectNotFound.errorMessage, projectNotFound.errorCode);
   }
   const dashboardsDeleteResult = await deleteDashboardsAndMappingWithProjectId(projectId);
-  const { deletedCount: dashboardsDeletedCount, mappingDeletedCount } = getTotalDeleteCount(
-    dashboardsDeleteResult,
-  );
+  const { deletedCount: dashboardsDeletedCount, mappingDeletedCount } =
+    getTotalDeleteCount(dashboardsDeleteResult);
   return {
     projectsDeleted: projectDeleteResult.deletedCount,
     dashboardsDeletedCount,

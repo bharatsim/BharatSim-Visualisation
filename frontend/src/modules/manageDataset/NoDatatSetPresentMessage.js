@@ -15,16 +15,13 @@ function NoDataSetPresentMessage({ projectMetadataId, message }) {
         {message}
       </Typography>
       <Typography variant="body2">
-        Use
-        {' '}
+        Use{' '}
         <Link to={uploadFilePage} component={RouterLink}>
           {' '}
-          Upload dataset
-          {' '}
+          Upload dataset{' '}
         </Link>
         to add data files to your dashboard.
-      </Typography>
-      {' '}
+      </Typography>{' '}
     </Box>
   );
 }
