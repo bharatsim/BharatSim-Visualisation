@@ -15,14 +15,30 @@ Visualization engine/tool would accept Simulation engine output or any csv data 
 
 ## Setup Requirements and Installation
 
-1. Prerequisites
+-  Prerequisites
     - Docker
       https://www.docker.com/products/docker-desktop
     - NodeJs version >= 14.15.0 https://nodejs.org/en/download/
-2. Code setup
+-  Code setup
     1. Clone the repository
        `https://github.com/debayanLab/BharatSim-Visualisation`
-    2. Run the code `docker-compose up`
+    2. Setup `.env` file \
+       *change below values as per convenience       
+       ```
+        DB_USER=bharatsim_user
+        DB_PASS=password
+        DB_PORT=27017
+        #  for development only
+        #DB_HOST=localhost
+        DB_HOST=mongodb
+        MONGO_INITDB_ROOT_USERNAME=root
+        MONGO_INITDB_ROOT_PASSWORD=password
+        APP_PORT=3005
+               
+       ```
+       
+    3. Run the code `docker-compose up`
+    4. Access application on `http://localhost:3005/` or `http://127.0.0.1:3005/`
 
 ## Tech stack
 

@@ -8,9 +8,9 @@ services:
       - ./data/db:/data/db
     env_file:
       - .env
-#   for development only
+#  for development only
 #    ports:
-#      - 27017:27017
+#      - 127.0.0.1:27017:27017
   app:
     links:
       - mongodb
@@ -22,5 +22,5 @@ services:
     volumes:
       - ./data/files:/visualisation/backend/uploads
     ports:
-      - 3005:3005
+      - 127.0.0.1:3005:3005
     command: yarn start

@@ -2,14 +2,20 @@ const express = require('express');
 const multer = require('multer');
 const morgan = require('morgan');
 const path = require('path');
-
-const PORT = process.env.APP_PORT || 3005;
+const apiRoutes = require('./src/controller/datasourcesController');
+const datasourceDashboardMapRoutes = require('./src/controller/datasourceDashboardMapController');
+const dashBoardRoutes = require('./src/controller/dashboardController');
+const projectRoutes = require('./src/controller/projectController');
 
 const LOGGER_FORMAT_STRING = ':method :url :status :res[content-length] - :response-time ms';
-const apiRoutes = require('./src/controller/datasourcesController.js');
-const datasourceDashboardMapRoutes = require('./src/controller/datasourceDashboardMapController.js');
-const dashBoardRoutes = require('./src/controller/dashboardController.js');
-const projectRoutes = require('./src/controller/projectController.js');
+
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line global-require
+  require('dotenv').config({ path: '../.env' });
+}
+
+const PORT = process.env.APP_PORT;
+
 require('./setupDB');
 
 const FILE_UPLOAD_PATH = './uploads/';
