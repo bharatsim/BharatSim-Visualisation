@@ -2,7 +2,7 @@ const { validateExpression } = require('../../src/utils/expressionParser');
 const { parseExpression } = require('../../src/utils/expressionParser');
 
 describe('expression Parser', () => {
-  describe('should transform expression into mongo readable query', function () {
+  describe('should transform expression into mongo readable query', () => {
     const expressions = [
       '1 + 20',
       '"field1" + "field2"',
@@ -25,7 +25,7 @@ describe('expression Parser', () => {
     ];
 
     expressions.forEach((expression, index) => {
-      it(`should provide parsed expression for ${expression}`, function () {
+      it(`should provide parsed expression for ${expression}`, () => {
         expect(parseExpression(expression)).toEqual(parsedExpression[index]);
       });
     });

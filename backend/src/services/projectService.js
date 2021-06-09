@@ -49,12 +49,10 @@ async function updateProject({ id, ...projectData }) {
 
 function getTotalDeleteCount(result) {
   return result.reduce(
-    ({ deletedCount, mappingDeletedCount }, deleteResult) => {
-      return {
-        deletedCount: deletedCount + deleteResult.deletedCount,
-        mappingDeletedCount: mappingDeletedCount + deleteResult.mappingDeletedCount,
-      };
-    },
+    ({ deletedCount, mappingDeletedCount }, deleteResult) => ({
+      deletedCount: deletedCount + deleteResult.deletedCount,
+      mappingDeletedCount: mappingDeletedCount + deleteResult.mappingDeletedCount,
+    }),
     { deletedCount: 0, mappingDeletedCount: 0 },
   );
 }

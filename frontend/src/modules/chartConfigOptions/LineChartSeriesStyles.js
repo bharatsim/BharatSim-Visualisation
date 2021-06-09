@@ -15,11 +15,9 @@ function LineChartSeriesStyles({ seriesConfigKey, title }) {
       configKey={seriesConfigKey}
       shouldRender={!!series}
       fallbackMessage="Select Y axis measure to add styles"
-      field={(name, index) => {
-        return (
-          <LineStyleConfig name={name} index={index} seriesName={series[index]?.name} key={name} />
-        );
-      }}
+      field={(name, index) => (
+        <LineStyleConfig name={name} index={index} seriesName={series[index]?.name} key={name} />
+      )}
     />
   );
 }

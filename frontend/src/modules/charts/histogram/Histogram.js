@@ -14,13 +14,8 @@ import { rgbaToHex } from '../../../utils/helper';
 function Histogram({ config }) {
   const { measure, dataSource, color: rgbaColor, axisConfig } = config;
   const [fetchedData, setFetchedData] = useState();
-  const {
-    loadingState,
-    message,
-    startLoader,
-    stopLoaderAfterError,
-    stopLoaderAfterSuccess,
-  } = useLoader();
+  const { loadingState, message, startLoader, stopLoaderAfterError, stopLoaderAfterSuccess } =
+    useLoader();
 
   async function fetchData() {
     startLoader();

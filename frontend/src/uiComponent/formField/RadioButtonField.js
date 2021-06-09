@@ -24,36 +24,34 @@ function RadioButtonsField({ options, name, vertical, disabled, defaultValue, va
   return (
     <FormControl disabled={disabled}>
       <Box className={vertical ? classes.vertical : classes.horizontal}>
-        {options.map((option) => {
-          return (
-            <FormControlLabel
-              value={option.value}
-              label={option.label}
-              key={`option-${option.value}`}
-              name={name}
-              control={
-                <Field
-                  name={name}
-                  type="radio"
-                  validate={validate}
-                  defaultValue={defaultValue}
-                  render={({
-                    input: { name: inputName, value, onChange, checked, ...restInput },
-                  }) => (
-                    <Radio
-                      name={inputName}
-                      size="small"
-                      value={value}
-                      checked={checked}
-                      onChange={onChange}
-                      inputProps={{ ...restInput }}
-                    />
-                  )}
-                />
-              }
-            />
-          );
-        })}
+        {options.map((option) => (
+          <FormControlLabel
+            value={option.value}
+            label={option.label}
+            key={`option-${option.value}`}
+            name={name}
+            control={
+              <Field
+                name={name}
+                type="radio"
+                validate={validate}
+                defaultValue={defaultValue}
+                render={({
+                  input: { name: inputName, value, onChange, checked, ...restInput },
+                }) => (
+                  <Radio
+                    name={inputName}
+                    size="small"
+                    value={value}
+                    checked={checked}
+                    onChange={onChange}
+                    inputProps={{ ...restInput }}
+                  />
+                )}
+              />
+            }
+          />
+        ))}
       </Box>
     </FormControl>
   );

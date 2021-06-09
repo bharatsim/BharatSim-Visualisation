@@ -54,12 +54,8 @@ async function fetchData({
     return fetchWithLoader({ url, method, headers, data, query, isCustomErrorHandler });
   }
   return axios({ url, method, headers, data, params: query })
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => {
-      return handleError(err, isCustomErrorHandler);
-    });
+    .then((res) => res.data)
+    .catch((err) => handleError(err, isCustomErrorHandler));
 }
 
 async function fetchWithLoader({ url, method, headers, data, query, isCustomErrorHandler }) {

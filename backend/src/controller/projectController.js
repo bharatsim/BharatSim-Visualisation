@@ -10,7 +10,7 @@ const {
   deleteProject,
 } = require('../services/projectService');
 
-router.post('/', async function (req, res) {
+router.post('/', async (req, res) => {
   const { projectData } = req.body;
   addNewProject(projectData)
     .then((projectId) => {
@@ -24,7 +24,7 @@ router.post('/', async function (req, res) {
       }
     });
 });
-router.put('/', async function (req, res) {
+router.put('/', async (req, res) => {
   const { projectData } = req.body;
   updateProject(projectData)
     .then((projectId) => {
@@ -39,7 +39,7 @@ router.put('/', async function (req, res) {
     });
 });
 
-router.get('/', async function (req, res) {
+router.get('/', async (req, res) => {
   getAllProjects()
     .then((projects) => {
       res.send(projects);
@@ -49,7 +49,7 @@ router.get('/', async function (req, res) {
     });
 });
 
-router.get('/:id', async function (req, res) {
+router.get('/:id', async (req, res) => {
   const { id: projectId } = req.params;
   getProject(projectId)
     .then((project) => {
@@ -64,7 +64,7 @@ router.get('/:id', async function (req, res) {
     });
 });
 
-router.delete('/:id', async function (req, res) {
+router.delete('/:id', async (req, res) => {
   const { id: projectId } = req.params;
   deleteProject(projectId)
     .then((result) => {

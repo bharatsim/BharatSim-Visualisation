@@ -30,8 +30,8 @@ describe('Integration test for project api', () => {
     await dbHandler.closeDatabase();
   });
 
-  describe('POST /project', function () {
-    it('should add new project to database', async function () {
+  describe('POST /project', () => {
+    it('should add new project to database', async () => {
       const response = await request(app).post('/project').send({ projectData }).expect(200);
       const { projectId } = response.body;
       const projects = parseDBObject(
@@ -40,8 +40,8 @@ describe('Integration test for project api', () => {
       expect(projects).toEqual(projectData);
     });
   });
-  describe('PUT /project', function () {
-    it('should update project ', async function () {
+  describe('PUT /project', () => {
+    it('should update project ', async () => {
       const newData = { name: 'new name' };
       const projectModel1 = new ProjectModel(projectData);
       const { _id } = await projectModel1.save();
@@ -56,13 +56,13 @@ describe('Integration test for project api', () => {
     });
   });
 
-  describe('Get /project', function () {
-    it('should get all projects from database', async function () {
+  describe('Get /project', () => {
+    it('should get all projects from database', async () => {
       ProjectModel.insertMany([projectData]);
       const response = await request(app).get('/project').expect(200);
       expect(response.body.projects.length).toEqual(1);
     });
-    it('should get project with matching id', async function () {
+    it('should get project with matching id', async () => {
       const projectModel1 = new ProjectModel(projectData);
       const { _id } = await projectModel1.save();
 

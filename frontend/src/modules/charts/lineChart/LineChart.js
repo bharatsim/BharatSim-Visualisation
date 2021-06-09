@@ -33,13 +33,8 @@ function LineChart({ config, layout }) {
   const { state: isLogScale, toggleState } = useToggle();
   const yAxisType = isLogScale ? 'log' : '-';
 
-  const {
-    loadingState,
-    message,
-    startLoader,
-    stopLoaderAfterError,
-    stopLoaderAfterSuccess,
-  } = useLoader();
+  const { loadingState, message, startLoader, stopLoaderAfterError, stopLoaderAfterSuccess } =
+    useLoader();
 
   async function fetchData() {
     startLoader();

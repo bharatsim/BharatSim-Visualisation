@@ -26,9 +26,9 @@ function ExistingUserHomeScreen({ recentProjects, setRecentProjects }) {
   const classes = styles();
 
   function deleteProject(selectedProjectId) {
-    const updatedProjects = recentProjects.filter(({ _id: projectId }) => {
-      return projectId !== selectedProjectId;
-    });
+    const updatedProjects = recentProjects.filter(
+      ({ _id: projectId }) => projectId !== selectedProjectId,
+    );
     setRecentProjects(updatedProjects);
   }
 

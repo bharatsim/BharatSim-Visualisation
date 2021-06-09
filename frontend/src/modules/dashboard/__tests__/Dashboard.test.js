@@ -19,6 +19,12 @@ jest.mock('../../charts/lineChart/LineChart', () => () => (
   </>
 ));
 
+jest.mock('../../../uiComponent/Notes', () => ({ onBlur, text }) => (
+  <>
+    <input type="text" data-testid="notes" onBlur={() => onBlur('notes')} value={text} onChange={()=>{}}/>
+  </>
+));
+
 const mockHistoryPush = jest.fn();
 
 jest.mock('react-router-dom', () => ({
@@ -133,7 +139,7 @@ describe('<Dashboard />', () => {
   );
   beforeAll(() => {
     jest.useFakeTimers();
-    jest.setTimeout(10000);
+    jest.setTimeout(20000);
   });
   afterEach(() => {
     jest.clearAllTimers();
@@ -155,7 +161,7 @@ describe('<Dashboard />', () => {
       target: { value: 'chart name' },
     });
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
-    await findByText('Select x axis');
+    await findByText('X axis');
     selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
     selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 
@@ -280,19 +286,50 @@ describe('<Dashboard />', () => {
   });
 
   it('should open notes section on click on notes', async () => {
-    const { findByText, getByText } = render(<DashboardWithProviders />);
+    const { findByText, getByText, getByTestId } = render(<DashboardWithProviders />);
     await findByText('dashboard1');
 
     const notes = getByText('Insights');
 
     fireEvent.click(notes);
 
-    const toolbar = document.querySelector('.rdw-editor-toolbar');
+    const toolbar = getByTestId('notes');
 
     expect(toolbar).toBeInTheDocument();
   });
 
+
   describe('auto save', () => {
+    it('should update notes and autoSave', async () => {
+      const renderedComponent = render(<DashboardWithProviders />);
+      const { findByText, getByTestId, getByText } = renderedComponent;
+
+      await findByText('dashboard1');
+
+      const Insights = getByText('Insights');
+      fireEvent.click(Insights);
+
+      const notes = getByTestId('notes');
+
+      fireEvent.focus(notes);
+      fireEvent.change(notes, { target: { value: 'notes' } });
+      fireEvent.focusOut(notes);
+
+      expect(mockDispatch).toHaveBeenLastCalledWith({
+        type: 'UPDATE_DASHBOARD',
+        payload: {
+          dashboard: {
+            charts: [],
+            count: 0,
+            dashboardId: 'id1',
+            layout: [],
+            name: 'dashboard1',
+            notes: 'notes',
+          },
+        },
+      });
+    });
+
     it('should add chart and auto save', async () => {
       const renderedComponent = render(<DashboardWithProviders />);
       const { findByText } = renderedComponent;

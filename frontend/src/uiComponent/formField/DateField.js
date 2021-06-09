@@ -6,21 +6,19 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import { DATE_FORMAT } from '../../constants/annotations';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    helperText: {
-      margin: theme.spacing(1, 0, 0, 0),
-    },
-    inputField: {
-      padding: theme.spacing(4),
-      backgroundColor: theme.colors.grayScale['100'],
-      borderRadius: theme.spacing(1),
-    },
-    input: {
-      width: theme.spacing(52),
-    },
-  };
-});
+const useStyles = makeStyles((theme) => ({
+  helperText: {
+    margin: theme.spacing(1, 0, 0, 0),
+  },
+  inputField: {
+    padding: theme.spacing(4),
+    backgroundColor: theme.colors.grayScale['100'],
+    borderRadius: theme.spacing(1),
+  },
+  input: {
+    width: theme.spacing(52),
+  },
+}));
 
 function DateField({ name, label, dataTestId, validate, defaultValue, format, helperText }) {
   const classes = useStyles();

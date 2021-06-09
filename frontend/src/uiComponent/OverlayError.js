@@ -9,38 +9,31 @@ import CloseIcon from '@material-ui/icons/Close';
 import ErrorBar from './ErrorBar';
 import IconButton from './IconButton';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    errContainer: {
-      maxWidth: theme.spacing(150),
-      minWidth: theme.spacing(100),
-      padding: theme.spacing(6),
-    },
+const useStyles = makeStyles((theme) => ({
+  errContainer: {
+    maxWidth: theme.spacing(150),
+    minWidth: theme.spacing(100),
+    padding: theme.spacing(6),
+  },
 
-    errorTitle: {},
-    errorMessage: {
-      lineHeight: 1,
-      color: theme.palette.error.dark,
-    },
-    errorBox: {
-      display: 'flex',
-    },
-    errorActions: {
-      display: 'flex',
-      justifyContent: 'flex-end',
-    },
-  };
-});
+  errorTitle: {},
+  errorMessage: {
+    lineHeight: 1,
+    color: theme.palette.error.dark,
+  },
+  errorBox: {
+    display: 'flex',
+  },
+  errorActions: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+}));
 
 function OverlayError({ isError, errorConfig, hideError }) {
   const classes = useStyles();
-  const {
-    errorMessage,
-    errorTitle,
-    helperText,
-    errorModalButtonText,
-    onErrorModalButtonClick,
-  } = errorConfig;
+  const { errorMessage, errorTitle, helperText, errorModalButtonText, onErrorModalButtonClick } =
+    errorConfig;
 
   function onErrorActionClick() {
     hideError();

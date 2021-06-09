@@ -13,7 +13,7 @@ const {
 
 // TODO: Refactor APIS for new dashboard
 
-router.post('/', async function (req, res) {
+router.post('/', async (req, res) => {
   const { dashboardData } = req.body;
 
   saveDashboard(dashboardData)
@@ -29,7 +29,7 @@ router.post('/', async function (req, res) {
     });
 });
 
-router.post('/create-new', async function (req, res) {
+router.post('/create-new', async (req, res) => {
   const { dashboardData } = req.body;
   insertDashboard(dashboardData)
     .then((dashboardId) => {
@@ -44,7 +44,7 @@ router.post('/create-new', async function (req, res) {
     });
 });
 
-router.get('/', async function (req, res) {
+router.get('/', async (req, res) => {
   const { columns, ...filters } = req.query;
   getAllDashboards(filters, columns)
     .then((dashboards) => {
@@ -55,7 +55,7 @@ router.get('/', async function (req, res) {
     });
 });
 
-router.get('/:id', async function (req, res) {
+router.get('/:id', async (req, res) => {
   const { id: dashboardId } = req.params;
   getDashboard(dashboardId)
     .then((dashboards) => {
@@ -66,7 +66,7 @@ router.get('/:id', async function (req, res) {
     });
 });
 
-router.delete('/:id', async function (req, res) {
+router.delete('/:id', async (req, res) => {
   const { id: dashboardId } = req.params;
   deleteDashboardAndMapping(dashboardId)
     .then((deleteMetadata) => {

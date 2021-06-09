@@ -16,45 +16,43 @@ import { projectLayoutContext } from '../../contexts/projectLayoutContext';
 import { formatDate } from '../../utils/dateUtils';
 import { AUTOSAVE_ERROR_MESSAGE } from './constants';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    dashboardHeader: {
-      width: '100%',
-      display: 'flex',
-      height: theme.spacing(12),
-      justifyContent: 'space-between',
-      backgroundColor: fade(theme.colors.grayScale['100'], 0.5),
-      alignItems: 'center',
-      padding: theme.spacing(3, 8),
-    },
-    autoSaveError: {
-      padding: theme.spacing(0, 4),
-      alignItems: 'center',
-      border: '1px solid',
-      borderColor: theme.palette.warning.light,
-    },
-    autoSaveErrorMessage: {
-      padding: theme.spacing(0, 0),
-    },
-    autoSaveStatus: {
-      padding: theme.spacing(0, 4),
-      'padding-top': theme.spacing(1),
-    },
-    RetryButton: {
-      margin: theme.spacing(-2, -2),
+const useStyles = makeStyles((theme) => ({
+  dashboardHeader: {
+    width: '100%',
+    display: 'flex',
+    height: theme.spacing(12),
+    justifyContent: 'space-between',
+    backgroundColor: fade(theme.colors.grayScale['100'], 0.5),
+    alignItems: 'center',
+    padding: theme.spacing(3, 8),
+  },
+  autoSaveError: {
+    padding: theme.spacing(0, 4),
+    alignItems: 'center',
+    border: '1px solid',
+    borderColor: theme.palette.warning.light,
+  },
+  autoSaveErrorMessage: {
+    padding: theme.spacing(0, 0),
+  },
+  autoSaveStatus: {
+    padding: theme.spacing(0, 4),
+    'padding-top': theme.spacing(1),
+  },
+  RetryButton: {
+    margin: theme.spacing(-2, -2),
+    'text-decoration': 'underline',
+    color: 'inherit',
+    '&:hover': {
+      background: 'inherit',
       'text-decoration': 'underline',
-      color: 'inherit',
-      '&:hover': {
-        background: 'inherit',
-        'text-decoration': 'underline',
-      },
     },
-    headerLeft: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-  };
-});
+  },
+  headerLeft: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+}));
 
 function AutoSaveStatus({ saving, error, lastSaved, onRetry }) {
   const classes = useStyles();

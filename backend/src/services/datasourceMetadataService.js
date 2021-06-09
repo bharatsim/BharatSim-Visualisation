@@ -23,23 +23,21 @@ async function getAndTransformDataSources(
   projectName,
 ) {
   const dataSourcesForDashboard = await getDatasourcesForDashboardId(dashboardId.toString());
-  return dataSourcesForDashboard.map((dataSourceForDashboard) => {
-    return {
-      ...parseDBObject(dataSourceForDashboard),
-      projectId,
-      dashboardId,
-      projectName,
-      dashboardName,
-    };
-  });
+  return dataSourcesForDashboard.map((dataSourceForDashboard) => ({
+    ...parseDBObject(dataSourceForDashboard),
+    projectId,
+    dashboardId,
+    projectName,
+    dashboardName,
+  }));
 }
 
 async function getDatasourcesForProjectId(projectId, projectName) {
   const { dashboards } = await getAllDashboards({ projectId }, ['_id', 'name']);
   return Promise.all(
-    dashboards.map(async (dashboard) => {
-      return getAndTransformDataSources(dashboard, projectId, projectName);
-    }),
+    dashboards.map(async (dashboard) =>
+      getAndTransformDataSources(dashboard, projectId, projectName),
+    ),
   )
     .then((data) => data.flat())
     .catch((err) => {

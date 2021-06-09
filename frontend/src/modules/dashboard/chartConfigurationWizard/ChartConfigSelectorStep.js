@@ -51,11 +51,11 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
     onApply(data, datasourceIds);
   }
 
-  const registerDatasource = useCallback(function registerDatasource(name, datasourceId) {
+  const registerDatasource = useCallback((name, datasourceId) => {
     setDataSourcesRegistry((prev) => ({ ...prev, [name]: datasourceId }));
   }, []);
 
-  const unRegisterDatasource = useCallback(function unRegisterDatasource(name) {
+  const unRegisterDatasource = useCallback((name) => {
     const currentReg = { ...dataSourcesRegistry };
     delete currentReg[name];
     setDataSourcesRegistry(currentReg);
@@ -71,60 +71,58 @@ function ChartConfigSelectorStep({ existingConfig, chartType, onApply, backToCha
         mutators={{
           ...arrayMutators,
         }}
-        render={({ handleSubmit, invalid }) => {
-          return (
-            <FormProvider
-              value={{
-                isEditMode,
-                chartType,
-                registerDatasource,
-                unRegisterDatasource,
-              }}
-            >
-              <form onSubmit={handleSubmit}>
-                <Box className={classes.tabContainer}>
-                  <Tabs
-                    value={selectedTab}
-                    indicatorColor="primary"
-                    onChange={(_, value) => setSelectedTab(value)}
-                  >
-                    <Tab label="Data" classes={{ root: classes.tabRoot }} />
-                    {isStylePresent && <Tab label="Styles" classes={{ root: classes.tabRoot }} />}
-                  </Tabs>
+        render={({ handleSubmit, invalid }) => (
+          <FormProvider
+            value={{
+              isEditMode,
+              chartType,
+              registerDatasource,
+              unRegisterDatasource,
+            }}
+          >
+            <form onSubmit={handleSubmit}>
+              <Box className={classes.tabContainer}>
+                <Tabs
+                  value={selectedTab}
+                  indicatorColor="primary"
+                  onChange={(_, value) => setSelectedTab(value)}
+                >
+                  <Tab label="Data" classes={{ root: classes.tabRoot }} />
+                  {isStylePresent && <Tab label="Styles" classes={{ root: classes.tabRoot }} />}
+                </Tabs>
+              </Box>
+              <Box className={classes.container}>
+                <Box className={selectedTab === 0 ? '' : classes.hide}>
+                  <DataConfiguration />
                 </Box>
-                <Box className={classes.container}>
-                  <Box className={selectedTab === 0 ? '' : classes.hide}>
-                    <DataConfiguration />
-                  </Box>
-                  <Box className={selectedTab === 1 ? '' : classes.hide}>
-                    <StyleConfig />
-                  </Box>
-                  <Box className={footerClasses.footer}>
-                    <Divider />
-                    <Box mt={3} display="flex" justifyContent="flex-end">
-                      <ButtonGroup>
-                        {!isEditMode && (
-                          <Button variant="text" size="small" onClick={backToChartType}>
-                            Back to chart type
-                          </Button>
-                        )}
-                        <Button
-                          type="submit"
-                          variant="contained"
-                          color="primary"
-                          size="small"
-                          disabled={invalid}
-                        >
-                          Apply
+                <Box className={selectedTab === 1 ? '' : classes.hide}>
+                  <StyleConfig />
+                </Box>
+                <Box className={footerClasses.footer}>
+                  <Divider />
+                  <Box mt={3} display="flex" justifyContent="flex-end">
+                    <ButtonGroup>
+                      {!isEditMode && (
+                        <Button variant="text" size="small" onClick={backToChartType}>
+                          Back to chart type
                         </Button>
-                      </ButtonGroup>
-                    </Box>
+                      )}
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        disabled={invalid}
+                      >
+                        Apply
+                      </Button>
+                    </ButtonGroup>
                   </Box>
                 </Box>
-              </form>
-            </FormProvider>
-          );
-        }}
+              </Box>
+            </form>
+          </FormProvider>
+        )}
       />
     </Box>
   );

@@ -14,9 +14,7 @@ async function insertDatasourceDashboardMaps(datasourceDashboardMaps) {
 
 async function getDatasourceIdsForDashboard(dashboardId) {
   return DatasourceDashboardMap.find({ dashboardId }, { datasourceId: 1 }).then((data) =>
-    data.map((datasourceMatch) => {
-      return datasourceMatch.datasourceId.toString();
-    }),
+    data.map((datasourceMatch) => datasourceMatch.datasourceId.toString()),
   );
 }
 

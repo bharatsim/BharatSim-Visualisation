@@ -129,6 +129,35 @@ describe('<EditDataSouceModel />', () => {
     expect(getByText('Column Name should be unique')).toBeInTheDocument();
   });
 
+  it('should remove error after change in name if there is a error', async () => {
+    const { findAllByText, getByTestId, getByText } = render(
+      <EditDataSouceModelWithProvider open handleClose={jest.fn()} datasourceId="datasourceId" />,
+    );
+    await findAllByText('col1');
+
+    await act(async () => {
+      fireEvent.click(getByText('Add column'));
+    });
+
+    await findAllByText('Custom column name');
+
+    const textField = getByTestId('custom-column');
+    const textArea = document.querySelector(EDITOR_TEXTAREA);
+
+    fireEvent.change(textField, { target: { value: 'col1' } });
+    fireEvent.change(textArea, { target: { value: '1 + 10' } });
+
+    fireEvent.click(getByText('Create column'));
+
+    const validationError = getByText('Column Name should be unique')
+
+    expect(validationError).toBeInTheDocument();
+
+    fireEvent.change(textField, { target: { value: 'col12' } });
+
+    expect(validationError).not.toBeInTheDocument();
+  });
+
   it('should enable disable button if column is selected', async () => {
     const { findAllByText, getByTestId, queryByTestId } = render(
       <EditDataSouceModelWithProvider open handleClose={jest.fn()} datasourceId="datasourceId" />,

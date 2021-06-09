@@ -9,6 +9,7 @@ const { parseExpression } = require('../utils/expressionParser');
 const ColumnsNotFoundException = require('../exceptions/ColumnsNotFoundException');
 const DatasourceNotFoundException = require('../exceptions/DatasourceNotFoundException');
 const InvalidInputException = require('../exceptions/InvalidInputException');
+const { findCustomColumn } = require('../repository/datasourceMetadataRepository');
 const { validateColumnName } = require('../utils/csvParser');
 const { validateExpression } = require('../utils/expressionParser');
 const { EXTENDED_JSON_TYPES } = require('../constants/fileTypes');
@@ -71,9 +72,7 @@ function getGeojsonData(datasourceMetadata, aggregationParams) {
   } = aggregationParams;
   const { features } = parsedData;
 
-  parsedData.features = features.filter((feature) => {
-    return feature.properties[propertyKey] === value;
-  });
+  parsedData.features = features.filter((feature) => feature.properties[propertyKey] === value);
   return { data: parsedData };
 }
 
@@ -117,9 +116,7 @@ async function deleteCsvFiles(datasourceIds) {
     datasourceIds,
     { fileType: 'csv' },
   );
-  const csvMetadataIds = csvDatasourcesMetadata.map(({ _id }) => {
-    return _id.toString();
-  });
+  const csvMetadataIds = csvDatasourcesMetadata.map(({ _id }) => _id.toString());
   return dataSourceRepository.bulkDeleteCsv(csvMetadataIds);
 }
 
@@ -209,7 +206,8 @@ async function updateDatasource(datasourceId, newColumnMetadata) {
   const { dataSourceSchema } = await dataSourceMetadataRepository.getDataSourceSchemaById(
     datasourceId,
   );
-  const error = validateColumnName(columnName, Object.keys(dataSourceSchema));
+  const isEditMode = await findCustomColumn(datasourceId, columnName);
+  const error = validateColumnName(columnName, Object.keys(dataSourceSchema), isEditMode);
   if (error) {
     const invalidColumnNameError = invalidColumnName(error);
     throw new InvalidInputException(

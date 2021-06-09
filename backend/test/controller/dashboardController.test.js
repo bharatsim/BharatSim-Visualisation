@@ -16,15 +16,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(multer({ dest: TEST_FILE_UPLOAD_PATH }).single('datafile'));
 app.use('/dashboard', dashboardRoutes);
 
-describe('dashboardController', function () {
-  describe('Post /', function () {
-    it('should save dashboard data into database', async function () {
+describe('dashboardController', () => {
+  describe('Post /', () => {
+    it('should save dashboard data into database', async () => {
       dashboardService.saveDashboard.mockResolvedValue({ dashboardId: '_id' });
       await request(app).post('/dashboard/').send({ dashboardData: 'Data' }).expect(200);
 
       expect(dashboardService.saveDashboard).toHaveBeenCalledWith('Data');
     });
-    it('should save dashboard data into database and return the id', async function () {
+    it('should save dashboard data into database and return the id', async () => {
       dashboardService.saveDashboard.mockResolvedValue({ dashboardId: '_id' });
 
       await request(app)
@@ -33,7 +33,7 @@ describe('dashboardController', function () {
         .expect(200)
         .expect({ dashboardId: '_id' });
     });
-    it('should throw invalid input exception while saving invalid data', async function () {
+    it('should throw invalid input exception while saving invalid data', async () => {
       dashboardService.saveDashboard.mockRejectedValue(
         new InvalidInputException('Message', '12123'),
       );
@@ -44,7 +44,7 @@ describe('dashboardController', function () {
         .expect(400)
         .expect({ errorMessage: 'Invalid Input - Message', errorCode: '12123' });
     });
-    it('should throw technical error for technical failure', async function () {
+    it('should throw technical error for technical failure', async () => {
       dashboardService.saveDashboard.mockRejectedValue(new Error('Message'));
 
       await request(app)
@@ -55,15 +55,15 @@ describe('dashboardController', function () {
     });
   });
 
-  describe('Post /create-new', function () {
-    it('should insert new dashboard', async function () {
+  describe('Post /create-new', () => {
+    it('should insert new dashboard', async () => {
       dashboardService.insertDashboard.mockResolvedValue({ dashboardId: '_id' });
       await request(app).post('/dashboard/create-new').send({ dashboardData: 'Data' }).expect(200);
 
       expect(dashboardService.insertDashboard).toHaveBeenCalledWith('Data');
     });
 
-    it('should throw invalid input exception while inserting invalid data', async function () {
+    it('should throw invalid input exception while inserting invalid data', async () => {
       dashboardService.insertDashboard.mockRejectedValue(
         new InvalidInputException('Message', '12123'),
       );
@@ -74,7 +74,7 @@ describe('dashboardController', function () {
         .expect(400)
         .expect({ errorMessage: 'Invalid Input - Message', errorCode: '12123' });
     });
-    it('should throw technical error for technical failure', async function () {
+    it('should throw technical error for technical failure', async () => {
       dashboardService.insertDashboard.mockRejectedValue(new Error('Message'));
 
       await request(app)
@@ -85,8 +85,8 @@ describe('dashboardController', function () {
     });
   });
 
-  describe('Get /dashboard/', function () {
-    it('should geta all dashboard ', async function () {
+  describe('Get /dashboard/', () => {
+    it('should geta all dashboard ', async () => {
       dashboardService.getAllDashboards.mockResolvedValueOnce({ dashboards: {} });
 
       await request(app).get('/dashboard/').expect(200);
@@ -94,7 +94,7 @@ describe('dashboardController', function () {
       expect(dashboardService.getAllDashboards).toHaveBeenCalledWith({}, undefined);
     });
 
-    it('should get dashboard data by project id filter', async function () {
+    it('should get dashboard data by project id filter', async () => {
       dashboardService.getAllDashboards.mockResolvedValueOnce({ dashboards: {} });
       await request(app).get('/dashboard?projectId=5f75ce5999399c14af5a2845').expect(200);
 
@@ -104,7 +104,7 @@ describe('dashboardController', function () {
       );
     });
 
-    it('should get dashboard data with projected columns and filter', async function () {
+    it('should get dashboard data with projected columns and filter', async () => {
       dashboardService.getAllDashboards.mockResolvedValueOnce({ dashboards: {} });
       await request(app)
         .get('/dashboard?projectId=5f75ce5999399c14af5a2845&columns[]=name&&columns[]=_id')
@@ -115,13 +115,13 @@ describe('dashboardController', function () {
         ['name', '_id'],
       );
     });
-    it('should get dashboard data with dashboard data', async function () {
+    it('should get dashboard data with dashboard data', async () => {
       dashboardService.getDashboard.mockResolvedValueOnce({ dashboard: 'dashboardData' });
       await request(app).get('/dashboard/dashboardId').expect(200);
 
       expect(dashboardService.getDashboard).toHaveBeenCalledWith('dashboardId');
     });
-    it('should throw and technical error for any failure for get dashboard with Id', async function () {
+    it('should throw and technical error for any failure for get dashboard with Id', async () => {
       dashboardService.getDashboard.mockRejectedValueOnce(new Error('Message'));
       await request(app)
         .get('/dashboard/dashboardId')
@@ -129,7 +129,7 @@ describe('dashboardController', function () {
         .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
     });
 
-    it('should throw and technical error for any failure', async function () {
+    it('should throw and technical error for any failure', async () => {
       dashboardService.getAllDashboards.mockRejectedValueOnce(new Error('Message'));
       await request(app)
         .get('/dashboard/')

@@ -29,7 +29,7 @@ const dashboard2 = {
   projectId: '313233343536373839303133',
 };
 
-describe('DashboardRepository', function () {
+describe('DashboardRepository', () => {
   beforeAll(async () => {
     await dbHandler.connect();
   });
@@ -40,7 +40,7 @@ describe('DashboardRepository', function () {
     await dbHandler.closeDatabase();
   });
 
-  it('should insert dashboard data into database', async function () {
+  it('should insert dashboard data into database', async () => {
     const { _id } = await DashboardRepository.insert(dashboard);
 
     expect(parseMongoDBResult(await Dashboard.findOne({ _id }, { __v: 0, _id: 0 }))).toEqual({
@@ -60,7 +60,7 @@ describe('DashboardRepository', function () {
       projectId: '313233343536373839303133',
     });
   });
-  it('should update dashboard data into database', async function () {
+  it('should update dashboard data into database', async () => {
     const { _id } = await DashboardRepository.insert(dashboard);
     const newData = { ...dashboard, name: 'newName' };
 
@@ -83,7 +83,7 @@ describe('DashboardRepository', function () {
       count: 0,
     });
   });
-  it('should fetch all the uploaded dashboards from database', async function () {
+  it('should fetch all the uploaded dashboards from database', async () => {
     await DashboardRepository.insert(dashboard);
     await DashboardRepository.insert(dashboard);
 
@@ -92,7 +92,7 @@ describe('DashboardRepository', function () {
     expect(data.length).toEqual(2);
   });
 
-  it('should fetch all the dashboards by projectId with projected column', async function () {
+  it('should fetch all the dashboards by projectId with projected column', async () => {
     const { _id: dash1 } = await DashboardRepository.insert(dashboard);
     const { _id: dash2 } = await DashboardRepository.insert(dashboard);
     const { _id: dash3 } = await DashboardRepository.insert(dashboard);

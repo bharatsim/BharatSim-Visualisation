@@ -46,14 +46,14 @@ jest.mock('../../../../config/chartConfigs', () => ({
   lineChart: {
     key: 'lineChart',
     label: 'Line Chart',
-    icon: <>icon</>,
+    icon: () => <div>icon</div>,
     chart: () => <div>Line chart</div>,
     configOptions: ['xAxis', 'yAxis'],
   },
   testChart: {
     key: 'testChart',
     label: 'Test Chart',
-    icon: <>icon</>,
+    icon: () => <div>icon</div>,
     chart: () => <div>Test chart</div>,
     configOptions: ['config1', 'config2'],
   },

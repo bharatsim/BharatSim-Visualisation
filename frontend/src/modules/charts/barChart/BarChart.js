@@ -28,13 +28,8 @@ function BarChart({ config, layout }) {
   const [revision, setRevision] = useState(0);
   const { state: isLogScale, toggleState } = useToggle();
   const yAxisType = isLogScale ? 'log' : '-';
-  const {
-    loadingState,
-    message,
-    startLoader,
-    stopLoaderAfterError,
-    stopLoaderAfterSuccess,
-  } = useLoader();
+  const { loadingState, message, startLoader, stopLoaderAfterError, stopLoaderAfterSuccess } =
+    useLoader();
 
   const yAxisDeps = useDeepCompareMemoize(yAxis);
 

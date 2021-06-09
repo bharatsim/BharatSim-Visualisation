@@ -188,8 +188,8 @@ describe('Integration test', () => {
     });
   });
 
-  describe('Post /datasources', function () {
-    it('should upload csv file in database with 200 as http response', async function () {
+  describe('Post /datasources', () => {
+    it('should upload csv file in database with 200 as http response', async () => {
       const testSchemaModal1 = {
         hour: 'Number',
         susceptible: 'Number',
@@ -248,7 +248,7 @@ describe('Integration test', () => {
       expect(_id).toEqual(uploadedFileCollectionId);
     });
 
-    it('should provide a error when invalid file is uploaded', async function () {
+    it('should provide a error when invalid file is uploaded', async () => {
       const testSchemaModal1 = {
         hour: 'Number',
         susceptible: 'Number',
@@ -303,7 +303,7 @@ describe('Integration test', () => {
   });
 
   describe('delete /datasources', () => {
-    it('should delete all file mapped with dashboard id', async function () {
+    it('should delete all file mapped with dashboard id', async () => {
       insertedMetadata = await DataSourceMetaData.insertMany(dataSourceMetadata);
       const { _id: dataSourceId1 } = insertedMetadata[0];
       const { _id: dataSourceId2 } = insertedMetadata[1];

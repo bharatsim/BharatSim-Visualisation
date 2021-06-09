@@ -11,25 +11,23 @@ import ErrorBar from '../../uiComponent/ErrorBar';
 import { validateCSVFile, validateFile } from '../../utils/validators';
 import { VALID_FILE_EXTENSIONS } from '../../constants/fileUpload';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    importDataContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      border: '1px dashed',
-      borderRadius: theme.spacing(1),
-      borderColor: theme.colors.primaryColorScale['200'],
-    },
-    textContainer: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: theme.spacing(5),
-    },
-  };
-});
+const useStyles = makeStyles((theme) => ({
+  importDataContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: '1px dashed',
+    borderRadius: theme.spacing(1),
+    borderColor: theme.colors.primaryColorScale['200'],
+  },
+  textContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: theme.spacing(5),
+  },
+}));
 
 function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setSchema }) {
   const classes = useStyles();

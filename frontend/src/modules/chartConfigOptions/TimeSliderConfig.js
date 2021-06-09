@@ -17,10 +17,12 @@ import FieldsContainer from '../../uiComponent/formField/FieldsContainer';
 function TimeSliderConfig({ headers, configKey }) {
   const { getFieldState } = useForm();
 
-  const showSliderConfig = getFieldState(`${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`)
-    ?.value;
-  const selectedIntervalStrategy = getFieldState(`${configKey}.${timeSliderConfig.STRATEGY}`)
-    ?.value;
+  const showSliderConfig = getFieldState(
+    `${configKey}.${timeSliderConfig.TIME_CONFIG_TOGGLE}`,
+  )?.value;
+  const selectedIntervalStrategy = getFieldState(
+    `${configKey}.${timeSliderConfig.STRATEGY}`,
+  )?.value;
 
   return (
     <Box>

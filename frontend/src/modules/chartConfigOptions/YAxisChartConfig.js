@@ -25,20 +25,18 @@ function YAxisChartConfig({ headers, configKey }) {
       configKey={configKey}
       addButtonTitle="Add Metric"
       onAddClick={() => push(configKey)}
-      field={(name, index) => {
-        return (
-          <FieldContainer>
-            <DropDownField
-              options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
-              id={`y-axis-dropdown-${index}`}
-              label="Select y axis"
-              name={`${name}.name`}
-              validations={{ required: 'Required' }}
-              validate={required}
-            />
-          </FieldContainer>
-        );
-      }}
+      field={(name, index) => (
+        <FieldContainer>
+          <DropDownField
+            options={convertObjectArrayToOptionStructure(headers, 'name', 'name')}
+            id={`y-axis-dropdown-${index}`}
+            label="Select y axis"
+            name={`${name}.name`}
+            validations={{ required: 'Required' }}
+            validate={required}
+          />
+        </FieldContainer>
+      )}
     />
   );
 }

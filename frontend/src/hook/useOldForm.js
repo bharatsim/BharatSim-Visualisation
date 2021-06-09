@@ -26,15 +26,14 @@ function useOldForm(validators) {
 
   function onSubmit(submitCallback) {
     const validatorKeys = Object.keys(validators);
-    const isFormValid = validatorKeys.every((validatorKey) => {
-      return (
+    const isFormValid = validatorKeys.every(
+      (validatorKey) =>
         validateFieldAndSetErrorMessage(
           validatorKey,
           values[validatorKey],
           validators[validatorKey],
-        ) === ''
-      );
-    });
+        ) === '',
+    );
 
     if (isFormValid) submitCallback(values);
   }

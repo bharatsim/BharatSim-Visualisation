@@ -32,13 +32,8 @@ function DatasourceSelector({
   const datasourceValue = getFieldState(datasourceKey)?.value;
 
   const { _id: selectedDashboardId } = selectedDashboardMetadata;
-  const {
-    startLoader,
-    stopLoaderAfterSuccess,
-    stopLoaderAfterError,
-    loadingState,
-    message,
-  } = useLoader();
+  const { startLoader, stopLoaderAfterSuccess, stopLoaderAfterError, loadingState, message } =
+    useLoader();
   const [fetchedDatasources, setFetchedDatasources] = useState();
 
   useEffect(() => {

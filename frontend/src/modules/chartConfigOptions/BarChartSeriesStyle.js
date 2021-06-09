@@ -15,13 +15,11 @@ function BarChartSeriesStyles({ seriesConfigKey, title }) {
       configKey={seriesConfigKey}
       shouldRender={!!series}
       fallbackMessage="Select Y axis measure to add styles"
-      field={(name, index) => {
-        return (
-          <FieldsContainer>
-            <BarStyleConfig name={name} index={index} seriesName={series[index]?.name} key={name} />
-          </FieldsContainer>
-        );
-      }}
+      field={(name, index) => (
+        <FieldsContainer>
+          <BarStyleConfig name={name} index={index} seriesName={series[index]?.name} key={name} />
+        </FieldsContainer>
+      )}
     />
   );
 }

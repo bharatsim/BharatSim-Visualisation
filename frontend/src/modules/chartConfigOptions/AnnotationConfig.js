@@ -76,117 +76,112 @@ function AnnotationConfig({ configKey }) {
           configKey={annotationConfigKey}
           addButtonTitle="Add Annotation"
           onAddClick={() => push(annotationConfigKey)}
-          field={(name) => {
-            return (
-              <FieldsContainer key={name}>
-                <FieldContainer title="Axis" inline>
-                  <RadioButtonsField
-                    name={`${name}.${areaAnnotationConfig.DIRECTION}`}
-                    options={directions}
-                    vertical={false}
-                    defaultValue={defaultDirection}
-                    validate={required}
-                  />
-                </FieldContainer>
-                <FieldContainer title="Label">
-                  <TextField
-                    name={`${name}.${areaAnnotationConfig.ANNOTATION_LABEL}`}
-                    label="Enter label"
-                    dataTestId="label-input"
-                    validate={required}
-                  />
-                </FieldContainer>
-                <FieldContainer title="Type">
-                  <SelectField
-                    name={`${name}.${areaAnnotationConfig.TYPE}`}
-                    options={annotationTypeOptions}
-                    id="type-of-annotation-value"
-                    label="Select type"
-                    validate={required}
-                    defaultValue={annotationTypes.NUMERIC}
-                  />
-                </FieldContainer>
-                <FieldContainer title="Position">
-                  <Condition
-                    when={`${name}.${areaAnnotationConfig.TYPE}`}
-                    is={annotationTypes.NUMERIC}
-                  >
-                    <TextField
-                      type="number"
-                      name={`${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.START}`}
-                      label="From value"
-                      dataTestId="start-input"
-                      validate={required}
-                    />
-                    <TextField
-                      type="number"
-                      name={`${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.END}`}
-                      label="To Value"
-                      dataTestId="end-input"
-                      validate={(value, values) =>
-                        validateToValueNumber(
-                          value,
-                          get(
-                            values,
-                            `${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.START}`,
-                          ),
-                        )
-                      }
-                    />
-                  </Condition>
-                  <Condition
-                    when={`${name}.${areaAnnotationConfig.TYPE}`}
-                    is={annotationTypes.DATE}
-                  >
-                    <DateField
-                      name={`${name}.${annotationTypes.DATE}.${areaAnnotationConfig.START}`}
-                      label="From value"
-                      dataTestId="start-input"
-                      validate={required}
-                      isEditMode={isEditMode}
-                      defaultValue={format(currentDate(), DATE_FORMAT)}
-                      format={DATE_FORMAT}
-                    />
-                    <DateField
-                      name={`${name}.${annotationTypes.DATE}.${areaAnnotationConfig.END}`}
-                      label="To Value"
-                      dataTestId="end-input"
-                      isEditMode={isEditMode}
-                      defaultValue={format(currentDate(), DATE_FORMAT)}
-                      format={DATE_FORMAT}
-                      validate={(value, values) =>
-                        validateToValueDate(
-                          value,
-                          get(
-                            values,
-                            `${name}.${annotationTypes.DATE}.${areaAnnotationConfig.START}`,
-                          ),
-                        )
-                      }
-                    />
-                  </Condition>
-                </FieldContainer>
-                <FieldContainer>
-                  <ColorPickerField
-                    name={`${name}.${areaAnnotationConfig.COLOR}`}
-                    validate={required}
-                    isEditMode={isEditMode}
-                  />
-                </FieldContainer>
-                <FieldContainer title="Opacity">
+          field={(name) => (
+            <FieldsContainer key={name}>
+              <FieldContainer title="Axis" inline>
+                <RadioButtonsField
+                  name={`${name}.${areaAnnotationConfig.DIRECTION}`}
+                  options={directions}
+                  vertical={false}
+                  defaultValue={defaultDirection}
+                  validate={required}
+                />
+              </FieldContainer>
+              <FieldContainer title="Label">
+                <TextField
+                  name={`${name}.${areaAnnotationConfig.ANNOTATION_LABEL}`}
+                  label="Enter label"
+                  dataTestId="label-input"
+                  validate={required}
+                />
+              </FieldContainer>
+              <FieldContainer title="Type">
+                <SelectField
+                  name={`${name}.${areaAnnotationConfig.TYPE}`}
+                  options={annotationTypeOptions}
+                  id="type-of-annotation-value"
+                  label="Select type"
+                  validate={required}
+                  defaultValue={annotationTypes.NUMERIC}
+                />
+              </FieldContainer>
+              <FieldContainer title="Position">
+                <Condition
+                  when={`${name}.${areaAnnotationConfig.TYPE}`}
+                  is={annotationTypes.NUMERIC}
+                >
                   <TextField
                     type="number"
-                    name={`${name}.${areaAnnotationConfig.OPACITY}`}
-                    label="Enter opacity"
-                    dataTestId="opacity-input"
-                    inputProps={{ min: 0, max: 1, step: 0.1 }}
+                    name={`${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.START}`}
+                    label="From value"
+                    dataTestId="start-input"
                     validate={required}
-                    defaultValue={0.1}
                   />
-                </FieldContainer>
-              </FieldsContainer>
-            );
-          }}
+                  <TextField
+                    type="number"
+                    name={`${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.END}`}
+                    label="To Value"
+                    dataTestId="end-input"
+                    validate={(value, values) =>
+                      validateToValueNumber(
+                        value,
+                        get(
+                          values,
+                          `${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.START}`,
+                        ),
+                      )
+                    }
+                  />
+                </Condition>
+                <Condition when={`${name}.${areaAnnotationConfig.TYPE}`} is={annotationTypes.DATE}>
+                  <DateField
+                    name={`${name}.${annotationTypes.DATE}.${areaAnnotationConfig.START}`}
+                    label="From value"
+                    dataTestId="start-input"
+                    validate={required}
+                    isEditMode={isEditMode}
+                    defaultValue={format(currentDate(), DATE_FORMAT)}
+                    format={DATE_FORMAT}
+                  />
+                  <DateField
+                    name={`${name}.${annotationTypes.DATE}.${areaAnnotationConfig.END}`}
+                    label="To Value"
+                    dataTestId="end-input"
+                    isEditMode={isEditMode}
+                    defaultValue={format(currentDate(), DATE_FORMAT)}
+                    format={DATE_FORMAT}
+                    validate={(value, values) =>
+                      validateToValueDate(
+                        value,
+                        get(
+                          values,
+                          `${name}.${annotationTypes.DATE}.${areaAnnotationConfig.START}`,
+                        ),
+                      )
+                    }
+                  />
+                </Condition>
+              </FieldContainer>
+              <FieldContainer>
+                <ColorPickerField
+                  name={`${name}.${areaAnnotationConfig.COLOR}`}
+                  validate={required}
+                  isEditMode={isEditMode}
+                />
+              </FieldContainer>
+              <FieldContainer title="Opacity">
+                <TextField
+                  type="number"
+                  name={`${name}.${areaAnnotationConfig.OPACITY}`}
+                  label="Enter opacity"
+                  dataTestId="opacity-input"
+                  inputProps={{ min: 0, max: 1, step: 0.1 }}
+                  validate={required}
+                  defaultValue={0.1}
+                />
+              </FieldContainer>
+            </FieldsContainer>
+          )}
         />
       )}
     </Box>

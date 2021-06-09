@@ -12,7 +12,7 @@ const { EXTENDED_JSON_TYPES } = require('../constants/fileTypes');
 const { getFileExtension } = require('../utils/uploadFile');
 const { fileTypes } = require('../constants/fileTypes');
 
-router.get('/', async function (req, res) {
+router.get('/', async (req, res) => {
   const { dashboardId, projectId } = req.query;
   datasourceMetadataService
     .getDatasources({ dashboardId, projectId })
@@ -22,7 +22,7 @@ router.get('/', async function (req, res) {
     });
 });
 
-router.post('/', async function (req, res) {
+router.post('/', async (req, res) => {
   uploadDatasourceService
     .uploadFile(req.file, req.body)
     .then((data) => res.json(data))
@@ -41,7 +41,7 @@ router.post('/', async function (req, res) {
     });
 });
 
-router.get('/:id', async function (req, res) {
+router.get('/:id', async (req, res) => {
   const { columns, aggregationParams, limit } = req.query;
   const { id: datasourceId } = req.params;
   const parsedLimit = Number(limit) || 0;
@@ -62,7 +62,7 @@ router.get('/:id', async function (req, res) {
     });
 });
 
-router.get('/:id/headers', function (req, res) {
+router.get('/:id/headers', (req, res) => {
   const { id: datasourceId } = req.params;
   datasourceMetadataService
     .getHeaders(datasourceId)
@@ -76,7 +76,7 @@ router.get('/:id/headers', function (req, res) {
     });
 });
 
-router.delete('/', async function (req, res) {
+router.delete('/', async (req, res) => {
   const { datasourceIds } = req.query;
   datasourceService
     .bulkDeleteDatasource(datasourceIds)
@@ -92,7 +92,7 @@ router.delete('/', async function (req, res) {
     });
 });
 
-router.delete('/:id', async function (req, res) {
+router.delete('/:id', async (req, res) => {
   const { id: datasourceId } = req.params;
   datasourceService
     .deleteDatasource(datasourceId)
@@ -108,7 +108,7 @@ router.delete('/:id', async function (req, res) {
     });
 });
 
-router.get('/:id/metadata', async function (req, res) {
+router.get('/:id/metadata', async (req, res) => {
   const { id: datasourceId } = req.params;
   datasourceMetadataService
     .getDatasourceMetadata(datasourceId)
@@ -120,7 +120,7 @@ router.get('/:id/metadata', async function (req, res) {
     });
 });
 
-router.put('/:id/column', async function (req, res) {
+router.put('/:id/column', async (req, res) => {
   const { id: datasourceId } = req.params;
   const { columnName, expression } = req.body;
   datasourceService
@@ -137,7 +137,7 @@ router.put('/:id/column', async function (req, res) {
     });
 });
 
-router.delete('/:id/column', async function (req, res) {
+router.delete('/:id/column', async (req, res) => {
   const { id: datasourceId } = req.params;
   const { columnName } = req.body;
   datasourceService

@@ -102,7 +102,7 @@ describe('<FormulaBuilder />', () => {
 
     userEvent.type(textArea, 'ab=}|@');
 
-    expect(textArea).toHaveValue('');
+    expect(textArea.value).toEqual('');
   });
 
   it('should allow digit, operator and space to type', async () => {

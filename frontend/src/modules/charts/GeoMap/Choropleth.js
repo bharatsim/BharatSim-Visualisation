@@ -31,20 +31,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const scale = { 0: '#FDF1D9', '0.5': '#FAA847', 1: '#EC3237' };
+const scale = { 0: '#FDF1D9', 0.5: '#FAA847', 1: '#EC3237' };
 
 function Choropleth({ config }) {
   const classes = useStyles();
   const { dataSource, gisMeasure, choroplethConfig, sliderConfig } = config;
   const { choroplethType, mapLayerConfig } = choroplethConfig;
   const timeMetrics = sliderConfig?.timeMetrics;
-  const {
-    loadingState,
-    message,
-    startLoader,
-    stopLoaderAfterError,
-    stopLoaderAfterSuccess,
-  } = useLoader();
+  const { loadingState, message, startLoader, stopLoaderAfterError, stopLoaderAfterSuccess } =
+    useLoader();
 
   const [drillDownLevel, setDrillDownLevel] = useState(0);
   const [featureId, setFeatureId] = useState();
@@ -109,16 +104,14 @@ function Choropleth({ config }) {
   const breadcrumbsItems = Object.keys(levelFeatureMap)
     .sort()
     .slice(0, drillDownLevel + 1)
-    .map((key, index) => {
-      return {
-        label: `Level ${index + 1}`,
-        onClick: () => {
-          const levelFeatureId = levelFeatureMap[key];
-          setDrillDownLevel(index);
-          setFeatureId(levelFeatureId);
-        },
-      };
-    });
+    .map((key, index) => ({
+      label: `Level ${index + 1}`,
+      onClick: () => {
+        const levelFeatureId = levelFeatureMap[key];
+        setDrillDownLevel(index);
+        setFeatureId(levelFeatureId);
+      },
+    }));
 
   return (
     <div className={timeMetrics ? classes.mapContainer : classes.fullWidthHeight}>

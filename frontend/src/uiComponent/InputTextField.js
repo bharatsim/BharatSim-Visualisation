@@ -4,32 +4,30 @@ import { Box, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    helperText: {
-      margin: theme.spacing(1, 0, 0, 0),
-    },
-    inputField: {
-      padding: theme.spacing(4),
-      backgroundColor: theme.colors.grayScale['100'],
-      borderRadius: theme.spacing(1),
-    },
-    textFieldContainer: {
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'space-between',
-    },
-    labelContainer: {
-      display: 'flex',
-      paddingTop: theme.spacing(4),
-      justifyContent: 'flex-end',
-      height: '100%',
-    },
-    label: {
-      wordWrap: 'break-word',
-    },
-  };
-});
+const useStyles = makeStyles((theme) => ({
+  helperText: {
+    margin: theme.spacing(1, 0, 0, 0),
+  },
+  inputField: {
+    padding: theme.spacing(4),
+    backgroundColor: theme.colors.grayScale['100'],
+    borderRadius: theme.spacing(1),
+  },
+  textFieldContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  labelContainer: {
+    display: 'flex',
+    paddingTop: theme.spacing(4),
+    justifyContent: 'flex-end',
+    height: '100%',
+  },
+  label: {
+    wordWrap: 'break-word',
+  },
+}));
 function InputTextField({ label, id, value, helperText, error, onChange }) {
   const classes = useStyles();
   return (

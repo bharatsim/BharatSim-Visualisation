@@ -166,13 +166,13 @@ function rgbaToHex(rgba) {
 
 function transformColumnsDataToRows(data) {
   const dataKeys = Object.keys(data);
-  return data[dataKeys[0]].map((_, index) => {
-    return dataKeys.reduce((row, key) => {
+  return data[dataKeys[0]].map((_, index) =>
+    dataKeys.reduce((row, key) => {
       // eslint-disable-next-line no-param-reassign
       row[key] = data[key][index];
       return row;
-    }, {});
-  });
+    }, {}),
+  );
 }
 
 function compareArrayByValues(arr1, arr2) {

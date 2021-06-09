@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Box, FormHelperText } from '@material-ui/core';
 
-const FileInput = forwardRef(function FileInputWithRef({ onChange, error }, ref) {
+const FileInput = forwardRef(({ onChange, error }, ref) => {
   function onFileInputChange(event) {
     const uploadedFile = event.target.files[0];
     onChange(uploadedFile);

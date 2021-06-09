@@ -18,6 +18,20 @@ describe('Use Modal hook', () => {
     expect(result.current.isOpen).toEqual(true);
   });
 
+  it('should toggle state', () => {
+    const { result } = renderHook(() => useModal());
+
+    act(() => {
+      result.current.openModal();
+    });
+
+    expect(result.current.isOpen).toEqual(true);
+    act(() => {
+      result.current.toggle();
+    });
+    expect(result.current.isOpen).toEqual(false);
+  });
+
   it('should change isOpen state to false to close modal', () => {
     const { result } = renderHook(() => useModal());
 

@@ -5,21 +5,19 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Field } from 'react-final-form';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    helperText: {
-      margin: theme.spacing(1, 0, 0, 0),
-    },
-    inputField: {
-      padding: theme.spacing(4),
-      backgroundColor: theme.colors.grayScale['100'],
-      borderRadius: theme.spacing(1),
-    },
-    input: {
-      minWidth: theme.spacing(52),
-    },
-  };
-});
+const useStyles = makeStyles((theme) => ({
+  helperText: {
+    margin: theme.spacing(1, 0, 0, 0),
+  },
+  inputField: {
+    padding: theme.spacing(4),
+    backgroundColor: theme.colors.grayScale['100'],
+    borderRadius: theme.spacing(1),
+  },
+  input: {
+    minWidth: theme.spacing(52),
+  },
+}));
 
 function TextField({
   name,

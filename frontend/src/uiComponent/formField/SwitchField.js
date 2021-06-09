@@ -57,15 +57,13 @@ function SwitchField({ onLabel, offLabel, name, dataTestId, defaultValue, valida
         name={name}
         validate={validate}
         defaultValue={defaultValue}
-        render={({ input }) => {
-          return (
-            <AntSwitchWithStyle
-              onChange={input.onChange}
-              checked={input.checked}
-              data-testid={dataTestId}
-            />
-          );
-        }}
+        render={({ input }) => (
+          <AntSwitchWithStyle
+            onChange={input.onChange}
+            checked={input.checked}
+            data-testid={dataTestId}
+          />
+        )}
       />
       <Box ml={1}>{onLabel}</Box>
     </Box>

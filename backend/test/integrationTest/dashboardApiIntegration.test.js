@@ -50,8 +50,8 @@ describe('Integration test for dashboard api', () => {
     await dbHandler.closeDatabase();
     dbHandler.clearTestUpload(TEST_FOLDER_EXTENSION);
   });
-  describe('POST /dashboard', function () {
-    it('should save dashboard to database', async function () {
+  describe('POST /dashboard', () => {
+    it('should save dashboard to database', async () => {
       const response = await request(app).post('/dashboard').send({ dashboardData }).expect(200);
       const { dashboardId } = response.body;
       const dashboardRow = parseDBObject(
@@ -61,8 +61,8 @@ describe('Integration test for dashboard api', () => {
     });
   });
 
-  describe('POST /dashboard/creat-new', function () {
-    it('should save dashboard to database', async function () {
+  describe('POST /dashboard/creat-new', () => {
+    it('should save dashboard to database', async () => {
       const response = await request(app)
         .post('/dashboard/create-new')
         .send({ dashboardData })
@@ -75,22 +75,22 @@ describe('Integration test for dashboard api', () => {
     });
   });
 
-  describe('Get /dashboard', function () {
-    it('should get all dashboards from database', async function () {
+  describe('Get /dashboard', () => {
+    it('should get all dashboards from database', async () => {
       dashboardModel.insertMany([dashboardData]);
       const response = await request(app).get('/dashboard').expect(200);
       expect(response.body.dashboards.length).toEqual(1);
     });
   });
-  describe('Get /dashboard', function () {
-    it('should get all dashboards from database', async function () {
+  describe('Get /dashboard', () => {
+    it('should get all dashboards from database', async () => {
       dashboardModel.insertMany([dashboardData]);
       const response = await request(app).get('/dashboard').expect(200);
       expect(response.body.dashboards.length).toEqual(1);
     });
   });
   describe('Delete /dashboard:id', () => {
-    it('should delete dashboard from database for given id along  with its mapping', async function () {
+    it('should delete dashboard from database for given id along  with its mapping', async () => {
       const insertedData = await dashboardModel.insertMany([dashboardData]);
       const { _id: dashboardId } = insertedData[0];
 

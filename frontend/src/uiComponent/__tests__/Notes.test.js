@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { createEvent, fireEvent } from '@testing-library/dom';
+import { createEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/dom';
 import Notes from '../Notes';
 
 describe('<Notes />', () => {
@@ -30,7 +30,7 @@ describe('<Notes />', () => {
 
     fireEvent(textarea, event);
 
-    fireEvent.blur(textarea);
+    fireEvent.focusOut(textarea);
 
     expect(onBlur).toHaveBeenCalled();
   });

@@ -68,7 +68,7 @@ describe('api', () => {
 
   afterAll(() => {
     if (fs.existsSync(TEST_FILE_UPLOAD_PATH)) {
-      fs.rmSync(TEST_FILE_UPLOAD_PATH);
+      fs.rmSync(TEST_FILE_UPLOAD_PATH, { recursive: true });
     }
   });
 
@@ -235,7 +235,7 @@ describe('api', () => {
     });
   });
 
-  describe('Post /datasources', function () {
+  describe('Post /datasources', () => {
     it('should upload file csv successfully', async () => {
       await request(app)
         .post('/datasources')

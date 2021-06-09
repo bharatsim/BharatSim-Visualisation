@@ -2,9 +2,7 @@ const errors = {
   columnNotFound: { errorCode: 1001, errorMessage: 'One or more columns not found' },
   dataSourceNotFound: {
     errorCode: 1002,
-    errorMessage: (dataSourceName) => {
-      return `datasource with id ${dataSourceName} not found`;
-    },
+    errorMessage: (dataSourceName) => `datasource with id ${dataSourceName} not found`,
   },
   technicalError: { errorCode: 1003, errorMessage: (message) => `Technical error ${message}` },
   updateDashboardInvalidInput: {

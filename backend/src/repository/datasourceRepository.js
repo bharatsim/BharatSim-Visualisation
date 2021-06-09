@@ -40,11 +40,7 @@ async function bulkDeleteDataSources(datasourceIds) {
   const connection = mongoService.getConnection();
   const db = await connection.db();
 
-  return Promise.all(
-    datasourceIds.map(async (datsourceId) => {
-      return db.dropCollection(datsourceId);
-    }),
-  );
+  return Promise.all(datasourceIds.map(async (datsourceId) => db.dropCollection(datsourceId)));
 }
 
 async function bulkDeleteCsv(datasourceIds) {

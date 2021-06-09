@@ -30,25 +30,19 @@ function DropdownMenu({ anchorEl, closeMenu, menuItems }) {
       }}
       getContentAnchorEl={null}
     >
-      {menuItems.map(({ icon, label, onClick, dataTestId, withDivider = false }) => {
-        return (
-          <div key={dataTestId}>
-            {withDivider && <Divider />}
-            <MenuItem
-              onClick={onClick}
-              classes={{ root: menuClasses.root }}
-              data-testid={dataTestId}
-            >
-              <Box className={menuClasses.menuOption}>
-                {icon}
-                <Box ml={4}>
-                  <Typography variant="body2">{label}</Typography>
-                </Box>
+      {menuItems.map(({ icon, label, onClick, dataTestId, withDivider = false }) => (
+        <div key={dataTestId}>
+          {withDivider && <Divider />}
+          <MenuItem onClick={onClick} classes={{ root: menuClasses.root }} data-testid={dataTestId}>
+            <Box className={menuClasses.menuOption}>
+              {icon}
+              <Box ml={4}>
+                <Typography variant="body2">{label}</Typography>
               </Box>
-            </MenuItem>
-          </div>
-        );
-      })}
+            </Box>
+          </MenuItem>
+        </div>
+      ))}
     </Menu>
   );
 }

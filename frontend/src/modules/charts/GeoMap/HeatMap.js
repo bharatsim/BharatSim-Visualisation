@@ -35,13 +35,8 @@ function HeatMap({ config }) {
 
   const classes = useStyles();
   const [fetchedData, setFetchedData] = useState();
-  const {
-    loadingState,
-    message,
-    startLoader,
-    stopLoaderAfterError,
-    stopLoaderAfterSuccess,
-  } = useLoader();
+  const { loadingState, message, startLoader, stopLoaderAfterError, stopLoaderAfterSuccess } =
+    useLoader();
 
   useEffect(() => {
     fetchData();

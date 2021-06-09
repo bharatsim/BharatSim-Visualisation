@@ -38,30 +38,28 @@ function ChartSelectorStep({ onNext }) {
           Choose a chart type to start configuring your chart
         </Typography>
         <Box className={classes.chartSelectorContainer}>
-          {Object.keys(chartGroups).map((chartGroupName) => {
-            return (
-              <Box mb={6} key={chartGroupName}>
-                <Box mb={2}>
-                  <Typography variant="subtitle2">{chartGroupName}</Typography>
-                </Box>
-                <Box className={classes.chartTypeContainer}>
-                  {chartGroups[chartGroupName].map((chartType) => {
-                    const chartConfig = chartConfigs[chartType];
-                    return (
-                      <ImageOption
-                        key={chartConfig.key}
-                        dataTestId={chartConfig.key}
-                        value={chartConfig.key}
-                        label={chartConfig.label}
-                        icon={<img src={chartConfig.icon} alt={chartConfig.key} />}
-                        onCLick={onChartClick}
-                      />
-                    );
-                  })}
-                </Box>
+          {Object.keys(chartGroups).map((chartGroupName) => (
+            <Box mb={6} key={chartGroupName}>
+              <Box mb={2}>
+                <Typography variant="subtitle2">{chartGroupName}</Typography>
               </Box>
-            );
-          })}
+              <Box className={classes.chartTypeContainer}>
+                {chartGroups[chartGroupName].map((chartType) => {
+                  const chartConfig = chartConfigs[chartType];
+                  return (
+                    <ImageOption
+                      key={chartConfig.key}
+                      dataTestId={chartConfig.key}
+                      value={chartConfig.key}
+                      label={chartConfig.label}
+                      icon={<img src={chartConfig.icon} alt={chartConfig.key} />}
+                      onCLick={onChartClick}
+                    />
+                  );
+                })}
+              </Box>
+            </Box>
+          ))}
         </Box>
       </Box>
     </Box>

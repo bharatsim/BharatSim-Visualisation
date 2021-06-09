@@ -13,16 +13,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/projects', projectRoutes);
 
-describe('ProjectController', function () {
-  describe('Post /', function () {
-    it('should create new project for given config', async function () {
+describe('ProjectController', () => {
+  describe('Post /', () => {
+    it('should create new project for given config', async () => {
       projectService.addNewProject.mockResolvedValue({ projectId: '_id' });
 
       await request(app).post('/projects').send({ projectData: 'Data' }).expect(200);
 
       expect(projectService.addNewProject).toHaveBeenCalledWith('Data');
     });
-    it('should throw invalid input exception while creating new project with invalid data', async function () {
+    it('should throw invalid input exception while creating new project with invalid data', async () => {
       projectService.addNewProject.mockRejectedValue(new InvalidInputException('Message'));
 
       await request(app)
@@ -31,7 +31,7 @@ describe('ProjectController', function () {
         .expect(400)
         .expect({ errorMessage: 'Invalid Input - Message' });
     });
-    it('should throw technical error for technical failure', async function () {
+    it('should throw technical error for technical failure', async () => {
       projectService.addNewProject.mockRejectedValue(new Error('Message'));
 
       await request(app)
@@ -41,15 +41,15 @@ describe('ProjectController', function () {
         .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
     });
   });
-  describe('Put /', function () {
-    it('should update existing project with given config', async function () {
+  describe('Put /', () => {
+    it('should update existing project with given config', async () => {
       projectService.updateProject.mockResolvedValue({ projectId: '_id' });
 
       await request(app).put('/projects').send({ projectData: 'Data' }).expect(200);
 
       expect(projectService.updateProject).toHaveBeenCalledWith('Data');
     });
-    it('should throw invalid input exception while saving already existing project', async function () {
+    it('should throw invalid input exception while saving already existing project', async () => {
       projectService.updateProject.mockRejectedValue(new InvalidInputException('Message'));
 
       await request(app)
@@ -58,7 +58,7 @@ describe('ProjectController', function () {
         .expect(400)
         .expect({ errorMessage: 'Invalid Input - Message' });
     });
-    it('should throw technical error for technical failure', async function () {
+    it('should throw technical error for technical failure', async () => {
       projectService.updateProject.mockRejectedValue(new Error('Message'));
 
       await request(app)
@@ -69,15 +69,15 @@ describe('ProjectController', function () {
     });
   });
 
-  describe('Get /projects/', function () {
-    it('should  fetch all the saved projects list', async function () {
+  describe('Get /projects/', () => {
+    it('should  fetch all the saved projects list', async () => {
       projectService.getAllProjects.mockResolvedValueOnce({ projects: {} });
 
       await request(app).get('/projects/').expect(200);
 
       expect(projectService.getAllProjects).toHaveBeenCalled();
     });
-    it('should throw and technical error for any failure', async function () {
+    it('should throw and technical error for any failure', async () => {
       projectService.getAllProjects.mockRejectedValueOnce(new Error('Message'));
 
       await request(app)
@@ -85,7 +85,7 @@ describe('ProjectController', function () {
         .expect(500)
         .expect({ errorMessage: 'Technical error Message', errorCode: 1003 });
     });
-    it('should  project with matching Id', async function () {
+    it('should  project with matching Id', async () => {
       projectService.getProject.mockResolvedValueOnce({ project: {} });
 
       await request(app).get('/projects/id').expect(200);
@@ -93,7 +93,7 @@ describe('ProjectController', function () {
       expect(projectService.getProject).toHaveBeenCalledWith('id');
     });
 
-    it('should throw technical error for any failure', async function () {
+    it('should throw technical error for any failure', async () => {
       projectService.getProject.mockRejectedValue(new Error('Message'));
 
       await request(app)
@@ -104,7 +104,7 @@ describe('ProjectController', function () {
       expect(projectService.getProject).toHaveBeenCalledWith('id');
     });
 
-    it('should throw not found error for project id not found', async function () {
+    it('should throw not found error for project id not found', async () => {
       projectService.getProject.mockRejectedValue(new NotFoundException('message', 123));
 
       await request(app)

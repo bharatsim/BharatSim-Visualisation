@@ -24,8 +24,8 @@ const api = {
     notes = '',
     isCustomLoader = true,
     isCustomErrorHandler = true,
-  }) => {
-    return uploadData({
+  }) =>
+    uploadData({
       url: serviceURL.DASHBOARD_URL,
       headers: headerBuilder({ contentType: contentTypes.JSON }),
       data: JSON.stringify({
@@ -33,19 +33,17 @@ const api = {
       }),
       isCustomErrorHandler,
       isCustomLoader,
-    });
-  },
+    }),
 
-  addNewDashboard: async ({ name, projectId }) => {
-    return uploadData({
+  addNewDashboard: async ({ name, projectId }) =>
+    uploadData({
       url: serviceURL.INSERT_DASHBOARD,
       headers: headerBuilder({ contentType: contentTypes.JSON }),
       data: JSON.stringify({
         dashboardData: { widgets: [], layout: [], name, count: 0, projectId },
       }),
       isCustomErrorHandler: true,
-    });
-  },
+    }),
 
   getAllDashBoardByProjectId: async (projectId) =>
     fetchData({
@@ -71,21 +69,19 @@ const api = {
       method: httpMethods.DELETE,
     }),
 
-  deleteDatasources: async (datasourceIds) => {
-    return fetchData({
+  deleteDatasources: async (datasourceIds) =>
+    fetchData({
       url: serviceURL.DATA_SOURCES,
       method: httpMethods.DELETE,
       isCustomErrorHandler: true,
       query: { datasourceIds },
-    });
-  },
+    }),
 
-  deleteDatasource: async (datasourceId) => {
-    return fetchData({
+  deleteDatasource: async (datasourceId) =>
+    fetchData({
       url: serviceURL.getDatasourceUrl(datasourceId),
       method: httpMethods.DELETE,
-    });
-  },
+    }),
 
   getAllDashBoard: async () => fetchData({ url: serviceURL.DASHBOARD_URL }),
 
@@ -169,49 +165,42 @@ const api = {
     });
   },
 
-  getProjects: async () => {
-    return fetchData({
+  getProjects: async () =>
+    fetchData({
       url: serviceURL.PROJECT_URL,
-    });
-  },
-  getProject: async (id) => {
-    return fetchData({
+    }),
+  getProject: async (id) =>
+    fetchData({
       url: serviceURL.getProjectUrl(id),
-    });
-  },
-  addDatasourceDashboardMaps: async (datasourceDashboardMaps) => {
-    return uploadData({
+    }),
+  addDatasourceDashboardMaps: async (datasourceDashboardMaps) =>
+    uploadData({
       url: serviceURL.DATASOURCE_DASHBOARD_MAP,
       data: { datasourceDashboardMaps },
       method: httpMethods.POST,
-    });
-  },
-  removeDatasourceDashboardMaps: async ({ datasourceId, dashboardId }) => {
-    return uploadData({
+    }),
+  removeDatasourceDashboardMaps: async ({ datasourceId, dashboardId }) =>
+    uploadData({
       url: serviceURL.DATASOURCE_DASHBOARD_MAP,
       data: { dashboardId, datasourceId },
       method: httpMethods.DELETE,
-    });
-  },
-  addColumn: async (datasourceId, expression, columnName) => {
-    return uploadData({
+    }),
+  addColumn: async (datasourceId, expression, columnName) =>
+    uploadData({
       url: `${serviceURL.getDatasourceUrl(datasourceId)}/column`,
       data: { columnName, expression },
       method: httpMethods.PUT,
-    });
-  },
-  getDataSourceMetaData: async (datasourceId) => {
-    return fetchData({
+    }),
+  getDataSourceMetaData: async (datasourceId) =>
+    fetchData({
       url: `${serviceURL.getDatasourceUrl(datasourceId)}/metadata`,
-    });
-  },
-  deleteColumn: async ({ columnName, datasourceId }) => {
-    return uploadData({
+    }),
+  deleteColumn: async ({ columnName, datasourceId }) =>
+    uploadData({
       url: `${serviceURL.getDatasourceUrl(datasourceId)}/column`,
       data: { columnName },
       method: httpMethods.DELETE,
-    });
-  },
+    }),
 };
 
 export { api };

@@ -5,35 +5,33 @@ import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import ErrorButton from './ErrorButton';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    errorTitle: {
-      fontWeight: theme.typography.fontWeightBold,
-      lineHeight: 1,
-      color: theme.palette.error.dark,
-    },
-    errorMessage: {
-      lineHeight: 1,
-      color: theme.palette.error.dark,
-    },
-    hidden: {
-      visibility: 'hidden',
-      height: theme.spacing(8),
-    },
-    errorBox: {
-      display: 'flex',
-      minHeight: theme.spacing(8),
-      border: '1px solid',
-      borderRadius: theme.spacing(1),
-      borderColor: '#FFC5B3',
-      backgroundColor: '#FFEEE8',
-      padding: theme.spacing(2, 6),
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      width: ({ fullWidth }) => (fullWidth ? '100%' : 'fit-content'),
-    },
-  };
-});
+const useStyles = makeStyles((theme) => ({
+  errorTitle: {
+    fontWeight: theme.typography.fontWeightBold,
+    lineHeight: 1,
+    color: theme.palette.error.dark,
+  },
+  errorMessage: {
+    lineHeight: 1,
+    color: theme.palette.error.dark,
+  },
+  hidden: {
+    visibility: 'hidden',
+    height: theme.spacing(8),
+  },
+  errorBox: {
+    display: 'flex',
+    minHeight: theme.spacing(8),
+    border: '1px solid',
+    borderRadius: theme.spacing(1),
+    borderColor: '#FFC5B3',
+    backgroundColor: '#FFEEE8',
+    padding: theme.spacing(2, 6),
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: ({ fullWidth }) => (fullWidth ? '100%' : 'fit-content'),
+  },
+}));
 
 function ErrorBar({ visible, message, errorAction, fullWidth }) {
   const classes = useStyles({ fullWidth });

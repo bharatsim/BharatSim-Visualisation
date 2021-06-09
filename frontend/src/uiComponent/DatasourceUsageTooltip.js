@@ -27,21 +27,19 @@ function DatasourceUsageTooltip({ usage, dashboardUsage }) {
   return (
     <LightTooltip
       arrow
-      title={usage.map(({ project: { name: projectName, id }, dashboards }, index) => {
-        return (
-          <div key={id}>
-            <Box display="flex" alignItems="center">
-              <Typography variant="subtitle2">Project:&nbsp;</Typography>
-              <Typography variant="body2">{projectName}</Typography>
-            </Box>
-            <Box display="flex" alignItems="center">
-              <Typography variant="subtitle2">Dashboard:&nbsp;</Typography>
-              <Typography variant="body2">{dashboards.join(', ')}</Typography>
-            </Box>
-            {index !== lastIndex && <br />}
-          </div>
-        );
-      })}
+      title={usage.map(({ project: { name: projectName, id }, dashboards }, index) => (
+        <div key={id}>
+          <Box display="flex" alignItems="center">
+            <Typography variant="subtitle2">Project:&nbsp;</Typography>
+            <Typography variant="body2">{projectName}</Typography>
+          </Box>
+          <Box display="flex" alignItems="center">
+            <Typography variant="subtitle2">Dashboard:&nbsp;</Typography>
+            <Typography variant="body2">{dashboards.join(', ')}</Typography>
+          </Box>
+          {index !== lastIndex && <br />}
+        </div>
+      ))}
     >
       <span className={classes.text}>{dashboardUsage}</span>
     </LightTooltip>

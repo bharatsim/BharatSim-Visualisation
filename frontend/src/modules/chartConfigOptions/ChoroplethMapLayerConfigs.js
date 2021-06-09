@@ -35,13 +35,8 @@ function ChoroplethMapLayerConfig({ headers, configKey, shouldShowReferenceIdCon
   const { getFieldState } = useForm();
   const dataSourceId = getFieldState(`${configKey}.${choroplethConfigTypes.MAP_LAYER}`)?.value;
 
-  const {
-    stopLoaderAfterSuccess,
-    stopLoaderAfterError,
-    startLoader,
-    loadingState,
-    message,
-  } = useLoader(loaderStates.SUCCESS);
+  const { stopLoaderAfterSuccess, stopLoaderAfterError, startLoader, loadingState, message } =
+    useLoader(loaderStates.SUCCESS);
   const [geoJsonProperties, setGeoJsonProperties] = useState();
 
   async function fetchCsvHeaders() {

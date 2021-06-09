@@ -87,7 +87,7 @@ describe('ChoroplethUtils', () => {
     const scale = {
       0.0: 'white',
       0.5: 'blue',
-      '1': 'red',
+      1: 'red',
     };
     const idDataMap = { 1: 0, 2: 15, 3: 30 };
     const getFeatureStyle = geoJSONStyle(idDataMap, 'id', 30, scale, 0);

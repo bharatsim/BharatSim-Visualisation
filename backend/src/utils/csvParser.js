@@ -7,7 +7,10 @@ const { csvParsingError } = require('../exceptions/errors');
 const invalidCharRgx = /[^A-Za-z0-9-_ ]/g;
 const invalidStartingChar = /^[^A-Za-z]/g;
 
-function validateColumnName(name, fields) {
+function validateColumnName(name, fields, isEditMode = false) {
+  if (isEditMode) {
+    return '';
+  }
   if (name === '') {
     return 'Column name is required';
   }

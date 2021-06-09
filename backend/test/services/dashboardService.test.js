@@ -15,15 +15,15 @@ jest.mock('../../src/repository/dashboardDatasourceMapRepository');
 const dashboardDataToUpdate = { dashboardId: 'id', dataConfig: { name: 'newName' } };
 const dashboardDataToAdd = { dashboardId: undefined, dataConfig: { name: 'name' } };
 
-describe('Dashboard Service', function () {
-  it('should insert dashboard data if id is undefined ', function () {
+describe('Dashboard Service', () => {
+  it('should insert dashboard data if id is undefined ', () => {
     dashboardRepository.insert.mockResolvedValue({ _id: 'new_id' });
 
     saveDashboard(dashboardDataToAdd);
 
     expect(dashboardRepository.insert).toHaveBeenCalledWith({ dataConfig: { name: 'name' } });
   });
-  it('should insert dashboard data if id is undefined and return new id', async function () {
+  it('should insert dashboard data if id is undefined and return new id', async () => {
     dashboardRepository.insert.mockResolvedValue({ _id: 'new_id' });
 
     const result = await saveDashboard(dashboardDataToAdd);
@@ -31,13 +31,13 @@ describe('Dashboard Service', function () {
     expect(result).toEqual({ dashboardId: 'new_id' });
   });
 
-  it('should update dashboard data for given id ', function () {
+  it('should update dashboard data for given id ', () => {
     saveDashboard(dashboardDataToUpdate);
     expect(dashboardRepository.update).toHaveBeenCalledWith('id', {
       dataConfig: { name: 'newName' },
     });
   });
-  it('should throw error for invalid inputs while updating', async function () {
+  it('should throw error for invalid inputs while updating', async () => {
     dashboardRepository.update.mockImplementationOnce(() => {
       throw new Error('msg');
     });
@@ -49,7 +49,7 @@ describe('Dashboard Service', function () {
       new InvalidInputException('Error while updating dashboard with invalid data', '1004'),
     );
   });
-  it('should throw error for invalid inputs while inserting', async function () {
+  it('should throw error for invalid inputs while inserting', async () => {
     dashboardRepository.insert.mockRejectedValue(new Error('msg'));
 
     const result = async () => {
@@ -60,26 +60,26 @@ describe('Dashboard Service', function () {
     );
   });
 
-  it('should update dashboard data and return new id', async function () {
+  it('should update dashboard data and return new id', async () => {
     const result = await saveDashboard(dashboardDataToUpdate);
 
     expect(result).toEqual({ dashboardId: 'id' });
   });
 
-  it('should called getAll dashboards', async function () {
+  it('should called getAll dashboards', async () => {
     await getAllDashboards();
 
     expect(dashboardRepository.getAll).toHaveBeenCalled();
   });
 
-  it('should get all dashboards', async function () {
+  it('should get all dashboards', async () => {
     dashboardRepository.getAll.mockResolvedValue([{ _id: '123' }, { _id: '123' }]);
 
     const fetchedDashboard = await getAllDashboards();
 
     expect(fetchedDashboard).toEqual({ dashboards: [{ _id: '123' }, { _id: '123' }] });
   });
-  it('should called get dashboard by dashboard id', async function () {
+  it('should called get dashboard by dashboard id', async () => {
     dashboardRepository.getOne.mockResolvedValue({ _id: 'dashboardId' });
     const fetchedDashboard = await getDashboard('dashboardId');
 
@@ -88,7 +88,7 @@ describe('Dashboard Service', function () {
     });
   });
 
-  it('should called getAll dashboards by projectId', async function () {
+  it('should called getAll dashboards by projectId', async () => {
     await getAllDashboards({ projectId: 'projectId' }, ['name', '_id']);
 
     expect(dashboardRepository.getAll).toHaveBeenCalledWith(
@@ -96,11 +96,11 @@ describe('Dashboard Service', function () {
       { _id: 1, name: 1 },
     );
   });
-  it('should call getOne dashboard by dashboard id', async function () {
+  it('should call getOne dashboard by dashboard id', async () => {
     await getDashboard('dashboardId');
     expect(dashboardRepository.getOne).toHaveBeenCalledWith('dashboardId');
   });
-  it('should call deleteOne dashboard and its datasource mapping given dashboard id', async function () {
+  it('should call deleteOne dashboard and its datasource mapping given dashboard id', async () => {
     dashboardDatasourceMapRepository.deleteDatasourceMapping.mockResolvedValueOnce({
       deletedCount: 1,
     });

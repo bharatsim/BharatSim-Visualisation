@@ -4,8 +4,6 @@ const FormContext = React.createContext({});
 
 const FormProvider = FormContext.Provider;
 
-const useFormContext = () => {
-  return useContext(FormContext);
-};
+const useFormContext = () => useContext(FormContext);
 
 export { FormContext, FormProvider, useFormContext };

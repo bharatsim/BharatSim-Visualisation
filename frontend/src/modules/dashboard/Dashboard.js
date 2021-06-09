@@ -24,25 +24,23 @@ const ROW_HEIGHT = 145;
 
 const GridLayout = WidthProvider(ReactGridLayout);
 
-const useStyles = makeStyles((theme) => {
-  return {
-    reactGridLayout: {
-      background: theme.palette.background.default,
-      minHeight: theme.spacing(75),
-      '& .react-grid-item': {
-        background: theme.palette.background.paper,
-        border: '1px solid',
-        borderColor: fade(theme.colors.primaryColorScale['500'], 0.24),
-        borderRadius: theme.spacing(1),
-      },
+const useStyles = makeStyles((theme) => ({
+  reactGridLayout: {
+    background: theme.palette.background.default,
+    minHeight: theme.spacing(75),
+    '& .react-grid-item': {
+      background: theme.palette.background.paper,
+      border: '1px solid',
+      borderColor: fade(theme.colors.primaryColorScale['500'], 0.24),
+      borderRadius: theme.spacing(1),
     },
-    gridContainer: {
-      height: `calc(100vh - ${theme.spacing(40)}px)`,
-      overflowY: 'scroll',
-      paddingBottom: theme.spacing(17),
-    },
-  };
-});
+  },
+  gridContainer: {
+    height: `calc(100vh - ${theme.spacing(40)}px)`,
+    overflowY: 'scroll',
+    paddingBottom: theme.spacing(17),
+  },
+}));
 
 function Dashboard() {
   const { isOpen, closeModal, openModal } = useModal();
@@ -227,16 +225,16 @@ function Dashboard() {
               margin={[32, 32]}
               draggableHandle=".dragHandler"
             >
-              {charts.map((item) => {
-                return renderWidget({
+              {charts.map((item) =>
+                renderWidget({
                   chart: item,
                   dashboardId,
                   onDelete: onDeleteWidget,
                   onEdit: onEditWidget,
                   dashboardLayout: layout,
                   onDuplicate,
-                });
-              })}
+                }),
+              )}
             </GridLayout>
           )}
         </Box>

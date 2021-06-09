@@ -10,7 +10,7 @@ const projectConfig = { name: 'project1' };
 const projectConfig1 = { name: 'project2' };
 const projectConfig2 = { name: 'project3' };
 
-describe('ProjectRepository', function () {
+describe('ProjectRepository', () => {
   beforeAll(async () => {
     await dbHandler.connect();
   });
@@ -20,30 +20,30 @@ describe('ProjectRepository', function () {
   afterAll(async () => {
     await dbHandler.closeDatabase();
   });
-  it('should add new project', async function () {
+  it('should add new project', async () => {
     const { _id } = await ProjectRepository.insert(projectConfig);
     expect(parseMongoDBResult(await Project.findOne({ _id }, { __v: 0, _id: 0 }))).toEqual({
       name: 'project1',
     });
   });
-  it('should get list of all the saved projects', async function () {
+  it('should get list of all the saved projects', async () => {
     await ProjectRepository.insert(projectConfig);
     await ProjectRepository.insert(projectConfig1);
     await ProjectRepository.insert(projectConfig2);
     const allProjects = await ProjectRepository.getAll();
     expect(allProjects.length).toEqual(3);
   });
-  it('should get project with matching id', async function () {
+  it('should get project with matching id', async () => {
     const { _id } = await ProjectRepository.insert(projectConfig);
     const project = parseMongoDBResult(await ProjectRepository.getOne(_id));
     expect(project).toEqual({ _id: _id.toString(), name: 'project1' });
   });
-  it('should return null if  project with matching id is not available', async function () {
+  it('should return null if  project with matching id is not available', async () => {
     await ProjectRepository.insert(projectConfig);
     const project = parseMongoDBResult(await ProjectRepository.getOne('5f6c7a827b048512641dabd7'));
     expect(project).toEqual(null);
   });
-  it('should update the existing project', async function () {
+  it('should update the existing project', async () => {
     const projectModel1 = new ProjectModel(projectConfig);
     const { _id } = await projectModel1.save();
 

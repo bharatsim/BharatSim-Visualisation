@@ -7,13 +7,11 @@ import useForm from '../../hook/useForm';
 import InputTextField from '../../uiComponent/InputTextField';
 import useCreateDashboard from '../../hook/useCreateDashboard';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    addProjectModal: {
-      width: theme.spacing(150),
-    },
-  };
-});
+const useStyles = makeStyles((theme) => ({
+  addProjectModal: {
+    width: theme.spacing(150),
+  },
+}));
 
 const inputFields = {
   project: {

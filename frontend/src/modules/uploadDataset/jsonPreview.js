@@ -4,19 +4,17 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    jsonContainer: {
-      maxHeight: theme.spacing(86),
-      overflow: 'scroll',
-    },
-    jsonViewer: {
-      border: '1px solid',
-      borderRadius: theme.spacing(1),
-      borderColor: `${theme.colors.primaryColorScale['500']}3D`,
-    },
-  };
-});
+const useStyles = makeStyles((theme) => ({
+  jsonContainer: {
+    maxHeight: theme.spacing(86),
+    overflow: 'scroll',
+  },
+  jsonViewer: {
+    border: '1px solid',
+    borderRadius: theme.spacing(1),
+    borderColor: `${theme.colors.primaryColorScale['500']}3D`,
+  },
+}));
 const jsonViewerConfig = {
   collapsed: true,
   enableClipboard: false,

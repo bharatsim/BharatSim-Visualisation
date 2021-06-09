@@ -10,8 +10,8 @@ import {
 describe('dashboard reducer', () => {
   const initialState = { autoSaveStatus: {}, dashboards: {} };
   const existingState = {
-    autoSaveStatus: { '101': { saving: true } },
-    dashboards: { '101': { name: 'existing' } },
+    autoSaveStatus: { 101: { saving: true } },
+    dashboards: { 101: { name: 'existing' } },
   };
   const mockDate = new Date(1466424490000);
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'react-draft-wysiwyg';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+import clsx from 'clsx';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { makeStyles } from '@material-ui/core/styles';
 import theme from '../theme/theme';
@@ -67,8 +68,8 @@ function Notes({ text, onBlur }) {
     <Editor
       editorState={editorState}
       onEditorStateChange={handleChange}
-      wrapperClassName={classes.container}
-      editorClassName={classes.editor}
+      wrapperClassName={clsx(classes.container, 'wrapper-textarea')}
+      editorClassName={clsx(classes.editor, 'editor-textarea')}
       toolbarClassName={classes.toolbar}
       onBlur={handleBlur}
       placeholder="Click to add insights/notes"

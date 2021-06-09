@@ -294,7 +294,7 @@ describe('datasourceService', () => {
 
     expect(data).toEqual({ deletedCount: 2 });
   });
-  describe('mocked function testing', function () {
+  describe('mocked function testing', () => {
     beforeEach(async () => {
       jest.clearAllMocks();
       dataSourceMetadataRepository.getDataSourceSchemaById.mockResolvedValue({
@@ -309,15 +309,15 @@ describe('datasourceService', () => {
       await datasourceService.getData(dataSourceId, ['hour']);
     });
 
-    it('should getDataSourceSchema to have been called with dataSource name', function () {
+    it('should getDataSourceSchema to have been called with dataSource name', () => {
       expect(dataSourceMetadataRepository.getDataSourceSchemaById).toHaveBeenCalledWith('model');
     });
 
-    it('should dataSourceRepository.getData to have been called with created model', function () {
+    it('should dataSourceRepository.getData to have been called with created model', () => {
       expect(dataSourceRepository.getData).toHaveBeenCalledWith('DataSourceModel', { hour: 1 }, 0);
     });
 
-    it('should createModel to have been called with dataSource name and schema', function () {
+    it('should createModel to have been called with dataSource name and schema', () => {
       expect(modelCreator.getOrCreateModel).toHaveBeenCalledWith('model', 'DataSourceSchema');
     });
   });

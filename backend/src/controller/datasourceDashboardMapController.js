@@ -3,24 +3,20 @@ const { sendServerError } = require('../exceptions/exceptionUtils');
 
 const datasourceDashboardMapService = require('../services/datasourceDashboardMapService');
 
-router.post('/', async function (req, res) {
+router.post('/', async (req, res) => {
   const { datasourceDashboardMaps } = req.body;
   datasourceDashboardMapService
     .addDatasourceDashboardMaps(datasourceDashboardMaps)
-    .then((data) => {
-      return res.json(data);
-    })
+    .then((data) => res.json(data))
     .catch((err) => {
       sendServerError(err, res);
     });
 });
-router.delete('/', async function (req, res) {
+router.delete('/', async (req, res) => {
   const { datasourceId, dashboardId } = req.body;
   datasourceDashboardMapService
     .deleteDatasourceDashboardMap({ datasourceId, dashboardId })
-    .then((data) => {
-      return res.json(data);
-    })
+    .then((data) => res.json(data))
     .catch((err) => {
       sendServerError(err, res);
     });

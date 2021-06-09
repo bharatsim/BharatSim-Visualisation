@@ -19,21 +19,19 @@ function SelectField({
       name={name}
       validate={validate}
       defaultValue={defaultValue}
-      render={({ input, meta }) => {
-        return (
-          <Dropdown
-            onChange={input.onChange}
-            value={input.value || ''}
-            error={meta.touched && meta.error ? meta.error : ''}
-            options={options}
-            label={label}
-            id={id}
-            multiple={multiple}
-            disabled={disabled}
-            helperText={helperText}
-          />
-        );
-      }}
+      render={({ input, meta }) => (
+        <Dropdown
+          onChange={input.onChange}
+          value={input.value || ''}
+          error={meta.touched && meta.error ? meta.error : ''}
+          options={options}
+          label={label}
+          id={id}
+          multiple={multiple}
+          disabled={disabled}
+          helperText={helperText}
+        />
+      )}
     />
   );
 }

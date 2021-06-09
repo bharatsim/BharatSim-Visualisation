@@ -28,13 +28,8 @@ function ConfigSelector() {
 
   const dataSourceId = getFieldState(chartConfigOptionTypes.DATASOURCE)?.value;
 
-  const {
-    startLoader,
-    stopLoaderAfterSuccess,
-    stopLoaderAfterError,
-    loadingState,
-    message,
-  } = useLoader();
+  const { startLoader, stopLoaderAfterSuccess, stopLoaderAfterError, loadingState, message } =
+    useLoader();
 
   useEffect(() => {
     if (dataSourceId) fetchCsvHeaders();

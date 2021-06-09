@@ -12,9 +12,8 @@ const mockHistoryPush = jest.fn();
 const mockHistoryReplace = jest.fn();
 
 function DummyComponent() {
-  const { projectMetadata, selectedDashboardMetadata, addDashboard } = useContext(
-    projectLayoutContext,
-  );
+  const { projectMetadata, selectedDashboardMetadata, addDashboard } =
+    useContext(projectLayoutContext);
   return (
     <div>
       <div>ProjectLayout Child</div>

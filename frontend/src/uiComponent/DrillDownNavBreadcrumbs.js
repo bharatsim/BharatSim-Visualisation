@@ -36,13 +36,11 @@ function DrillDownNavBreadcrumbs({ items }) {
       aria-label="breadcrumb"
       style={{ zIndex: 23 }}
     >
-      {items.map(({ label, onClick }) => {
-        return (
-          <TextButton variant="text" onClick={onClick} size="small" disableRipple key={label}>
-            {label}
-          </TextButton>
-        );
-      })}
+      {items.map(({ label, onClick }) => (
+        <TextButton variant="text" onClick={onClick} size="small" disableRipple key={label}>
+          {label}
+        </TextButton>
+      ))}
       <ListTypography variant="subtitle2">{lastItem.label}</ListTypography>
     </MuiBreadcrumbs>
   );

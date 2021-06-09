@@ -54,10 +54,8 @@ function EditDataSourceModal({ open, handleClose, datasourceId }) {
 
   async function fetchDatasourceMetadata() {
     const { datasourceMetaData } = await api.getDataSourceMetaData(datasourceId);
-    const {
-      dataSourceSchema: fetchedSchema,
-      customColumns: fetchedCustomColumns,
-    } = datasourceMetaData;
+    const { dataSourceSchema: fetchedSchema, customColumns: fetchedCustomColumns } =
+      datasourceMetaData;
     setCustomColumns(fetchedCustomColumns.map((column) => ({ ...column, isEditMode: true })));
     setSchema(fetchedSchema);
   }
@@ -89,9 +87,7 @@ function EditDataSourceModal({ open, handleClose, datasourceId }) {
 
   function deleteCustomColumn(columnIndex) {
     const prevColumnOfSelectedColumn = columnIndex - 1;
-    setCustomColumns((prevState) => {
-      return prevState.filter((_, index) => columnIndex !== index);
-    });
+    setCustomColumns((prevState) => prevState.filter((_, index) => columnIndex !== index));
     setSelectedTab(prevColumnOfSelectedColumn > 0 ? prevColumnOfSelectedColumn : 0);
   }
 

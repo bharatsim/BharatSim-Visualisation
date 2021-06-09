@@ -68,9 +68,7 @@ async function deleteDashboardAndMapping(dashboardId) {
 async function deleteDashboardsAndMappingWithProjectId(projectId) {
   const { dashboards } = await getAllDashboards({ projectId }, ['_id']);
   return Promise.all(
-    dashboards.map(({ _id: dashboardId }) => {
-      return deleteDashboardAndMapping(dashboardId.toString());
-    }),
+    dashboards.map(({ _id: dashboardId }) => deleteDashboardAndMapping(dashboardId.toString())),
   );
 }
 

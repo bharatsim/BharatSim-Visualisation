@@ -16,10 +16,7 @@ const useLabelStyle = makeStyles((theme) => ({
   }),
 }));
 
-const NavBarTab = forwardRef(function NavBarTab(
-  { onClick, name, dataTestId, tabIndex, onDelete, children },
-  ref,
-) {
+const NavBarTab = forwardRef(({ onClick, name, dataTestId, tabIndex, onDelete, children }, ref) => {
   const classes = useTabStyles();
   const isSelected = !tabIndex;
   const labelClasses = useLabelStyle({ isSelected });

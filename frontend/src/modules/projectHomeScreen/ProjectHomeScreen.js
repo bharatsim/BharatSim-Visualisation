@@ -7,18 +7,16 @@ import CreateNewDashboardModal from './CreateNewDashboardModal';
 import ProjectHeader from '../../uiComponent/ProjectHeader';
 import { projectLayoutContext } from '../../contexts/projectLayoutContext';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    addProjectContainer: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-      height: theme.spacing(66),
-      boxSizing: 'border-box',
-    },
-  };
-});
+const useStyles = makeStyles((theme) => ({
+  addProjectContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    height: theme.spacing(66),
+    boxSizing: 'border-box',
+  },
+}));
 
 function ProjectHomeScreen() {
   const classes = useStyles();

@@ -5,8 +5,8 @@ const InvalidInputException = require('../../src/exceptions/InvalidInputExceptio
 
 jest.mock('fs');
 
-describe('CSV parser', function () {
-  it('should provide parsed csv into json', function () {
+describe('CSV parser', () => {
+  it('should provide parsed csv into json', () => {
     fs.readFileSync.mockReturnValue(`hour,susceptible,exposed
 1,9999,1
 2,9999,1
@@ -21,7 +21,7 @@ describe('CSV parser', function () {
     ]);
   });
 
-  it('should throw error for invalid csv', function () {
+  it('should throw error for invalid csv', () => {
     fs.readFileSync.mockReturnValue(`hour,susceptible,exposed
 1,9999,1
 2,9999
@@ -38,7 +38,7 @@ describe('CSV parser', function () {
     );
   });
 
-  it('should throw error for csv if column name contain special character', function () {
+  it('should throw error for csv if column name contain special character', () => {
     fs.readFileSync.mockReturnValue(`hour%, susceptible,exposed
 1,9999,1
 2,9999,1
@@ -48,13 +48,13 @@ describe('CSV parser', function () {
 
     expect(result).toThrow(
       new InvalidInputException(
-        'Error while parsing csv' + ' - Column name can include alphabets, numbers, -, _ or space',
+        `Error while parsing csv - Column name can include alphabets, numbers, -, _ or space`,
         1011,
       ),
     );
   });
 
-  it('should throw error for csv if column name start without alphabet', function () {
+  it('should throw error for csv if column name start without alphabet', () => {
     fs.readFileSync.mockReturnValue(`$hour, susceptible,exposed
 1,9999,1
 2,9999,1
@@ -64,7 +64,7 @@ describe('CSV parser', function () {
 
     expect(result).toThrow(
       new InvalidInputException(
-        'Error while parsing csv' + ' - Column name should be start with alphabets',
+        `Error while parsing csv - Column name should be start with alphabets`,
         1011,
       ),
     );
@@ -108,11 +108,20 @@ describe('validate column name', () => {
     expect(error).toEqual('Column Name should be unique');
   });
 
-  it('should provide error if column name valid', () => {
+  it('should not provide error if column name valid', () => {
     const columnName = 'col3';
     const fields = ['col1', 'col2'];
 
     const error = validateColumnName(columnName, fields);
+
+    expect(error).toEqual('');
+  });
+
+  it('should not provide error if column is in edit mode', () => {
+    const columnName = 'col3';
+    const fields = ['col1', 'col2'];
+
+    const error = validateColumnName(columnName, fields, true);
 
     expect(error).toEqual('');
   });

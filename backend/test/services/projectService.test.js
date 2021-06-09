@@ -14,13 +14,13 @@ jest.mock('../../src/repository/projectRepository');
 jest.mock('../../src/repository/dashboardRepository');
 jest.mock('../../src/services/dashboardService');
 
-describe('Project service', function () {
-  it('should add new project', async function () {
+describe('Project service', () => {
+  it('should add new project', async () => {
     projectRepository.insert.mockResolvedValue({ _id: 'new_id' });
     await addNewProject({ name: 'project1' });
     expect(projectRepository.insert).toHaveBeenCalledWith({ name: 'project1' });
   });
-  it('should throw InvalidInputException for invalid input', async function () {
+  it('should throw InvalidInputException for invalid input', async () => {
     projectRepository.insert.mockRejectedValue(new Error());
 
     const result = async () => {
@@ -31,24 +31,24 @@ describe('Project service', function () {
       new InvalidInputException('Error while creating new project with invalid data', 1006),
     );
   });
-  it('should fetch all the saved projects', async function () {
+  it('should fetch all the saved projects', async () => {
     projectRepository.getAll.mockResolvedValue({ project: [] });
     await getAllProjects();
     expect(projectRepository.getAll).toHaveBeenCalled();
   });
-  it('should fetch project with matching id', async function () {
+  it('should fetch project with matching id', async () => {
     projectRepository.getOne.mockResolvedValue({ name: 'project' });
     await getProject('_id');
     expect(projectRepository.getOne).toHaveBeenCalledWith('_id');
   });
-  it('should update project for given id', async function () {
+  it('should update project for given id', async () => {
     projectRepository.update.mockResolvedValue({ _id: 'projectId' });
     await updateProject({ id: 'projectId', name: 'new name' });
     expect(projectRepository.update).toHaveBeenCalledWith('projectId', {
       name: 'new name',
     });
   });
-  it('should throw InvalidInputException for invalid input while updating', async function () {
+  it('should throw InvalidInputException for invalid input while updating', async () => {
     projectRepository.update.mockRejectedValue(new Error());
 
     const result = async () => {
@@ -60,7 +60,7 @@ describe('Project service', function () {
     );
   });
 
-  it('should throw NotFound exception if repository return null', async function () {
+  it('should throw NotFound exception if repository return null', async () => {
     projectRepository.getOne.mockReturnValueOnce(null);
 
     const result = async () => {

@@ -15,25 +15,23 @@ import { errors } from '../../constants/loaderAndErrorMessages';
 import { overlayLoaderOrErrorContext } from '../../contexts/overlayLoaderOrErrorContext';
 import DashboardHeaderBar from '../../uiComponent/DashboardHeaderBar';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    uploadHeader: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: theme.spacing(3, 8),
-      width: '100%',
-    },
-    contentWrapper: {
-      backgroundColor: '#FFFFFF',
-      border: '1px solid',
-      borderColor: `${theme.colors.primaryColorScale['500']}3d`,
-      borderRadius: theme.spacing(1),
-      margin: theme.spacing(8),
-      padding: theme.spacing(8, 10),
-    },
-  };
-});
+const useStyles = makeStyles((theme) => ({
+  uploadHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: theme.spacing(3, 8),
+    width: '100%',
+  },
+  contentWrapper: {
+    backgroundColor: '#FFFFFF',
+    border: '1px solid',
+    borderColor: `${theme.colors.primaryColorScale['500']}3d`,
+    borderRadius: theme.spacing(1),
+    margin: theme.spacing(8),
+    padding: theme.spacing(8, 10),
+  },
+}));
 
 function getStepContent(
   stepIndex,
