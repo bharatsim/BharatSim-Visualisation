@@ -1,11 +1,12 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
-import { toPng } from 'html-to-image';
+import { toPng, toSvg } from 'html-to-image';
 import Widget from '../Widget';
 import withThemeProvider from '../../../theme/withThemeProvider';
 
 jest.mock('html-to-image', () => ({
   toPng: jest.fn().mockResolvedValue('dataUrl'),
+  toSvg: jest.fn().mockResolvedValue('dataUrl'),
 }));
 
 describe('<Widget />', () => {
@@ -100,7 +101,7 @@ describe('<Widget />', () => {
     fireEvent.click(getByTestId('button-icon-close'));
     expect(onDeleteMock).not.toBeCalled();
   });
-  it('should take snapshot of line chart', () => {
+  it('should export line chart to svg', () => {
     const onDeleteMock = jest.fn();
 
     const { getByTestId } = render(
@@ -110,10 +111,32 @@ describe('<Widget />', () => {
         onEdit={() => {}}
         onDuplicate={jest.fn()}
       >
-        Line Chart
+        <div> Line Chart</div>
       </WidgetWithProvider>,
     );
-    fireEvent.click(getByTestId('snapshot-button'));
+    fireEvent.click(getByTestId('export-image-menu'));
+
+    fireEvent.click(getByTestId('exportToSVG'));
+
+    expect(toSvg).toHaveBeenCalled();
+  });
+
+  it('should export line chart to png', () => {
+    const onDeleteMock = jest.fn();
+
+    const { getByTestId } = render(
+      <WidgetWithProvider
+        title="Line Chart"
+        onDelete={onDeleteMock}
+        onEdit={() => {}}
+        onDuplicate={jest.fn()}
+      >
+        <div> Line Chart</div>
+      </WidgetWithProvider>,
+    );
+    fireEvent.click(getByTestId('export-image-menu'));
+
+    fireEvent.click(getByTestId('exportToPNG'));
 
     expect(toPng).toHaveBeenCalled();
   });

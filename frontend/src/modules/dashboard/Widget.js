@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import { Typography, useTheme } from '@material-ui/core';
-import { toPng } from 'html-to-image';
-import { FileCopyOutlined, PhotoCamera } from '@material-ui/icons';
+import { FileCopyOutlined } from '@material-ui/icons';
 import { ChildrenPropTypes } from '../../commanPropTypes';
 import dragIcon from '../../assets/images/dragIcon.svg';
 import WidgetMenu from './WidgetMenu';
 import IconButton from '../../uiComponent/IconButton';
+import ExportChartMenu from './ExportChartMenu';
 
 const useStyles = makeStyles((theme) => ({
   chartContainer: {
@@ -59,15 +59,6 @@ function Widget({ title, onDelete, onEdit, children, onDuplicate }) {
   const ref = useRef();
   const theme = useTheme();
 
-  function exportHtml() {
-    toPng(ref.current, { quality: 1, pixelRatio: 1 }).then((dataUrl) => {
-      const link = document.createElement('a');
-      link.download = title;
-      link.href = dataUrl;
-      link.click();
-    });
-  }
-
   return (
     <>
       <Box className={`dragHandler ${classes.dragIconContainer}`}>
@@ -79,21 +70,14 @@ function Widget({ title, onDelete, onEdit, children, onDuplicate }) {
         </Typography>
         <Box className={classes.menubar}>
           <IconButton
-            onClick={exportHtml}
-            title="take snapshot"
-            data-testid="snapshot-button"
-            classes={{ root: classes.icon }}
-          >
-            <PhotoCamera fontSize="small" htmlColor={theme.colors.grayScale['500']} />
-          </IconButton>
-          <IconButton
             onClick={onDuplicate}
-            title="take snapshot"
+            title="Duplicate chart"
             data-testid="duplicate-button"
             classes={{ root: classes.icon }}
           >
             <FileCopyOutlined fontSize="small" htmlColor={theme.colors.grayScale['500']} />
           </IconButton>
+          <ExportChartMenu element={ref.current} title={title} />
           <WidgetMenu onEdit={onEdit} onDelete={onDelete} />
         </Box>
       </Box>

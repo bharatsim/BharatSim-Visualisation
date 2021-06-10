@@ -23,40 +23,9 @@ exports[`<Widget /> should match snapshot 1`] = `
     >
       <button
         class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-11 makeStyles-icon-6"
-        data-testid="snapshot-button"
-        tabindex="0"
-        title="take snapshot"
-        type="button"
-      >
-        <span
-          class="MuiIconButton-label"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-            color="#797d82"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              cx="12"
-              cy="12"
-              r="3.2"
-            />
-            <path
-              d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"
-            />
-          </svg>
-        </span>
-        <span
-          class="MuiTouchRipple-root"
-        />
-      </button>
-      <button
-        class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-11 makeStyles-icon-6"
         data-testid="duplicate-button"
         tabindex="0"
-        title="take snapshot"
+        title="Duplicate chart"
         type="button"
       >
         <span
@@ -80,6 +49,34 @@ exports[`<Widget /> should match snapshot 1`] = `
       </button>
       <button
         class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-11 makeStyles-root-12"
+        data-testid="export-image-menu"
+        tabindex="0"
+        title="Export to image"
+        type="button"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+            color="#797d82"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="3.2"
+            />
+            <path
+              d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"
+            />
+          </svg>
+        </span>
+      </button>
+      <button
+        class="MuiButtonBase-root MuiIconButton-root WithStyles(ForwardRef(IconButton))-root-11 makeStyles-root-18"
         data-testid="widget-menu"
         tabindex="0"
         type="button"
@@ -103,7 +100,7 @@ exports[`<Widget /> should match snapshot 1`] = `
     </div>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-18 makeStyles-chartContainer-1"
+    class="MuiBox-root MuiBox-root-19 makeStyles-chartContainer-1"
   >
     Line Chart
   </div>
