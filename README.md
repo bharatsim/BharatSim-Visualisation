@@ -17,13 +17,15 @@ Visualization engine/tool would accept Simulation engine output or any csv data 
 
 -  Prerequisites
     - Docker
-      https://www.docker.com/products/docker-desktop
+      https://www.docker.com/products/docker-desktop 
+      <br/>  Docker Resources - Memory >= 8 GB
     - NodeJs version >= 14.15.0 https://nodejs.org/en/download/
 -  Code setup
     1. Clone the repository
        `https://github.com/debayanLab/BharatSim-Visualisation`
     2. Setup `.env` file \
-       *change below values as per convenience       
+       Change below values as per convenience <br/>
+       After changing username and password, delete data folder
        ```
         DB_USER=bharatsim_user
         DB_PASS=password

@@ -4,9 +4,11 @@ import { useTheme } from '@material-ui/core';
 import { GetAppOutlined, PhotoCamera } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { toPng, toSvg } from 'html-to-image';
+import { changeDpiDataUrl } from 'changedpi';
 import DropdownMenu from '../../uiComponent/dropdownMenu/DropdownMenu';
 import IconButton from '../../uiComponent/IconButton';
 
+const DPI = 400;
 const iconStyles = makeStyles((theme) => ({
   root: {
     padding: 0,
@@ -53,7 +55,7 @@ function ExportChartMenu({ element, title }) {
     }).then((dataUrl) => {
       const link = document.createElement('a');
       link.download = title;
-      link.href = dataUrl;
+      link.href = changeDpiDataUrl(dataUrl, DPI);
       link.click();
     });
   }
