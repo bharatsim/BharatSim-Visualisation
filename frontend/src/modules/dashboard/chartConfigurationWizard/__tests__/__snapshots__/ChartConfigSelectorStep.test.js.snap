@@ -117,10 +117,10 @@ exports[`chart config selector should match snapshot 1`] = `
             class="MuiBox-root MuiBox-root-26"
           >
             <div
-              class="MuiBox-root MuiBox-root-67 makeStyles-mainContainer-16"
+              class="MuiBox-root MuiBox-root-92 makeStyles-mainContainer-16"
             >
               <div
-                class="MuiBox-root MuiBox-root-68"
+                class="MuiBox-root MuiBox-root-93"
               >
                 <h6
                   class="MuiTypography-root MuiTypography-subtitle2"
@@ -129,10 +129,10 @@ exports[`chart config selector should match snapshot 1`] = `
                 </h6>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-69 makeStyles-fieldContainer-18"
+                class="MuiBox-root MuiBox-root-94 makeStyles-fieldContainer-18"
               >
                 <div
-                  class="MuiFormControl-root makeStyles-formControl-70"
+                  class="MuiFormControl-root makeStyles-formControl-95"
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
@@ -175,7 +175,7 @@ exports[`chart config selector should match snapshot 1`] = `
                     </svg>
                   </div>
                   <p
-                    class="MuiFormHelperText-root makeStyles-helperText-72 MuiFormHelperText-contained"
+                    class="MuiFormHelperText-root makeStyles-helperText-97 MuiFormHelperText-contained"
                   >
                     Data-source change may or may-not reset the chart configuration
                   </p>
@@ -204,7 +204,7 @@ exports[`chart config selector should match snapshot 1`] = `
                     <h6
                       class="MuiTypography-root MuiTypography-subtitle2"
                     >
-                      Axis
+                      X Axis
                     </h6>
                   </div>
                   <div
@@ -213,17 +213,9 @@ exports[`chart config selector should match snapshot 1`] = `
                     <div
                       class="MuiBox-root MuiBox-root-38 makeStyles-mainContainer-16"
                     >
+                      
                       <div
-                        class="MuiBox-root MuiBox-root-39"
-                      >
-                        <h6
-                          class="MuiTypography-root MuiTypography-subtitle2"
-                        >
-                          X Axis
-                        </h6>
-                      </div>
-                      <div
-                        class="MuiBox-root MuiBox-root-40 makeStyles-fieldContainer-18"
+                        class="MuiBox-root MuiBox-root-39 makeStyles-fieldContainer-18"
                       >
                         <div
                           class="MuiFormControl-root MuiTextField-root makeStyles-input-25"
@@ -232,7 +224,7 @@ exports[`chart config selector should match snapshot 1`] = `
                             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
                             data-shrink="false"
                           >
-                            Enter X axis label
+                            Enter axis label
                           </label>
                           <div
                             class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
@@ -240,8 +232,8 @@ exports[`chart config selector should match snapshot 1`] = `
                             <input
                               aria-invalid="false"
                               class="MuiInputBase-input MuiFilledInput-input"
-                              data-testid="x-axis-title"
-                              name="axisConfig.xAxisTitle"
+                              data-testid="axis-title"
+                              name="xAxisConfig.axisTitle"
                               type="text"
                               value=""
                             />
@@ -251,42 +243,61 @@ exports[`chart config selector should match snapshot 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root MuiBox-root-41 makeStyles-mainContainer-16"
+                      class="MuiBox-root MuiBox-root-40 makeStyles-mainContainer-16 makeStyles-mainContainerInline-17"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-42"
+                        class="MuiBox-root MuiBox-root-41"
                       >
                         <h6
                           class="MuiTypography-root MuiTypography-subtitle2"
                         >
-                          Y Axis
+                          Range
                         </h6>
                       </div>
                       <div
-                        class="MuiBox-root MuiBox-root-43 makeStyles-fieldContainer-18"
+                        class="MuiBox-root MuiBox-root-42 makeStyles-fieldContainer-18 makeStyles-fieldContainerInline-19"
                       >
                         <div
-                          class="MuiFormControl-root MuiTextField-root makeStyles-input-25"
+                          class="MuiBox-root MuiBox-root-44 makeStyles-container-43"
                         >
-                          <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
-                            data-shrink="false"
-                          >
-                            Enter Y axis label
-                          </label>
                           <div
-                            class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                            class="MuiBox-root MuiBox-root-45"
                           >
-                            <input
-                              aria-invalid="false"
-                              class="MuiInputBase-input MuiFilledInput-input"
-                              data-testid="y-axis-title"
-                              name="axisConfig.yAxisTitle"
-                              type="text"
-                              value=""
-                            />
+                            no
                           </div>
-                          
+                          <span
+                            class="MuiSwitch-root WithStyles(ForwardRef(Switch))-root-46"
+                          >
+                            <span
+                              aria-disabled="false"
+                              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-51 MuiSwitch-switchBase WithStyles(ForwardRef(Switch))-switchBase-47 MuiSwitch-colorSecondary"
+                              data-testid="axis-range"
+                            >
+                              <span
+                                class="MuiIconButton-label"
+                              >
+                                <input
+                                  class="PrivateSwitchBase-input-54 MuiSwitch-input"
+                                  type="checkbox"
+                                  value=""
+                                />
+                                <span
+                                  class="MuiSwitch-thumb WithStyles(ForwardRef(Switch))-thumb-48"
+                                />
+                              </span>
+                              <span
+                                class="MuiTouchRipple-root"
+                              />
+                            </span>
+                            <span
+                              class="MuiSwitch-track WithStyles(ForwardRef(Switch))-track-49"
+                            />
+                          </span>
+                          <div
+                            class="MuiBox-root MuiBox-root-55"
+                          >
+                            yes
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -298,16 +309,135 @@ exports[`chart config selector should match snapshot 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root MuiBox-root-44"
+              class="MuiBox-root MuiBox-root-56"
             >
               <div
-                class="MuiBox-root MuiBox-root-45"
+                class="MuiBox-root MuiBox-root-57"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-50 makeStyles-mainContainer-16"
+                  class="MuiBox-root MuiBox-root-58"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-51"
+                    class="MuiBox-root MuiBox-root-59 makeStyles-textContainer-34"
+                  >
+                    <h6
+                      class="MuiTypography-root MuiTypography-subtitle2"
+                    >
+                      Y Axis
+                    </h6>
+                  </div>
+                  <div
+                    class="MuiBox-root MuiBox-root-60 makeStyles-fieldsContainerVertical-32"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-61 makeStyles-mainContainer-16"
+                    >
+                      
+                      <div
+                        class="MuiBox-root MuiBox-root-62 makeStyles-fieldContainer-18"
+                      >
+                        <div
+                          class="MuiFormControl-root MuiTextField-root makeStyles-input-25"
+                        >
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled"
+                            data-shrink="false"
+                          >
+                            Enter axis label
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-formControl"
+                          >
+                            <input
+                              aria-invalid="false"
+                              class="MuiInputBase-input MuiFilledInput-input"
+                              data-testid="axis-title"
+                              name="yAxisConfig.axisTitle"
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root MuiBox-root-63 makeStyles-mainContainer-16 makeStyles-mainContainerInline-17"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-64"
+                      >
+                        <h6
+                          class="MuiTypography-root MuiTypography-subtitle2"
+                        >
+                          Range
+                        </h6>
+                      </div>
+                      <div
+                        class="MuiBox-root MuiBox-root-65 makeStyles-fieldContainer-18 makeStyles-fieldContainerInline-19"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-66 makeStyles-container-43"
+                        >
+                          <div
+                            class="MuiBox-root MuiBox-root-67"
+                          >
+                            no
+                          </div>
+                          <span
+                            class="MuiSwitch-root WithStyles(ForwardRef(Switch))-root-46"
+                          >
+                            <span
+                              aria-disabled="false"
+                              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-51 MuiSwitch-switchBase WithStyles(ForwardRef(Switch))-switchBase-47 MuiSwitch-colorSecondary"
+                              data-testid="axis-range"
+                            >
+                              <span
+                                class="MuiIconButton-label"
+                              >
+                                <input
+                                  class="PrivateSwitchBase-input-54 MuiSwitch-input"
+                                  type="checkbox"
+                                  value=""
+                                />
+                                <span
+                                  class="MuiSwitch-thumb WithStyles(ForwardRef(Switch))-thumb-48"
+                                />
+                              </span>
+                              <span
+                                class="MuiTouchRipple-root"
+                              />
+                            </span>
+                            <span
+                              class="MuiSwitch-track WithStyles(ForwardRef(Switch))-track-49"
+                            />
+                          </span>
+                          <div
+                            class="MuiBox-root MuiBox-root-68"
+                          >
+                            yes
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr
+                class="MuiDivider-root"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-69"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-70"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-75 makeStyles-mainContainer-16"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-76"
                   >
                     <h6
                       class="MuiTypography-root MuiTypography-subtitle2"
@@ -316,13 +446,13 @@ exports[`chart config selector should match snapshot 1`] = `
                     </h6>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-52 makeStyles-fieldContainer-18"
+                    class="MuiBox-root MuiBox-root-77 makeStyles-fieldContainer-18"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-53 makeStyles-fieldArrayContainer-48"
+                      class="MuiBox-root MuiBox-root-78 makeStyles-fieldArrayContainer-73"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-54 makeStyles-fallbackText-49"
+                        class="MuiBox-root MuiBox-root-79 makeStyles-fallbackText-74"
                       >
                         <h6
                           class="MuiTypography-root MuiTypography-subtitle2"
@@ -340,16 +470,16 @@ exports[`chart config selector should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-55 makeStyles-footer-1"
+          class="MuiBox-root MuiBox-root-80 makeStyles-footer-1"
         >
           <hr
             class="MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-56"
+            class="MuiBox-root MuiBox-root-81"
           >
             <div
-              class="MuiBox-root MuiBox-root-58 makeStyles-buttonGroup-57"
+              class="MuiBox-root MuiBox-root-83 makeStyles-buttonGroup-82"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"

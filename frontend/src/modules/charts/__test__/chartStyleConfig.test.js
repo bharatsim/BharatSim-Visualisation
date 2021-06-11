@@ -5,10 +5,21 @@ describe('Common chart styles', () => {
     expect(configs).toMatchInlineSnapshot(`
       Object {
         "displaylogo": false,
-        "modeBarButtonsToRemove": Array [
-          "select2d",
-          "lasso2d",
-          "toImage",
+        "modeBarButtons": Array [
+          Array [
+            "zoom2d",
+            "pan2d",
+            "zoomIn2d",
+            "zoomOut2d",
+          ],
+          Array [
+            "autoScale2d",
+            "resetScale2d",
+          ],
+          Array [
+            "hoverClosestCartesian",
+            "hoverCompareCartesian",
+          ],
         ],
         "responsive": true,
       }
@@ -233,10 +244,12 @@ describe('Common chart styles', () => {
         "width": undefined,
         "xaxis": Object {
           "automargin": true,
+          "autorange": true,
           "autotypenumbers": "strict",
           "color": "#61666b",
           "gridwidth": 2,
           "linewidth": 2,
+          "range": undefined,
           "showline": true,
           "tickfont": Object {
             "size": 14,
@@ -258,10 +271,12 @@ describe('Common chart styles', () => {
         },
         "yaxis": Object {
           "automargin": true,
+          "autorange": true,
           "autotypenumbers": "strict",
           "color": "#61666b",
           "gridwidth": 2,
           "linewidth": 2,
+          "range": undefined,
           "showline": true,
           "tickfont": Object {
             "size": 14,
@@ -276,7 +291,7 @@ describe('Common chart styles', () => {
               "weight": 700,
             },
             "standoff": 16,
-            "text": undefined,
+            "text": "",
           },
           "type": "log",
           "zerolinecolor": "#abaeb2",
@@ -339,8 +354,16 @@ describe('Common chart styles', () => {
         annotations,
         annotationToggle: true,
         axisConfig: {
-          xAxisTitle: 'xAxis',
-          yAxisTitle: 'yAxis',
+          xAxisConfig: {
+            axisTitle: 'xAxis',
+            axisRange: true,
+            axisRangeType: 'numeric',
+            numeric: {
+              start: 14,
+              end: 20,
+            },
+          },
+          yAxisConfig: { axisTitle: 'yAxis', axisRange: false },
         },
       }),
     ).toMatchInlineSnapshot(`
@@ -470,10 +493,15 @@ describe('Common chart styles', () => {
         "width": undefined,
         "xaxis": Object {
           "automargin": true,
+          "autorange": false,
           "autotypenumbers": "strict",
           "color": "#61666b",
           "gridwidth": 2,
           "linewidth": 2,
+          "range": Array [
+            14,
+            20,
+          ],
           "showline": true,
           "tickfont": Object {
             "size": 14,
@@ -495,10 +523,12 @@ describe('Common chart styles', () => {
         },
         "yaxis": Object {
           "automargin": true,
+          "autorange": true,
           "autotypenumbers": "strict",
           "color": "#61666b",
           "gridwidth": 2,
           "linewidth": 2,
+          "range": undefined,
           "showline": true,
           "tickfont": Object {
             "size": 14,

@@ -15,6 +15,7 @@ export const chartConfigOptionTypes = {
   LINE_CHART_SERIES_STYLE: 'lineChartSeriesStyle',
   BAR_CHART_SERIES_STYLE: 'barChartSeriesStyle',
   HISTOGRAM_CHART_SERIES_STYLE: 'harChartSeriesStyle',
-  AXIS_CONFIG: 'axisConfig',
-  HISTOGRAM_AXIS_CONFIG: 'histogramAxisConfig',
+  X_AXIS_CONFIG: 'xAxisConfig',
+  Y_AXIS_CONFIG: 'yAxisConfig',
+  HISTOGRAM_AXIS_CONFIG: 'axisConfig',
 };

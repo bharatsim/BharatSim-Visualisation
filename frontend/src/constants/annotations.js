@@ -3,7 +3,7 @@ export const areaAnnotationDirection = {
   VERTICAL: 'vertical',
 };
 
-export const annotationTypes = {
+export const rangeTypes = {
   NUMERIC: 'numeric',
   DATE: 'date',
 };

@@ -5,5 +5,11 @@ fileignoreconfig:
   checksum: 20b88c5d2d4af81e79ebd994a15130ccc82e5b41694bdf9672c2784ac3429254
 - filename: backend/setupDB.js
   checksum: 08e7f4e90aebd6945039b70d5d71d1d0368381e50d09881388f67e49d35bcf09
+- filename: frontend/src/config/chartConfigOptions.js
+  checksum: 00bec190f2582357a0e309169ddad8a37e56de149f465aa7aabdaf8d6772a650
+- filename: frontend/src/modules/chartConfigOptions/AxisConfig.js
+  checksum: 765387e01ffd1428beb4b2bfb2c60c7efc583518ce43e5c3a478264be361fe9b
+- filename: frontend/src/modules/chartConfigOptions/__tests__/AxisConfig.test.js
+  checksum: 7b54446cc46f6868ea57a8569ef723e5316f7f02ab399136a678a132bb3acc1d
 scopeconfig:
 - scope: node

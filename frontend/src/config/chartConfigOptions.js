@@ -120,19 +120,24 @@ const chartConfigOptions = {
       <HistogramStyleConfig seriesConfigKey={chartConfigOptionTypes.MEASURE} title="Series" />
     ),
   },
-  [chartConfigOptionTypes.AXIS_CONFIG]: {
+  [chartConfigOptionTypes.X_AXIS_CONFIG]: {
     component: () => (
       <AxisConfig
-        configKey={chartConfigOptionTypes.AXIS_CONFIG}
-        xAxis={`${chartConfigOptionTypes.X_AXIS}.columnName`}
+        title="X Axis"
+        configKey={chartConfigOptionTypes.X_AXIS_CONFIG}
+        axis={`${chartConfigOptionTypes.X_AXIS}.columnName`}
       />
     ),
+  },
+  [chartConfigOptionTypes.Y_AXIS_CONFIG]: {
+    component: () => <AxisConfig title="Y Axis" configKey={chartConfigOptionTypes.Y_AXIS_CONFIG} />,
   },
   [chartConfigOptionTypes.HISTOGRAM_AXIS_CONFIG]: {
     component: () => (
       <AxisConfig
-        configKey={chartConfigOptionTypes.AXIS_CONFIG}
-        xAxis={`${chartConfigOptionTypes.MEASURE}`}
+        title="Measure"
+        configKey={chartConfigOptionTypes.X_AXIS_CONFIG}
+        axis={`${chartConfigOptionTypes.MEASURE}`}
       />
     ),
   },

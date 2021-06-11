@@ -48,7 +48,6 @@ const AntSwitchWithStyle = withStyles((theme) => ({
 
 function SwitchField({ onLabel, offLabel, name, dataTestId, defaultValue, validate }) {
   const switchContainerClasses = switchContainerStyles();
-
   return (
     <Box className={switchContainerClasses.container}>
       <Box mr={1}>{offLabel}</Box>

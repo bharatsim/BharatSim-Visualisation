@@ -37,10 +37,7 @@ describe('Histogram', () => {
           dataSource: 'dataSource',
           measure: 'exposed',
           color: { r: 1, g: 1, b: 1, a: 1 },
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
       />,
     );
@@ -57,10 +54,7 @@ describe('Histogram', () => {
           dataSource: 'dataSource',
           measure: 'exposed',
           color: { r: 1, g: 1, b: 1, a: 1 },
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
       />,
     );
@@ -77,10 +71,7 @@ describe('Histogram', () => {
           dataSource: 'dataSource',
           measure: 'exposed',
           color: { r: 1, g: 1, b: 1, a: 1 },
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
       />,
     );
@@ -93,10 +84,7 @@ describe('Histogram', () => {
           dataSource: 'dataSource',
           measure: 'exposedNew',
           color: { r: 1, g: 1, b: 1, a: 1 },
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
       />,
     );
@@ -113,10 +101,7 @@ describe('Histogram', () => {
           dataSource: 'dataSource',
           measure: 'exposed',
           color: { r: 1, g: 1, b: 1, a: 1 },
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
       />,
     );
@@ -136,10 +121,7 @@ describe('Histogram', () => {
           dataSource: 'dataSource',
           measure: 'exposed',
           color: { r: 1, g: 1, b: 1, a: 1 },
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
       />,
     );
@@ -157,10 +139,7 @@ describe('Histogram', () => {
           dataSource: 'dataSource',
           measure: 'exposed',
           color: { r: 1, g: 1, b: 1, a: 1 },
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
       />,
     );

@@ -2,10 +2,14 @@ import { withStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import { addDays, differenceInDays, isAfter } from 'date-fns';
 import { chartColorsPallet, colors } from '../../theme/colorPalette';
-import { annotationTypes, areaAnnotationDirection } from '../../constants/annotations';
+import { areaAnnotationDirection, rangeTypes } from '../../constants/annotations';
 
 const configs = {
-  modeBarButtonsToRemove: ['select2d', 'lasso2d', 'toImage'],
+  modeBarButtons: [
+    ['zoom2d', 'pan2d', 'zoomIn2d', 'zoomOut2d'],
+    ['autoScale2d', 'resetScale2d'],
+    ['hoverClosestCartesian', 'hoverCompareCartesian'],
+  ],
   displaylogo: false,
   responsive: true,
 };
@@ -74,7 +78,7 @@ const axisStyles = (title) => ({
 });
 
 function getLabelPosition(start, end, type) {
-  if (type === annotationTypes.NUMERIC) {
+  if (type === rangeTypes.NUMERIC) {
     return Math.min(start, end) + Math.abs(end - start) / 2;
   }
   const date1 = new Date(start);
@@ -90,7 +94,7 @@ function createAnnotation(annotations, annotationToggle) {
     ? {
         shapes: [
           ...annotations.map(({ direction, type, date, numeric, color, opacity }) => {
-            const { start, end } = type === annotationTypes.DATE ? date : numeric;
+            const { start, end } = type === rangeTypes.DATE ? date : numeric;
             return direction === areaAnnotationDirection.VERTICAL
               ? createVerticalRect({ start, end, color, opacity })
               : createHorizontalRect({ start, end, color, opacity });
@@ -100,7 +104,7 @@ function createAnnotation(annotations, annotationToggle) {
           ...annotations
             .filter(({ label }) => !!label)
             .map(({ direction, label, numeric, date, type }) => {
-              const { start, end } = type === annotationTypes.DATE ? date : numeric;
+              const { start, end } = type === rangeTypes.DATE ? date : numeric;
               const labelPosition = getLabelPosition(start, end, type);
               return direction === areaAnnotationDirection.VERTICAL
                 ? createVerticalAnnotationLabel(labelPosition, label)
@@ -109,6 +113,14 @@ function createAnnotation(annotations, annotationToggle) {
         ],
       }
     : {};
+}
+
+function getTitleAndRangeForAxis(axisConfig) {
+  if (!axisConfig) return { title: '' };
+  const { axisTitle: title, axisRange, axisRangeType } = axisConfig;
+  if (!axisRange) return { range: undefined, title };
+  const range = [axisConfig[axisRangeType].start, axisConfig[axisRangeType].end];
+  return { range, title };
 }
 
 function layoutConfig({
@@ -120,7 +132,9 @@ function layoutConfig({
   revision,
   axisConfig = {},
 }) {
-  const { xAxisTitle, yAxisTitle } = axisConfig;
+  const { xAxisConfig, yAxisConfig } = axisConfig;
+  const { title: xAxisTitle, range: xAxisRange } = getTitleAndRangeForAxis(xAxisConfig);
+  const { title: yAxisTitle, range: yAxisRange } = getTitleAndRangeForAxis(yAxisConfig);
   return {
     showlegend: true,
     colorway: chartColorsPallet[1],
@@ -145,11 +159,15 @@ function layoutConfig({
     datarevision: revision,
     xaxis: {
       type: xAxisType,
+      autorange: !xAxisRange,
+      range: xAxisRange,
       ...axisStyles(xAxisTitle || xColumn),
     },
     yaxis: {
       ticklabelposition: 'outside',
       type: yAxisType,
+      autorange: !yAxisRange,
+      range: yAxisRange,
       ...axisStyles(yAxisTitle),
     },
     ...createAnnotation(annotations, annotationToggle),

@@ -48,10 +48,7 @@ describe('LineChart', () => {
               seriesWidth: 1,
             },
           ],
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -77,10 +74,7 @@ describe('LineChart', () => {
               seriesWidth: 1,
             },
           ],
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -109,10 +103,7 @@ describe('LineChart', () => {
               seriesWidth: 1,
             },
           ],
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -138,10 +129,7 @@ describe('LineChart', () => {
               seriesWidth: 1,
             },
           ],
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -167,10 +155,7 @@ describe('LineChart', () => {
               seriesWidth: 1,
             },
           ],
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -192,10 +177,7 @@ describe('LineChart', () => {
               seriesWidth: 1,
             },
           ],
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
         layout={{ h: 4, w: 3 }}
       />,
@@ -221,10 +203,7 @@ describe('LineChart', () => {
               seriesWidth: 1,
             },
           ],
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -246,10 +225,7 @@ describe('LineChart', () => {
               seriesWidth: 1,
             },
           ],
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -275,10 +251,7 @@ describe('LineChart', () => {
               seriesWidth: 1,
             },
           ],
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -306,10 +279,7 @@ describe('LineChart', () => {
               seriesWidth: 1,
             },
           ],
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
         layout={{ h: 1, w: 2 }}
       />,
@@ -336,10 +306,7 @@ describe('LineChart', () => {
               seriesWidth: 1,
             },
           ],
-          axisConfig: {
-            xAxisTitle: 'xAxisTestTitle',
-            yAxisTitle: 'yAxisTestTitle',
-          },
+          axisConfig: {},
         }}
         layout={{ h: 1, w: 2 }}
       />,

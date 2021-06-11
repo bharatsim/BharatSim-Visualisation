@@ -21,7 +21,13 @@ jest.mock('../../charts/lineChart/LineChart', () => () => (
 
 jest.mock('../../../uiComponent/Notes', () => ({ onBlur, text }) => (
   <>
-    <input type="text" data-testid="notes" onBlur={() => onBlur('notes')} value={text} onChange={()=>{}}/>
+    <input
+      type="text"
+      data-testid="notes"
+      onBlur={() => onBlur('notes')}
+      value={text}
+      onChange={() => {}}
+    />
   </>
 ));
 
@@ -102,8 +108,13 @@ const mockChart = [
       annotation: {
         annotationToggle: false,
       },
-      axisConfig: {
-        xAxisTitle: 'column1',
+      xAxisConfig: {
+        axisTitle: 'column1',
+        axisRange: false,
+      },
+      yAxisConfig: {
+        axisRange: false,
+        axisTitle: '',
       },
     },
     layout: {
@@ -298,7 +309,6 @@ describe('<Dashboard />', () => {
     expect(toolbar).toBeInTheDocument();
   });
 
-
   describe('auto save', () => {
     it('should update notes and autoSave', async () => {
       const renderedComponent = render(<DashboardWithProviders />);
@@ -338,12 +348,57 @@ describe('<Dashboard />', () => {
 
       await addChart(renderedComponent);
 
-      const expectedData = { ...mockDashboard };
-      expectedData.layout = [];
-
       expect(mockDispatch).toHaveBeenLastCalledWith({
         type: 'UPDATE_DASHBOARD',
-        payload: { dashboard: expectedData },
+        payload: {
+          dashboard: {
+            charts: [
+              {
+                chartType: 'lineChart',
+                config: {
+                  chartName: 'chart name',
+                  dataSource: 'id2',
+                  xAxis: {
+                    columnName: 'column1',
+                    type: '-',
+                  },
+                  yAxis: [
+                    {
+                      color: {
+                        a: 1,
+                        b: 246,
+                        g: 201,
+                        r: 77,
+                      },
+                      name: 'column2',
+                      seriesType: 'dot',
+                      seriesWidth: '1',
+                    },
+                  ],
+                  annotation: {
+                    annotationToggle: false,
+                  },
+                  xAxisConfig: {
+                    axisTitle: 'column1',
+                  },
+                },
+                layout: {
+                  h: 2,
+                  i: 'widget-0',
+                  w: 6,
+                  x: 0,
+                  y: Infinity,
+                },
+                dataSourceIds: ['id2'],
+              },
+            ],
+            count: 1,
+            dashboardId: 'id1',
+            layout: [],
+            name: 'dashboard1',
+            notes: '',
+          },
+        },
       });
     });
 
@@ -390,8 +445,13 @@ describe('<Dashboard />', () => {
           annotation: {
             annotationToggle: false,
           },
-          axisConfig: {
-            xAxisTitle: 'column1',
+          xAxisConfig: {
+            axisTitle: 'column1',
+            axisRange: false,
+          },
+          yAxisConfig: {
+            axisTitle: '',
+            axisRange: false,
           },
         },
         layout: {
@@ -445,7 +505,6 @@ describe('<Dashboard />', () => {
       const expectedState = mockDashboard;
       expectedState.charts[0].config.chartName = 'edited chart name';
       expectedState.count = 2;
-      expectedState.charts[0].config.axisConfig.yAxisTitle = '';
 
       expect(mockDispatch).toHaveBeenLastCalledWith({
         type: 'UPDATE_DASHBOARD',

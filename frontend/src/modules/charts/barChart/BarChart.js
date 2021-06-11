@@ -20,7 +20,7 @@ import useToggle from '../../../hook/useToggle';
 import { rgbaToHex } from '../../../utils/helper';
 
 function BarChart({ config, layout }) {
-  const { xAxis, yAxis, dataSource, annotation, axisConfig } = config;
+  const { xAxis, yAxis, dataSource, annotation, xAxisConfig, yAxisConfig } = config;
   const { columnName: xColumn, type: xAxisType } = xAxis;
   const { annotations, annotationToggle } = annotation || {};
   const yColumns = getYaxisNames(yAxis);
@@ -96,7 +96,7 @@ function BarChart({ config, layout }) {
     annotations,
     annotationToggle,
     revision,
-    axisConfig,
+    axisConfig: { xAxisConfig, yAxisConfig },
   });
 
   return (
@@ -145,10 +145,8 @@ BarChart.propTypes = {
         }),
       ),
     }),
-    axisConfig: PropTypes.shape({
-      xAxisTitle: PropTypes.string,
-      yAxisTitle: PropTypes.string,
-    }).isRequired,
+    xAxisConfig: PropTypes.shape({}),
+    yAxisConfig: PropTypes.shape({}),
   }).isRequired,
   layout: PropTypes.shape({ h: PropTypes.number, w: PropTypes.number }).isRequired,
 };

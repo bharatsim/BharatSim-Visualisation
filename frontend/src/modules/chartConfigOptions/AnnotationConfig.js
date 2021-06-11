@@ -5,7 +5,7 @@ import { Box } from '@material-ui/core';
 import { useForm } from 'react-final-form';
 import { format } from 'date-fns';
 import get from 'lodash.get';
-import { annotationTypes, areaAnnotationDirection, DATE_FORMAT } from '../../constants/annotations';
+import { rangeTypes, areaAnnotationDirection, DATE_FORMAT } from '../../constants/annotations';
 import RadioButtonsField from '../../uiComponent/formField/RadioButtonField';
 import TextField from '../../uiComponent/formField/TextField';
 import SwitchField from '../../uiComponent/formField/SwitchField';
@@ -32,8 +32,8 @@ const areaAnnotationConfig = {
 };
 
 const annotationTypeOptions = [
-  { value: annotationTypes.DATE, displayName: 'Date' },
-  { value: annotationTypes.NUMERIC, displayName: 'Numeric' },
+  { value: rangeTypes.DATE, displayName: 'Date' },
+  { value: rangeTypes.NUMERIC, displayName: 'Numeric' },
 ];
 
 const directions = [
@@ -102,40 +102,34 @@ function AnnotationConfig({ configKey }) {
                   id="type-of-annotation-value"
                   label="Select type"
                   validate={required}
-                  defaultValue={annotationTypes.NUMERIC}
+                  defaultValue={rangeTypes.NUMERIC}
                 />
               </FieldContainer>
               <FieldContainer title="Position">
-                <Condition
-                  when={`${name}.${areaAnnotationConfig.TYPE}`}
-                  is={annotationTypes.NUMERIC}
-                >
+                <Condition when={`${name}.${areaAnnotationConfig.TYPE}`} is={rangeTypes.NUMERIC}>
                   <TextField
                     type="number"
-                    name={`${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.START}`}
+                    name={`${name}.${rangeTypes.NUMERIC}.${areaAnnotationConfig.START}`}
                     label="From value"
                     dataTestId="start-input"
                     validate={required}
                   />
                   <TextField
                     type="number"
-                    name={`${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.END}`}
+                    name={`${name}.${rangeTypes.NUMERIC}.${areaAnnotationConfig.END}`}
                     label="To Value"
                     dataTestId="end-input"
                     validate={(value, values) =>
                       validateToValueNumber(
                         value,
-                        get(
-                          values,
-                          `${name}.${annotationTypes.NUMERIC}.${areaAnnotationConfig.START}`,
-                        ),
+                        get(values, `${name}.${rangeTypes.NUMERIC}.${areaAnnotationConfig.START}`),
                       )
                     }
                   />
                 </Condition>
-                <Condition when={`${name}.${areaAnnotationConfig.TYPE}`} is={annotationTypes.DATE}>
+                <Condition when={`${name}.${areaAnnotationConfig.TYPE}`} is={rangeTypes.DATE}>
                   <DateField
-                    name={`${name}.${annotationTypes.DATE}.${areaAnnotationConfig.START}`}
+                    name={`${name}.${rangeTypes.DATE}.${areaAnnotationConfig.START}`}
                     label="From value"
                     dataTestId="start-input"
                     validate={required}
@@ -144,7 +138,7 @@ function AnnotationConfig({ configKey }) {
                     format={DATE_FORMAT}
                   />
                   <DateField
-                    name={`${name}.${annotationTypes.DATE}.${areaAnnotationConfig.END}`}
+                    name={`${name}.${rangeTypes.DATE}.${areaAnnotationConfig.END}`}
                     label="To Value"
                     dataTestId="end-input"
                     isEditMode={isEditMode}
@@ -153,10 +147,7 @@ function AnnotationConfig({ configKey }) {
                     validate={(value, values) =>
                       validateToValueDate(
                         value,
-                        get(
-                          values,
-                          `${name}.${annotationTypes.DATE}.${areaAnnotationConfig.START}`,
-                        ),
+                        get(values, `${name}.${rangeTypes.DATE}.${areaAnnotationConfig.START}`),
                       )
                     }
                   />

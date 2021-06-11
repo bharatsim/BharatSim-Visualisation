@@ -22,7 +22,8 @@ const chartConfigs = {
       chartConfigOptionTypes.ANNOTATION,
     ],
     styleConfig: [
-      chartConfigOptionTypes.AXIS_CONFIG,
+      chartConfigOptionTypes.X_AXIS_CONFIG,
+      chartConfigOptionTypes.Y_AXIS_CONFIG,
       chartConfigOptionTypes.LINE_CHART_SERIES_STYLE,
     ],
   },
@@ -37,7 +38,8 @@ const chartConfigs = {
       chartConfigOptionTypes.ANNOTATION,
     ],
     styleConfig: [
-      chartConfigOptionTypes.AXIS_CONFIG,
+      chartConfigOptionTypes.X_AXIS_CONFIG,
+      chartConfigOptionTypes.Y_AXIS_CONFIG,
       chartConfigOptionTypes.BAR_CHART_SERIES_STYLE,
     ],
   },
