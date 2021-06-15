@@ -5,7 +5,6 @@ import { render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 
 import withThemeProvider from '../../../theme/withThemeProvider';
-import { FormProvider } from '../../../contexts/FormContext';
 import LineStylesConfig from '../LineStyleConfigs';
 import { selectDropDownOption } from '../../../testUtil';
 
@@ -25,12 +24,10 @@ const TestForm = ({ onSubmit }) => {
       onSubmit={onSubmit}
       mutators={{ ...arrayMutators }}
       render={({ handleSubmit }) => (
-        <FormProvider>
-          <form onSubmit={handleSubmit}>
-            <LineStylesConfig {...props} />
-            <button type="submit">submit</button>
-          </form>
-        </FormProvider>
+        <form onSubmit={handleSubmit}>
+          <LineStylesConfig {...props} />
+          <button type="submit">submit</button>
+        </form>
       )}
     />
   );

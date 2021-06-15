@@ -5,8 +5,8 @@ import Widget from '../Widget';
 import withThemeProvider from '../../../theme/withThemeProvider';
 
 jest.mock('html-to-image', () => ({
-  toPng: jest.fn().mockResolvedValue('dataUrl'),
-  toSvg: jest.fn().mockResolvedValue('dataUrl'),
+  toPng: jest.fn().mockResolvedValue('data:image/png;base64,iVBORw0KGgoA'),
+  toSvg: jest.fn().mockResolvedValue('data:image/svg;base64,iVBORw0KGgoA'),
 }));
 
 describe('<Widget />', () => {

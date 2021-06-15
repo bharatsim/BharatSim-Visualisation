@@ -4,7 +4,6 @@ import arrayMutators from 'final-form-arrays';
 import { render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import { FormProvider } from '../../../contexts/FormContext';
 import BarStylesConfig from '../BarStylesConfig';
 
 jest.mock('../../../uiComponent/ColorPicker', () => ({ onChange, value, dataTestId }) => (
@@ -23,12 +22,10 @@ const TestForm = ({ onSubmit }) => {
       onSubmit={onSubmit}
       mutators={{ ...arrayMutators }}
       render={({ handleSubmit }) => (
-        <FormProvider>
-          <form onSubmit={handleSubmit}>
-            <BarStylesConfig {...props} />
-            <button type="submit">submit</button>
-          </form>
-        </FormProvider>
+        <form onSubmit={handleSubmit}>
+          <BarStylesConfig {...props} />
+          <button type="submit">submit</button>
+        </form>
       )}
     />
   );

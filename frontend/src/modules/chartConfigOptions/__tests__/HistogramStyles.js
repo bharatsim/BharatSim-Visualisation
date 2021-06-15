@@ -5,7 +5,6 @@ import arrayMutators from 'final-form-arrays';
 import { render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import { FormProvider } from '../../../contexts/FormContext';
 import HistogramStyleConfig from '../HistogramStyles';
 
 jest.mock('../../../uiComponent/ColorPicker', () => ({ onChange, value, dataTestId }) => (
@@ -24,13 +23,11 @@ const TestForm = ({ onSubmit, initialValues }) => {
       mutators={{ ...arrayMutators }}
       initialValues={initialValues}
       render={({ handleSubmit }) => (
-        <FormProvider>
-          <form onSubmit={handleSubmit}>
-            <Field name="measure" component="input" />
-            <HistogramStyleConfig {...props} />
-            <button type="submit">submit</button>
-          </form>
-        </FormProvider>
+        <form onSubmit={handleSubmit}>
+          <Field name="measure" component="input" />
+          <HistogramStyleConfig {...props} />
+          <button type="submit">submit</button>
+        </form>
       )}
     />
   );

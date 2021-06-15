@@ -155,10 +155,11 @@ describe('<Dashboard />', () => {
   afterEach(() => {
     jest.clearAllTimers();
     jest.clearAllMocks();
+    useSelector.mockImplementation((selector) => selector(mockState));
   });
 
   const addChart = async (renderedComponent) => {
-    const { getByText, findByText, getByTestId } = renderedComponent;
+    const { getByText, findByText, getByTestId, findByTestId } = renderedComponent;
 
     const addChartButton = getByTestId('button-add-chart-header');
     fireEvent.click(addChartButton);
@@ -172,7 +173,9 @@ describe('<Dashboard />', () => {
       target: { value: 'chart name' },
     });
     selectDropDownOption(renderedComponent, 'dropdown-dataSources', 'datasource2');
-    await findByText('X axis');
+
+    await findByTestId('x-axis-dropdown');
+
     selectDropDownOption(renderedComponent, 'x-axis-dropdown', 'column1');
     selectDropDownOption(renderedComponent, 'y-axis-dropdown-0', 'column2');
 

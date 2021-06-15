@@ -1,10 +1,9 @@
 import React from 'react';
-import { Form, Field } from 'react-final-form';
+import { Field, Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import withThemeProvider from '../../../theme/withThemeProvider';
-import { FormProvider } from '../../../contexts/FormContext';
 import BarChartSeriesStyles from '../BarChartSeriesStyle';
 
 jest.mock('../../../uiComponent/ColorPicker', () => ({ onChange, value, dataTestId }) => (
@@ -23,13 +22,11 @@ const TestForm = ({ onSubmit, initialValues }) => {
       mutators={{ ...arrayMutators }}
       initialValues={initialValues}
       render={({ handleSubmit }) => (
-        <FormProvider>
-          <form onSubmit={handleSubmit}>
-            <Field name="yaxis" component="input" />
-            <BarChartSeriesStyles {...props} />
-            <button type="submit">submit</button>
-          </form>
-        </FormProvider>
+        <form onSubmit={handleSubmit}>
+          <Field name="yaxis" component="input" />
+          <BarChartSeriesStyles {...props} />
+          <button type="submit">submit</button>
+        </form>
       )}
     />
   );

@@ -149,7 +149,7 @@ describe('<EditDataSouceModel />', () => {
 
     fireEvent.click(getByText('Create column'));
 
-    const validationError = getByText('Column Name should be unique')
+    const validationError = getByText('Column Name should be unique');
 
     expect(validationError).toBeInTheDocument();
 
