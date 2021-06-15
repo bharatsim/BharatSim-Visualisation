@@ -9,13 +9,14 @@ import ButtonGroup from '../../uiComponent/ButtonGroup';
 const styles = makeStyles((theme) => ({
   mainContainer: {
     margin: 'auto',
+    paddingTop: theme.spacing(25),
   },
   textCentered: {
     textAlign: 'center',
   },
   introTextContainer: {
     margin: 'auto',
-    marginTop: theme.spacing(9),
+    marginTop: theme.spacing(4),
     width: theme.spacing(144),
   },
   itemsCentered: {
@@ -34,20 +35,16 @@ function NewUserHomeScreen() {
 
   return (
     <Box className={classes.mainContainer}>
+      <Box mb={8} className={classes.itemsCentered}>
+        <img src={bharatSimWelcome} alt="logo" height={148} width={148} />
+      </Box>
       <Typography variant="h4" className={classes.textCentered}>
         Welcome to BharatSim
       </Typography>
-      <Box mt={14} className={classes.itemsCentered}>
-        <img src={bharatSimWelcome} alt="logo" />
-      </Box>
       <Box className={classes.introTextContainer}>
-        <Typography variant="subtitle2" className={classes.textCentered}>
-          Vision
-        </Typography>
         <Typography variant="body2" className={classes.textCentered}>
-          The vision for BharatSim is to build an India scale agent based framework that would
-          enable modellers from various fields of study like epidemiology, disaster management,
-          economics etc to advise policy makers and institutions.
+          BharatSim Visualization engine would accept Simulation engine output or any csv data file
+          and would help users to visualize it by means of creating different graphs and charts.
         </Typography>
       </Box>
       <Box mt={5} className={classes.itemsCentered}>

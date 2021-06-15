@@ -5,31 +5,28 @@ exports[`NewUserHomeScreen should match snapshot 1`] = `
   <div
     class="MuiBox-root MuiBox-root-5 makeStyles-mainContainer-1"
   >
+    <div
+      class="MuiBox-root MuiBox-root-6 makeStyles-itemsCentered-4"
+    >
+      <img
+        alt="logo"
+        height="148"
+        src="welcomePlaceholder.svg"
+        width="148"
+      />
+    </div>
     <h4
       class="MuiTypography-root makeStyles-textCentered-2 MuiTypography-h4"
     >
       Welcome to BharatSim
     </h4>
     <div
-      class="MuiBox-root MuiBox-root-6 makeStyles-itemsCentered-4"
-    >
-      <img
-        alt="logo"
-        src="welcomePlaceholder.svg"
-      />
-    </div>
-    <div
       class="MuiBox-root MuiBox-root-7 makeStyles-introTextContainer-3"
     >
-      <h6
-        class="MuiTypography-root makeStyles-textCentered-2 MuiTypography-subtitle2"
-      >
-        Vision
-      </h6>
       <p
         class="MuiTypography-root makeStyles-textCentered-2 MuiTypography-body2"
       >
-        The vision for BharatSim is to build an India scale agent based framework that would enable modellers from various fields of study like epidemiology, disaster management, economics etc to advise policy makers and institutions.
+        BharatSim Visualization engine would accept Simulation engine output or any csv data file and would help users to visualize it by means of creating different graphs and charts.
       </p>
     </div>
     <div
