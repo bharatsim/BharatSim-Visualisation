@@ -6,12 +6,12 @@ Visualization engine/tool would accept Simulation engine output or any csv data 
 
 1. Data Import Ex. Simulation Engine output in CSV format
 2. Data file Management Ex. Add, edit, delete
-3. Plot Widgets Ex. Line, Bar charts, Histogram
-4. Geo map Ex. Heatmap and Choropleth
-5. Project & Dashboard Management
-6. Auto Save for Dashboard
-7. Widget management & Configuration
-8. Export Widget (PNG)
+3. Plot charts/widgets Ex. Line, Bar charts, Histogram
+4. Plot geo map Ex. Heatmap and Choropleth
+5. Project & Dashboard management Ex. Add, edit, delete
+6. Auto-Save action for Dashboards
+7. Widget management & it's configuration
+8. Export widget (PNG, SVG)
 
 ## Setup Requirements and Installation
 
