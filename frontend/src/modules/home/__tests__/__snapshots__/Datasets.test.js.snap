@@ -140,7 +140,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                       >
                         <span
                           class=""
-                          title="Delete Datasource"
+                          title="Delete datasource"
                         >
                           <button
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
@@ -217,7 +217,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                         <button
                           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeSmall"
                           tabindex="0"
-                          title="Delete Datasource"
+                          title="Delete datasource"
                           type="button"
                         >
                           <span
@@ -294,7 +294,7 @@ exports[`Datasets should match snapshot Datasets library 1`] = `
                       >
                         <span
                           class=""
-                          title="Delete Datasource"
+                          title="Delete datasource"
                         >
                           <button
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled MuiIconButton-sizeSmall Mui-disabled"

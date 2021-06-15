@@ -99,7 +99,7 @@ function FormulaBuilder({ fields, operators, buttonLabel, onClick, defaultExpres
   function digitAndOperatorOnly(evt) {
     const charCode = evt.which;
     const isNumber = charCode >= 48 && charCode <= 57;
-    const isOperator = operators.includes(evt.key);
+    const isOperator = operators.find(({ icon }) => icon === evt.key);
     const isSpace = charCode === 32;
     if (isOperator || isNumber || isSpace) {
       return;
@@ -137,12 +137,13 @@ function FormulaBuilder({ fields, operators, buttonLabel, onClick, defaultExpres
       </Box>
       <Box className={classes.actionContainer}>
         <Box className={classes.operatorContainer}>
-          {operators.map((operator) => (
+          {operators.map(({ title, icon }) => (
             <OperatorButton
-              onClick={() => handleClick(operator, typeOfCode.OPERATOR)}
-              key={operator}
+              onClick={() => handleClick(icon, typeOfCode.OPERATOR)}
+              key={icon}
+              title={title}
             >
-              {operator}
+              {icon}
             </OperatorButton>
           ))}
         </Box>
@@ -156,7 +157,8 @@ function FormulaBuilder({ fields, operators, buttonLabel, onClick, defaultExpres
 
 FormulaBuilder.propTypes = {
   fields: PropTypes.arrayOf(PropTypes.string).isRequired,
-  operators: PropTypes.arrayOf(PropTypes.string).isRequired,
+  operators: PropTypes.arrayOf(PropTypes.shape({ icon: PropTypes.string, title: PropTypes.string }))
+    .isRequired,
   buttonLabel: PropTypes.string,
   defaultExpression: PropTypes.string,
   onClick: PropTypes.func.isRequired,

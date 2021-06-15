@@ -299,7 +299,7 @@ describe('Manage datasets', () => {
     const rowOneName = getAllByText('csv-file-name')[0];
     const rowOne = within(rowOneName.parentNode);
 
-    const removeButton = rowOne.getByTitle('Delete Datasource').childNodes[0];
+    const removeButton = rowOne.getByTitle('Delete datasource').childNodes[0];
 
     expect(removeButton).toHaveAttribute('disabled', '');
   });
@@ -312,7 +312,7 @@ describe('Manage datasets', () => {
     const rowOneName = getAllByText('csv-file-name')[0];
     const rowOne = within(rowOneName.parentNode);
 
-    const removeButton = rowOne.getByTitle('Delete Datasource').childNodes[0];
+    const removeButton = rowOne.getByTitle('Delete datasource').childNodes[0];
 
     expect(removeButton).toHaveAttribute('disabled', '');
   });
@@ -329,7 +329,7 @@ describe('Manage datasets', () => {
     const file4NameFromDashboard = file4[0];
     const rowForFile4 = within(file4NameFromDashboard.parentNode);
 
-    const deleteButton = rowForFile4.getByTitle('Delete Datasource');
+    const deleteButton = rowForFile4.getByTitle('Delete datasource');
 
     fireEvent.click(deleteButton);
 

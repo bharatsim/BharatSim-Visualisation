@@ -5,7 +5,11 @@ import userEvent from '@testing-library/user-event';
 import FormulaBuilder from '../../formulaBuilder/FormulaBuilder';
 import withThemeProvider from '../../../theme/withThemeProvider';
 
-const operator = ['+', '-', '*'];
+const operator = [
+  { icon: '+', title: 'Addition' },
+  { icon: '-', title: 'Subtraction' },
+  { icon: '*', title: 'Multiplication' },
+];
 const fields = ['field1', 'field2'];
 
 const FormulaBuilderWithProviders = withThemeProvider(FormulaBuilder);

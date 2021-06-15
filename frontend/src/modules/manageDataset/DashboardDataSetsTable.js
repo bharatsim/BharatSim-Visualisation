@@ -115,7 +115,7 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
             }),
             (rowData) => ({
               icon: tableIcon.Delete,
-              tooltip: 'Delete Datasource',
+              tooltip: 'Delete datasource',
               onClick: handleDelete,
               disabled: rowData.dashboardUsage > 0,
               size: 'small',
@@ -129,7 +129,7 @@ function DashboardDataSetsTable({ dataSources, onRemove, onDelete }) {
       </Box>
       <DeleteConfirmationModal
         handleClose={closeDeleteModal}
-        title="Delete Datasource"
+        title="Delete datasource"
         open={isDeleteModalOpen}
         deleteAction={{
           onDelete: deleteDatasource,

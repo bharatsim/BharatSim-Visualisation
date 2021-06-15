@@ -5,7 +5,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormulaBuilder from '../../../uiComponent/formulaBuilder/FormulaBuilder';
 import { validateColumnName } from '../../../utils/validators';
 
-const operators = ['+', '-', '*', '/', '%', '(', ')'];
+const operators = [
+  { icon: '+', title: 'Addition' },
+  { icon: '-', title: 'Subtraction' },
+  { icon: '*', title: 'Multiplication' },
+  { icon: '/', title: 'Division' },
+  { icon: '%', title: 'Mod' },
+  { icon: '(', title: 'Open bracket' },
+  { icon: ')', title: 'Close bracket' },
+];
 
 const useStyles = makeStyles((theme) => ({
   input: {

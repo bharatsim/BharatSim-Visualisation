@@ -58,8 +58,8 @@ function AxisConfig({ configKey, axis, title }) {
         <SwitchField
           dataTestId="axis-range"
           name={`${configKey}.${axisConfig.AXIS_RANGE}`}
-          offLabel="no"
-          onLabel="yes"
+          offLabel="No"
+          onLabel="Yes"
           defaultValue={false}
         />
       </FieldContainer>

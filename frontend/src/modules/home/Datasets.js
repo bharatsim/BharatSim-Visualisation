@@ -113,7 +113,7 @@ function Datasets() {
         actions={[
           (rowData) => ({
             icon: tableIcon.Delete,
-            tooltip: 'Delete Datasource',
+            tooltip: 'Delete datasource',
             onClick: onDeleteClick,
             disabled: rowData.dashboardUsage > 0,
             size: 'small',
@@ -122,7 +122,7 @@ function Datasets() {
       />
       <DeleteConfirmationModal
         handleClose={closeDeleteModal}
-        title="Delete Datasource"
+        title="Delete datasource"
         open={isDeleteModalOpen}
         deleteAction={{
           onDelete: deleteDatasource,

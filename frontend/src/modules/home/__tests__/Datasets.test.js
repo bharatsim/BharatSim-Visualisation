@@ -74,7 +74,7 @@ describe('Datasets', () => {
         <DatasetsWithProvider />,
       );
       await findByText('fileName');
-      const deleteButton = getAllByTitle('Delete Datasource');
+      const deleteButton = getAllByTitle('Delete datasource');
       fireEvent.click(deleteButton[1]);
       const deleteConfirmationMessage = getByText(
         'Are you sure you want to delete fileName2 datasource ?',
@@ -93,7 +93,7 @@ describe('Datasets', () => {
   it('should enable delete only for usage count more than 0', async () => {
     const { findByText, getAllByTitle } = render(<DatasetsWithProvider />);
     await findByText('fileName');
-    const deleteButton = getAllByTitle('Delete Datasource');
+    const deleteButton = getAllByTitle('Delete datasource');
 
     expect(deleteButton[1].children[0]).not.toHaveAttribute('disabled');
     expect(deleteButton[0].children[0]).toHaveAttribute('disabled', '');

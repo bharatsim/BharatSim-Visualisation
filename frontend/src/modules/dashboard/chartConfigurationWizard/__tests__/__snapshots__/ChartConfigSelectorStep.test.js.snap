@@ -263,7 +263,7 @@ exports[`chart config selector should match snapshot 1`] = `
                           <div
                             class="MuiBox-root MuiBox-root-45"
                           >
-                            no
+                            No
                           </div>
                           <span
                             class="MuiSwitch-root WithStyles(ForwardRef(Switch))-root-46"
@@ -296,7 +296,7 @@ exports[`chart config selector should match snapshot 1`] = `
                           <div
                             class="MuiBox-root MuiBox-root-55"
                           >
-                            yes
+                            Yes
                           </div>
                         </div>
                       </div>
@@ -382,7 +382,7 @@ exports[`chart config selector should match snapshot 1`] = `
                           <div
                             class="MuiBox-root MuiBox-root-67"
                           >
-                            no
+                            No
                           </div>
                           <span
                             class="MuiSwitch-root WithStyles(ForwardRef(Switch))-root-46"
@@ -415,7 +415,7 @@ exports[`chart config selector should match snapshot 1`] = `
                           <div
                             class="MuiBox-root MuiBox-root-68"
                           >
-                            yes
+                            Yes
                           </div>
                         </div>
                       </div>

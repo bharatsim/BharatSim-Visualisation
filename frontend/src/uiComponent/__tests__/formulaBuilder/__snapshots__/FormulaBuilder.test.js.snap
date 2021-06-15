@@ -110,6 +110,7 @@ exports[`<FormulaBuilder /> should match snapshot of component 1`] = `
         <button
           class="MuiButtonBase-root MuiButton-root WithStyles(ForwardRef(Button))-root-22 MuiButton-text"
           tabindex="0"
+          title="Addition"
           type="button"
         >
           <span
@@ -124,6 +125,7 @@ exports[`<FormulaBuilder /> should match snapshot of component 1`] = `
         <button
           class="MuiButtonBase-root MuiButton-root WithStyles(ForwardRef(Button))-root-22 MuiButton-text"
           tabindex="0"
+          title="Subtraction"
           type="button"
         >
           <span
@@ -138,6 +140,7 @@ exports[`<FormulaBuilder /> should match snapshot of component 1`] = `
         <button
           class="MuiButtonBase-root MuiButton-root WithStyles(ForwardRef(Button))-root-22 MuiButton-text"
           tabindex="0"
+          title="Multiplication"
           type="button"
         >
           <span
