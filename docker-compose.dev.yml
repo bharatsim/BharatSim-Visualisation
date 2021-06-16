@@ -1,0 +1,31 @@
+version: "3.1"
+
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    volumes:
+      - ./dev-data/db:/data/db
+    env_file:
+      - .env
+    ports:
+      - 127.0.0.1:27017:27017
+  app:
+    links:
+      - mongodb
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    env_file:
+      - .env
+    working_dir: /visualisation
+    volumes:
+      - ./frontend/src:/visualisation/frontend/src
+      - ./frontend/public:/visualisation/frontend/public
+      - ./backend/src:/visualisation/backend/src
+      - ./backend/app.js:/visualisation/backend/app.js
+      - ./dev-data/files:/visualisation/backend/uploads
+    ports:
+      - 127.0.0.1:3005:3005
+      - 127.0.0.1:3000:3000
+    command: yarn dev

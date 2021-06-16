@@ -5,9 +5,9 @@ RUN apk add --no-cache \
         curl \
         bash
 
+
 WORKDIR /visualisation
 COPY . /visualisation
 RUN yarn deep-clean
 RUN yarn install
 RUN yarn install-deps
-RUN export NODE_OPTIONS=--max-old-space-size=8192 && yarn build

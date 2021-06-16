@@ -11,7 +11,7 @@ const LOGGER_FORMAT_STRING = ':method :url :status :res[content-length] - :respo
 
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line global-require
-  require('dotenv').config({ path: '../.env' });
+  require('dotenv').config({ path: '../dev.env' });
 }
 
 const PORT = process.env.APP_PORT;
