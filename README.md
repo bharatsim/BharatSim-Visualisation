@@ -1,6 +1,6 @@
 # BharatSim Visualization
 
-Visualization engine/tool would accept Simulation engine output or any csv data file and would help users to visualize it by means of creating different graphs and charts.The tool allows user to visualize data using Line chart, bar chart and histogram. Along with these basic charts, the tool supports GIS data in the geoJson format and can plot heat map and choropleth. Further more, user can visualize these heat maps and choropleths across time dimension.
+Visualization engine/tool would accept Simulation engine output or any csv data file and would help users to visualize it by means of creating different graphs and charts. The tool allows user to visualize data using Line chart, bar chart and histogram. Along with these basic charts, the tool supports GIS data in the geoJSON format and can plot heat map and choropleth. Furthermore, user can visualize these heat maps and choropleths across time dimension.
 
 ## Visualization engine/tool provides various abilities such as :
 
