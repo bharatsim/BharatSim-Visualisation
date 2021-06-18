@@ -3,6 +3,9 @@ version: "3.1"
 services:
   mongodb:
     image: mongo
+    command: mongod --port ${DB_PORT}
+    ports:
+      - 127.0.0.1:${DB_PORT}:${DB_PORT}
     restart: always
     volumes:
       - ./data/db:/data/db
