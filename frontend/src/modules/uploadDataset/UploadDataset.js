@@ -80,7 +80,7 @@ function getStepContent(
 function UploadDataset() {
   const classes = useStyles();
   const history = useHistory();
-  const steps = ['Import Data', 'Configure Datatype', 'Upload to Dashboard'];
+  const steps = ['Import Data', 'Preview Data', 'Upload to Dashboard'];
 
   const {
     selectedDashboardMetadata: { _id: selectedDashboardId, name: selectedDashboardName },

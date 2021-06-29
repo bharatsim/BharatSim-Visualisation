@@ -164,7 +164,7 @@ exports[`Upload Dataset should match snapshot for upload dataset component 1`] =
                 <span
                   class="MuiTypography-root MuiStepLabel-label MuiTypography-body2 MuiTypography-displayBlock"
                 >
-                  Configure Datatype
+                  Preview Data
                 </span>
               </span>
             </span>
