@@ -39,7 +39,7 @@ function ImportDataset({ setFile, handleNext, setPreviewData, setErrorStep, setS
     const { data, errors } = jsonData;
     if (errors.length > 0) {
       setError(
-        'Failed to Import file due to parsing error. Please review the file and ensure that its a valid GEO JSON Data.',
+        'Failed to import file due to parsing error. Please review the file and ensure that its a valid GEO JSON data.',
       );
       setErrorStep(0);
       return;

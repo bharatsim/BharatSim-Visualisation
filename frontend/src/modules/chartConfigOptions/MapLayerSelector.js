@@ -12,7 +12,7 @@ function MapLayerSelector() {
     <DatasourceSelector
       name={chartConfigOptionTypes.GIS_SHAPE_LAYER}
       datasourceFilter={shapeFileFilter}
-      noDataSourcePresentMessage="Before we can create any GIS visualization, we‘ll need some GIS layer data."
+      noDataSourcePresentMessage="Before we can create any GIS visualizations, we‘ll need some GIS layer data."
       header="GIS shape layer"
       id="gisShapeLayer-dropdown"
       label="Select GIS shape layer source"

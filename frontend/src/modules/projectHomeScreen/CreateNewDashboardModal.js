@@ -56,7 +56,7 @@ function CreateNewDashboardModal({ isOpen, closeModal, onlyDashboardField }) {
       handleClose={closeModal}
       actions={[
         {
-          name: 'create',
+          name: 'Create',
           handleClick: createDashboardAndCloseModel,
           variant: 'contained',
           color: 'primary',

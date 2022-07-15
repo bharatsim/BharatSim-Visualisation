@@ -7,7 +7,6 @@ import { projectLayoutContext } from '../contexts/projectLayoutContext';
 
 const useProjectLayoutStyle = makeStyles((theme) => ({
   projectNameBar: {
-    textTransform: 'capitalize',
     boxShadow: '0px 1px 1px rgba(78, 96, 176, 0.3)',
     height: theme.spacing(12),
     padding: theme.spacing(0, 8),

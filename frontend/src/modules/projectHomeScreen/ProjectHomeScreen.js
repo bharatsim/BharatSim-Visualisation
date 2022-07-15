@@ -30,7 +30,7 @@ function ProjectHomeScreen() {
         <ClickableCard onClick={openModal}>
           <Box className={classes.addProjectContainer}>
             <Box pb={2}>
-              <Typography variant="h6"> You don’t have any dashboards Yet. </Typography>
+              <Typography variant="h6"> You don’t have any dashboards yet. </Typography>
             </Box>
             <Typography variant="body2"> Click here to create your first dashboard. </Typography>
           </Box>

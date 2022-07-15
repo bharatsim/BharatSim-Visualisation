@@ -90,6 +90,30 @@ describe('HeatMap', () => {
     expect(container).toMatchSnapshot();
   });
 
+it('should not plot point with 0 value', async () => {
+    api.getData.mockResolvedValueOnce({data: {
+                                               lat: [2, 4,3,5],
+                                               long: [1, 5,2,6],
+                                               dataPoints: [2,0, 3,0],
+                                               latNew: [2, 3],
+                                               time: [1, 1],
+                                               time2: [1, 1],
+                                             }});
+    const { container, findByTestId } = render(
+      <HeatMapWithProvider
+        config={{
+          dataSource: 'test.csv',
+          geoDimensions: { latitude: 'lat', longitude: 'long' },
+          geoMetricSeries: 'dataPoints',
+          sliderConfig: {},
+        }}
+      />,
+    );
+
+    await findByTestId('map-container');
+
+    expect(container).toMatchSnapshot();
+  });
   it('should show error if api fail to load', async () => {
     api.getData.mockRejectedValueOnce('error');
     const { findByText, getByText } = render(

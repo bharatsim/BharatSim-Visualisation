@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet.heat';
-
+import '../leafletPlugins/heatLayer'
 function HeatMapLayer({ points, options }) {
   const map = useMap();
 

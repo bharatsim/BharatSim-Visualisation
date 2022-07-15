@@ -193,7 +193,7 @@ describe('Import Dataset', () => {
 
     expect(
       queryByText(
-        'Failed to Import file due to parsing error, Please review the file and ensure that its a valid CSV file',
+        'Failed to import file due to parsing error, Please review the file and ensure that its a valid CSV file',
       ),
     ).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
@@ -220,7 +220,7 @@ describe('Import Dataset', () => {
 
     expect(
       queryByText(
-        'Failed to Import file due to parsing error. Please review the file and ensure that its a valid GEO JSON Data.',
+        'Failed to import file due to parsing error. Please review the file and ensure that its a valid GEO JSON data.',
       ),
     ).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
@@ -250,7 +250,7 @@ describe('Import Dataset', () => {
     });
 
     expect(
-      queryByText('Failed to Import file, size exceeds the limit of 300MB'),
+      queryByText('Failed to import file, size exceeds the limit of 300MB'),
     ).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
   });
@@ -278,7 +278,7 @@ describe('Import Dataset', () => {
       target: { files: [{ name: 'file.txt', size: '120843092842123' }] },
     });
 
-    expect(queryByText('Failed to Import file, the format is not supported')).toBeInTheDocument();
+    expect(queryByText('Failed to import file, the format is not supported')).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);
   });
   it('should set validation error for given file if csv file has _id as column', () => {
@@ -303,7 +303,7 @@ describe('Import Dataset', () => {
 
     expect(
       queryByText(
-        'Failed to Import file due to invalid column name, Column name should be start with alphabets',
+        'Failed to import file due to invalid column name, Column name should be start with alphabets',
       ),
     ).toBeInTheDocument();
     expect(setErrorStepMock).toHaveBeenCalledWith(0);

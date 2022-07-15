@@ -55,7 +55,8 @@ function HeatMap({ config }) {
     [fetchedData, timeSliderValue],
   );
 
-  const center = getLatLngCenter(locationPoints);
+  const locationPointsWithoutZeros = locationPoints.filter(x => x[2]!==0)
+  const center = getLatLngCenter(locationPointsWithoutZeros);
 
   const maxOfGeoMatrixSeries =
     fetchedData && fetchedData[geoMetricSeries] ? Math.max(...fetchedData[geoMetricSeries]) : 1;
@@ -110,7 +111,7 @@ function HeatMap({ config }) {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <HeatMapLayer
-              points={locationPoints}
+              points={locationPointsWithoutZeros}
               options={{
                 max: maxOfGeoMatrixSeries,
                 radius: 25,

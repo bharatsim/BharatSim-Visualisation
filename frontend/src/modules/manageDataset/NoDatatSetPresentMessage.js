@@ -26,7 +26,7 @@ function NoDataSetPresentMessage({ projectMetadataId, message }) {
   );
 }
 NoDataSetPresentMessage.defaultProps = {
-  message: 'Before we can create any visualization, we ‘ll need some data.',
+  message: 'Before we can create any visualizations, we ‘ll need some data.',
 };
 
 NoDataSetPresentMessage.propTypes = {

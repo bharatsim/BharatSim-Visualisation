@@ -73,7 +73,7 @@ function ManageDataset() {
                 startIcon={<img src={plusIcon} alt="icon" />}
                 onClick={openUploadDatasets}
               >
-                Upload Data
+                Upload dataset
               </Button>
             </Box>
             <Box className={classes.dashboardDataHeader}>

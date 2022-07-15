@@ -177,7 +177,7 @@ exports[`chart config selector should match snapshot 1`] = `
                   <p
                     class="MuiFormHelperText-root makeStyles-helperText-97 MuiFormHelperText-contained"
                   >
-                    Data-source change may or may-not reset the chart configuration
+                    Data source change may or may not reset the chart configuration
                   </p>
                 </div>
               </div>

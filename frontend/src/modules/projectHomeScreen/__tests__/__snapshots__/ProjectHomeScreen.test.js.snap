@@ -41,7 +41,7 @@ exports[`<ProjectHomeScreenComponent /> should match snapshot 1`] = `
             <h6
               class="MuiTypography-root MuiTypography-h6"
             >
-               You don’t have any dashboards Yet. 
+               You don’t have any dashboards yet. 
             </h6>
           </div>
           <p

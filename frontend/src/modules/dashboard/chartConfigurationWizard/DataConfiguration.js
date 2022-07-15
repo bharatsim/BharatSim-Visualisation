@@ -32,7 +32,7 @@ function DataConfiguration() {
           header="Data Source"
           id="dropdown-dataSources"
           label="Select data source"
-          helperText="Data-source change may or may-not reset the chart configuration"
+          helperText="Data source change may or may not reset the chart configuration"
           datasourceFilter={datasourceFileFilter}
           validate={required}
         />

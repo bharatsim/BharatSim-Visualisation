@@ -192,7 +192,7 @@ describe('Manage datasets', () => {
 
     await findByText('Configure Dashboard Data');
 
-    fireEvent.click(getByText('Upload Data'));
+    fireEvent.click(getByText('Upload dataset'));
 
     expect(mockHistoryPush).toHaveBeenCalledWith('/projects/123/upload-dataset');
   });
@@ -203,7 +203,7 @@ describe('Manage datasets', () => {
 
     await findByText('Configure Dashboard Data');
 
-    fireEvent.click(getByText('Upload dataset'));
+    fireEvent.click(getByText('Upload dataset',{ selector: 'a'}));
 
     expect(history.location.pathname).toEqual('/projects/123/upload-dataset');
   });
@@ -215,7 +215,7 @@ describe('Manage datasets', () => {
     await findByText('Configure Dashboard Data');
 
     expect(
-      getByText('Before we can create any visualization, we ‘ll need some data.'),
+      getByText('Before we can create any visualizations, we ‘ll need some data.'),
     ).toBeInTheDocument();
   });
 

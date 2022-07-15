@@ -159,14 +159,14 @@ exports[`<CreateNewDashboardModal /> should match snapshot 1`] = `
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary Mui-focusVisible Mui-focusVisible"
-        data-testid="button-create"
+        data-testid="button-Create"
         tabindex="0"
         type="button"
       >
         <span
           class="MuiButton-label"
         >
-          create
+          Create
         </span>
         <span
           class="MuiTouchRipple-root"
@@ -294,14 +294,14 @@ exports[`<CreateNewDashboardModal /> should match snapshot only with dashboard t
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary Mui-focusVisible Mui-focusVisible"
-        data-testid="button-create"
+        data-testid="button-Create"
         tabindex="0"
         type="button"
       >
         <span
           class="MuiButton-label"
         >
-          create
+          Create
         </span>
         <span
           class="MuiTouchRipple-root"

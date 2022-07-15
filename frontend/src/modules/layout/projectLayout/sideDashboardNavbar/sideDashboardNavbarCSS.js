@@ -19,6 +19,7 @@ const useTabStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    overflow: 'hidden',
   },
   optionIcon: {
     display: 'flex',

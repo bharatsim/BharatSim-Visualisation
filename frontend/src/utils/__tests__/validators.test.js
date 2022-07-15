@@ -93,13 +93,13 @@ describe('Validators', () => {
 
     it('should provide message if uploaded file is not type of csv', () => {
       expect(validateFile({ size: 10000, name: 'file.png' })).toEqual(
-        'Failed to Import file, the format is not supported',
+        'Failed to import file, the format is not supported',
       );
     });
 
     it('should provide message if uploaded file size exceed limit of 300MB', () => {
       expect(validateFile({ size: 314572805, name: 'test.csv' })).toEqual(
-        'Failed to Import file, size exceeds the limit of 300MB',
+        'Failed to import file, size exceeds the limit of 300MB',
       );
     });
 
@@ -182,7 +182,7 @@ describe('Validators', () => {
       const error = validateCSVFile(csvData);
 
       expect(error).toEqual(
-        'Failed to Import file due to parsing error,' +
+        'Failed to import file due to parsing error,' +
           ' Please review the file and ensure that its a valid CSV file',
       );
     });
@@ -196,7 +196,7 @@ describe('Validators', () => {
       const error = validateCSVFile(csvData);
 
       expect(error).toEqual(
-        'Failed to Import file due to invalid column name, ' +
+        'Failed to import file due to invalid column name, ' +
           'Column name should be start with alphabets',
       );
     });
@@ -210,7 +210,7 @@ describe('Validators', () => {
       const error = validateCSVFile(csvData);
 
       expect(error).toEqual(
-        'Failed to Import file due to invalid column name, ' +
+        'Failed to import file due to invalid column name, ' +
           'Column name can include alphabets, numbers, -, _ or space',
       );
     });

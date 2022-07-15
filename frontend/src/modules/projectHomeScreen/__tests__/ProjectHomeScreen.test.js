@@ -41,7 +41,7 @@ function openFillAndSubmitNewProjectForm(renderedComponent) {
     target: { value: 'ProjectName' },
   });
 
-  fireEvent.click(container.getByText('create'));
+  fireEvent.click(container.getByText('Create'));
 }
 
 describe('<ProjectHomeScreenComponent />', () => {
@@ -104,7 +104,7 @@ describe('<ProjectHomeScreenComponent />', () => {
 
     const container = within(document.querySelector('.MuiPaper-root'));
 
-    fireEvent.click(container.getByText('create'));
+    fireEvent.click(container.getByText('Create'));
 
     await findByText('Project Untitled Project is saved');
 
@@ -193,7 +193,7 @@ describe('<ProjectHomeScreenComponent />', () => {
       target: { value: 'DashboardName' },
     });
 
-    fireEvent.click(getByText('create'));
+    fireEvent.click(getByText('Create'));
 
     await findByText('Dashboard DashboardName is saved');
 
@@ -273,7 +273,7 @@ describe('<ProjectHomeScreenComponent />', () => {
     const renderComponent = render(<Component />);
     fireEvent.click(renderComponent.getByText('Click here to create your first dashboard.'));
 
-    fireEvent.click(renderComponent.getByText('create'));
+    fireEvent.click(renderComponent.getByText('Create'));
 
     await renderComponent.findByText('technical error at server');
 

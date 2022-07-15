@@ -16,10 +16,10 @@ function validateFile(file) {
     return 'Please upload valid file';
   }
   if (!VALID_FILE_EXTENSIONS.includes(getFileExtension(file)) || file.name.indexOf('.') === -1) {
-    return 'Failed to Import file, the format is not supported';
+    return 'Failed to import file, the format is not supported';
   }
   if (file.size > MAX_FILE_SIZE) {
-    return 'Failed to Import file, size exceeds the limit of 300MB';
+    return 'Failed to import file, size exceeds the limit of 300MB';
   }
   return '';
 }
@@ -140,14 +140,14 @@ function validateCSVFile(csvData) {
     meta: { fields },
   } = csvData;
   if (errors.length > 0) {
-    return 'Failed to Import file due to parsing error, Please review the file and ensure that its a valid CSV file';
+    return 'Failed to import file due to parsing error, Please review the file and ensure that its a valid CSV file';
   }
   if (fields.some((field) => field.match(invalidStartingCharRgx))) {
-    return 'Failed to Import file due to invalid column name, Column name should be start with alphabets';
+    return 'Failed to import file due to invalid column name, Column name should be start with alphabets';
   }
   if (fields.some((field) => field.match(invalidCharRgx))) {
     return (
-      'Failed to Import file due to invalid column name, ' +
+      'Failed to import file due to invalid column name, ' +
       'Column name can include alphabets, numbers, -, _ or space'
     );
   }
