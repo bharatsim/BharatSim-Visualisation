@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import { Box, Typography } from '@material-ui/core';
 import { timeIntervalStrategies } from '../constants/sliderConfigs';
+import { minOf, maxOf} from '../utils/helper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,8 +52,8 @@ export default function TimeSlider({
   const { strategy, stepSize } = sliderConfig;
 
   const { marks, min, max } = useMemo(() => {
-    const maxValue = Math.max(...data);
-    const minValue = Math.min(...data);
+    const maxValue = maxOf(data);
+    const minValue = minOf(data);
 
     if (strategy === timeIntervalStrategies.DEFAULT_INTERVALS) {
       const uniqueMarks = getUniqueTimeMarks(data, minValue, maxValue);

@@ -8,7 +8,7 @@ import Box from '@material-ui/core/Box';
 import useLoader from '../../../hook/useLoader';
 import { api } from '../../../utils/api';
 import LoaderOrError from '../../loaderOrError/LoaderOrError';
-import { getLatLngCenter, transformDataForHeatMap } from '../../../utils/helper';
+import { getLatLngCenter, transformDataForHeatMap , minOf, maxOf} from '../../../utils/helper';
 import ViewController from '../../../uiComponent/mapLayers/ViewController';
 import HeatMapLayer from '../../../uiComponent/mapLayers/HeatMapLayer';
 import ColorScaleLegend from '../../../uiComponent/mapLayers/ColorScaleLegend';
@@ -59,7 +59,7 @@ function HeatMap({ config }) {
   const center = getLatLngCenter(locationPointsWithoutZeros);
 
   const maxOfGeoMatrixSeries =
-    fetchedData && fetchedData[geoMetricSeries] ? Math.max(...fetchedData[geoMetricSeries]) : 1;
+    fetchedData && fetchedData[geoMetricSeries] ? maxOf(fetchedData[geoMetricSeries]) : 1;
 
   async function fetchData() {
     const columns = [latitude, longitude, geoMetricSeries];
@@ -80,7 +80,7 @@ function HeatMap({ config }) {
 
   useEffect(() => {
     if (fetchedData && fetchedData[timeMetrics]) {
-      setTimeSliderValue(Math.min(...fetchedData[timeMetrics]));
+      setTimeSliderValue(minOf(fetchedData[timeMetrics]));
     }
   }, [fetchedData]);
   const onErrorAction = {

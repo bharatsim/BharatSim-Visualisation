@@ -187,6 +187,13 @@ function compareArrayByValues(arr1, arr2) {
   return arr1.every((item, index) => item === arr2[index]);
 }
 
+function minOf(values) {
+  return values.reduce((min, v) => min <= v ? min : v, Infinity);
+}
+function maxOf(values) {
+  return values.reduce((max, v) => max >= v ? max : v, -Infinity);
+}
+
 export {
   transformDataForHeatMap,
   debounce,
@@ -202,4 +209,6 @@ export {
   transformColumnsDataToRows,
   compareArrayByValues,
   datasourceFileFilter,
+  minOf,
+  maxOf
 };
