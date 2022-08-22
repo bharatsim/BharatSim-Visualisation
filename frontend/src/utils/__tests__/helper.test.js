@@ -3,9 +3,9 @@ import {
   convertObjectArrayToOptionStructure,
   datasourceFileFilter,
   debounce,
-  formatToUnits,
+  formatToUnits, getIndexForColor,
   getLatLngCenter,
-  hexToRgba,
+  hexToRgba, maxOf, minOf,
   rgbaToHex,
   shapeFileFilter,
   transformChoroplethData,
@@ -13,6 +13,8 @@ import {
   transformDataForHeatMap,
   uniqueObjectsBy,
 } from '../helper';
+import {chartColorsPallet} from "../../theme/colorPalette";
+import * as assert from "assert";
 
 describe('Helpers', () => {
   describe('convertObjectArrayToOptionStructure', () => {
@@ -268,6 +270,37 @@ describe('Helpers', () => {
       expect(hex).toEqual(expectedHex);
     });
   });
+  describe('getIndexForColor', () => {
+    it('should get the index of color for defined color palate', () => {
+      const totalColors = chartColorsPallet[2]
+      const idx1 = getIndexForColor(20,totalColors.length);
+      expect(idx1).toEqual(2);
+
+      const idx2 = getIndexForColor(5,totalColors.length);
+      expect(idx2).toEqual(5);
+
+      const idx3 = getIndexForColor(9,totalColors.length);
+      expect(idx3).toEqual(0);
+    });
+  })
+  describe('minOf', () => {
+    it('should return the minimum value from the list', () => {
+      const min1 = minOf([10,2,123,131,11,1,12133,1,134,0])
+      expect(min1).toEqual(0)
+
+      const min2 = minOf([10,20,123,131,11,1,-100,12133,1,134])
+      expect(min2).toEqual(-100)
+    });
+  })
+  describe("maxOf", () => {
+    it('should return the minimum value from the list', () => {
+      const max1 = maxOf([10,2,123,131,11,1,12133,1,134,0])
+      expect(max1).toEqual(12133)
+
+      const max2 = maxOf([10,20,123,131,11,1,12133,1,134,-100,12131414])
+      expect(max2).toEqual(12131414)
+    });
+  })
 
   describe('transformColumnsDataToRows', () => {
     it('should return array of rows from data with column', () => {
