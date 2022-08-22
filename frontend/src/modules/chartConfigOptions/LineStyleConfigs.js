@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import ColorPickerField from '../../uiComponent/formField/ColorPickerField';
 import SelectField from '../../uiComponent/formField/SelectField';
 import TextField from '../../uiComponent/formField/TextField';
-import { hexToRgba } from '../../utils/helper';
+import { hexToRgba ,getIndexForColor} from '../../utils/helper';
 import { chartColorsPallet } from '../../theme/colorPalette';
 import { required, validateWidth } from '../../utils/validators';
 import FieldContainer from '../../uiComponent/formField/FieldContainer';
@@ -27,7 +27,7 @@ const seriesTypeOptions = [
 ];
 
 function LineStyleConfig({ name, seriesName, index }) {
-  const defaultColor = hexToRgba(chartColorsPallet[2][index]);
+  const defaultColor = hexToRgba(chartColorsPallet[2][getIndexForColor(index,chartColorsPallet[2].length)]);
   return (
     <FieldsContainer>
       <FieldContainer title={`Series name: ${seriesName}`} />

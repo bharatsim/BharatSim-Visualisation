@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import ColorPickerField from '../../uiComponent/formField/ColorPickerField';
 import { chartColorsPallet } from '../../theme/colorPalette';
-import { hexToRgba } from '../../utils/helper';
+import {getIndexForColor, hexToRgba} from '../../utils/helper';
 import FieldContainer from '../../uiComponent/formField/FieldContainer';
 
 const seriesStyleConfig = {
@@ -11,7 +11,7 @@ const seriesStyleConfig = {
 };
 
 function BarStyleConfig({ name, seriesName, index }) {
-  const defaultColor = hexToRgba(chartColorsPallet[2][index]);
+    const defaultColor = hexToRgba(chartColorsPallet[2][getIndexForColor(index,chartColorsPallet[2].length)]);
   return (
     <>
       <FieldContainer title={`Series name: ${seriesName}`} />

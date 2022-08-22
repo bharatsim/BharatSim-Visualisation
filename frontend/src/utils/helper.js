@@ -159,6 +159,9 @@ function hexToRgba(hex) {
       return acc;
     }, {});
 }
+function getIndexForColor(colorIndex,totalColors){
+  return colorIndex % totalColors
+}
 
 function rgbaToHex(rgba) {
   return chrome(Object.values(rgba)).hex();
@@ -210,5 +213,6 @@ export {
   compareArrayByValues,
   datasourceFileFilter,
   minOf,
-  maxOf
+  maxOf,
+  getIndexForColor
 };
