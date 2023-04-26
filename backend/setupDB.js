@@ -16,7 +16,6 @@ const DATABASE = 'bharatSim';
 const ADMIN_DATABASE_URI = `mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@${DB_HOST}:${DB_PORT}/${DATABASE}?authSource=admin&readPreference=primary&ssl=false`;
 const DATABASE_URI = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DATABASE}?authSource=admin&readPreference=primary&ssl=false`;
 
-console.log(ADMIN_DATABASE_URI, DATABASE_URI);
 
 async function createNewUser() {
   if(DB_USER === MONGO_INITDB_ROOT_USERNAME){
@@ -43,10 +42,10 @@ createNewUser()
     mongoose.connect(DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
     mongoose.set('useCreateIndex', true);
     const db = mongoose.connection;
-    db.on('error', function () {
+    db.on('error', () => {
       console.log('#### database - connection unsuccessful ####');
     });
-    db.once('open', function () {
+    db.once('open', () => {
       console.log('#### database - connection successful ####');
     });
 
