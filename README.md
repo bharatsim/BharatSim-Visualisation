@@ -1,32 +1,31 @@
 # BharatSim Visualization
 
-Visualization engine/tool would accept Simulation engine output or any csv data file and would help users to visualize it by means of creating different graphs and charts. The tool allows user to visualize data using Line chart, bar chart and histogram. Along with these basic charts, the tool supports GIS data in the geoJSON format and can plot heat map and choropleth. Furthermore, user can visualize these heat maps and choropleths across time dimension.
+The BharatSim visualization engine was designed to accept the output of models created using the [simulation engine](https://github.com/bharatsim/BharatSim) and visualise them by creating dashboards with different graphs and charts. However, this tool can also be used independently to visualise any type of CSV data. The visualisation tool allows users analyse their data with a variety of different graphs, including line graphs, bar graphs, and histograms. Along with these basic graphs, the tool also allows for studying spatio-temporal data by accepting Geographic Information System (GIS) data in a `geoJSON` format. This geographical data can be used to plot choropleths and heatmaps to show spatial and temporal variation.
 
-## Visualization engine/tool provides various abilities such as :
+## Visualization engine provides various abilities such as :
 
-1. Data Import Ex. Simulation Engine output in CSV format
-2. Data file Management Ex. Add, edit, delete
-3. Plot charts/widgets Ex. Line, Bar charts, Histogram
-4. Plot geo map Ex. Heatmap and Choropleth
-5. Project & Dashboard management Ex. Add, edit, delete
-6. Auto-Save action for Dashboards
-7. Widget management & it's configuration
-8. Export widget (PNG, SVG)
+1. **Data Import:**  Data (for example, Simulation Engine output) can be imported in CSV format
+2. **Data Management:** The data files can be added, edited, and deleted from within the visualisation tool.
+3. **Project & Dashboard management:** Different projects can be added, edited, and deleted, along with dashboards in each project.
+4. **Plotting charts and widgets:** including line and bar charts and histograms
+5. **Plotting geographical maps:** Heatmaps and Choropleths can be plotted, and variation across time can be visualised
+6. **Autosave:** All dashboards are automatically saved to prevent data loss.
+7. **Widget management and configuration:** All widgets can be managed and configured by the user.
+8. **Export:** Graphs and charts created can be exported either as a raster (`PNG`) or vector (`SVG`) image.
 
 ## Setup Requirements and Installation
 
-- Prerequisites
-  - Docker
-    https://www.docker.com/products/docker-desktop
-    <br/> Docker Resources - Memory >= 8 GB
-  - NodeJs version >= 14.15.0 https://nodejs.org/en/download/
-- Code setup
+### Prerequisites
+  - [Docker](https://www.docker.com/products/docker-desktop): an open platform for developing, shipping, and running applications.
+    <br/>Docker resources required: Memory >= 8 GB
+  - [Node.js](https://nodejs.org/en/download/) version >= 14.15.0
 
-  1. Clone the repository
-     `https://github.com/debayanLab/BharatSim-Visualisation`
+### Setup and installation
+
+  1. Clone the repository: `git clone https://github.com/bharatsim/BharatSim-Visualisation`
   2. Setup `.env` file \
-     Change below values as per convenience <br/>
-     After changing username and password, delete `data` folder
+     Change the values below depending on your preferences <br/>
+     After changing the username and password, delete the `data` folder
 
      ```
       DB_USER=bharatsim_user
@@ -42,9 +41,9 @@ Visualization engine/tool would accept Simulation engine output or any csv data 
      ```
 
   3. Run `yarn install`
-  4. Run `yarn deep-clean` to cleanup node_modules, cache and unused file and folders
-  5. Run the code `docker-compose up`
-  6. Access application on `http://localhost:3005/` or `http://127.0.0.1:3005/`
+  4. Run `yarn deep-clean` to cleanup `node_modules`, cache, and unused files and folders
+  5. Run `docker-compose up`
+  6. Access the application at `http://localhost:3005/` or `http://127.0.0.1:3005/`
 
 ## Tech stack
 
@@ -63,21 +62,20 @@ Visualization engine/tool would accept Simulation engine output or any csv data 
         File System
         MongoDb
 
-## Development setup with docker [Hot-Reload]
+## Development setup with Docker [Hot-Reload]
 
-- Prerequisites
-  - Docker
-    https://www.docker.com/products/docker-desktop
-    <br/> Docker Resources - Memory >= 8 GB
-  - NodeJs version >= 14.15.0 https://nodejs.org/en/download/
-- Step to start application
+### Prerequisites
+  - [Docker](https://www.docker.com/products/docker-desktop)
+    <br/> Docker resources required: Memory >= 8 GB
+  - [Node.js](https://nodejs.org/en/download/) version >= 14.15.0
 
-  1. Clone the repository
-     `https://github.com/debayanLab/BharatSim-Visualisation`
+### Setup and installation
+
+  1. Clone the repository: `https://github.com/bharatsim/BharatSim-Visualisation`
   2. Setup `.env` file \
-     we are using same `.env` file production and development setup with docker <br/>
-     Change below values as per convenience <br/>
-     After changing username and password, delete `dev-data` folder
+     We use the same `.env` file for both production and development setup with docker <br/>
+     Change the values below depending on your preferences <br/>
+     After changing the username and password, delete the `dev-data` folder
 
      ```
       DB_USER=bharatsim_user
@@ -91,20 +89,19 @@ Visualization engine/tool would accept Simulation engine output or any csv data 
      ```
 
   3. Run `yarn install`
-  4. Run `yarn deep-clean` to cleanup node_modules, cache and unused file and folders
+  4. Run `yarn deep-clean` to cleanup `node_modules`, cache, and unused files and folders
+  5. Run `docker-compose -f docker-compose.dev.yml up`
+  6. Access the application at `http://localhost:3005/` or `http://127.0.0.1:3005/`
 
-  5. Run the code `docker-compose -f docker-compose.dev.yml up`
-  6. Access application on `http://localhost:3005/` or `http://127.0.0.1:3005/`
+## Development setup without Docker [Hot-Reload]
 
-## Development setup without docker [Hot-Reload]
+### Prerequisites
+  - [MongoDB](https://docs.mongodb.com/manual/administration/install-community/): version >= 4
+  - [Node.js](https://nodejs.org/en/download/) version >= 14.15.0 
 
-- Prerequisites
-  - MongoDb version >= 4
-    <br>https://docs.mongodb.com/manual/administration/install-community/
-  - NodeJs version >= 14.15.0 https://nodejs.org/en/download/
-- Step to start application
+### Step to start application
   1. Clone the repository
-     `https://github.com/debayanLab/BharatSim-Visualisation`
+     `https://github.com/bharatsim/BharatSim-Visualisation`
   2. Start mongo service and check mongodb has root user, if not create one.
      ```
      use admin
@@ -116,7 +113,7 @@ Visualization engine/tool would accept Simulation engine output or any csv data 
       })
      ```
   3. Setup `dev.env` file \
-     Change below values as per convenience <br/>
+     Change the values below depending on your preferences <br/>
      ```
       DB_USER=bharatsim_user
       DB_PASS=password
@@ -126,11 +123,23 @@ Visualization engine/tool would accept Simulation engine output or any csv data 
       MONGO_INITDB_ROOT_PASSWORD=password
       APP_PORT=3005
      ```
-  4. Install node modules for root `yarn install`
-  5. Install node modules for a frontend and backend `yarn install-deps`
-  6. For single terminal window
-     `yarn dev`
-     <br/> OR <br/>
-     For separate window of frontend and backend<br>
-     Frontend - `yarn dev-frontend` <br/>
-     Backend - `yarn dev-backend`
+  4. Install node modules for root using `yarn install`
+  5. Install node modules for a frontend and backend using `yarn install-deps`
+  6. - If you want a single terminal window: use `yarn dev`
+     - Alternatively, for separate windows for the frontend and backend, use
+         - Frontend: `yarn dev-frontend`
+         - Backend: `yarn dev-backend`
+
+## License
+
+[![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
+
+This work is licensed under a
+[Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
+
+[![CC BY-SA 4.0][cc-by-sa-image]][cc-by-sa]
+
+[cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
+[cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
+[cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
+
